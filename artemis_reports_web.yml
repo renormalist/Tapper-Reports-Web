@@ -1,4 +1,6 @@
-name Artemis::Reports::Web
+---
+
+name: Artemis::Reports::Web
 
 database:
   ReportsDB:
