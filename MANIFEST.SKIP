@@ -1,0 +1,8 @@
+Artemis-Reports-*.*.tar.gz
+Artemis-Reports-*.*/
+_build
+blib
+^Build$
+MANIFEST.bak
+MANIFEST.old
+Makefile
