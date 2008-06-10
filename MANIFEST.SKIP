@@ -1,8 +1,8 @@
-Artemis-Reports-*.*.tar.gz
-Artemis-Reports-*.*/
+^Artemis-Reports-*.*.tar.gz
+^Artemis-Reports-*.*$
 _build
 blib
 ^Build$
+^Makefile$
 MANIFEST.bak
 MANIFEST.old
-Makefile
