@@ -16,6 +16,7 @@ no_index:
 requires:
   Artemis::Config: 2.01
   Artemis::Schema: 2.01
+  Artemis::Test: 0
   Catalyst::Action::RenderView: 0
   Catalyst::Controller::BindLex: 0
   Catalyst::Controller::HTML::FormFu: 0

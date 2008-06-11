@@ -36,6 +36,7 @@ script/artemis_reports_web_fastcgi.pl
 script/artemis_reports_web_server.pl
 script/artemis_reports_web_test.pl
 script/dist_upload_wotan.sh
+t/00-artemis-meta.t
 t/01app.t
 t/02pod.t
 t/03podcoverage.t
