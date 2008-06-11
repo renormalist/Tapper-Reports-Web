@@ -10,6 +10,7 @@ perl_version '5.010';
 requires 'Artemis::Config'       => '2.01';
 requires 'Artemis::Schema'       => '2.01';
 requires 'Catalyst::Runtime'     => '5.7014';
+requires 'Artemis::Test';
 requires 'Catalyst::View::Mason' => '0.16';
 requires 'Catalyst::Test';
 requires 'Catalyst::Plugin::Session';
