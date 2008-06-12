@@ -1,4 +1,4 @@
-#!/2home/ss5/perl510/bin/perl -w
+#!/usr/bin/env perl
 
 BEGIN { 
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
