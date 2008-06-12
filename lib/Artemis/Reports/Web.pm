@@ -25,8 +25,8 @@ sub finalize_config
 
         $c->NEXT::ACTUAL::finalize_config;
         my $env =
-            $ENV{HARNESS_ACTIVE}  ? 'test'
-                : $ENV{KZVS_LIVE} ? 'live'
+            $ENV{HARNESS_ACTIVE}                 ? 'test'
+                : $ENV{ARTEMIS_REPORTS_WEB_LIVE} ? 'live'
                     : 'development';
         Hash::Merge::set_behavior('RIGHT_PRECEDENT');
         $c->config(
@@ -38,16 +38,18 @@ sub finalize_config
         return;
 }
 
-# Configure the application. 
-#
-# Note that settings in artemis_reports_web.conf (or other external
-# configuration file that you set up manually) take precedence
-# over this when using ConfigLoader. Thus configuration
-# details given here can function as a default configuration,
-# with a external configuration file acting as an override for
-# local deployment.
+sub debug
+{
+        return $ENV{ARTEMIS_REPORTS_WEB_LIVE} || $ENV{HARNESS_ACTIVE} ? 0 : 1;
+}
 
+
+
+# Configure the application. 
 __PACKAGE__->config( name => 'Artemis::Reports::Web' );
+__PACKAGE__->config->{static}->{dirs} = [
+                                         'artemis/static',
+                                        ];
 
 # Start the application
 __PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
