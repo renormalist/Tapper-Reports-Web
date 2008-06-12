@@ -1,0 +1,11 @@
+				<h4>reports <span><a href="/artemis/reports/date/">by date</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/suite/">by suite</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/topic/">by topic</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/people/">by people</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/success/">by success</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/freestyle/">by freestyle</a></span></h4>
+				    <ul class="links">
+				    <li class="first"><a href="#">any useful</a></li>
+				    <li><a href="#">combination or</a></li>
+				    <li><a href="#">list</a></li>
+				    </ul>

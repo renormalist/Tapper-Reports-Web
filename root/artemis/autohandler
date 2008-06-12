@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>artemis</title>
+<meta name="keywords" content="artemis test framework tap" />
+<meta name="description" content="artemis reports" />
+<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/style_red.css" />
+<link rel="alternate stylesheet" type="text/css" title="Blue" href="/artemis/static/css/style_blue.css" />
+<link rel="alternate stylesheet" type="text/css" title="Green" href="/artemis/static/css/style_green.css" />
+<link rel="alternate stylesheet" type="text/css" title="Brown" href="/artemis/static/css/style_brown.css" />
+<link rel="alternate stylesheet" type="text/css" title="Magenta" href="/artemis/static/css/style_magenta.css" />
+
+</script>
+</head>
+<body>
+
+% $m->call_next;
+
+<div id="footer" class="fluid">
+	Copyright &copy; 2008 AMD <a href="http://amd64.org">Operating System Research Center</a>.
+</div>
+
+</body>
+</html>
+<!-- Local Variables: -->
+<!-- buffer-file-coding-system: utf-8 -->
+<!-- mode: html -->
+<!-- End: -->

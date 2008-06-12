@@ -1,0 +1,62 @@
+<div id="header">
+
+	<div id="header_inner" class="fluid">
+
+		<div id="logo">
+			<h1><span>artemis</span>2.0</h1>
+			<h2>testruns</h2>
+		</div>
+		
+		<div id="menu">
+			<ul>
+				<li><a href="/artemis/reports/date/">Reports</a></li>
+				<li><a href="/artemis/testruns/" class="active">Testruns</a></li>
+				<li><a href="/artemis/hardware/">Hardware</a></li>
+				<li><a href="/artemis/tools/">Tools</a></li>
+				<li><a href="/artemis/acme/">Acme</a></li>
+			</ul>
+		</div>
+		
+	</div>
+</div>
+
+<div id="main">
+
+	<div id="main_inner" class="fluid">
+
+		<div id="primaryContent_2columns">
+
+			<div id="columnA_2columns">
+		
+				<br class="clear" />
+			
+				<div class="post">
+
+% $m->call_next;
+
+				</div>
+		
+			</div>
+	
+		</div>
+		
+		<div id="secondaryContent_2columns">
+		
+			<div id="columnC_2columns">
+	
+				<h4>reports <span>by date</span></h4>
+				<h4>reports <span>by suite</span></h4>
+				<h4>reports <span>by topic</span></h4>
+				<h4>reports <span>by people</span></h4>
+				<h4>reports <span>by success</span></h4>
+				<h4>reports <span>freestyle</span></h4>
+			
+			</div>
+
+		</div>
+
+		<br class="clear" />
+
+	</div>
+
+</div>

@@ -1,0 +1,16 @@
+				<h4>reports <span><a href="/artemis/reports/date/">by date</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/suite/">by suite</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/topic/">by topic</a></span></h4>
+				    <ul class="links">
+				    <li class="first"><a href="#">Kernel</a></li>
+				    <li><a href="#">Xen</a></li>
+				    <li><a href="#">KVM</a></li>
+				    <li><a href="#">Hardware</a></li>
+				    <li><a href="#">Distribution</a></li>
+				    <li><a href="#">Benchmark</a></li>
+				    <li><a href="#">Software</a></li>
+				    <li><a href="#">Misc</a></li>
+				    </ul>
+				<h4>reports <span><a href="/artemis/reports/people/">by people</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/success/">by success</a></span></h4>
+				<h4>reports <span><a href="/artemis/reports/freestyle/">by freestyle</a></span></h4>
