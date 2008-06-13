@@ -18,7 +18,6 @@ requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Controller::BindLex';
-requires 'Catalyst::Helper::Controller::BindLex';
 requires 'Catalyst::Action::RenderView';
 requires 'TAP::Formatter::HTML';
 requires 'TAP::Parser';
