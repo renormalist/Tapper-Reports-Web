@@ -7,28 +7,29 @@ all_from 'lib/Artemis/Reports/Web.pm';
 
 perl_version '5.010';
 
+requires 'Artemis::Test';
 requires 'Artemis::Config'       => '2.01';
 requires 'Artemis::Schema'       => '2.01';
 requires 'Catalyst::Runtime'     => '5.7014';
-requires 'Artemis::Test';
-requires 'Catalyst::View::Mason' => '0.16';
 requires 'Catalyst::Test';
+requires 'Catalyst::View::Mason' => '0.16';
 requires 'Catalyst::Plugin::Session';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Controller::BindLex';
-requires 'Catalyst::Helper::Controller::BindLex';
+requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Action::RenderView';
+requires 'Test::Fixture::DBIC::Schema';
 requires 'TAP::Formatter::HTML';
+requires 'Getopt::Long';
 requires 'TAP::Parser';
 requires 'Hash::Merge';
-requires 'parent';
-requires 'YAML';
-requires 'FindBin';
-requires 'Pod::Usage';
 requires 'Test::More';
-requires 'Getopt::Long';
+requires 'Pod::Usage';
+requires 'FindBin';
+requires 'YAML';
+requires 'parent';
 
 catalyst;
 

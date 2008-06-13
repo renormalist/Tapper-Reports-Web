@@ -35,6 +35,7 @@ sub finalize_config
                                       $c->config->{ $env },
                                      )
                   );
+
         return;
 }
 

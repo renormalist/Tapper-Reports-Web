@@ -13,9 +13,9 @@ database:
 development:
   database:
     ReportsDB:
-      dsn:        dbi:SQLite:dbname=artemis_reportsdb_development.sqlite
-      username:   ''
-      password:   ''
+      dsn:        dbi:mysql:dbname=reportsdb_dev
+      username:   artemis
+      password:   artemis
 
 
 # special test environment
