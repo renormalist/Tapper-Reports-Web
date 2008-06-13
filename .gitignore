@@ -11,3 +11,5 @@ cover_db
 MANIFEST.bak
 MANIFEST
 META.yml
+t/artemis_schema_reportsdb_test.sqlite
+

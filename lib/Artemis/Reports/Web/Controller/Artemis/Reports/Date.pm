@@ -9,6 +9,8 @@ __PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
+
+        my $reports : Stash = $c->model('ReportsDB')->resultset('Report')->search({});
 }
 
 1;

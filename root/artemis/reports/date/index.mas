@@ -1,21 +1,76 @@
-<h3>Reports by date!</h3>
+<%args>
+        $reports
+</%args>
+% use Artemis::TAP::Harness;
 
-<p>
-        Foo <a href="#">bar</a> baz
-</p>
+% while (my $report = $reports->next) {
 
-<p>
-        Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's
-        <a href="#">standard dummy text</a> ever since the 1500s, when an unknown
-        printer took a galley of type and scrambled it to make a type
-        specimen book. It has survived not only five centuries, but
-        also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with
-        the release of Letraset sheets containing Lorem Ipsum
-        passages, and more recently with desktop publishing software
-        like Aldus PageMaker including versions of Lorem Ipsum.
-</p>
+<!-- TAP::Formatter::HTML part 1 -->
+<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/tap_formatter_html.css" />
+
+<script type="text/javascript" src="/artemis/static/js/tap_formatter_html_jquery-1.2.3.pack.js"></script>
+<script type="text/javascript" src="/artemis/static/js/tap_formatter_html.js"></script>
+
+
+  <h3><% $report->suite ? $report->suite->name : 'unknown suite' %> &bull; <% $report->machine_name || 'unknown host'  %> </h3>
+%     my $harness = new Artemis::TAP::Harness( tap => $report->tap );
+%     my $html = $harness->generate_html;
+      <% $html | n %>
+></td>
+
+									  <td class="test ok passed"><a class="test-summary" href="#t-experiments-t-2" title="ok 2">&nbsp;</a></td>
+								</tr>
+							</table>
+							<div class="test-detail">
+								<ul class="parse-errors">
+								</ul>
+								<ul class="test-out">
+									<li 											class="plan">1..2</li>
+
+									<li id="t-experiments-t-1"											class="test ok">ok 1</li>
+									<li id="t-experiments-t-2"											class="test ok">ok 2</li>
+									<li 											class="unknown">Bummer 1</li>
+									<li 											class="unknown">Bummer 2</li>
+									<li 											class="unknown">Bummer 3</li>
+									<li 											class="unknown">satz: Ein affe$1 kommt selten allein.</li>
+
+									<li 											class="unknown">Bummer 1</li>
+									<li 											class="unknown">Bummer 2</li>
+									<li 											class="unknown">Bummer 3</li>
+									<li 											class="unknown">satz: Ein affe$1 kommt selten allein.</li>
+									<li 											class="unknown">satz2: Ein affeer kommt selten allein.</li>
+								</ul>
+
+							</div>
+						</td>
+						<td class="time">0.02s</td>
+						<td class="percent passed">100.0%</td>
+					</tr>
+				</tbody>
+	
+				<tfoot>
+					<tr>
+
+						<td class="file">10 files</td>
+						<td class="results">
+							53 tests,
+							49 ok,
+							4 failed,
+							4 todo,
+							8 skipped,
+							0 parse errors<br/>
+							exit status: 4,
+							wait status: 1024<br/>
+							elapsed time: 3 wallclock secs ( 0.05 usr  0.01 sys +  2.49 cusr  0.17 csys =  2.72 CPU)</td>
+						<td class="time">2.86s</td>
+
+						<td class="percent  severity-very-low">92.5%</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+% }
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
