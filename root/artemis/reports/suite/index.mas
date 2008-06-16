@@ -1,1 +1,30 @@
-<h3>Reports by suite!</h3>
+<%args>
+        @reports
+</%args>
+
+<h3>Test reports by suite</h3>
+
+ <table class="reportlist">
+        <thead>
+                <tr>
+                         <th class="reportid">ID</th>
+                         <th>created</th>
+                         <th>suite</th>
+                         <th>machine</th>
+                </tr>
+        </thead>
+        <tbody>
+% foreach (@reports) {
+                <tr>
+                        <td class="reportid"><a href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a></td>
+                        <td><% $_->{created_at} %></td>
+                        <td><a href="/artemis/reports/suite/<% $_->{suite_id} %>"><% $_->{suite_name} %></a></td>
+                        <td><% $_->{machine} %></td>
+                </tr>
+% }
+        </tbody>
+ </table>
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:

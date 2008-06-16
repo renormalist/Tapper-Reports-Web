@@ -434,3 +434,27 @@ max-width: 2.5em;
 	position: relative;
 	width: 100%;
 	}
+
+/* ss5 - artemis - osrc */
+
+table.reportlist
+{
+  text-align: left;
+  }
+
+table.reportlist tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.reportlist th,
+table.reportlist td
+{
+  padding: 0em 1em 0em 0em;
+  }
+
+table.reportlist th.reportid,
+table.reportlist td.reportid
+{
+  text-align: right;
+  }
