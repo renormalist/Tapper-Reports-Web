@@ -3,8 +3,9 @@
 BEGIN { 
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
     $ENV{CATALYST_SCRIPT_GEN} = 31;
+
     require Catalyst::Engine::HTTP;
-}  
+}
 
 use strict;
 use warnings;

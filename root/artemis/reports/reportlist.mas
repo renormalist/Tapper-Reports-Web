@@ -20,7 +20,7 @@
                         <td class="reportid"><a href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a></td>
                         <td><% $_->{created_at_ymd} %></td>
                         <td><a href="/artemis/reports/suite/<% $_->{suite_id} %>"><% $_->{suite_name} %></a></td>
-                        <td><% $_->{machine} %></td>
+                        <td><% $_->{machine_name} %></td>
                         <td><a href="/artemis/reports/id/<% $_->{id} %>" title="<% $_->{success_ratio}%>%"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a></td>
                 </tr>
 % }

@@ -21,6 +21,7 @@ requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Action::RenderView';
 requires 'Test::Fixture::DBIC::Schema';
+requires 'DateTime::Format::Natural';
 requires 'TAP::Formatter::HTML';
 requires 'Getopt::Long';
 requires 'TAP::Parser';

@@ -16,7 +16,7 @@ sub prepare_simple_reportlist : Private
 {
         my ( $self, $c, $reports ) = @_;
 
-        my @simple_reportlist : Stash;
+        my @reportlist;
         while (my $report = $reports->next)
         {
                 my $r = {
@@ -28,8 +28,9 @@ sub prepare_simple_reportlist : Private
                          created_at_ymd     => $report->created_at->ymd('-'),
                          success_ratio      => $report->success_ratio,
                         };
-                push @simple_reportlist, $r;
+                push @reportlist, $r;
         }
+        return \@reportlist;
 }
 
 1;
