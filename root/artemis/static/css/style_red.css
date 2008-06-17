@@ -458,3 +458,9 @@ table.reportlist td.reportid
 {
   text-align: right;
   }
+
+table.reportlist img
+{
+  padding: 0px;
+  border: none;
+  }
