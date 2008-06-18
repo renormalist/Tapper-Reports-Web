@@ -5,7 +5,7 @@
         <thead>
                 <tr>
                          <th class="reportid">ID</th>
-                         <th>created</th>
+                         <th>date</th>
                          <th>suite</th>
                          <th>machine</th>
                          <th>success</th>
