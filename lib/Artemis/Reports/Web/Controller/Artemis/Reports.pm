@@ -77,10 +77,6 @@ sub prepare_this_weeks_reportlists : Private
         my $rest_of_reports = $reports->search ({ created_at => { '<', $day[6] } });
         push @this_weeks_reportlists, $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]);
 
-        use Data::Dumper;
-        print STDERR "this_weeks_reportlists = ", Dumper(\@this_weeks_reportlists);
-        print STDERR "filter_condition = ", Dumper($filter_condition);
-        print STDERR "day = ", Dumper(map { "$_" } @day);
 }
 
 1;
