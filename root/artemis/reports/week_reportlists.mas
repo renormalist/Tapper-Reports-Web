@@ -1,0 +1,18 @@
+<%args>
+        @week_reportlists
+</%args>
+
+      <h3>Today's reports</h3>
+      <& /artemis/reports/reportlist.mas, reportlist => $week_reportlists[0] &>
+
+% foreach (1..6) {
+
+      <h3>Reports <% $_ %> day<% $_ > 1 ? 's' : '' %> ago</h3>
+      <& /artemis/reports/reportlist.mas, reportlist => $week_reportlists[$_] &>
+
+% }
+
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
