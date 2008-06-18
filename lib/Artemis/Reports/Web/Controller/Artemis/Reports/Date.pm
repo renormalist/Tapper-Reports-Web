@@ -14,47 +14,8 @@ sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
 
-        my $main_condition = {};
-
-        # ----- general -----
-
-        my $reports = $c->model('ReportsDB')->resultset('Report')->search
-            (
-             $main_condition,
-             { order_by => 'id desc' },
-            );
-
-        my $parser    = new DateTime::Format::Natural;
-        my $today     = $parser->parse_datetime("today at midnight");
-        my $yesterday = $parser->parse_datetime("yesterday at midnight");
-
-
-        # ----- today -----
-
-        my $today_reports = $reports->search
-            (
-             {
-              created_at => { '>', $today },
-             },
-            );
-        my $today_reportlist : Stash = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $today_reports ]);
-
-
-
-        # ----- yesterday -----
-
-        my $yesterday_reports = $reports->search
-            (
-             {
-              -and => [
-                       created_at => { '>', $yesterday },
-                       created_at => { '<', $today     },
-                      ],
-             },
-            );
-        my $yesterday_reportlist : Stash = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $yesterday_reports ]);
-
-
+        my $filter_condition : Stash = {};
+        $c->forward('/artemis/reports/prepare_this_weeks_reportlists');
 }
 
 1;

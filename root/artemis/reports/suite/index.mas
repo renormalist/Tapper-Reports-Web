@@ -1,13 +1,7 @@
 <%args>
-        $today_reportlist
-        $yesterday_reportlist
+        @this_weeks_reportlists
 </%args>
-
-<h3>Today's reports</h3>
-<& /artemis/reports/reportlist.mas, reportlist => $today_reportlist &>
-
-<h3>Yesterday's reports</h3>
-<& /artemis/reports/reportlist.mas, reportlist => $yesterday_reportlist &>
+<& /artemis/reports/week_reportlists.mas, week_reportlists => \@this_weeks_reportlists &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
