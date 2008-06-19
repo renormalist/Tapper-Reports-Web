@@ -1,0 +1,11 @@
+<%args>
+        $report
+</%args>
+
+<ul>
+        <li><span>
+
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
