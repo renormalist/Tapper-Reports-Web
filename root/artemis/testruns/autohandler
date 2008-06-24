@@ -4,7 +4,7 @@
 
 		<div id="logo">
 			<h1><span>artemis</span>2.0</h1>
-			<h2>testruns</h2>
+<!--			<h2>testruns</h2> -->
 		</div>
 		
 		<div id="menu">
@@ -44,13 +44,8 @@
 		
 			<div id="columnC_2columns">
 	
-				<h4>reports <span>by date</span></h4>
-				<h4>reports <span>by suite</span></h4>
-				<h4>reports <span>by topic</span></h4>
-				<h4>reports <span>by people</span></h4>
-				<h4>reports <span>by success</span></h4>
-				<h4>reports <span>freestyle</span></h4>
-			
+<& /artemis/reports/navi.mas &>
+						
 			</div>
 
 		</div>

@@ -1,10 +1,40 @@
 <%args>
         $report
 </%args>
+<%method meta_row>
+  <%args>
+        $name
+        $value
+  </%args>
+% if (defined $value) {
+<tr>
+        <th><% $name %>:</th>
+        <td><% $value %></td>
+</tr>
+% }
+</%method>
 
-<ul>
-        <li><span>
+% my $sections = $report->reportsections;
 
+    <table class="reportsectionmeta">
+% while (my $section = $sections->next) {
+
+%    if ($section->some_meta_available) {
+
+%        my %cols = $section->get_columns;
+%        my @meta_cols = qw/
+%                           osname uname language_description cpuinfo ram lspci lsusb flags xen_dom0_kernel
+%                           xen_base_os_description xen_guest_description xen_guest_flags xen_changeset
+%                           xen_hvbits test_was_on_guest test_was_on_hv
+%                          /;
+
+        <td colspan="2"><h5><% $section->name %></h5></td>
+%           foreach (@meta_cols) {
+                <& SELF:meta_row, name => $_ , value => $cols{$_} &>
+%           }
+%    }
+% }
+    </table>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8

@@ -7,6 +7,13 @@ use diagnostics;
 use parent 'Catalyst::Controller::BindLex';
 __PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
 
+sub auto :Pivate
+{
+        my ( $self, $c ) = @_;
+
+        $c->forward('/artemis/reports/prepare_navi');
+}
+
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
@@ -63,20 +70,75 @@ sub prepare_this_weeks_reportlists : Private
 
         # ----- today -----
         my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
-        push @this_weeks_reportlists, $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day0_reports ]);
+        push @this_weeks_reportlists, {
+                                       day     => $day[0],
+                                       reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day0_reports ])
+                                      };
 
         # ----- last week days -----
         foreach (1..6) {
                 my $day_reports = $reports->search ({ -and => [ created_at => { '>', $day[$_]     },
                                                                 created_at => { '<', $day[$_ - 1] },
                                                               ]});
-                push @this_weeks_reportlists, $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day_reports ]);
+                push @this_weeks_reportlists, {
+                                               day => $day[$_],
+                                               reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day_reports ])
+                                              };
         }
 
         # ----- the rest -----
         my $rest_of_reports = $reports->search ({ created_at => { '<', $day[6] } });
-        push @this_weeks_reportlists, $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]);
+        push @this_weeks_reportlists, {
+                                       day => $day[6],
+                                       reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ])
+                                      };
 
+}
+
+sub prepare_navi : Private
+{
+        my ( $self, $c ) = @_;
+
+        my $navi : Stash = [
+                            {
+                             title  => "reports by date",
+                             href   => "/artemis/reports/date/",
+                             active => 0,
+                             subnavi => [
+                                         {
+                                          title  => "week",
+                                          href   => "/artemis/reports/date/week/",
+                                         },
+                                         {
+                                          title  => "month",
+                                          href   => "/artemis/reports/date/month/",
+                                         },
+                                         {
+                                          title  => "year",
+                                          href   => "/artemis/reports/date/year/",
+                                         },
+                                         {
+                                          title  => "all",
+                                          href   => "/artemis/reports/date/all/",
+                                         },
+                                        ],
+                            },
+                            {
+                             title  => "reports by suite",
+                             href   => "/artemis/reports/suite/all",
+                             active => 0,
+                            },
+                            {
+                             title  => "reports by topic",
+                             href   => "/artemis/reports/topic/",
+                             active => 0,
+                            },
+                            {
+                             title  => "reports by people",
+                             href   => "/artemis/reports/people/",
+                             active => 0,
+                            },
+                           ];
 }
 
 1;

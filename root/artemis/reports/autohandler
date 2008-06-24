@@ -4,7 +4,7 @@
 
 		<div id="logo">
 			<h1><span>artemis</span>2.0</h1>
-			<h2>reports</h2>
+<!--			<h2>reports</h2> -->
 		</div>
 		
 		<div id="menu">
@@ -44,9 +44,7 @@
 		
 			<div id="columnC_2columns">
 
-% my $navi = $m->top_comp->path;
-% $navi =~ s,/[^/]+$,/navi.mas,;
-<& $navi &>
+<& /artemis/reports/navi.mas &>
 			
 			</div>
 

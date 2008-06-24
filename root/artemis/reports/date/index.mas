@@ -1,6 +1,9 @@
 <%args>
         @this_weeks_reportlists
 </%args>
+
+% my $now = gmtime();
+<h3>This weeks reports</h3>
 <& /artemis/reports/week_reportlists.mas, week_reportlists => \@this_weeks_reportlists &>
 
 %# Local Variables:

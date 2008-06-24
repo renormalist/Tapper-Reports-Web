@@ -255,8 +255,8 @@ position: relative;
 {
 position: relative;
 font-size: 1.7em;
-/* padding-bottom: 1.2em; */
-padding-top: 1.2em;
+padding-bottom: 1.2em;
+/* padding-top: 1.2em; */
 }
 
 #main_inner .post ul.post_info
@@ -283,6 +283,13 @@ background-image: url('/artemis/static/images_red/n5.gif');
 #main_inner .post ul.post_info li.comments
 {
 background-image: url('/artemis/static/images_red/n6.gif');
+margin-left: 1.1em;
+}
+
+/* ss5 */
+#main_inner .post ul.post_info li.meta
+{
+background-image: url('/artemis/static/images_red/n5.gif');
 margin-left: 1.1em;
 }
 
@@ -438,6 +445,8 @@ max-width: 2.5em;
 
 /* ss5 - artemis - osrc */
 
+/* ----- report list ----- */
+
 table.reportlist
 {
   text-align: left;
@@ -464,4 +473,61 @@ table.reportlist img
 {
   padding: 0px;
   border: none;
+  }
+
+/* ----- suite list ----- */
+
+table.suitelist
+{
+  text-align: left;
+  }
+
+table.suitelist tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.suitelist th,
+table.suitelist td
+{
+  padding: 0em 1em 0em 0em;
+  }
+
+table.suitelist th.suiteid,
+table.suitelist td.suiteid
+{
+  text-align: right;
+  }
+
+/* ----- report section meta ----- */
+
+table.reportsectionmeta
+{
+  text-align: left;
+  }
+
+table.reportsectionmeta tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.reportsectionmeta td
+{
+  padding: 0em 1em 0em 0em;
+  font-weight: bold;
+  }
+
+table.reportsectionmeta th
+{
+  padding: 0em 1em 0em 2em;
+  }
+
+table.reportsectionmeta th
+{
+  font-weight: normal;
+  }
+
+table.reportsectionmeta h5
+{
+  padding: 0.5em 0em 0em 0em;
   }

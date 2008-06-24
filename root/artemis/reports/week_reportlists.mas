@@ -2,14 +2,18 @@
         @week_reportlists
 </%args>
 
-      <h3>Today's reports</h3>
-      <& /artemis/reports/reportlist.mas, reportlist => $week_reportlists[0] &>
+        <ul class="post_info">
+		<li class="comments">23 reports</li>
+		<li class="comments">20 pass</li>
+		<li class="comments">3 fail</li>
+	</ul>
 
-% foreach (1..6) {
-
-      <h3>Reports <% $_ %> day<% $_ > 1 ? 's' : '' %> ago</h3>
-      <& /artemis/reports/reportlist.mas, reportlist => $week_reportlists[$_] &>
-
+% foreach (0..6) {
+%       my $day_infos = $week_reportlists[$_];
+%       my $day        = $day_infos->{day};
+%       my $reportlist = $day_infos->{reports};
+        <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
+<& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
 % }
 
 
