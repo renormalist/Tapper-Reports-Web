@@ -1,5 +1,16 @@
-<h3>Hello reports!</h3>
+<h3>OSRC Test Reports</h3>
 
-% for my $i (qw( affe loewe fink star)) {
-        <h4><% $i %></h4>
-% }
+<p>
+        Start with some of the overview lists:
+</p>
+
+<p>
+        <ul>
+                <li>
+                        <a href="/artemis/reports/date/">This week's test reports</a>
+                </li>
+                <li>
+                        <a href="/artemis/reports/suite/all">All test suites</a>
+                </li>        
+        </ul>
+</p>

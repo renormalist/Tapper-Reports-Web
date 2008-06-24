@@ -27,10 +27,14 @@
         <h4>Context</h4>
         <& /artemis/reports/report_details.mas, report => $report &>
 
-%       my $harness = new Artemis::TAP::Harness( tap => $report->tap );
-%       my $html = $harness->generate_html;
         <h4>Test results</h4>
-        <% $html | n %>
+%       if ($report->tap) {
+%               my $harness = new Artemis::TAP::Harness( tap => $report->tap );
+%               my $html = $harness->generate_html;
+                <% $html | n %>
+%       } else {
+                No TAP available.
+%       }
 
 % }
 
