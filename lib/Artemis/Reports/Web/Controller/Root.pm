@@ -13,14 +13,24 @@ sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
 
-        # Hello World
-        $c->response->body( $c->welcome_message );
+        # the easy way, to avoid fiddling with Mason autohandlers on
+        # simple redirects
+
+        my $body = <<EOF;
+<html>
+<head>
+<meta http-equiv="refresh" content="0; URL=/artemis">
+<meta name="description" content="Artemis"
+<title>Artemis</title>
+</head>
+EOF
+        $c->response->body($body);
 }
 
 sub default :Path
 {
         my ( $self, $c ) = @_;
-        $c->response->body( 'Page not found' );
+        $c->response->body( 'Bummer! Page not found' );
         $c->response->status(404);
 }
 
