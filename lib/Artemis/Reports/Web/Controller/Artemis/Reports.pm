@@ -2,10 +2,11 @@ package Artemis::Reports::Web::Controller::Artemis::Reports;
 
 use strict;
 use warnings;
-use diagnostics;
 
 use parent 'Catalyst::Controller::BindLex';
 __PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
+
+use DateTime::Format::Natural;
 
 sub auto :Pivate
 {
@@ -27,13 +28,16 @@ sub prepare_simple_reportlist : Private
         while (my $report = $reports->next)
         {
                 my $r = {
-                         id                 => $report->id,
-                         suite_name         => $report->suite ? $report->suite->name : 'unknown',
-                         suite_id           => $report->suite ? $report->suite->id : '0',
-                         machine_name       => $report->machine_name || 'unknown',
-                         created_at_ymd_hms => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         created_at_ymd     => $report->created_at->ymd('-'),
-                         success_ratio      => $report->success_ratio,
+                         id                    => $report->id,
+                         suite_name            => $report->suite ? $report->suite->name : 'unknown',
+                         suite_id              => $report->suite ? $report->suite->id : '0',
+                         machine_name          => $report->machine_name || 'unknown',
+                         created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
+                         created_at_ymd        => $report->created_at->ymd('-'),
+                         success_ratio         => $report->success_ratio,
+                         successgrade          => $report->successgrade,
+                         reviewed_successgrade => $report->reviewed_successgrade,
+                         total                 => $report->total,
                         };
                 push @reportlist, $r;
         }
@@ -104,24 +108,24 @@ sub prepare_navi : Private
                              title  => "reports by date",
                              href   => "/artemis/reports/date/",
                              active => 0,
-                             subnavi => [
-                                         {
-                                          title  => "week",
-                                          href   => "/artemis/reports/date/week/",
-                                         },
-                                         {
-                                          title  => "month",
-                                          href   => "/artemis/reports/date/month/",
-                                         },
-                                         {
-                                          title  => "year",
-                                          href   => "/artemis/reports/date/year/",
-                                         },
-                                         {
-                                          title  => "all",
-                                          href   => "/artemis/reports/date/all/",
-                                         },
-                                        ],
+#                              subnavi => [
+#                                          {
+#                                           title  => "week",
+#                                           href   => "/artemis/reports/date/week/",
+#                                          },
+#                                          {
+#                                           title  => "month",
+#                                           href   => "/artemis/reports/date/month/",
+#                                          },
+#                                          {
+#                                           title  => "year",
+#                                           href   => "/artemis/reports/date/year/",
+#                                          },
+#                                          {
+#                                           title  => "all",
+#                                           href   => "/artemis/reports/date/all/",
+#                                          },
+#                                         ],
                             },
                             {
                              title  => "reports by suite",

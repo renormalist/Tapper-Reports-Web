@@ -8,7 +8,7 @@ use warnings;
 use parent 'Catalyst::Controller::BindLex';
 __PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
 
-use DateTime::Format::Natural;
+#
 
 sub index :Path :Args(0)
 {

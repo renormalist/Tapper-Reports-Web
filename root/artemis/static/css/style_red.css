@@ -475,6 +475,22 @@ table.reportlist img
   border: none;
   }
 
+table.reportlist .fail
+{
+  color: #b55;
+  }
+
+table.reportlist .pass
+{
+  color: #5b5;
+  }
+
+table.reportlist .unknown
+{
+  color: #bb5;
+  }
+
+
 /* ----- suite list ----- */
 
 table.suitelist

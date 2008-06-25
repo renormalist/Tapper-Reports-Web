@@ -17,7 +17,16 @@
 %               if ($subnavi and @$subnavi) {
                         <ul>
 %                       foreach my $snav (@$subnavi) {
+%                               my $subhref = $href;
+%                               $subhref =~ s,(^/[^/]+/[^/]+/[^/]+/[^/]+).*,$1,; # first four path elements
+%                               my $subhighlight = $m->top_comp->path =~ /$subhref/ ? 1 : 0;
+%                               if ($highlight) {
+                                        <span>
+%                               }
                                 <li><a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
+%                               if ($highlight) {
+                                        </span>
+%                               }
 %                       }
                         </ul>
 %               }
