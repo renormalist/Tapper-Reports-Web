@@ -17,10 +17,10 @@
 % }
 
         <ul class="post_info">
-		<li class="comments"><% $count_all     %> reports</li>
-		<li class="comments"><% $count_pass    %> pass</li>
-		<li class="comments"><% $count_fail    %> fail</li>
-		<li class="comments"><% $count_unknown %> unknown</li>
+		<li class="comments">        <% $count_all     %> reports</li>
+		<li class="comments pass">   <% $count_pass    %> pass</li>
+		<li class="comments fail">   <% $count_fail    %> fail</li>
+		<li class="comments unknown"><% $count_unknown %> unknown</li>
 	</ul>
 
 % foreach (0..6) {

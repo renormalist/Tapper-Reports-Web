@@ -475,17 +475,17 @@ table.reportlist img
   border: none;
   }
 
-table.reportlist .fail
+.fail
 {
   color: #b55;
   }
 
-table.reportlist .pass
+.pass
 {
   color: #5b5;
   }
 
-table.reportlist .unknown
+.unknown
 {
   color: #bb5;
   }
