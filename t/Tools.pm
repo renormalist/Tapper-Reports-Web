@@ -25,7 +25,7 @@ sub setup_reportsdb {
                                                                 Artemis::Reports::Web->config->{test}{database}{ReportsDB}{username},
                                                                 Artemis::Reports::Web->config->{test}{database}{ReportsDB}{password}
                                                                );
-        $reportsdb_schema->deploy;
+        #$reportsdb_schema->deploy;
 }
 
 sub import {
