@@ -21,7 +21,12 @@
 %               if (my $os = (grep /./, $report->sections_osname)[0]) {
 		<li class="meta"><% $os %></li>
 %               }
-		<li class="meta"><% $report->machine_name || 'unknown host' %></li>
+		<li class="meta">
+                        Host: '<% $report->machine_name || 'unknown host' %>'
+%                       if ($report->machine_description) {
+                        	(<% $report->machine_description %>)
+%                       }
+                </li>
 	</ul>
 
         <h4>Context</h4>
