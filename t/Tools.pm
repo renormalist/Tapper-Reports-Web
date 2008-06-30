@@ -23,9 +23,11 @@ sub setup_reportsdb {
 
         $reportsdb_schema = Artemis::Schema::ReportsDB->connect($dsn,
                                                                 Artemis::Reports::Web->config->{test}{database}{ReportsDB}{username},
-                                                                Artemis::Reports::Web->config->{test}{database}{ReportsDB}{password}
+                                                                Artemis::Reports::Web->config->{test}{database}{ReportsDB}{password},
+                                                                { ignore_version => 1 }
                                                                );
-        #$reportsdb_schema->deploy;
+        $reportsdb_schema->deploy;
+        $reportsdb_schema->upgrade;
 }
 
 sub import {
