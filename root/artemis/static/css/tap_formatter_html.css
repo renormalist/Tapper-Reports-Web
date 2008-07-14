@@ -22,7 +22,7 @@
  */
 #summary {
 	position: relative;
-	padding: 2px 0 2 0;
+	padding: 2px 0 2px 0;
 	width: 90%;
 	font-size: x-large;
 	text-align: center;
@@ -86,7 +86,7 @@ table.detail td {
 	left: 0px;
 	border-top: 1px solid #aaaaaa;
 	margin: 0;
-	padding: 2px 0 2 0;
+	padding: 2px 0 2px 0;
 	vertical-align: top;
 }
 
@@ -279,7 +279,7 @@ ul.test-out {
 }
 
 ul.test-out li {
-        margin-left: 4;
+        margin-left: 4px;
         border-left: none;
         list-style: none;
 }
