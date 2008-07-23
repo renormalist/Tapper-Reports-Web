@@ -2,8 +2,9 @@
 
 use strict;
 use warnings;
+use Test::More;
 
-use Test::More tests => 1;
+plan tests => 1;
 
 BEGIN {
         use_ok( 'Artemis::Reports::Web::Controller::Artemis::Reports' );

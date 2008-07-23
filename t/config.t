@@ -5,10 +5,9 @@ use warnings;
 
 use lib '.';
 
-use t::Tools;
-use Test::Fixture::DBIC::Schema;
-
 use Test::More;
+use Artemis::Schema::TestTools;
+use Test::Fixture::DBIC::Schema;
 use Artemis::Reports::Web;
 
 plan tests => 3;
