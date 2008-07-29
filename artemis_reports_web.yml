@@ -6,7 +6,7 @@ database:
   ReportsDB:
     dsn:        dbi:mysql:dbname=reportsdb
     username:   artemis
-    password:   TODO
+    password:   artemis
 
 
 # explicit development environment
@@ -25,3 +25,7 @@ test:
       dsn:        dbi:SQLite:dbname=t/artemis_schema_reportsdb_test.sqlite
       username:   ''
       password:   ''
+
+# live environment, mini hash structure must exist
+live:
+  test_value:     live

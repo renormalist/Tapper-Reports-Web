@@ -22,7 +22,7 @@ requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Action::RenderView';
 requires 'Test::Fixture::DBIC::Schema';
 requires 'DateTime::Format::Natural';
-requires 'TAP::Formatter::HTML';
+requires 'TAP::Formatter::HTML'  => '0.04';
 requires 'Getopt::Long';
 requires 'TAP::Parser';
 requires 'Hash::Merge';
