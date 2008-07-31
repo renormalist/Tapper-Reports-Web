@@ -5,6 +5,7 @@
 BEGIN {
         $ENV{CATALYST_ENGINE}          ||= 'FastCGI';
         $ENV{ARTEMIS_REPORTS_WEB_LIVE} ||= '1';
+        $ENV{CATALYST_DEBUG}             = 0 unless defined $ENV{CATALYST_DEBUG};
 }
 
 use strict;

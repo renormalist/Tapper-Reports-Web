@@ -5,6 +5,7 @@ use warnings;
 
 use parent 'Catalyst::Controller::BindLex';
 __PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
+__PACKAGE__->config->{unsafe_bindlex_ok} = 1;
 
 sub index :Path :Args(0)
 {
