@@ -3,6 +3,8 @@ package Artemis::Reports::Web;
 use strict;
 use warnings;
 
+use 5.010;
+
 use Catalyst::Runtime '5.70';
 use Hash::Merge;
 
@@ -78,7 +80,7 @@ Copyright 2008 OSRC SysInt Team, all rights reserved.
 
 =head1 LICENSE
 
-This program is released under the following license: restrictive
+This program is released under the following license: proprietary
 
 =cut
 

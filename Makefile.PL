@@ -4,6 +4,7 @@ use inc::Module::Install;
 
 name 'Artemis-Reports-Web';
 all_from 'lib/Artemis/Reports/Web.pm';
+license 'restrictive';
 
 perl_version '5.010';
 
