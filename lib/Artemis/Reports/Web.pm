@@ -18,7 +18,7 @@ use Hash::Merge;
 
 use parent qw/Catalyst/;
 
-our $VERSION = '2.010009';
+our $VERSION = '2.010010';
 
 # used by Catalyst::Plugin::ConfigLoader
 sub finalize_config
@@ -46,6 +46,20 @@ sub debug
         return $ENV{ARTEMIS_REPORTS_WEB_LIVE} || $ENV{HARNESS_ACTIVE} ? 0 : 1;
 }
 
+# I am sick of getting relocated/rebase on our local path!
+# Cut away a trailing 'artemis/' from base and prepend it to path.
+# All conditionally only when this annoying environment is there.
+sub prepare_path
+{
+        my $c = shift; 
+
+        $c->NEXT::prepare_path(@_);
+
+        my $base        =  $c->req->{base}."";
+        $base           =~ s,artemis/$,, if $base;
+        $c->req->{base} =  bless( do{\(my $o = $base)}, 'URI::http' );
+        $c->req->path('artemis/'.$c->req->path) unless ( $c->req->path =~ m,^artemis/?,);
+}
 
 
 # Configure the application. 
