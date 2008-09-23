@@ -16,7 +16,7 @@
 
 	<ul class="post_info">
 		<li class="date">report id: <% $report->id %></li>
-		<li class="date"><% $report->created_at->ymd %></li>
+		<li class="date"><% $report->created_at->ymd %> <% $report->created_at->hms %></li>
 		<li class="meta"><% (grep /./, $report->sections_cpuinfo)[0] || '' %></li>
 %               if (my $os = (grep /./, $report->sections_osname)[0]) {
 		<li class="meta"><% $os %></li>
