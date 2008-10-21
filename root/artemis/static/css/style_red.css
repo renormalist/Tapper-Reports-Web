@@ -547,3 +547,36 @@ table.reportsectionmeta h5
 {
   padding: 0.5em 0em 0em 0em;
   }
+
+/* ----- report files ----- */
+
+table.reportfile
+{
+  text-align: left;
+  }
+
+table.reportfile tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.reportfile td
+{
+  padding: 0em 1em 0em 0em;
+  /* font-weight: bold; */
+  }
+
+table.reportfile th
+{
+  padding: 0em 1em 0em 2em;
+  }
+
+table.reportfile th
+{
+  font-weight: normal;
+  }
+
+table.reportfile h5
+{
+  padding: 0.5em 0em 0em 0em;
+  }
