@@ -1,0 +1,14 @@
+<%args>
+        $report
+</%args>
+% my $files = $report->files;
+
+    <table class="reportfile">
+% while (my $file = $files->next) {
+	<tr><th><a href="/artemis/reportfile/id/<% $file->id%>"><% $file->filename %></a></th><td>created <% $file->created_at->ymd %> <% $file->created_at->hms %> GMT</td></tr>
+% }
+    </table>
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
