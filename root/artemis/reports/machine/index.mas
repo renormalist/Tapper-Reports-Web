@@ -1,10 +1,10 @@
 <%args>
         $filter_machine_name
-        @this_weeks_reportlists
+        $reportlist
 </%args>
 
-<h3>This weeks reports by machine: <span><% $filter_machine_name %></span></h3>
-<& /artemis/reports/week_reportlists.mas, week_reportlists => \@this_weeks_reportlists &>
+<h3>All reports by machine: <span><% $filter_machine_name %></span></h3>
+<& /artemis/reports/all_reportlist.mas, reportlist => $reportlist &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
