@@ -1,17 +1,18 @@
 <%args>
         $filter_suite
-        @this_weeks_reportlists
+        $reportlist
 </%args>
 
 % if ($filter_suite) {
 
-        <h3>This weeks reports by suite: <span><% $filter_suite->name %></span></h3>
-        <& /artemis/reports/week_reportlists.mas, week_reportlists => \@this_weeks_reportlists &>
+        <h3>All reports by suite: <span><% $filter_suite->name %></span></h3>
+        <& /artemis/reports/all_reportlist.mas, reportlist => $reportlist &>
 
 % } else {
 
-        <h3>This weeks reports by suite: <span>unknown</span></h3>
+        <h3>All reports by suite: <span>unknown</span></h3>
         No info available
+
 % }
 
 %# Local Variables:

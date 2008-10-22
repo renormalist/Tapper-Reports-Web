@@ -41,7 +41,6 @@
                 No TAP available.
 %       }
 
-        <h4>Files</h4>
         <& /artemis/reports/report_files.mas, report => $report &>
 
 % }
