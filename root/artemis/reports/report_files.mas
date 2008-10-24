@@ -10,7 +10,7 @@
 %     while (my $file = $files->next) {
 	  <tr>
             <th><a href="/artemis/reportfile/id/<% $file->id%>"><% $file->filename %></a></th>
-%#            <td>size <% $file->get_column('filecontent')->func('length') %> Bytes</td>
+            <td align="right"><% length($file->filecontent) %> Bytes</td>
             <td>created <% $file->created_at->ymd %> <% $file->created_at->hms %> GMT</td>
           </tr>
 %     }
