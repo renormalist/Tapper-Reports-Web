@@ -41,6 +41,10 @@
                 No TAP available.
 %       }
 
+        <p>
+          » <a href="/artemis/reports/tap/<% $report->id%>">raw TAP report</a>
+        </p>
+
         <& /artemis/reports/report_files.mas, report => $report &>
 
 % }
