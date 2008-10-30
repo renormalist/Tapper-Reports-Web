@@ -18,7 +18,7 @@ use Hash::Merge;
 
 use parent qw/Catalyst/;
 
-our $VERSION = '2.010014';
+our $VERSION = '2.010015';
 
 # used by Catalyst::Plugin::ConfigLoader
 sub finalize_config
