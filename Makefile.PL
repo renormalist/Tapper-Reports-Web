@@ -18,7 +18,7 @@ requires 'Catalyst::View::Mason' => '0.16';
 requires 'Catalyst::Plugin::Session';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
-requires 'Catalyst::Controller::HTML::FormFu';
+#requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Action::RenderView';
