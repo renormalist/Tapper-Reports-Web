@@ -20,7 +20,11 @@
 %               my $red_width    = int ((100 - $_->{success_ratio}) * $full_width / 100);
 %               my $successgrade = $_->{successgrade} ? $_->{successgrade} : 'UNKNOWN';
                 <tr>
-                        <td class="reportid"><a title="Click to show details" href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a></td>
+                        <td class="reportid">
+                          <a title="Click to show details" href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a>
+                          <% $_->{reportgroup_arbitrary_id} || '' %>
+                          <% $_->{reportgroup_testrun_id}   || '' %>
+                        </td>
                         <td><% $_->{created_at_ymd} %></td>
                         <td><a title="Click to show reports of suite '<% $_->{suite_name} %>'" href="/artemis/reports/suite/<% $_->{suite_id} %>"><% $_->{suite_name} %></a></td>
                         <td><a title="Click to show reports on '<% $_->{machine_name} %>'" href="/artemis/reports/machine/<% $_->{machine_name} %>"><% $_->{machine_name} %></a></td>

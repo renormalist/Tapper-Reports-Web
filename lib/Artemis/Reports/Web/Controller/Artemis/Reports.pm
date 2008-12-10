@@ -27,16 +27,18 @@ sub prepare_simple_reportlist : Private
         while (my $report = $reports->next)
         {
                 my $r = {
-                         id                    => $report->id,
-                         suite_name            => $report->suite ? $report->suite->name : 'unknown',
-                         suite_id              => $report->suite ? $report->suite->id : '0',
-                         machine_name          => $report->machine_name || 'unknown',
-                         created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         created_at_ymd        => $report->created_at->ymd('-'),
-                         success_ratio         => $report->success_ratio,
-                         successgrade          => $report->successgrade,
-                         reviewed_successgrade => $report->reviewed_successgrade,
-                         total                 => $report->total,
+                         id                       => $report->id,
+                         suite_name               => $report->suite ? $report->suite->name : 'unknown',
+                         suite_id                 => $report->suite ? $report->suite->id : '0',
+                         machine_name             => $report->machine_name || 'unknown',
+                         created_at_ymd_hms       => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
+                         created_at_ymd           => $report->created_at->ymd('-'),
+                         success_ratio            => $report->success_ratio,
+                         successgrade             => $report->successgrade,
+                         reviewed_successgrade    => $report->reviewed_successgrade,
+                         total                    => $report->total,
+                         reportgroup_arbitrary_id => $report->reportgrouparbitrary ? $report->reportgrouparbitrary->arbitrary_id : '',
+                         reportgroup_testrun_id   => $report->reportgrouptestrun   ? $report->reportgrouptestrun->testrun_id     : '',
                         };
                 push @reportlist, $r;
         }
