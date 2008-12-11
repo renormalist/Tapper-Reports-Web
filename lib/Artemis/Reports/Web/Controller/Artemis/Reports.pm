@@ -23,9 +23,14 @@ sub prepare_simple_reportlist : Private
 {
         my ( $self, $c, $reports ) = @_;
 
-        my @reportlist;
+        my @reports;
+        my %reportgrouptestrun;
+        my %reportgrouparbitrary;
         while (my $report = $reports->next)
         {
+                #print STDERR join(", ", $report->get_columns), "\n";
+                my $reportgroup_arbitrary_id = $report->get_column('arbitrary_id');
+                my $reportgroup_testrun_id   = $report->get_column('testrun_id');
                 my $r = {
                          id                       => $report->id,
                          suite_name               => $report->suite ? $report->suite->name : 'unknown',
@@ -37,12 +42,21 @@ sub prepare_simple_reportlist : Private
                          successgrade             => $report->successgrade,
                          reviewed_successgrade    => $report->reviewed_successgrade,
                          total                    => $report->total,
-                         reportgroup_arbitrary_id => $report->reportgrouparbitrary ? $report->reportgrouparbitrary->arbitrary_id : '',
-                         reportgroup_testrun_id   => $report->reportgrouptestrun   ? $report->reportgrouptestrun->testrun_id     : '',
+                         reportgroup_arbitrary_id => $reportgroup_arbitrary_id,
+                         reportgroup_testrun_id   => $reportgroup_testrun_id,
                         };
-                push @reportlist, $r;
+                push @reports, $r;
+                push @{$reportgrouptestrun{$reportgroup_testrun_id}},     $report->id if $reportgroup_testrun_id;
+                push @{$reportgrouparbitrary{$reportgroup_arbitrary_id}}, $report->id if $reportgroup_arbitrary_id;
         }
-        return \@reportlist;
+        # delete single entry groups
+        foreach (keys %reportgrouptestrun) {
+                delete $reportgrouptestrun{$_} if @{$reportgrouptestrun{$_}} == 1;
+        }
+        foreach (keys %reportgrouparbitrary) {
+                delete $reportgrouparbitrary{$_} if @{$reportgrouparbitrary{$_}} == 1;
+        }
+        return {reports => \@reports, reportgrouptestrun => \%reportgrouptestrun, reportgrouparbitrary => \%reportgrouparbitrary};
 }
 
 sub prepare_this_weeks_reportlists : Private
@@ -58,7 +72,11 @@ sub prepare_this_weeks_reportlists : Private
         my $reports = $c->model('ReportsDB')->resultset('Report')->search
             (
              $filter_condition,
-             { order_by => 'id desc' },
+             {  order_by  => 'id desc',
+                join      => [ 'reportgrouparbitrary', 'reportgrouptestrun' ],
+                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouptestrun.testrun_id' ],
+                '+as'     => [ 'arbitrary_id', 'testrun_id' ]
+             }
             );
 
         my $parser = new DateTime::Format::Natural;
@@ -77,7 +95,7 @@ sub prepare_this_weeks_reportlists : Private
         my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
         push @this_weeks_reportlists, {
                                        day     => $day[0],
-                                       reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day0_reports ])
+                                       %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day0_reports ]) }
                                       };
 
         # ----- last week days -----
@@ -87,7 +105,7 @@ sub prepare_this_weeks_reportlists : Private
                                                               ]});
                 push @this_weeks_reportlists, {
                                                day => $day[$_],
-                                               reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day_reports ])
+                                               %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day_reports ]) }
                                               };
         }
 
@@ -95,7 +113,7 @@ sub prepare_this_weeks_reportlists : Private
         my $rest_of_reports = $reports->search ({ created_at => { '<', $day[6] } });
         push @this_weeks_reportlists, {
                                        day => $day[6],
-                                       reports => $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ])
+                                       %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
                                       };
 
 }

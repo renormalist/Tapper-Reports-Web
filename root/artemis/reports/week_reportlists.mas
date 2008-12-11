@@ -27,6 +27,9 @@
 %       my $day_infos = $week_reportlists[$_];
 %       my $day        = $day_infos->{day};
 %       my $reportlist = $day_infos->{reports};
+%       my $reportgrouptestrun = $day_infos->{reportgrouptestrun};
+%       use Data::Dumper;
+%       print STDERR Dumper($reportgrouptestrun);
         <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
 <& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
 % }

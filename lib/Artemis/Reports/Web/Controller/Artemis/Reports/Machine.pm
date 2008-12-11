@@ -19,7 +19,7 @@ sub index :Path :Args(1)
 
         $c->forward('/artemis/reports/prepare_this_weeks_reportlists');
         my $all_reports = $c->model('ReportsDB')->resultset('Report')->search( $filter_condition, { order_by => 'id desc' });
-        $reportlist     = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $all_reports ]);
+        $reportlist = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $all_reports ])->{reports};
         $c->forward('/artemis/reports/prepare_navi');
 }
 

@@ -22,7 +22,7 @@ sub index :Path :Args(1)
                 my $filter_suite       : Stash = $c->model('ReportsDB')->resultset('Suite')->find($suite_id);
                 my $all_reports = $c->model('ReportsDB')->resultset('Report')->search( $filter_condition, { order_by => 'id desc' } );
                 #$c->forward('/artemis/reports/prepare_this_weeks_reportlists');
-                $reportlist = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $all_reports ]);
+                $reportlist = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $all_reports ])->{reports};
          }
 }
 
