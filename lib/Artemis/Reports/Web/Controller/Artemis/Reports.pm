@@ -56,7 +56,11 @@ sub prepare_simple_reportlist : Private
         foreach (keys %reportgrouparbitrary) {
                 delete $reportgrouparbitrary{$_} if @{$reportgrouparbitrary{$_}} == 1;
         }
-        return {reports => \@reports, reportgrouptestrun => \%reportgrouptestrun, reportgrouparbitrary => \%reportgrouparbitrary};
+        return {
+                reports              => \@reports,
+                reportgrouptestrun   => \%reportgrouptestrun,
+                reportgrouparbitrary => \%reportgrouparbitrary
+               };
 }
 
 sub prepare_this_weeks_reportlists : Private
@@ -73,9 +77,9 @@ sub prepare_this_weeks_reportlists : Private
             (
              $filter_condition,
              {  order_by  => 'id desc',
-                join      => [ 'reportgrouparbitrary', 'reportgrouptestrun' ],
+                join      => [ 'reportgrouparbitrary',              'reportgrouptestrun' ],
                 '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouptestrun.testrun_id' ],
-                '+as'     => [ 'arbitrary_id', 'testrun_id' ]
+                '+as'     => [ 'arbitrary_id',                      'testrun_id' ]
              }
             );
 
@@ -94,7 +98,7 @@ sub prepare_this_weeks_reportlists : Private
         # ----- today -----
         my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
         push @this_weeks_reportlists, {
-                                       day     => $day[0],
+                                       day => $day[0],
                                        %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $day0_reports ]) }
                                       };
 

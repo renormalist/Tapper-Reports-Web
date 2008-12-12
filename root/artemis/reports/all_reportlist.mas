@@ -6,15 +6,13 @@
 % my $count_pass    = 0;
 % my $count_fail    = 0;
 % my $count_unknown = 0;
-% #foreach (0..6) {
-% #      my $reportlist = $week_reportlists[$_]->{reports};
-%       $count_all += @$reportlist;
-%       foreach my $report (@$reportlist) {
-%               if    ($report->{successgrade} eq 'PASS') { $count_pass++    }
-%               elsif ($report->{successgrade} eq 'FAIL') { $count_fail++    }
-%               else                                      { $count_unknown++ }
-%       }
-% #}
+% $count_all += @{$reportlist->{reports}};
+% my $reports = $reportlist->{reports};
+% foreach my $report (@$reports) {
+%    if    ($report->{successgrade} eq 'PASS') { $count_pass++    }
+%    elsif ($report->{successgrade} eq 'FAIL') { $count_fail++    }
+%    else                                      { $count_unknown++ }
+% }
 
         <ul class="post_info">
 		<li class="comments">        <% $count_all     %> reports</li>

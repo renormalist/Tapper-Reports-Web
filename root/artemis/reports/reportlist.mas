@@ -1,7 +1,104 @@
 <%args>
-        @reportlist
+        %reportlist
 </%args>
-% if (@reportlist) {
+<%method single_report>
+  <%args>
+  $report
+  $last_group_member_arbitrary
+  $last_group_member_testrun
+  %group_counter_arbitrary
+  %group_counter_testrun
+  </%args>
+%               my $full_width   = 50;
+%               my $green_width  = int (       $_->{success_ratio}  * $full_width / 100);
+%               my $red_width    = int ((100 - $_->{success_ratio}) * $full_width / 100);
+%               my $successgrade = $_->{successgrade} ? $_->{successgrade} : 'UNKNOWN';
+%#               if ($last_group_member_testrun > 1 or $last_group_member_arbitrary > 1)
+%#               {
+%                   $full_width  /= 5;
+%                   $green_width /= 5;
+%                   $red_width   /= 5;
+%#               }
+                <tr>
+                        <td class="reportid">
+                          <a title="Click to show details" href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a>
+%                         if ($last_group_member_arbitrary) {
+                              <b>
+%                         }
+                          <% $_->{reportgroup_arbitrary_id} || '' %>
+%                         if ($last_group_member_arbitrary) {
+                              </b>
+%                         }
+%                         if ($last_group_member_testrun) {
+                              <b>
+%                         }
+                          <% $_->{reportgroup_testrun_id} || '' %>
+%                         if ($last_group_member_testrun) {
+                              </b>
+%                         }
+                        </td>
+                        <td><% $_->{created_at_ymd} %></td>
+                        <td><a title="Click to show reports of suite '<% $_->{suite_name} %>'" href="/artemis/reports/suite/<% $_->{suite_id} %>"><% $_->{suite_name} %></a></td>
+                        <td><a title="Click to show reports on '<% $_->{machine_name} %>'" href="/artemis/reports/machine/<% $_->{machine_name} %>"><% $_->{machine_name} %></a></td>
+                        <td class="<% lc $successgrade %>"><% $successgrade %></td>
+                        <td>
+%                         if ($last_group_member_testrun) {
+%                                 foreach (@{$group_counter_arbitrary{$report->{reportgroup_testrun_id}}}) {
+                                          <& SELF:only_successgrade, report => $_ &>
+%                                 }
+%                         }
+%                         elsif ($last_group_member_arbitrary) {
+%                                  foreach (@{$group_counter_arbitrary{$report->{reportgroup_arbitrary_id}}}) {
+                                          <& SELF:only_successgrade, report => $_ &>
+%                                  }
+%                         }
+%                         else {
+                                   <a href="/artemis/reports/id/<% $_->{id} %>" title="<% $_->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a>
+%                         }
+                        </td>
+                </tr>
+</%method>
+<%method only_successgrade>
+  <%args>
+  $report
+  </%args>
+<%perl>
+  my $full_width   = 50;
+  my $green_width  = int (       $_->{success_ratio}  * $full_width / 100);
+  my $red_width    = int ((100 - $_->{success_ratio}) * $full_width / 100);
+  my $successgrade = $_->{successgrade} ? $_->{successgrade} : 'UNKNOWN';
+  $successgrade    =~ s/^(.).*$/$1/;
+  $full_width  /= 5;
+  $green_width /= 5;
+  $red_width   /= 5;
+</%perl>
+<% $successgrade %><a href="/artemis/reports/id/<% $_->{id} %>" title="<% $_->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a>
+</%method>
+<%perl>
+sub last_group_member_arbitrary {
+	my ($report, $group_counter_arbitrary, $reportlist) = @_;
+        my $id = $report->{id};
+        my $arbitrary_id = $report->{reportgroup_arbitrary_id};
+        print STDERR "arbitrary_id: $arbitrary_id\n";
+        my $this_group = $reportlist->{reportgrouparbitrary}{$arbitrary_id};
+        return 0 if not $arbitrary_id;
+        return 0 if not $this_group;
+	return 1 if (@{$group_counter_arbitrary->{$_->{reportgroup_arbitrary_id}}} == @$this_group);
+        return 0;
+}
+sub last_group_member_testrun {
+	my ($report, $group_counter_testrun, $reportlist) = @_;
+        my $id = $report->{id};
+        my $testrun_id = $report->{reportgroup_testrun_id};
+        print STDERR "testrun_id: $testrun_id\n";
+        my $this_group = $reportlist->{reportgrouptestrun}{$testrun_id};
+        return 0 if not $testrun_id;
+        return 0 if not $this_group;
+	return 1 if (@{$group_counter_testrun->{$_->{reportgroup_testrun_id}}} == @$this_group);
+        return 0;
+}
+</%perl>
+% if (@{$reportlist{reports}}) {
     <table class="reportlist">
         <thead>
                 <tr>
@@ -14,24 +111,23 @@
                 </tr>
         </thead>
         <tbody>
-%   foreach (@reportlist) {
-%               my $full_width   = 50;
-%               my $green_width  = int (       $_->{success_ratio}  * $full_width / 100);
-%               my $red_width    = int ((100 - $_->{success_ratio}) * $full_width / 100);
-%               my $successgrade = $_->{successgrade} ? $_->{successgrade} : 'UNKNOWN';
-                <tr>
-                        <td class="reportid">
-                          <a title="Click to show details" href="/artemis/reports/id/<% $_->{id} %>"><% $_->{id} %></a>
-                          <% $_->{reportgroup_arbitrary_id} || '' %>
-                          <% $_->{reportgroup_testrun_id}   || '' %>
-                        </td>
-                        <td><% $_->{created_at_ymd} %></td>
-                        <td><a title="Click to show reports of suite '<% $_->{suite_name} %>'" href="/artemis/reports/suite/<% $_->{suite_id} %>"><% $_->{suite_name} %></a></td>
-                        <td><a title="Click to show reports on '<% $_->{machine_name} %>'" href="/artemis/reports/machine/<% $_->{machine_name} %>"><% $_->{machine_name} %></a></td>
-                        <td class="<% lc $successgrade %>"><% $successgrade %></td>
-                        <td><a href="/artemis/reports/id/<% $_->{id} %>" title="<% $_->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a></td>
-                </tr>
+%   my %group_counter_arbitrary;
+%   my %group_counter_testrun;
+%   foreach (@{$reportlist{reports}}) {
+%               push @{$group_counter_testrun{$_->{reportgroup_testrun_id}}}, $_;
+%               push @{$group_counter_arbitrary{$_->{reportgroup_arbitrary_id}}}, $_;
+                <& SELF:single_report,
+                   report => $_,
+                   last_group_member_arbitrary => last_group_member_arbitrary($_, \%group_counter_arbitrary, \%reportlist),
+                   last_group_member_testrun   => last_group_member_testrun($_,   \%group_counter_testrun,   \%reportlist),
+                   group_counter_testrun       => \%group_counter_testrun,
+                   group_counter_arbitrary     => \%group_counter_arbitrary
+                  &>
 %   }
+%   print STDERR "counter a: ", Dumper(\%group_counter_arbitrary);
+%   print STDERR "counter t: ", Dumper(\%group_counter_testrun);
+%   print STDERR "group a: ", Dumper($reportlist{reportgrouparbitrary});
+%   print STDERR "group t: ", Dumper($reportlist{reportgrouptestrun});
         </tbody>
     </table>
 %}

@@ -7,9 +7,9 @@
 % my $count_fail    = 0;
 % my $count_unknown = 0;
 % foreach (0..6) {
-%       my $reportlist = $week_reportlists[$_]->{reports};
-%       $count_all += @$reportlist;
-%       foreach my $report (@$reportlist) {
+%       my $reportlist = $week_reportlists[$_]; #->{reports};
+%       $count_all += @{$reportlist->{reports}};
+%       foreach my $report (@{$reportlist->{reports}}) {
 %               if    ($report->{successgrade} eq 'PASS') { $count_pass++    }
 %               elsif ($report->{successgrade} eq 'FAIL') { $count_fail++    }
 %               else                                      { $count_unknown++ }
@@ -26,7 +26,7 @@
 % foreach (0..6) {
 %       my $day_infos = $week_reportlists[$_];
 %       my $day        = $day_infos->{day};
-%       my $reportlist = $day_infos->{reports};
+%       my $reportlist = $day_infos; #->{reports};
 %       my $reportgrouptestrun = $day_infos->{reportgrouptestrun};
 %       use Data::Dumper;
 %       print STDERR Dumper($reportgrouptestrun);
