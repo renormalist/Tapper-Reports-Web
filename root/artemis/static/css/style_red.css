@@ -119,6 +119,14 @@ p
 line-height: 1.8em;
 }
 
+/* ------------------------------- dimmed down report groups ---------------------------- */
+tr.justgroupmember a
+{
+  text-decoration: none;
+  color: #BBB;
+}
+
+
 /* Header */
 
 #header

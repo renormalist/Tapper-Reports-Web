@@ -11,23 +11,17 @@
 %               my $green_width  = int (       $report->{success_ratio}  * $full_width / 100);
 %               my $red_width    = int ((100 - $report->{success_ratio}) * $full_width / 100);
 %               my $successgrade = $report->{successgrade} ? $report->{successgrade} : 'UNKNOWN';
-                <tr<% $just_group_member ? ' class="just_group_member"' : ''%>>
+                <tr<% $just_group_member ? ' class=justgroupmember' : ''%>>
                         <td class="reportid">
-                          <a title="Click to show details" href="/artemis/reports/id/<% $report->{id} %>"><% $report->{id} %></a>
 %                         if (not $just_group_member) {
                               <b>
 %                         }
+                          <a title="Click to show details" href="/artemis/reports/id/<% $report->{id} %>"><% $report->{id} %></a>
+%                         if (not $just_group_member) {
+                              </b>
+%                         }
                           <% $report->{reportgroup_arbitrary_id} || '' %>
-%                         if (not $just_group_member) {
-                              </b>
-%                         }
-%                         if (not $just_group_member) {
-%                              <b>
-%                         }
                           <% $report->{reportgroup_testrun_id} || '' %>
-%                         if (not $just_group_member) {
-                              </b>
-%                         }
                         </td>
                         <td><% $report->{created_at_ymd} %></td>
                         <td><a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/artemis/reports/suite/<% $report->{suite_id} %>"><% $report->{suite_name} %></a></td>
@@ -62,6 +56,8 @@
   %group_counter_testrun
   </%args>
 			<& SELF:single_report, report => $primary_report &>
+%         print STDERR "TESTRUN ", $primary_report->{reportgroup_testrun_id}, "\n";
+%#         if ($primary_report->{reportgroup_testrun_id}) {
 %                       my @subreports = grep {
 %                                               print STDERR "TESTRUN ************ ", $_->{id}, " --- ", $primary_report->{id}, "***********\n";
 %                                               $_->{id} ne $primary_report->{id}
@@ -69,6 +65,7 @@
 %                       foreach my $subreport (@subreports) {
 				<& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %                       }
+%#         }
 </%method>
 % # ----------------------------------------------------------------------
 <%method sub_report_group_arbitrary>
@@ -77,6 +74,8 @@
   %group_counter_arbitrary
   </%args>
 			<& SELF:single_report, report => $primary_report &>
+%         print STDERR "TESTRUN ", $primary_report->{reportgroup_arbitrary_id}, "\n";
+%#         if ($primary_report->{reportgroup_arbitrary_id}) {
 %                       my @subreports = grep {
 %                                               print STDERR "ARBITRARY ************ ", $_->{id}, " --- ", $primary_report->{id}, "***********\n";
 %                                               $_->{id} ne $primary_report->{id}
@@ -84,6 +83,7 @@
 %                       foreach my $subreport (@subreports) {
 				<& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %                       }
+%#         }
 </%method>
 % # ----------------------------------------------------------------------
 <%perl>
@@ -133,10 +133,13 @@ sub which_group_member_testrun {
 %               my $which_group_member_arbitrary = which_group_member_arbitrary($report, \%group_counter_arbitrary, \%reportlist);
 %               my $which_group_member_testrun   = which_group_member_testrun($report,   \%group_counter_testrun,   \%reportlist);
 %               print STDERR $report->{id}," -- $which_group_member_arbitrary -- $which_group_member_testrun\n";
-%               my $last_group_member  = ($which_group_member_testrun =~ /LASTMEMBER/     or $which_group_member_arbitrary =~ /LASTMEMBER/)       ? 1 : 0;
-%               my $first_group_member = ($which_group_member_testrun =~ /FIRSTMEMBER/    or $which_group_member_arbitrary =~ /FIRSTMEMBER/)      ? 1 : 0;
+%               my $last_group_member  = ($which_group_member_testrun =~ /LASTMEMBER/      or $which_group_member_arbitrary =~ /LASTMEMBER/)      ? 1 : 0;
+%               my $first_group_member = ($which_group_member_testrun =~ /FIRSTMEMBER/     or $which_group_member_arbitrary =~ /FIRSTMEMBER/)     ? 1 : 0;
 %               my $just_group_member  = ($which_group_member_testrun =~ /^(FIRST)?MEMBER/ or $which_group_member_arbitrary =~ /^(FIRST)?MEMBER/) ? 1 : 0;
-                <& SELF:single_report, report => $report, just_group_member => $just_group_member &>
+%               if (not $just_group_member) {
+%#	                <& SELF:single_report, report => $report, just_group_member => $just_group_member &>
+                        <& SELF:sub_report_group_arbitrary, primary_report => $report, group_counter_arbitrary => \%group_counter_arbitrary &>
+%               }
 %#%               if ($last_group_member) {
 %#                        <& SELF:sub_report_group_arbitrary, primary_report => $report, group_counter_arbitrary => \%group_counter_arbitrary &>
 %#                        <& SELF:sub_report_group_testrun,   primary_report => $report, group_counter_testrun   => \%group_counter_testrun &>
@@ -146,8 +149,9 @@ sub which_group_member_testrun {
 %#                          <tr>##################################################<br/></tr>
 %#%               }
 %   }
-%#%#   print STDERR "counter a: ", Dumper(\%group_counter_arbitrary);
-%#%#   print STDERR "counter t: ", Dumper(\%group_counter_testrun);
+%   use Data::Dumper;
+%#   print STDERR "counter a: ", Dumper(\%group_counter_arbitrary);
+%#   print STDERR "counter t: ", Dumper(\%group_counter_testrun);
 %#%#   print STDERR "group a: ", Dumper($reportlist{reportgrouparbitrary});
 %#%#   print STDERR "group t: ", Dumper($reportlist{reportgrouptestrun});
         </tbody>
