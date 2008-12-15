@@ -30,7 +30,17 @@
                         <td><a title="Click to show reports on '<% $report->{machine_name} %>'" href="/artemis/reports/machine/<% $report->{machine_name} %>"><% $report->{machine_name} %></a></td>
                         <td class="<% lc $successgrade %>"><% $successgrade %></td>
                         <td>
-                                   <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
+                                  <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
+                        </td>
+                        <td>
+%                                 if (not $just_group_member and ($report->{reportgroup_arbitrary_id} or $report->{reportgroup_testrun_id})) {
+%                                        if ($report->{reportgroup_arbitrary_id}) {
+                                               <% $report->{reportgroup_arbitrary_id} %>
+%                                        }
+%                                        if ($report->{reportgroup_testrun_id}) {
+                                               <a href="#">testrun <% $report->{reportgroup_testrun_id} %></a>
+%                                        }
+%                         }
                         </td>
                 </tr>
 </%method>
@@ -135,6 +145,7 @@ sub which_group_member_testrun {
                          <th>machine</th>
                          <th>success</th>
                          <th>ratio</th>
+                         <th>grouped by</th>
                 </tr>
         </thead>
         <tbody>
