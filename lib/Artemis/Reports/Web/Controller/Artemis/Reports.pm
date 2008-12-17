@@ -44,6 +44,9 @@ sub prepare_simple_reportlist : Private
                          total                    => $report->total,
                          reportgroup_arbitrary_id => $reportgroup_arbitrary_id,
                          reportgroup_testrun_id   => $reportgroup_testrun_id,
+                         peerport                 => $report->peerport,
+                         peeraddr                 => $report->peeraddr,
+                         peerhost                 => $report->peerhost,
                         };
                 push @reports, $r;
                 push @{$reportgrouptestrun{$reportgroup_testrun_id}},     $report->id if $reportgroup_testrun_id;

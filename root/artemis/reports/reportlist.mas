@@ -27,7 +27,7 @@
                         </td>
                         <td><% $report->{created_at_ymd} %></td>
                         <td><a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/artemis/reports/suite/<% $report->{suite_id} %>"><% $report->{suite_name} %></a></td>
-                        <td><a title="Click to show reports on '<% $report->{machine_name} %>'" href="/artemis/reports/machine/<% $report->{machine_name} %>"><% $report->{machine_name} %></a></td>
+                        <td><a title="Click to show reports on '<% $report->{machine_name} %>' <% $report->{peeraddr} ? '('.$report->{peeraddr} .')' : ''%>" href="/artemis/reports/machine/<% $report->{machine_name} %>"><% $report->{machine_name} %></a></td>
                         <td class="<% lc $successgrade %>"><% $successgrade %></td>
                         <td>
                                   <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
