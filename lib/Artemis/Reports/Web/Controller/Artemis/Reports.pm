@@ -74,7 +74,7 @@ sub prepare_this_weeks_reportlists : Private
         my @this_weeks_reportlists : Stash = ();
 
         # how long is "last weeks"
-        my $days : Stash = $c->req->param('days');
+        my $days : Stash;
         my $lastday = $days ? $days - 1 : 6;
 
         # ----- general -----
@@ -128,7 +128,7 @@ sub prepare_navi : Private
         my $navi : Stash = [
                             {
                              title  => "reports by date",
-                             href   => "/artemis/reports/date/",
+                             href   => "/artemis/reports/date/7",
                              active => 0,
                              subnavi => [
                                          {
