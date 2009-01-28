@@ -73,6 +73,9 @@ sub prepare_this_weeks_reportlists : Private
         my $filter_condition       : Stash;
         my @this_weeks_reportlists : Stash = ();
 
+        # how long is "last weeks"
+        my $days : Stash = $c->req->param('days');
+        my $lastday = $days ? $days - 1 : 6;
 
         # ----- general -----
 
@@ -88,15 +91,8 @@ sub prepare_this_weeks_reportlists : Private
 
         my $parser = new DateTime::Format::Natural;
         my $today = $parser->parse_datetime("today at midnight");
-        my @day = (
-                   $today,                               # 0, e.g., Sunday
-                   $today->clone->subtract( days => 1 ), # 1, e.g., Saturday
-                   $today->clone->subtract( days => 2 ), # 2, e.g., Friday
-                   $today->clone->subtract( days => 3 ), # 3, e.g., Thursday
-                   $today->clone->subtract( days => 4 ), # 4, e.g., Wednesday
-                   $today->clone->subtract( days => 5 ), # 5, e.g., Tuesday
-                   $today->clone->subtract( days => 6 ), # 6, e.g., Monday
-                  );
+        my @day = ( $today );
+        push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
         my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
@@ -106,7 +102,7 @@ sub prepare_this_weeks_reportlists : Private
                                       };
 
         # ----- last week days -----
-        foreach (1..6) {
+        foreach (1..$lastday) {
                 my $day_reports = $reports->search ({ -and => [ created_at => { '>', $day[$_]     },
                                                                 created_at => { '<', $day[$_ - 1] },
                                                               ]});
@@ -117,9 +113,9 @@ sub prepare_this_weeks_reportlists : Private
         }
 
         # ----- the rest -----
-        my $rest_of_reports = $reports->search ({ created_at => { '<', $day[6] } });
+        my $rest_of_reports = $reports->search ({ created_at => { '<', $day[$lastday] } });
         push @this_weeks_reportlists, {
-                                       day => $day[6],
+                                       day => $day[$lastday],
                                        %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
                                       };
 
@@ -134,24 +130,28 @@ sub prepare_navi : Private
                              title  => "reports by date",
                              href   => "/artemis/reports/date/",
                              active => 0,
-#                              subnavi => [
-#                                          {
-#                                           title  => "week",
-#                                           href   => "/artemis/reports/date/week/",
-#                                          },
-#                                          {
-#                                           title  => "month",
-#                                           href   => "/artemis/reports/date/month/",
-#                                          },
-#                                          {
-#                                           title  => "year",
-#                                           href   => "/artemis/reports/date/year/",
-#                                          },
-#                                          {
-#                                           title  => "all",
-#                                           href   => "/artemis/reports/date/all/",
-#                                          },
-#                                         ],
+                             subnavi => [
+                                         {
+                                          title  => "1 week",
+                                          href   => "/artemis/reports/date/7",
+                                         },
+                                         {
+                                          title  => "2 weeks",
+                                          href   => "/artemis/reports/date/14",
+                                         },
+                                         {
+                                          title  => "3 weeks",
+                                          href   => "/artemis/reports/date/21",
+                                         },
+                                         {
+                                          title  => "1 month",
+                                          href   => "/artemis/reports/date/30",
+                                         },
+                                         {
+                                          title  => "2 months",
+                                          href   => "/artemis/reports/date/60",
+                                         },
+                                        ],
                             },
                             {
                              title  => "reports by suite",

@@ -1,8 +1,9 @@
 % my $navi = $c->stash->{navi};
 % foreach my $nav (@$navi) {
 %       my $href = $nav->{href};
-%       $href =~ s,(^/[^/]+/[^/]+/[^/]+).*,$1,; # only first three path elements
-%       my $highlight = $m->top_comp->path =~ /$href/ ? 1 : 0;
+%       my $tophref = $href;
+%       $tophref =~ s,(^/[^/]+/[^/]+/[^/]+).*,$1,; # only first three path elements
+%       my $highlight = $m->top_comp->path =~ /$tophref/ ? 1 : 0;
 	<h4>
 %           if ($highlight) {
                 <span>
@@ -20,6 +21,9 @@
 %                               my $subhref = $href;
 %                               $subhref =~ s,(^/[^/]+/[^/]+/[^/]+/[^/]+).*,$1,; # first four path elements
 %                               my $subhighlight = $m->top_comp->path =~ /$subhref/ ? 1 : 0;
+% print STDERR ("href: $href\n");
+% print STDERR ("subhref: $subhref\n");
+% print STDERR ("subhighlight: $subhighlight\n");
 %                               if ($highlight) {
                                         <span>
 %                               }

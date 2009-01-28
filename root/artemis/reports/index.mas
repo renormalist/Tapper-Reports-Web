@@ -7,7 +7,7 @@
 <p>
         <ul>
                 <li>
-                        <a href="/artemis/reports/date/">This week's test reports</a>
+                        <a href="/artemis/reports/date/7">Last weeks test reports</a>
                 </li>
                 <li>
                         <a href="/artemis/reports/suite/all">All test suites</a>
