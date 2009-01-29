@@ -12,7 +12,7 @@ sub index :Path :Args(1)
 
         if ($report) {
                 $c->response->content_type ('plain');
-                $c->response->header ("Content-Disposition" => 'attachment; filename="tap-'.$report_id.'.tap"');
+                $c->response->header ("Content-Disposition" => 'inline; filename="tap-'.$report_id.'.tap"');
                 $c->response->body ($report->tap);
         }
 }

@@ -10,8 +10,9 @@ sub index :Path :Args(1)
         my $reportfile : Stash = $c->model('ReportsDB')->resultset('ReportFile')->find($report_id);
 
         if ($reportfile) {
+                my $disposition = $reportfile->contenttype =~ /plain/ ? 'inline' : 'attachment';
                 $c->response->content_type ($reportfile->contenttype || 'application/octet-stream');
-                $c->response->header ("Content-Disposition" => 'attachment; filename="'.$reportfile->filename.'"');
+                $c->response->header ("Content-Disposition" => $disposition.'; filename="'.$reportfile->filename.'"');
                 $c->response->body ($reportfile->filecontent);
         }
 }
