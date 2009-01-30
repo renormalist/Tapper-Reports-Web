@@ -31,6 +31,7 @@ sub prepare_simple_reportlist : Private
                 #print STDERR join(", ", $report->get_columns), "\n";
                 my $reportgroup_arbitrary_id = $report->get_column('arbitrary_id');
                 my $reportgroup_testrun_id   = $report->get_column('testrun_id');
+                my $reportgroup_primary      = $report->get_column('primaryreport');
                 my $r = {
                          id                       => $report->id,
                          suite_name               => $report->suite ? $report->suite->name : 'unknown',
@@ -44,6 +45,7 @@ sub prepare_simple_reportlist : Private
                          total                    => $report->total,
                          reportgroup_arbitrary_id => $reportgroup_arbitrary_id,
                          reportgroup_testrun_id   => $reportgroup_testrun_id,
+                         reportgroup_primary      => $reportgroup_primary,
                          peerport                 => $report->peerport,
                          peeraddr                 => $report->peeraddr,
                          peerhost                 => $report->peerhost,
