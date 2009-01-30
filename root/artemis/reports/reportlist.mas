@@ -168,17 +168,7 @@ sub which_group_member_testrun {
 %                       say STDERR "counter a: ", scalar keys %group_counter_arbitrary;
 %                       say STDERR "counter t: ", scalar keys %group_counter_testrun;
 %               }
-%#%               if ($last_group_member) {
-%#                        <& SELF:sub_report_group_arbitrary, primary_report => $report, group_counter_arbitrary => \%group_counter_arbitrary &>
-%#                        <& SELF:sub_report_group_testrun,   primary_report => $report, group_counter_testrun   => \%group_counter_testrun &>
-%#%               } elsif (not $just_group_member) {
-%#                	<& SELF:single_report, report => $report, just_group_member => $just_group_member &>
-%#%               } else {
-%#                          <tr>##################################################<br/></tr>
-%#%               }
 %   }
-%#%#   print STDERR "group a: ", Dumper($reportlist{reportgrouparbitrary});
-%#%#   print STDERR "group t: ", Dumper($reportlist{reportgrouptestrun});
         </tbody>
     </table>
 % }
