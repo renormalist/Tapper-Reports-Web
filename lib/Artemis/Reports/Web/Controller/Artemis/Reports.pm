@@ -1,5 +1,6 @@
 package Artemis::Reports::Web::Controller::Artemis::Reports;
 
+use 5.010;
 use strict;
 use warnings;
 
@@ -23,50 +24,98 @@ sub prepare_simple_reportlist : Private
 {
         my ( $self, $c, $reports ) = @_;
 
+        # Mnemonic:
+        #           rga = ReportGroup Arbitrary
+        #           rgt = ReportGroup Testrun
+
+        my @all_reports;
         my @reports;
-        my %reportgrouptestrun;
-        my %reportgrouparbitrary;
-        while (my $report = $reports->next)
+        my %rgt;
+        my %rga;
+        my %rgt_prims;
+        my %rga_prims;
+        say STDERR "------------------------------------------- {";
+        foreach my $report ($reports->all)
         {
                 #print STDERR join(", ", $report->get_columns), "\n";
-                my $reportgroup_arbitrary_id      = $report->get_column('arbitrary_id');
-                my $reportgroup_testrun_id        = $report->get_column('testrun_id');
-                my $reportgroup_arbitrary_primary = $report->get_column('arbitrary_primaryreport');
-                my $reportgroup_testrun_primary   = $report->get_column('testrun_primaryreport');
+                my $rga_id      = $report->get_column('rga_id');
+                my $rgt_id      = $report->get_column('rgt_id');
+                my $rga_primary = $report->get_column('rga_primary');
+                my $rgt_primary = $report->get_column('rgt_primary');
                 my $r = {
-                         id                            => $report->id,
-                         suite_name                    => $report->suite ? $report->suite->name : 'unknown',
-                         suite_id                      => $report->suite ? $report->suite->id : '0',
-                         machine_name                  => $report->machine_name || 'unknown',
-                         created_at_ymd_hms            => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         created_at_ymd                => $report->created_at->ymd('-'),
-                         success_ratio                 => $report->success_ratio,
-                         successgrade                  => $report->successgrade,
-                         reviewed_successgrade         => $report->reviewed_successgrade,
-                         total                         => $report->total,
-                         reportgroup_arbitrary_id      => $reportgroup_arbitrary_id,
-                         reportgroup_testrun_id        => $reportgroup_testrun_id,
-                         reportgroup_arbitrary_primary => $reportgroup_arbitrary_primary,
-                         reportgroup_testrun_primary   => $reportgroup_testrun_primary,
-                         peerport                      => $report->peerport,
-                         peeraddr                      => $report->peeraddr,
-                         peerhost                      => $report->peerhost,
+                         id                    => $report->id,
+                         suite_name            => $report->suite ? $report->suite->name : 'unknown',
+                         suite_id              => $report->suite ? $report->suite->id : '0',
+                         machine_name          => $report->machine_name || 'unknown',
+                         created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
+                         created_at_ymd        => $report->created_at->ymd('-'),
+                         success_ratio         => $report->success_ratio,
+                         successgrade          => $report->successgrade,
+                         reviewed_successgrade => $report->reviewed_successgrade,
+                         total                 => $report->total,
+                         rga_id                => $rga_id,
+                         rga_primary           => $rga_primary,
+                         rgt_id                => $rgt_id,
+                         rgt_primary           => $rgt_primary,
+                         peerport              => $report->peerport,
+                         peeraddr              => $report->peeraddr,
+                         peerhost              => $report->peerhost,
                         };
-                push @reports, $r;
-                push @{$reportgrouptestrun{$reportgroup_testrun_id}},     $report->id if $reportgroup_testrun_id;
-                push @{$reportgrouparbitrary{$reportgroup_arbitrary_id}}, $report->id if $reportgroup_arbitrary_id;
+                # --- arbitrary ---
+                if ($rga_id and $rga_primary)
+                {
+                        push @reports, $r;
+                        $rga_prims{$rga_id} = 1;
+                }
+                if ($rga_id and not $rga_primary)
+                {
+                        push @{$rga{$rga_id}}, $r;
+                }
+
+                # --- testrun ---
+                if ($rgt_id and $rgt_primary)
+                {
+                        push @reports, $r;
+                        $rgt_prims{$rgt_id} = 1;
+                }
+                if ($rgt_id and not $rgt_primary)
+                {
+                        push @{$rgt{$rgt_id}}, $r;
+                }
+
+                # --- none ---
+                if (! $rgt_id and ! $rgt_id)
+                {
+                        push @reports, $r;
+                }
+
+                push @all_reports, $r; # for easier overall stats
         }
-        # delete single entry groups
-        foreach (keys %reportgrouptestrun) {
-                delete $reportgrouptestrun{$_} if @{$reportgrouptestrun{$_}} == 1;
+        say STDERR "\n------------------------------------------- }";
+        # Find groups without primary report
+        my @rga_noprim;
+        my @rgt_noprim;
+        foreach (keys %rga) {
+                push @rga_noprim, $_ unless $rga_prims{$_};
         }
-        foreach (keys %reportgrouparbitrary) {
-                delete $reportgrouparbitrary{$_} if @{$reportgrouparbitrary{$_}} == 1;
+        foreach (keys %rgt) {
+                push @rgt_noprim, $_ unless $rgt_prims{$_};
         }
+        # Pull out latest one and put into @reports as primary
+        foreach (@rga_noprim) {
+                my $rga_primary_id = (sort @{$rga{$_}})[-1];
+                push @reports, delete $rga{$rga_primary_id};
+        }
+        foreach (@rgt_noprim) {
+                my $rgt_primary_id = (sort @{$rgt{$_}})[-1];
+                push @reports, delete $rgt{$rgt_primary_id};
+        }
+
         return {
-                reports              => \@reports,
-                reportgrouptestrun   => \%reportgrouptestrun,
-                reportgrouparbitrary => \%reportgrouparbitrary
+                all_reports => \@all_reports,
+                reports     => \@reports,
+                rga         => \%rga,
+                rgt         => \%rgt,
                };
 }
 
@@ -83,13 +132,14 @@ sub prepare_this_weeks_reportlists : Private
 
         # ----- general -----
 
+        # Mnemonic: rga = ReportGroupArbitrary, rgt = ReportGroupTestrun
         my $reports = $c->model('ReportsDB')->resultset('Report')->search
             (
              $filter_condition,
              {  order_by  => 'id desc',
                 join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', ],
                 '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport' ],
-                '+as'     => [ 'arbitrary_id',                      'arbitrary_primaryreport',            'testrun_id',                    'testrun_primaryreport'            ],
+                '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary'                      ],
              }
             );
 
