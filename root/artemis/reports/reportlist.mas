@@ -48,7 +48,7 @@
 % my @reports = @{$reportlist{reports}};
 % my @ids = map { $_->{id} } @reports;
 % use Data::Dumper;
-% #print STDERR Dumper (\@ids);
+% print STDERR Dumper (\@ids);
 % my %rga = %{$reportlist{rga}};
 % my %rgt = %{$reportlist{rgt}};
 % if (@reports) {
@@ -65,22 +65,24 @@
                 </tr>
         </thead>
         <tbody>
-%   my %group_counter_arbitrary;
-%   my %group_counter_testrun;
 %   foreach my $report (@reports) {
-%       print STDERR $report->{id}, "\n";
+%       print STDERR sprintf("report: %s - %s - %s \n", $report->{id}, $report->{rga_primary}, $report->{rga_primary});
 %       my $rga_id = $report->{rga_id};
 %       my $rgt_id = $report->{rgt_id};
+%       my $rga_primary = $report->{rga_primary};
+%       my $rgt_primary = $report->{rgt_primary};
 %       # the lead report
         <& SELF:single_report, report => $report &>
 %       # the remaining group reports, if group at all
-%       if ($rga_id) {
-%             foreach my $subreport (@{$rga{$rga_id}}) { # sort { $a->{id} <=> $b->{id} } 
+%       if ($rga_primary) {
+%             print STDERR "rga_primary $rga_id ******************************************\n";
+%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rga{$rga_id}}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }
 %       }
-%       if ($rgt_id) {
-%             foreach my $subreport (@{$rgt{$rgt_id}}) { # sort { $a->{id} <=> $b->{id} } 
+%       if ($rgt_primary) {
+%             print STDERR "rgt_primary $rgt_id ******************************************\n";
+%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rgt{$rgt_id}}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }
 %       }

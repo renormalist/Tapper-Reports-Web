@@ -62,6 +62,7 @@ sub prepare_simple_reportlist : Private
                          peeraddr              => $report->peeraddr,
                          peerhost              => $report->peerhost,
                         };
+                say STDERR sprintf("* r: %s - %s - %s ", $r->{id}, $r->{rga_primary}||'', $r->{rga_primary}||'');
                 #say STDERR "r = ".Dumper($r);# unless $r->{id};
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
