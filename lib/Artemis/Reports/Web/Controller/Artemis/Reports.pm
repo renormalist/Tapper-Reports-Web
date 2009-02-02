@@ -7,6 +7,7 @@ use warnings;
 use parent 'Artemis::Reports::Web::Controller::Base';
 
 use DateTime::Format::Natural;
+use Data::Dumper;
 
 sub auto :Pivate
 {
@@ -37,7 +38,6 @@ sub prepare_simple_reportlist : Private
         say STDERR "------------------------------------------- {";
         foreach my $report ($reports->all)
         {
-                say STDERR $report->id;
                 #print STDERR join(", ", $report->get_columns), "\n";
                 my $rga_id      = $report->get_column('rga_id');
                 my $rgt_id      = $report->get_column('rgt_id');
@@ -62,6 +62,7 @@ sub prepare_simple_reportlist : Private
                          peeraddr              => $report->peeraddr,
                          peerhost              => $report->peerhost,
                         };
+                #say STDERR "r = ".Dumper($r);# unless $r->{id};
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
                 {
@@ -93,6 +94,7 @@ sub prepare_simple_reportlist : Private
                 push @all_reports, $r; # for easier overall stats
         }
         say STDERR "\n------------------------------------------- }";
+
         # Find groups without primary report
         my @rga_noprim;
         my @rgt_noprim;
@@ -104,12 +106,14 @@ sub prepare_simple_reportlist : Private
         }
         # Pull out latest one and put into @reports as primary
         foreach (@rga_noprim) {
-                my $rga_primary_id = (sort @{$rga{$_}})[-1];
-                push @reports, delete $rga{$rga_primary_id};
+                my $rga_primary = pop @{$rga{$_}};
+                say STDERR "semi rga_primary: ".Dumper($rga_primary);
+                push @reports, $rga_primary;
         }
         foreach (@rgt_noprim) {
-                my $rgt_primary_id = (sort @{$rgt{$_}})[-1];
-                push @reports, delete $rgt{$rgt_primary_id};
+                my $rgt_primary = pop @{$rgt{$_}};
+                say STDERR "semi rgt_primary: ".Dumper($rgt_primary);
+                push @reports, $rgt_primary;
         }
 
         return {
