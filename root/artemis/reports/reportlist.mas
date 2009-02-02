@@ -33,12 +33,12 @@
                                   <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
                         </td>
                         <td>
-%                                 if (not $just_group_member and ($report->{reportgroup_arbitrary_id} or $report->{reportgroup_testrun_id})) {
-%                                        if ($report->{reportgroup_arbitrary_id}) {
-                                               <% $report->{reportgroup_arbitrary_id} %>
+%                                 if (not $just_group_member) {
+%                                        if ($report->{rga_id}) {
+                                               <% $report->{rga_id} %>
 %                                        }
-%                                        if ($report->{reportgroup_testrun_id}) {
-                                               <a href="#">testrun <% $report->{reportgroup_testrun_id} %></a>
+%                                        if ($report->{rgt_id}) {
+                                               <a href="#">testrun <% $report->{rgt_id} %></a>
 %                                        }
 %                         }
                         </td>
@@ -48,7 +48,7 @@
 % my @reports = @{$reportlist{reports}};
 % my @ids = map { $_->{id} } @reports;
 % use Data::Dumper;
-% print STDERR Dumper (\@ids);
+% #print STDERR Dumper (\@ids);
 % my %rga = %{$reportlist{rga}};
 % my %rgt = %{$reportlist{rgt}};
 % if (@reports) {
@@ -68,6 +68,7 @@
 %   my %group_counter_arbitrary;
 %   my %group_counter_testrun;
 %   foreach my $report (@reports) {
+%       print STDERR $report->{id}, "\n";
 %       my $rga_id = $report->{rga_id};
 %       my $rgt_id = $report->{rgt_id};
 %       # the lead report
