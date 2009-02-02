@@ -23,9 +23,9 @@
 %                               my $subhref = $href;
 %                               $subhref =~ s,(^/[^/]+/[^/]+/[^/]+/[^/]+).*,$1,; # first four path elements
 %                               my $subhighlight = $path =~ /$subhref/ ? 1 : 0;
-% print STDERR ("path: ".$path."\n");
-% print STDERR ("subhref: $subhref\n");
-% print STDERR ("subhighlight: $subhighlight\n");
+% #print STDERR ("path: ".$path."\n");
+% #print STDERR ("subhref: $subhref\n");
+% #print STDERR ("subhighlight: $subhighlight\n");
 %                               if ($subhighlight) {
                                         <b>
 %                               }

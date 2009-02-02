@@ -48,7 +48,7 @@
 % my @reports = @{$reportlist{reports}};
 % my @ids = map { $_->{id} } @reports;
 % use Data::Dumper;
-% print STDERR Dumper (\@ids);
+% #print STDERR Dumper (\@ids);
 % my %rga = %{$reportlist{rga}};
 % my %rgt = %{$reportlist{rgt}};
 % if (@reports) {
@@ -66,7 +66,7 @@
         </thead>
         <tbody>
 %   foreach my $report (@reports) {
-%       print STDERR sprintf("report: %s - %s - %s \n", $report->{id}, $report->{rga_primary}, $report->{rga_primary});
+%       #print STDERR sprintf("report: %s - %s - %s \n", $report->{id}, $report->{rga_primary}, $report->{rgt_primary});
 %       my $rga_id = $report->{rga_id};
 %       my $rgt_id = $report->{rgt_id};
 %       my $rga_primary = $report->{rga_primary};
@@ -75,13 +75,13 @@
         <& SELF:single_report, report => $report &>
 %       # the remaining group reports, if group at all
 %       if ($rga_primary) {
-%             print STDERR "rga_primary $rga_id ******************************************\n";
+%             #print STDERR "  *** rga_primary $rga_id\n";
 %             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rga{$rga_id}}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }
 %       }
 %       if ($rgt_primary) {
-%             print STDERR "rgt_primary $rgt_id ******************************************\n";
+%             #print STDERR "  *** rgt_primary $rgt_id\n";
 %             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rgt{$rgt_id}}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }

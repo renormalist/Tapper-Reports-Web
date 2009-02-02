@@ -35,11 +35,11 @@ sub prepare_simple_reportlist : Private
         my %rga;
         my %rgt_prims;
         my %rga_prims;
-        say STDERR "------------------------------------------- {";
+        #say STDERR "------------------------------------------- {";
         foreach my $report ($reports->all)
         {
                 my %cols = $report->get_columns;
-                print STDERR Dumper(\%cols);
+                #print STDERR Dumper(\%cols);
                 my $rga_id      = $cols{rga_id};
                 my $rga_primary = $cols{rga_primary};
                 my $rgt_id      = $cols{rgt_id};
@@ -63,7 +63,7 @@ sub prepare_simple_reportlist : Private
                          peeraddr              => $report->peeraddr,
                          peerhost              => $report->peerhost,
                         };
-                say STDERR sprintf("* r: %s - %s - %s ", $r->{id}, $r->{rga_primary}||'', $r->{rga_primary}||'');
+                # say STDERR sprintf("* r: %s - %s - %s ", $r->{id}, $r->{rga_primary}||'', $r->{rga_primary}||'');
                 #say STDERR "r = ".Dumper($r);# unless $r->{id};
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
@@ -95,7 +95,7 @@ sub prepare_simple_reportlist : Private
 
                 push @all_reports, $r; # for easier overall stats
         }
-        say STDERR "\n------------------------------------------- }";
+        #say STDERR "\n------------------------------------------- }";
 
         # Find groups without primary report
         my @rga_noprim;
@@ -109,12 +109,12 @@ sub prepare_simple_reportlist : Private
         # Pull out latest one and put into @reports as primary
         foreach (@rga_noprim) {
                 my $rga_primary = pop @{$rga{$_}};
-                say STDERR "semi rga_primary: ".Dumper($rga_primary);
+                #say STDERR "semi rga_primary: ".Dumper($rga_primary);
                 push @reports, $rga_primary;
         }
         foreach (@rgt_noprim) {
                 my $rgt_primary = pop @{$rgt{$_}};
-                say STDERR "semi rgt_primary: ".Dumper($rgt_primary);
+                #say STDERR "semi rgt_primary: ".Dumper($rgt_primary);
                 push @reports, $rgt_primary;
         }
 
