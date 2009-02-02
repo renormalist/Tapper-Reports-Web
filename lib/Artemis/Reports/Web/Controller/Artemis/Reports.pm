@@ -38,11 +38,12 @@ sub prepare_simple_reportlist : Private
         say STDERR "------------------------------------------- {";
         foreach my $report ($reports->all)
         {
-                #print STDERR join(", ", $report->get_columns), "\n";
-                my $rga_id      = $report->get_column('rga_id');
-                my $rgt_id      = $report->get_column('rgt_id');
-                my $rga_primary = $report->get_column('rga_primary');
-                my $rgt_primary = $report->get_column('rgt_primary');
+                my %cols = $report->get_columns;
+                print STDERR Dumper(\%cols);
+                my $rga_id      = $cols{rga_id};
+                my $rga_primary = $cols{rga_primary};
+                my $rgt_id      = $cols{rgt_id};
+                my $rgt_primary = $cols{rgt_primary};
                 my $r = {
                          id                    => $report->id,
                          suite_name            => $report->suite ? $report->suite->name : 'unknown',
