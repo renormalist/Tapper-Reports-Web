@@ -76,13 +76,13 @@
 %       # the remaining group reports, if group at all
 %       if ($rga_primary) {
 %             #print STDERR "  *** rga_primary $rga_id\n";
-%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rga{$rga_id}}) {
+%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rga{$rga_id || []}}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }
 %       }
 %       if ($rgt_primary) {
 %             #print STDERR "  *** rgt_primary $rgt_id\n";
-%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rgt{$rgt_id}}) {
+%             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rgt{$rgt_id} || []}) {
                      <& SELF:single_report, report => $subreport, just_group_member => 1 &>
 %             }
 %       }
