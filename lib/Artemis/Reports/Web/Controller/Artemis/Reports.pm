@@ -29,26 +29,28 @@ sub prepare_simple_reportlist : Private
         while (my $report = $reports->next)
         {
                 #print STDERR join(", ", $report->get_columns), "\n";
-                my $reportgroup_arbitrary_id = $report->get_column('arbitrary_id');
-                my $reportgroup_testrun_id   = $report->get_column('testrun_id');
-                my $reportgroup_primary      = $report->get_column('primaryreport');
+                my $reportgroup_arbitrary_id      = $report->get_column('arbitrary_id');
+                my $reportgroup_testrun_id        = $report->get_column('testrun_id');
+                my $reportgroup_arbitrary_primary = $report->get_column('arbitrary_primaryreport');
+                my $reportgroup_testrun_primary   = $report->get_column('testrun_primaryreport');
                 my $r = {
-                         id                       => $report->id,
-                         suite_name               => $report->suite ? $report->suite->name : 'unknown',
-                         suite_id                 => $report->suite ? $report->suite->id : '0',
-                         machine_name             => $report->machine_name || 'unknown',
-                         created_at_ymd_hms       => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         created_at_ymd           => $report->created_at->ymd('-'),
-                         success_ratio            => $report->success_ratio,
-                         successgrade             => $report->successgrade,
-                         reviewed_successgrade    => $report->reviewed_successgrade,
-                         total                    => $report->total,
-                         reportgroup_arbitrary_id => $reportgroup_arbitrary_id,
-                         reportgroup_testrun_id   => $reportgroup_testrun_id,
-                         reportgroup_primary      => $reportgroup_primary,
-                         peerport                 => $report->peerport,
-                         peeraddr                 => $report->peeraddr,
-                         peerhost                 => $report->peerhost,
+                         id                            => $report->id,
+                         suite_name                    => $report->suite ? $report->suite->name : 'unknown',
+                         suite_id                      => $report->suite ? $report->suite->id : '0',
+                         machine_name                  => $report->machine_name || 'unknown',
+                         created_at_ymd_hms            => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
+                         created_at_ymd                => $report->created_at->ymd('-'),
+                         success_ratio                 => $report->success_ratio,
+                         successgrade                  => $report->successgrade,
+                         reviewed_successgrade         => $report->reviewed_successgrade,
+                         total                         => $report->total,
+                         reportgroup_arbitrary_id      => $reportgroup_arbitrary_id,
+                         reportgroup_testrun_id        => $reportgroup_testrun_id,
+                         reportgroup_arbitrary_primary => $reportgroup_arbitrary_primary,
+                         reportgroup_testrun_primary   => $reportgroup_testrun_primary,
+                         peerport                      => $report->peerport,
+                         peeraddr                      => $report->peeraddr,
+                         peerhost                      => $report->peerhost,
                         };
                 push @reports, $r;
                 push @{$reportgrouptestrun{$reportgroup_testrun_id}},     $report->id if $reportgroup_testrun_id;
@@ -85,9 +87,9 @@ sub prepare_this_weeks_reportlists : Private
             (
              $filter_condition,
              {  order_by  => 'id desc',
-                join      => [ 'reportgrouparbitrary',              'reportgrouptestrun' ],
-                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouptestrun.testrun_id' ],
-                '+as'     => [ 'arbitrary_id',                      'testrun_id' ]
+                join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', ],
+                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport' ],
+                '+as'     => [ 'arbitrary_id',                      'arbitrary_primaryreport',            'testrun_id',                    'testrun_primaryreport'            ],
              }
             );
 
