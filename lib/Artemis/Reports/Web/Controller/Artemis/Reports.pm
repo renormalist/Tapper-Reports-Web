@@ -87,7 +87,7 @@ sub prepare_simple_reportlist : Private
                 }
 
                 # --- none ---
-                if (! $rgt_id and ! $rgt_id)
+                if (! $rga_id and ! $rgt_id)
                 {
                         push @reports, $r;
                 }
