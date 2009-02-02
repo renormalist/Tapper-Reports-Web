@@ -9,9 +9,9 @@
 % my $count_fail    = 0;
 % my $count_unknown = 0;
 % foreach (0..$lastday) {
-%       my $reportlist = $week_reportlists[$_]; #->{reports};
-%       $count_all += @{$reportlist->{reports}};
-%       foreach my $report (@{$reportlist->{reports}}) {
+%       my $reportlist = $week_reportlists[$_];
+%       $count_all += @{$reportlist->{all_reports}};
+%       foreach my $report (@{$reportlist->{all_reports}}) {
 %               if    ($report->{successgrade} eq 'PASS') { $count_pass++    }
 %               elsif ($report->{successgrade} eq 'FAIL') { $count_fail++    }
 %               else                                      { $count_unknown++ }
@@ -28,10 +28,8 @@
 % foreach (0..$lastday) {
 %       my $day_infos = $week_reportlists[$_];
 %       my $day        = $day_infos->{day};
-%       my $reportlist = $day_infos; #->{reports};
-%       my $reportgrouptestrun = $day_infos->{reportgrouptestrun};
-%#       use Data::Dumper;
-%#       print STDERR Dumper($reportgrouptestrun);
+%       my $reportlist = $day_infos;
+%       # my $rgt = $day_infos->{rgt};
         <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
 <& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
 % }
