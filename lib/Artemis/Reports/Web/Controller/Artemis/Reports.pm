@@ -37,6 +37,7 @@ sub prepare_simple_reportlist : Private
         say STDERR "------------------------------------------- {";
         foreach my $report ($reports->all)
         {
+                say STDERR $report->id;
                 #print STDERR join(", ", $report->get_columns), "\n";
                 my $rga_id      = $report->get_column('rga_id');
                 my $rgt_id      = $report->get_column('rgt_id');
@@ -166,12 +167,12 @@ sub prepare_this_weeks_reportlists : Private
                                               };
         }
 
-        # ----- the rest -----
-        my $rest_of_reports = $reports->search ({ created_at => { '<', $day[$lastday] } });
-        push @this_weeks_reportlists, {
-                                       day => $day[$lastday],
-                                       %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
-                                      };
+#         # ----- the rest -----
+#         my $rest_of_reports = $reports->search ({ created_at => { '<', $day[$lastday] } });
+#         push @this_weeks_reportlists, {
+#                                        day => $day[$lastday],
+#                                        %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
+#                                       };
 
 }
 
