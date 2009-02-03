@@ -126,6 +126,11 @@ tr.justgroupmember a
   color: #BBB;
 }
 
+tr.highlight
+{
+  background-color: #ffff00
+}
+
 
 /* Header */
 
