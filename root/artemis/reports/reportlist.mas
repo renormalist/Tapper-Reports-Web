@@ -1,19 +1,30 @@
 <%args>
-        %reportlist
+    %reportlist
+    $mark_report_id => 0
 </%args>
 % # ----------------------------------------------------------------------
 <%method single_report>
   <%args>
   $report
   $just_group_member => 0
+  $mark_report_id    => 0
   </%args>
 %               my $full_width   = 50;
 %               my $green_width  = int (       $report->{success_ratio}  * $full_width / 100);
 %               my $red_width    = int ((100 - $report->{success_ratio}) * $full_width / 100);
 %               my $successgrade = $report->{successgrade} ? $report->{successgrade} : 'UNKNOWN';
-%               my $class_attr   = $just_group_member ? ' class=justgroupmember' : '';
+%               my $class_attr   = $just_group_member ? ' class="justgroupmember"' : '';
+%               print STDERR "             * $class_attr";
+%               if ($mark_report_id == $report->{id}) {
+%                       if ($class_attr) {
+%                               $class_attr =~ s/( class=".*)"/$1 highlight"/;          # "
+%                       } else {
+%                               $class_attr = ' class="highlight"';
+%                       }
+%               }
+%               print STDERR " --> $class_attr\n";
 %               my $dimmed       = $just_group_member ? '_dimmed' : '';
-                <tr<% $class_attr %>>
+                <tr<% $class_attr | n %>>
                         <td class="reportid">
 %                         if (not $just_group_member) {
                               <b>
@@ -72,18 +83,18 @@
 %       my $rga_primary = $report->{rga_primary};
 %       my $rgt_primary = $report->{rgt_primary};
 %       # the lead report
-        <& SELF:single_report, report => $report &>
+        <& SELF:single_report, report => $report, mark_report_id => $mark_report_id &>
 %       # the remaining group reports, if group at all
 %       if ($rga_primary) {
 %             #print STDERR "  *** rga_primary $rga_id\n";
 %             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rga{$rga_id || []}}) {
-                     <& SELF:single_report, report => $subreport, just_group_member => 1 &>
+                     <& SELF:single_report, report => $subreport, just_group_member => 1, mark_report_id => $mark_report_id &>
 %             }
 %       }
 %       if ($rgt_primary) {
 %             #print STDERR "  *** rgt_primary $rgt_id\n";
 %             foreach my $subreport (sort { $b->{id} <=> $a->{id} } @{$rgt{$rgt_id} || []}) {
-                     <& SELF:single_report, report => $subreport, just_group_member => 1 &>
+                     <& SELF:single_report, report => $subreport, just_group_member => 1, mark_report_id => $mark_report_id &>
 %             }
 %       }
 %   }

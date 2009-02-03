@@ -1,5 +1,7 @@
 <%args>
-        $report
+    $report
+    %reportlist_rga => {}
+    %reportlist_rgt => {}
 </%args>
 <link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/tap_formatter_html.css" />
 <script type="text/javascript" src="/artemis/static/js/tap_formatter_html_jquery-1.2.3.pack.js"></script>
@@ -46,7 +48,7 @@
         </p>
 
         <& /artemis/reports/report_files.mas, report => $report &>
-
+        <& /artemis/reports/report_group_list.mas, report => $report, reportlist_rga => \%reportlist_rga, reportlist_rgt => \%reportlist_rgt &>
 % }
 
 %# Local Variables:
