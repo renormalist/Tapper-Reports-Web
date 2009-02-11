@@ -193,6 +193,10 @@ sub prepare_navi : Private
                              active => 0,
                              subnavi => [
                                          {
+                                          title  => "today",
+                                          href   => "/artemis/reports/date/1",
+                                         },
+                                         {
                                           title  => "1 week",
                                           href   => "/artemis/reports/date/7",
                                          },
