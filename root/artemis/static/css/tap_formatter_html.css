@@ -215,6 +215,8 @@ table.detail tr.severity-very-high td.c {
 	/* background-color: #ff6450; */
 }
 
+/* --- sschwigo: color only in summary percentage --- */
+
 table tfoot td.severity-very-low {
 	background-color: #ffaa77;
 }
@@ -229,6 +231,10 @@ table tfoot td.severity-high {
 }
 table tfoot td.severity-very-high {
 	background-color: #ff6450;
+}
+
+.yml {
+      white-space: pre
 }
 
 
