@@ -233,10 +233,6 @@ table tfoot td.severity-very-high {
 	background-color: #ff6450;
 }
 
-.yml {
-      white-space: pre
-}
-
 
 /******************************************************************************
  * The test run column
@@ -391,3 +387,8 @@ ul.test-out li.unk { /* unk=unknown */
 ul.test-out li.stat { /* stat=exit-status */
         color: #ff0000;
 }
+
+ul.test-out li.yml {
+        white-space: pre
+}
+
