@@ -147,6 +147,7 @@ table.detail td.time {
 	border-left: 1px solid #ddddff;
 	text-align: center;
 	font-size: small;
+	display: none; /* hidden by default */
 }
 
 /******************************************************************************
