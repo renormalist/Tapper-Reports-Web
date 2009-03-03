@@ -162,40 +162,75 @@ table.detail td.percent {
 	vertical-align: middle;
 }
 
-table.detail td.passed {
-	border: 1px solid #99cc99;
-	background-color: #99ff66;
+/******************************************************************************
+ * Colouring the file & percentage columns
+ */
+table.detail tr.percent td.c {
+	padding-left: 2px;
+	padding-right: 2px;
+	width: 2%;
+	text-align: center;
+	font-size: small;
+	vertical-align: middle;
 }
 
-table.detail td.todo-passed {
-	border: 1px solid #99cc99;
+table.detail tr.passed td.c {
+	/* border: 1px solid #99cc99; */
+}
+
+table.detail tr.passed td.cb {
+	/* background-color: #99ff66; */
+}
+
+table.detail tr.todo-passed td.c {
+	/* border: 1px solid #99cc99; */
+}
+
+table.detail tr.todo-passed td.cb {
 	background-color: #ddffbb;
 }
 
-table.detail td.severity-very-low {
+table.detail tr.severity-very-low td.c {
 	border: 1px solid #ffee33;
-	background-color: #ffffaa;
+	/* background-color: #ffffaa; */
 }
 
-table.detail td.severity-low {
-	border: 1px solid #eecc33;
-	background-color: #ffdd99;
+table.detail tr.severity-low td.c {
+	/* border: 1px solid #eecc33; */
+	/* background-color: #ffdd99; */
 }
 
-table.detail td.severity-med {
-	border: 1px solid #dd6633;
+table.detail tr.severity-med td.c {
+	/* border: 1px solid #dd6633; */
+	/* background-color: #ffaa77; */
+}
+
+table.detail tr.severity-high td.c {
+	/* border: 1px solid #ff3333; */
+	/* background-color: #ff8866; */
+}
+
+table.detail tr.severity-very-high td.c {
+	/* border: 1px solid #ff0000; */
+	/* background-color: #ff6450; */
+}
+
+table tfoot td.severity-very-low {
 	background-color: #ffaa77;
 }
-
-table.detail td.severity-high {
-	border: 1px solid #ff3333;
+table tfoot td.severity-low {
+	background-color: #ffdd99;
+}
+table tfoot td.severity-med {
+	background-color: #ffaa77;
+}
+table tfoot td.severity-high {
 	background-color: #ff8866;
 }
-
-table.detail td.severity-very-high {
-	border: 1px solid #ff0000;
+table tfoot td.severity-very-high {
 	background-color: #ff6450;
 }
+
 
 /******************************************************************************
  * The test run column
