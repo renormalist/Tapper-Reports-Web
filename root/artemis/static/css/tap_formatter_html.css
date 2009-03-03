@@ -1,20 +1,31 @@
 /******************************************************************************
- * TAP-Formatter-HTML: default report stylesheet
+ * TAP-Formatter-HTML: default stylesheet for report body
  * Copyright (c) 2008 Steve Purkis.  All rights reserved.
  * Released under the same terms as Perl itself.
  * Modified for Artemis by Steffen Schwigon.
  *****************************************************************************/
 
-/* html { */
-/* 	width: 100%; */
-/* 	height: 100%; */
-/* } */
+/******************************************************************************
+/* The menu bar
+ */
+#menu {
+	display: none; /* hidden by default */
+	position: absolute;
+	left: 8px;
+	top: 8px;
+	padding: 2px;
+	width: 100px;
+	height: 26px;
+	font-size: small;
+	background-color: #eeffcc;
+	opacity: 0.5;
+}
 
-/* body { */
-/* 	font-family: Helvetica, Verdana, Arial, Tahoma; */
-/* 	font-size: small; */
-/* 	background-color: #efefef; */
-/* } */
+#menu li {
+	text-decoration: none;
+	list-style: none;
+	display: block;
+}
 
 
 /******************************************************************************
@@ -22,7 +33,7 @@
  */
 #summary {
 	position: relative;
-	padding: 2px 0 2px 0;
+	padding: 2px 0 2 0;
 	width: 90%;
 	font-size: x-large;
 	text-align: center;
@@ -86,9 +97,18 @@ table.detail td {
 	left: 0px;
 	border-top: 1px solid #aaaaaa;
 	margin: 0;
-	padding: 2px 0 2px 0;
+	padding: 2px 0 2 0;
 	vertical-align: top;
 }
+table.detail td.file {
+	font-size: small;
+}
+
+/*
+table.detail tr.failed td.file {
+	background-color: #FF6450;
+}
+*/
 
 /******************************************************************************
  * The file column
@@ -279,7 +299,7 @@ ul.test-out {
 }
 
 ul.test-out li {
-        margin-left: 4px;
+	margin-left: 4;
         border-left: none;
         list-style: none;
 }
