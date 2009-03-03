@@ -75,19 +75,19 @@
 
 table.detail {
 	width: 100%;
-/* 	border: 1px solid #999; */
+	/* border: 1px solid #3333ee; */
 	padding: 2px;
 	border-spacing: 0px;
 
 }
 
 table.detail th {
-/* 	border-bottom: 2px solid #999; */
+	/* border-bottom: 2px solid #3333ee; */
 	padding-top: 2px;
 }
 
 table.detail tfoot tr td {
-/* 	border-top: 2px solid #999; */
+	/* border-top: 2px solid #3333ee; */
 	padding-top: 2px;
 }
 
