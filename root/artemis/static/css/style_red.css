@@ -126,6 +126,12 @@ tr.justgroupmember a
   color: #BBB;
 }
 
+tr.justgroupmember a:hover
+{
+  text-decoration: underline;
+  color: #BBB;
+}
+
 tr.highlight
 {
   background-color: #fafad2
