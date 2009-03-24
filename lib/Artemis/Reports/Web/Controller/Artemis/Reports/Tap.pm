@@ -13,7 +13,11 @@ sub index :Path :Args(1)
         if ($report) {
                 $c->response->content_type ('plain');
                 $c->response->header ("Content-Disposition" => 'inline; filename="tap-'.$report_id.'.tap"');
-                $c->response->body ($report->tap);
+                $c->response->body ($report->tap || "Error: No TAP for report $report_id.");
+        } else {
+                $c->response->content_type ("plain");
+                $c->response->header ("Content-Disposition" => 'inline; filename="nonexistent.report.tap.'.$report_id.'"');
+                $c->response->body ("Error: No report $report_id.");
         }
 }
 

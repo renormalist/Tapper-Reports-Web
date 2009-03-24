@@ -15,6 +15,11 @@ sub index :Path :Args(1)
 
         $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
 
+        if (not $report) {
+                $c->response->body("No such report");
+                return;
+        }
+
         if (my $rga = $report->reportgrouparbitrary) {
                 #my $rga_reports = $c->model('ReportsDB')->resultset('ReportgroupArbitrary')->search ({ arbitrary_id => $rga->arbitrary_id });
                 my $rga_reports = $c->model('ReportsDB')->resultset('Report')->search
