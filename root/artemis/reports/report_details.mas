@@ -38,17 +38,17 @@
 %                           xen_guest_flags
 %                           xen_changeset
 %                           xen_hvbits
-%                           xen-version
-%                           xen-guest-test
-%                           xen-guest-start
-%                           kvm-module-version
-%                           kvm-userspace-version
-%                           kvm-kernel
-%                           kvm-base-os-description
-%                           kvm-guest-description
-%                           kvm-guest-test
-%                           kvm-guest-start
-%                           kvm-guest-flags
+%                           xen_version
+%                           xen_guest_test
+%                           xen_guest_start
+%                           kvm_module_version
+%                           kvm_userspace_version
+%                           kvm_kernel
+%                           kvm_base_os_description
+%                           kvm_guest_description
+%                           kvm_guest_test
+%                           kvm_guest_start
+%                           kvm_guest_flags
 %                          /;
 
         <td colspan="2"><h5><% $section->name %></h5></td>
