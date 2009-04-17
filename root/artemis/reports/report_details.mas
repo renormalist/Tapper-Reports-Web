@@ -23,9 +23,32 @@
 
 %        my %cols = $section->get_columns;
 %        my @meta_cols = qw/
-%                           osname uname language_description cpuinfo ram lspci lsusb flags xen_dom0_kernel
-%                           xen_base_os_description xen_guest_description xen_guest_flags xen_changeset
-%                           xen_hvbits test_was_on_guest test_was_on_hv
+%                           osname
+%                           uname
+%                           language_description
+%                           cpuinfo
+%                           ram
+%                           lspci
+%                           lsusb
+%                           flags
+%                           uptime
+%                           xen_dom0_kernel
+%                           xen_base_os_description
+%                           xen_guest_description
+%                           xen_guest_flags
+%                           xen_changeset
+%                           xen_hvbits
+%                           xen-version
+%                           xen-guest-test
+%                           xen-guest-start
+%                           kvm-module-version
+%                           kvm-userspace-version
+%                           kvm-kernel
+%                           kvm-base-os-description
+%                           kvm-guest-description
+%                           kvm-guest-test
+%                           kvm-guest-start
+%                           kvm-guest-flags
 %                          /;
 
         <td colspan="2"><h5><% $section->name %></h5></td>
