@@ -9,6 +9,7 @@
 		
 		<div id="menu">
 			<ul>
+				<li><a href="/artemis/manual/">Manual</a></li>
 				<li><a href="/artemis/reports/date/7">Reports</a></li>
 				<li><a href="/artemis/testruns/" class="active">Testruns</a></li>
 				<li><a href="/artemis/hardware/">Hardware</a></li>
