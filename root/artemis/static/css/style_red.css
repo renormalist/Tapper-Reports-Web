@@ -8,6 +8,7 @@
 
 /* This controls the width of the fluid width layouts */
 
+
 div.fluid
 {
 width: 90% !important;
@@ -600,3 +601,48 @@ table.reportfile h5
 {
   padding: 0.5em 0em 0em 0em;
   }
+
+/* ----- artemis manual ----- */
+
+.artemismanual h1,
+.artemismanual h2,
+.artemismanual h3,
+.artemismanual h4,
+.artemismanual h5,
+.artemismanual h6
+{
+  font-weight: bold;
+  padding: 0.1em 0.1em 0.1em 0.1em;
+  border:  0.1em 0.1em 0.1em 0.1em;
+  }
+
+.artemismanual h2
+{ 
+  font-size: 2.2em;
+  padding-bottom: 0.5em;
+  }
+
+.artemismanual h3
+{ 
+  margin-bottom: 0.1em;
+  }
+
+.artemismanual h4
+{ 
+  font-size: 1.8em;
+  }
+
+.artemismanual h5
+{ 
+  font-size: 1.0em;
+  }
+
+.artemismanual .node
+{ 
+  padding-bottom: 2em;
+  }
+
+
+/* -------------------------------------------------- */
+
+

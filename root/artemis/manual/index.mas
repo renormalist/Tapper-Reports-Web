@@ -1,25 +1,4 @@
-<html lang="en">
-<head>
-<title>ARTEMIS Manual</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="ARTEMIS Manual">
-<meta name="generator" content="makeinfo 4.11">
-<link title="Top" rel="top" href="#Top">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
-</head>
-<body>
+<div class="artemismanual">
 <h1 class="settitle">ARTEMIS Manual</h1>
 <div class="node">
 <p><hr>
@@ -297,10 +276,12 @@ trigger the reset.
 
      <li>Insert the following as first host configuration, i.e. after serial and timeout settings
 
-     <pre class="example">          title Automatic test
-          tftpserver 165.204.15.71
-          configfile (nd)/tftpboot/FOOBAR.lst
+     <pre class="verbatim">     
+     title Automatic test
+     tftpserver 165.204.15.71
+     configfile (nd)/tftpboot/FOOBAR.lst
 </pre>
+
      <p>The IP address is that of our application server <code>bancroft</code>.
 
      <li>Set the appropriate DHCP config in wotan:/etc/dhcpd.conf
@@ -309,13 +290,17 @@ trigger the reset.
 
      <li>Add this line inside the config block of your host:
 
-     <pre class="example">          option configfile "/tftpboot/cfgs/FOOBAR.lst";
+     <pre class="verbatim">     
+     option configfile "/tftpboot/cfgs/FOOBAR.lst";
 </pre>
+
      <li>Force the dhcp server to reread its configuration with
 
-     <pre class="example">          kill -HUP $(pidof dhcpd)
+     <pre class="verbatim">     
+     kill -HUP $(pidof dhcpd)
 </pre>
-     </ul>
+
+</ul>
 
 <p><strong>Person in charge</strong>: Maik Hentsche
 
@@ -343,12 +328,16 @@ scheduled for the new machine then follow these steps:
 
      <li>Set the <code>PYTHONPATH</code> to include the <em>temare</em> src directory
 
-     <pre class="example">          export PYTHONPATH=$PYTHONPATH:/home/artemis/temare/src
+     <pre class="verbatim">     
+     export PYTHONPATH=$PYTHONPATH:/home/artemis/temare/src
 </pre>
+
      <li>Add the host to temare hostlist
 
-     <pre class="example">          /home/artemis/temare/temare hostadd $hostname $memory $cores $bitness
+     <pre class="verbatim">     
+     /home/artemis/temare/temare hostadd $hostname $memory $cores $bitness
 </pre>
+
      <li>Add the host to <code>/home/artemis/temare/xentest.pl</code>
 
 </ul>
@@ -376,20 +365,24 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">      1..3
-      ok
-      ok
-      not ok
+<pre class="verbatim">
+ 1..3
+ ok
+ ok
+ not ok
 </pre>
+
 <h4 class="subsection">3.2.2 Succession numbers</h4>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok <b>1</b>
-     ok <b>2</b>
-     not ok <b>3</b>
+<pre class="verbatim">
+1..3
+ok 1
+ok 2
+not ok 3
 </pre>
+
      <ul>
 <li>Missing lines can be detected. 
 </ul>
@@ -398,11 +391,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - <b>input file opened</b>
-     ok 2 - <b>file content</b>
-     not ok 3 - <b>last line</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line
 </pre>
+
      <ul>
 <li>Readability. 
 </ul>
@@ -411,11 +406,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - input file opened
-     ok 2 - file content
-     not ok 3 - last line <b># TODO</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line # TODO
 </pre>
+
      <ul>
 <li>mark not yet working tests as "TODO"
 <li>allows test-first development
@@ -427,11 +424,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - input file opened
-     ok 2 - file content
-     not ok 3 - last line # TODO <b>just specced</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line # TODO just specced
 </pre>
+
      <ul>
 <li>comment the TODO reason
 </ul>
@@ -440,11 +439,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - input file opened
-     ok 2 - file content
-     ok 3 - last line <b># SKIP missing prerequisites</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+ok 3 - last line # SKIP missing prerequisites
 </pre>
+
      <ul>
 <li>mark tests when not really run (note the \u201cok\u201d)
 <li>keeps succession numbers in sync
@@ -454,15 +455,17 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - input file opened
-     ok 2 - file content
-     not ok 3 - last line # TODO just specced
-     <b># Failed test 'last line'
-     # at t/data_dpath.t line 410.
-     # got: 'foo'
-     # expected: 'bar'</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line # TODO just specced
+# Failed test 'last line'
+# at t/data_dpath.t line 410.
+# got: 'foo'
+# expected: 'bar'
 </pre>
+
      <ul>
 <li>Details
 </ul>
@@ -471,18 +474,20 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     ok 1 - input file opened
-     ok 2 - file content
-     not ok 3 - last line # TODO just specced
-     <b>  ---
-       message: Failed test 'last line' at t/data_dpath.t line 410.
-       severity: fail
-       data:
-         got: 'foo'
-         expect: 'bar'
-       ...</b>
+<pre class="verbatim">
+1..3
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line # TODO just specced
+  ---
+  message: Failed test 'last line' at t/data_dpath.t line 410.
+  severity: fail
+  data:
+    got: 'foo'
+    expect: 'bar'
+  ...
 </pre>
+
      <ul>
 <li>allows parsable diagnostics
 <li>we use that to track values inside TAP
@@ -497,44 +502,50 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>Example:
 
-<pre class="example">     1..3
-     <b># Artemis-Suite-Name: Foo-Bar
-     # Artemis-Suite-Version: 2.010013</b>
-     ok 1 - input file opened
-     ok 2 - file content
-     not ok 3 - last line # TODO just specced
-</pre>
-     <ul>
-<li>we use diagnostics lines (&ldquo;hot comments&rdquo;)
-<li>semantics only to our TAP applications
-</ul>
+<pre class="verbatim">
+1..3
+# Artemis-Suite-Name: Foo-Bar
+# Artemis-Suite-Version: 2.010013
+ok 1 - input file opened
+ok 2 - file content
+not ok 3 - last line # TODO just specced
+@end example
 
-<p>These are the headers that apply to the whole report:
+@itemize
+@item we use diagnostics lines (``hot comments'')
+@item semantics only to our TAP applications
+@end itemize
 
-<pre class="example">      # Artemis-suite-name:                 -- suite name
-      # Artemis-suite-version:              -- suite version
-      # Artemis-machine-name:               -- machine/host name
-      # Artemis-machine-description:        -- more details to machine
-      # Artemis-starttime-test-program:     -- start time for complete test (including guests)
-      # Artemis-endtime-test-program:       -- end time for complete test (including guests)
+These are the headers that apply to the whole report:
+
+@verbatim
+ # Artemis-suite-name:                 -- suite name
+ # Artemis-suite-version:              -- suite version
+ # Artemis-machine-name:               -- machine/host name
+ # Artemis-machine-description:        -- more details to machine
+ # Artemis-starttime-test-program:     -- start time for complete test (including guests)
+ # Artemis-endtime-test-program:       -- end time for complete test (including guests)
 </pre>
+
 <h4 class="subsection">3.2.10 Sections for ARTEMIS</h4>
 
 <p>Example:
 
-<pre class="example">     <b>1..2
-     # Artemis-section: arithmetics</b>
-     ok 1 add
-     ok 2 multiply
-     <b>1..1
-     # Artemis-section: string handling</b>
-     ok 1 concat
-     <b>1..3
-     # Artemis-section: benchmarks</b>
-     ok 1
-     ok 2
-     ok 3
+<pre class="verbatim">
+1..2
+# Artemis-section: arithmetics
+ok 1 add
+ok 2 multiply
+1..1
+# Artemis-section: string handling
+ok 1 concat
+1..3
+# Artemis-section: benchmarks
+ok 1
+ok 2
+ok 3
 </pre>
+
      <ul>
 <li>we recognize &ldquo;sections&rdquo;, each with its own plan
 <li>allows structuring of results,
@@ -543,31 +554,33 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>These are the headers that apply to single sections:
 
-<pre class="example">      # Artemis-ram:                      -- memory
-      # Artemis-cpuinfo:                  -- what CPU
-      # Artemis-uname:                    -- kernel information
-      # Artemis-osname:                   -- OS information
-      # Artemis-uptime:                   -- uptime, maybe the test run time
-      # Artemis-language-description:     -- for Software tests, like "Perl 5.10", "Python 2.5"
-      # Artemis-xen-version:              -- Xen version
-      # Artemis-xen-changeset:            -- particular Xen changeset
-      # Artemis-xen-dom0-kernel:          -- the kernel version of the dom0
-      # Artemis-xen-base-os-description:  -- more verbose OS information
-      # Artemis-xen-guest-description:    -- description of a guest
-      # Artemis-xen-guest-test:           -- the started test program
-      # Artemis-xen-guest-start:          -- start time of test
-      # Artemis-xen-guest-flags:          -- flags used for starting the guest
-      # Artemis-kvm-module-version:       -- version of KVM kernel module
-      # Artemis-kvm-userspace-version:    -- version of KVM userland tools
-      # Artemis-kvm-kernel:               -- version of kernel
-      # Artemis-kvm-base-os-description:  -- more verbose OS information
-      # Artemis-kvm-guest-description:    -- description of a guest
-      # Artemis-kvm-guest-test:           -- the started test program
-      # Artemis-kvm-guest-start:          -- start time of test
-      # Artemis-kvm-guest-flags:          -- flags used for starting the guest
-      # Artemis-flags:                    -- Flags that were used to boot the OS
-      # Artemis-reportcomment:            -- Freestyle comment
+<pre class="verbatim">
+ # Artemis-ram:                      -- memory
+ # Artemis-cpuinfo:                  -- what CPU
+ # Artemis-uname:                    -- kernel information
+ # Artemis-osname:                   -- OS information
+ # Artemis-uptime:                   -- uptime, maybe the test run time
+ # Artemis-language-description:     -- for Software tests, like "Perl 5.10", "Python 2.5"
+ # Artemis-xen-version:              -- Xen version
+ # Artemis-xen-changeset:            -- particular Xen changeset
+ # Artemis-xen-dom0-kernel:          -- the kernel version of the dom0
+ # Artemis-xen-base-os-description:  -- more verbose OS information
+ # Artemis-xen-guest-description:    -- description of a guest
+ # Artemis-xen-guest-test:           -- the started test program
+ # Artemis-xen-guest-start:          -- start time of test
+ # Artemis-xen-guest-flags:          -- flags used for starting the guest
+ # Artemis-kvm-module-version:       -- version of KVM kernel module
+ # Artemis-kvm-userspace-version:    -- version of KVM userland tools
+ # Artemis-kvm-kernel:               -- version of kernel
+ # Artemis-kvm-base-os-description:  -- more verbose OS information
+ # Artemis-kvm-guest-description:    -- description of a guest
+ # Artemis-kvm-guest-test:           -- the started test program
+ # Artemis-kvm-guest-start:          -- start time of test
+ # Artemis-kvm-guest-flags:          -- flags used for starting the guest
+ # Artemis-flags:                    -- Flags that were used to boot the OS
+ # Artemis-reportcomment:            -- Freestyle comment
 </pre>
+
 <h4 class="subsection">3.2.11 Developing with TAP</h4>
 
      <ul>
@@ -580,15 +593,17 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 </ul>
      </ul>
 
-<pre class="example">     $ <b>prove t/*.t</b>
-     t/00-load.........ok
-     t/boilerplate.....ok
-     t/pod-coverage....ok
-     All tests successful.
-     Files=4, Tests=6, 0 wallclock secs
-     ( 0.05 usr 0.00 sys + 0.28 cusr 0.05 csys = 0.38 CPU)
-     Result: <b>PASS</b>
+<pre class="verbatim">
+$ prove t/*.t
+t/00-load.........ok
+t/boilerplate.....ok
+t/pod-coverage....ok
+All tests successful.
+Files=4, Tests=6, 0 wallclock secs
+( 0.05 usr 0.00 sys + 0.28 cusr 0.05 csys = 0.38 CPU)
+Result: PASS
 </pre>
+
 <h4 class="subsection">3.2.12 TAP tips</h4>
 
      <ul>
@@ -620,8 +635,10 @@ by that id.
 
 <p>So simply each suite should output
 
-<pre class="example">     # Artemis-reportgroup-testrun: 1234
+<pre class="verbatim">
+# Artemis-reportgroup-testrun: 1234
 </pre>
+
 <p>with 1234 being a testrun ID that is available via the environment
 variable <code>$ARTEMIS_TESTRUN</code>. This variable is provided by the
 automation layer.
@@ -636,13 +653,17 @@ inside all guests with the following header:
      <ul>
 <li>get the value:
 
-     <pre class="example">          ARTEMIS_REPORT_GROUP=`date|md5sum|awk 'print $1'`
+     <pre class="verbatim">     
+     ARTEMIS_REPORT_GROUP=`date|md5sum|awk '{print $1}'`
 </pre>
+
      <li>use the value:
 
-     <pre class="example">          # Artemis-reportgroup-arbitrary: $ARTEMIS_REPORT_GROUP
+     <pre class="verbatim">     
+     # Artemis-reportgroup-arbitrary: $ARTEMIS_REPORT_GROUP
 </pre>
-     </ul>
+
+</ul>
 
 <p>How that value gets from <em>dom0</em> into the guests is left as an
 exercise, e.g. via preparing the init scripts in the guest images
@@ -681,9 +702,11 @@ for common problems.
 
 <p>If the environment variables
 
-<pre class="example">     ARTEMIS_REPORT_SERVER
-     ARTEMIS_REPORT_PORT
+<pre class="verbatim">
+ARTEMIS_REPORT_SERVER
+ARTEMIS_REPORT_PORT
 </pre>
+
 <p>are set the wrappers report their results by piping their TAP output
 there, else they print to STDOUT.
 
@@ -839,8 +862,10 @@ final preconditions are stored in the database.
 
 <p>Macro preconditions can be stored in
 
-<pre class="example">     /data/bancroft/artemis/live/repository/macropreconditions/
+<pre class="verbatim">
+/data/bancroft/artemis/live/repository/macropreconditions/
 </pre>
+
 <h4 class="subsection">5.2.3 Precondition types</h4>
 
 <p>Some preconditions types can contain other more simple precondition
@@ -910,13 +935,17 @@ defined by its tree structure (depth-first).
 
 <p>All preconditions have at least a key
 
-<pre class="example">     precondition_type: TYPE
+<pre class="verbatim">
+precondition_type: TYPE
 </pre>
+
 <p>and optionally
 
-<pre class="example">     name: VERBOSE DESCRIPTION
-     shortname: SHORT DESCRIPTION
+<pre class="verbatim">
+name: VERBOSE DESCRIPTION
+shortname: SHORT DESCRIPTION
 </pre>
+
 <p>then the remaining keys depend on the TYPE.
 
 <h5 class="subsubsection">5.2.4.1 installer_stop</h5>
@@ -924,10 +953,12 @@ defined by its tree structure (depth-first).
      <ul>
 <li>stop run after system installer
 
-     <pre class="example">          ---
-          precondition_type: installer_stop
+     <pre class="verbatim">     
+     ---
+     precondition_type: installer_stop
 </pre>
-     <h5 class="subsubsection">5.2.4.2 grub</h5>
+
+<h5 class="subsubsection">5.2.4.2 grub</h5>
 
      <li>overwrite automatically generated grub config
 
@@ -942,14 +973,16 @@ defined by its tree structure (depth-first).
 
           <li>note the syntax, to get multiline strings in YAML you need to start them with | and a newline
 
-          <pre class="example">               ---
-               precondition_type: grub
-               config: |
-                 title Linux
-                   root $grubroot
-                   kernel /boot/vmlinuz root=$root"
-</pre>
-          </ul>
+          <pre class="verbatim">          
+          ---
+          precondition_type: grub
+          config: |
+            title Linux
+              root $grubroot
+              kernel /boot/vmlinuz root=$root"
+     </pre>
+
+     </ul>
 
 </ul>
 
@@ -967,11 +1000,13 @@ defined by its tree structure (depth-first).
 
      <li>relative path: relative to /data/bancroft/artemis/(live|development)/
 
-     <pre class="example">          ---
-          filename: /data/bancroft/artemis/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
-          precondition_type: package
+     <pre class="verbatim">     
+     ---
+     filename: /data/bancroft/artemis/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
+     precondition_type: package
 </pre>
-     </ul>
+
+</ul>
 
 <h5 class="subsubsection">5.2.4.4 copyfile (OK)</h5>
 
@@ -989,13 +1024,15 @@ defined by its tree structure (depth-first).
 
           <li>whether the &ldquo;dest&rdquo; is interpreted as a directory or a file is decided by the underlying &ldquo;scp&rdquo; or &ldquo;cp&rdquo; semantics, i.e., it depends on whether a directory already exists.
 
-          <pre class="example">               ---
-               precondition_type: copyfile
-               protocol: nfs
-               source: osko:/export/image_files/official_testing/README
-               dest: /usr/local/share/artemis/perl510
-</pre>
-          </ul>
+          <pre class="verbatim">          
+          ---
+          precondition_type: copyfile
+          protocol: nfs
+          source: osko:/export/image_files/official_testing/README
+          dest: /usr/local/share/artemis/perl510
+     </pre>
+
+     </ul>
 
 </ul>
 
@@ -1004,11 +1041,13 @@ defined by its tree structure (depth-first).
      <ul>
 <li>a line to add to /etc/fstab, e.g., to enable mounts once the system boots
 
-     <pre class="example">          ---
-          precondition_type: fstab
-          line: "165.204.85.14:/vol/osrc_vol0 /home nfs auto,defaults 0 0"
+     <pre class="verbatim">     
+     ---
+     precondition_type: fstab
+     line: "165.204.85.14:/vol/osrc_vol0 /home nfs auto,defaults 0 0" 
 </pre>
-     </ul>
+
+</ul>
 
 <h5 class="subsubsection">5.2.4.6 image (OK)</h5>
 
@@ -1033,18 +1072,20 @@ and mounted to mount afterwards
 
           <li>absolute &ldquo;image&rdquo;: absolute
 
-          <li>relative &ldquo;image&rdquo;: relative to /data/bancroft/artemis/live|development/repository/images
+          <li>relative &ldquo;image&rdquo;: relative to /data/bancroft/artemis/{live|development}/repository/images
 If not given, then it re-uses the partition without formatting/unpacking it.
 
           <li>partition: Can be /dev/xxx or LABEL or UUID.
 
-          <pre class="example">               ---
-               precondition_type: image
-               mount: /
-               partition: testing
-               image: /data/bancroft/artemis/live|development/repository/images/rhel-5.2-rc2-32bit.iso,.tar.gz,.tgz,.tar,.tar.bz2 (OPTIONAL)
-</pre>
-          </ul>
+          <pre class="verbatim">          
+          ---
+          precondition_type: image
+          mount: /
+          partition: testing
+          image: /data/bancroft/artemis/{live|development}/repository/images/rhel-5.2-rc2-32bit.{iso,.tar.gz,.tgz,.tar,.tar.bz2} (OPTIONAL)
+     </pre>
+
+     </ul>
 
 </ul>
 
@@ -1057,14 +1098,16 @@ If not given, then it re-uses the partition without formatting/unpacking it.
 
      <li>target denotes the directory where the source is placed in, the leading slash can be left out (i.e. paths can be given relative to root directory &rdquo;'/&rdquo;')
 
-     <pre class="example">          ---
-          precondition_type: repository
-          type: git
-          url: git://git.kernel.org/pub/scm/linux/kernel/git/avi/kvm.git
-          target: kvm
-          revision: c192a1e274b71daea4e6dd327d8a33e8539ed937
+     <pre class="verbatim">     
+     ---
+     precondition_type: repository
+     type: git
+     url: git://git.kernel.org/pub/scm/linux/kernel/git/avi/kvm.git
+     target: kvm
+     revision: c192a1e274b71daea4e6dd327d8a33e8539ed937
 </pre>
-     </ul>
+
+</ul>
 
 <h5 class="subsubsection">5.2.4.8 type: prc (OK)</h5>
 
@@ -1101,38 +1144,44 @@ killed (SIGINT, SIGKILL).
 guest which defines how a guest is started. Can be a SVM file for Xen
 or an executable for KVM.
 
-     <pre class="example">          precondition_type: prc
-          config:
-               runtime: 30
-               test_program: /bin/uname_tap.sh
-               timeout_after_testprogram: 90
-               guests:
-                - svm:  /xen/images/..../foo.svm
-                - svm:  /xen/images/..../bar.svm
-                - exec: /xen/images/..../start_a_kvm_guest.sh
+     <pre class="verbatim">     
+     precondition_type: prc
+     config:
+          runtime: 30
+          test_program: /bin/uname_tap.sh
+          timeout_after_testprogram: 90
+          guests:
+           - svm:  /xen/images/..../foo.svm
+           - svm:  /xen/images/..../bar.svm
+           - exec: /xen/images/..../start_a_kvm_guest.sh
 </pre>
-     <h5 class="subsubsection">5.2.4.9 type: exec</h5>
+
+<h5 class="subsubsection">5.2.4.9 type: exec</h5>
 
      <p>Defines which program to run at the installation phase.
 
-     <pre class="example">          precondition_type: exec
-          filename: /bin/some_script.sh
-          options:
-            - -v
-            - --foo
-            - --bar="hot stuff"
+     <pre class="verbatim">     
+     precondition_type: exec
+     filename: /bin/some_script.sh
+     options: 
+       - -v
+       - --foo
+       - --bar="hot stuff"
 </pre>
-     <h5 class="subsubsection">5.2.4.10 type: reboot</h5>
+
+<h5 class="subsubsection">5.2.4.10 type: reboot</h5>
 
      <p>Requests a reboot test and states how often to reboot.
 
      <p><strong>Note:</strong> Reboot count of 1 actually means boot two times since
 the first boot is always counted as number 0.
 
-     <pre class="example">          precondition_type: reboot
-          count: 2
+     <pre class="verbatim">     
+     precondition_type: reboot
+     count: 2
 </pre>
-     <h5 class="subsubsection">5.2.4.11 type: virt</h5>
+
+<h5 class="subsubsection">5.2.4.11 type: virt</h5>
 
      <p>A virtualization environment.
 
@@ -1151,58 +1200,59 @@ the root image (like tar.gz packages or subdir)
      <li>key &ldquo;arch&rdquo;
  arch: linux64 | linux32             (XXX which for artemis toolchain)
 
-     <pre class="example">          name: automatically generated Xen test
-          precondition_type: virt
-          host:
-            preconditions:
-            - filename: /data/bancroft/artemis/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
-              precondition_type: package
-            - filename: /data/bancroft/artemis/live/repository/packages/artemisutils/sles10/xen_installer_suse.tar.gz
-              precondition_type: package
-            - filename: /bin/xen_installer_suse.pl
-              precondition_type: exec
-            root:
-              precondition_type: image
-              partition: testing
-              image: /data/bancroft/artemis/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
-              mount: /
-              arch: linux64
-            testprogram:
-              execname: /opt/artemis/bin/artemis_testsuite_dom0_meta.sh
-              timeout_testprogram: 10800
-          guests:
-          - config:
-              precondition_type: copyfile
-              protocol: nfs
-              name: bancroft:/data/bancroft/artemis/live/repository/configs/xen/001-sandschaki-1237993266.svm
-              dest: /xen/images/
-              svm: /xen/images/001-sandschaki-1237993266.svm
-            root:
-              precondition_type: copyfile
-              protocol: nfs
-              arch: linux64
-              name: osko:/export/image_files/official_testing/redhat_rhel4u7_64b_up_qcow.img
-              dest: /xen/images/
-              mountfile: /xen/images/001-sandschaki-1237993266.img
-              mounttype: raw
-            testprogram:
-              execname: /opt/artemis/bin/py_ltp
-              timeout_after_testprogram: 10800
+     <pre class="verbatim">     
+     name: automatically generated Xen test
+     precondition_type: virt
+     host:
+       preconditions:
+       - filename: /data/bancroft/artemis/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
+         precondition_type: package
+       - filename: /data/bancroft/artemis/live/repository/packages/artemisutils/sles10/xen_installer_suse.tar.gz
+         precondition_type: package
+       - filename: /bin/xen_installer_suse.pl
+         precondition_type: exec
+       root:
+         precondition_type: image
+         partition: testing
+         image: /data/bancroft/artemis/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
+         mount: /
+         arch: linux64
+       testprogram:
+         execname: /opt/artemis/bin/artemis_testsuite_dom0_meta.sh
+         timeout_testprogram: 10800
+     guests:
+     - config:
+         precondition_type: copyfile
+         protocol: nfs
+         name: bancroft:/data/bancroft/artemis/live/repository/configs/xen/001-sandschaki-1237993266.svm
+         dest: /xen/images/
+         svm: /xen/images/001-sandschaki-1237993266.svm
+       root:
+         precondition_type: copyfile
+         protocol: nfs
+         arch: linux64
+         name: osko:/export/image_files/official_testing/redhat_rhel4u7_64b_up_qcow.img
+         dest: /xen/images/
+         mountfile: /xen/images/001-sandschaki-1237993266.img
+         mounttype: raw
+       testprogram:
+         execname: /opt/artemis/bin/py_ltp
+         timeout_after_testprogram: 10800
 </pre>
-     </ul>
+
+</ul>
 
 <h5 class="subsubsection">5.2.4.12 General precondition keys &ldquo;mountfile&rdquo;</h5>
 
 <p>These 2 options are possible in each precondition. With that you can
 execute the precondition inside guest images:
 
-<pre class="example">     mountfile: ...
-     mountpartition: ...
-     mounttype: <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
-     <strong>TODO</strong> is this the same as mountfile, mountpartition?
-     </td></tr></table>
-     
+<pre class="verbatim">
+mountfile: ...
+mountpartition: ...
+mounttype: @TODO{is this the same as mountfile, mountpartition?}
 </pre>
+
 <p>- 1. only mountfile: eg. rawimage, file loop-mounted
 - 2. only mountpartition: then mount that partition
 - 3. image file with partitions: mount the imagefile and from that only the given partition
@@ -1239,26 +1289,30 @@ need to order them like a tree would have been walked.
 
 <p>The values for the placeholders can be filled via
 
-<pre class="example">     artemis-testrun new [all usual options] \
-         --macroprecond=FILENAME \
-          -DPLACEHOLDER1=VALUE1 \
-          -DPLACEHOLDER2=VALUE2 \
-          -DPLACEHOLDER3=VALUE3
+<pre class="verbatim">
+artemis-testrun new [all usual options] \
+    --macroprecond=FILENAME \
+     -DPLACEHOLDER1=VALUE1 \
+     -DPLACEHOLDER2=VALUE2 \
+     -DPLACEHOLDER3=VALUE3
 </pre>
+
 <p>The FILENAME is a complete filename with absolute path.
 
 <p>The format of a macro precondition is basically just a Perl hashref
 where the "preconditions" are just and array reference of strings:
 
-<pre class="example">     
-      preconditions =&gt; [
-                        'macro content 1',
-                        'macro content 2',
-                        'macro content 3',
-                       ],
-      mandatory_fields =&gt; [ $placeholders ],
-     
+<pre class="verbatim">
+{
+ preconditions => [
+                   'macro content 1',
+                   'macro content 2',
+                   'macro content 3',
+                  ],
+ mandatory_fields => [ $placeholders ],
+}
 </pre>
+
 <p>which will get eval'ed in Perl.
 
 <p>You can quote the strings with Perl quote operators.
@@ -1268,111 +1322,123 @@ placeholders in Template-Toolkit syntax. Here is the same example more
 verbose with the two placeholders "image_file" and "xen_package" in
 it:
 
-<pre class="example">     
-      preconditions =&gt; [
-       '
-     precondition: foobar1
-     name: A nice description
-     dom0:
-       root:
-         precondition_type: image
-         mount: /
-         image: [% image_file %]
-         partition: /dev/sda2
-       preconditions:
-         - precondition_type: package
-           filename: [% xen_package %]
-           path: artemisutils/
-           scripts: ~
-       ',
-       'macro content 2',
-       'macro content 3',
-      ],
-      mandatory_fields =&gt; [ qw(image_file xen_package) ],
-     
+<pre class="verbatim">
+{
+ preconditions => [
+  '
+precondition: foobar1
+name: A nice description
+dom0:
+  root:
+    precondition_type: image
+    mount: /
+    image: [% image_file %]
+    partition: /dev/sda2
+  preconditions:
+    - precondition_type: package
+      filename: [% xen_package %]
+      path: artemisutils/
+      scripts: ~
+  ',
+  'macro content 2',
+  'macro content 3',
+ ],
+ mandatory_fields => [ qw(image_file xen_package) ],
+}
 </pre>
+
 <p>The appropriate testrun creation looks like this:
 
-<pre class="example">     artemis-testrun new ... \
-         --macroprecond=FILENAME \
-          -Dimage_file=suse/suse_sles10_64b_smp_raw.tar.gz \
-          -Dxen_package=xen-3.2_20080116_1546_16718_f4a57e0474af__64bit.tar.gz
+<pre class="verbatim">
+artemis-testrun new ... \
+    --macroprecond=FILENAME \
+     -Dimage_file=suse/suse_sles10_64b_smp_raw.tar.gz \
+     -Dxen_package=xen-3.2_20080116_1546_16718_f4a57e0474af__64bit.tar.gz
 </pre>
+
 <h4 class="subsection">5.3.1 A real live example: kernel boot test</h4>
 
      <ul>
 <li>Macroprecondition
 
-     <pre class="example">          
-           mandatory_fields =&gt; [ qw(kernelpkg) ],
-           preconditions    =&gt; [
-          '
-          arch: linux64
-          image: suse/suse_sles10_64b_smp_raw.tar.gz
-          mount: /
-          partition: testing
-          precondition_type: image
-          ',
-          '
-          precondition_type: copyfile
-          name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
-          dest: /bin/
-          protocol: local
-          ',
-          '
-          precondition_type: package
-          filename: [% kernelpkg %]
-          path: kernel/
-          ',
-          '
-          precondition_type: prc
-          config:
-                runtime: 30
-                test_program: /bin/uname_tap.sh
-                timeout_after_testprogram: 90
-                timeouts:
-                  - 90
-          '
-                ]
-          
+     <pre class="verbatim">     
+     {
+      mandatory_fields => [ qw(kernelpkg) ],
+      preconditions    => [
+     '
+     arch: linux64
+     image: suse/suse_sles10_64b_smp_raw.tar.gz
+     mount: /
+     partition: testing
+     precondition_type: image
+     ',
+     '
+     precondition_type: copyfile
+     name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
+     dest: /bin/
+     protocol: local
+     ',
+     '
+     precondition_type: package
+     filename: [% kernelpkg %]
+     path: kernel/
+     ',
+     '
+     precondition_type: prc
+     config:
+           runtime: 30
+           test_program: /bin/uname_tap.sh
+           timeout_after_testprogram: 90
+           timeouts:
+             - 90
+     '
+           ]
+     }
 </pre>
+
      <li>The test script
 
      <p>The test script <code>uname_tap.sh</code> to which the macro precondition
 refers is just a shell script that examines uname output:
 
-     <pre class="example">          #! /bin/sh
-          echo "1..2"
-          echo "# Artemis-Suite-Name: Kernel-Boot"
-          echo "# Artemis-Suite-Version: 1.00"
-          echo "# Artemis-Machine-Name: " `hostname`
-          
-          if [ x`uname` != xLinux ] ; then echo -n "not " ; fi
-          echo "ok - We run on Linux"
-          
-          if uname -a | grep -vq x86_64 ; then echo -n "not " ; fi
-          echo "ok - Looks like x86_64"
+     <pre class="verbatim">     
+     #! /bin/sh
+     echo "1..2"
+     echo "# Artemis-Suite-Name: Kernel-Boot"
+     echo "# Artemis-Suite-Version: 1.00"
+     echo "# Artemis-Machine-Name: " `hostname`
+     
+     if [ x`uname` != xLinux ] ; then echo -n "not " ; fi
+     echo "ok - We run on Linux"
+     
+     if uname -a | grep -vq x86_64 ; then echo -n "not " ; fi
+     echo "ok - Looks like x86_64"
 </pre>
+
      <li>Command line
 
      <p>Once you wrote the macro precondition and the test script all you need
 is this command line:
 
-     <pre class="example">          artemis-testrun new \
-            --hostname=dickstone \
-            --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
-             -Dkernelpkg=perfmon-682-x86_64.tar.gz \
+     <pre class="verbatim">     
+     artemis-testrun new \
+       --hostname=dickstone \
+       --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+        -Dkernelpkg=perfmon-682-x86_64.tar.gz \
 </pre>
+
      <p>or with some more information (owner, topic):
 
-     <pre class="example">          artemis-testrun new \
-            --owner=mhentsc3 \
-            --topic=Kernel \
-            --hostname=dickstone \
-            --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
-             -Dkernelpkg=perfmon-682-x86_64.tar.gz \
+     <pre class="verbatim">     
+     artemis-testrun new \
+       --owner=mhentsc3 \
+       --topic=Kernel \
+       --hostname=dickstone \
+       --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+        -Dkernelpkg=perfmon-682-x86_64.tar.gz \
 </pre>
-     </ul>
+
+</ul>
 
 <p><strong>Person in charge</strong>: Steffen Schwigon
 
@@ -1469,9 +1535,11 @@ output.
 
 <h5 class="subsubsection">7.2.1.1 Synopsis</h5>
 
-<pre class="example">     #! upload REPORTID FILENAME [ CONTENTTYPE ]
-     payload
+<pre class="verbatim">
+#! upload REPORTID FILENAME [ CONTENTTYPE ]
+payload
 </pre>
+
 <h5 class="subsubsection">7.2.1.2 Parameters</h5>
 
      <ul>
@@ -1500,8 +1568,10 @@ browser.
 <p>Just <code>echo</code> the first api-command line and then immediately
 <code>cat</code> the file content:
 
-<pre class="example">     $ ( echo "#! upload 552 xyz.tmp" ; cat xyz.tmp ) | netcat -w1 bascha 7358
+<pre class="verbatim">
+$ ( echo "#! upload 552 xyz.tmp" ; cat xyz.tmp ) | netcat -w1 bascha 7358
 </pre>
+
 <!--  -->
 <h4 class="subsection">7.2.2 mason - Render templates with embedded query language</h4>
 
@@ -1512,10 +1582,12 @@ other template engines as well.
 
 <h5 class="subsubsection">7.2.2.1 Synopsis</h5>
 
-<pre class="example">     #! mason debug=0 &lt;&lt;ENDMARKER
-     payload
-     ENDMARKER
+<pre class="verbatim">
+#! mason debug=0 &lt;&lt;ENDMARKER
+payload
+ENDMARKER
 </pre>
+
 <h5 class="subsubsection">7.2.2.2 Parameters</h5>
 
      <ul>
@@ -1546,36 +1618,44 @@ section <a href="#Query-language">Query language</a> for details about this.
 
 <p>This is a raw Mason template:
 
-<pre class="example">     % my $world = "Mason World";
-     Hello &lt;% $world %&gt;!
-     % my @res = reportdata '{ "suite.name" =&gt; "perfmon" } :: //tap/tests_planned';
-     Planned perfmon tests:
-     % foreach (@res) 
-        &lt;% $_ %&gt;
-     % 
+<pre class="verbatim">
+ % my $world = "Mason World";
+ Hello &lt;% $world %>!
+ % my @res = reportdata '{ "suite.name" => "perfmon" } :: //tap/tests_planned';
+ Planned perfmon tests:
+ % foreach (@res) {
+    &lt;% $_ %>
+ % }
 </pre>
+
 <p>If you want to submit such a Mason template you can add the
 api-command line and the EOF marker like this:
 
-<pre class="example">     $ EOFMARKER="MASONTEMPLATE".$$
-     $ payload_file="perfmon_tests_planned.mas"
-     $ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
-         | netcat -w1 bascha 7358
+<pre class="verbatim">
+$ EOFMARKER="MASONTEMPLATE".$$
+$ payload_file="perfmon_tests_planned.mas"
+$ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
+    | netcat -w1 bascha 7358
 </pre>
+
 <p>The output of this is the rendered template. You can extend the line
 to save the rendered result into a file:
 
-<pre class="example">     $ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
-         | netcat -w1 bascha 7358 &gt; result.txt
+<pre class="verbatim">
+$ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
+    | netcat -w1 bascha 7358 > result.txt
 </pre>
+
 <p>The answer for this looks like this:
 
-<pre class="example">     Hello Mason World!
-     Planned perfmon tests:
-        3
-        4
-        17
+<pre class="verbatim">
+Hello Mason World!
+Planned perfmon tests:
+   3
+   4
+   17
 </pre>
+
 <p><a name="Query-language"></a>
 
 <h3 class="section">7.3 Query language DPath</h3>
@@ -1583,8 +1663,10 @@ to save the rendered result into a file:
 <p>The query language, which is the argument to the <code>reportdata</code> as
 used embedded in the &lsquo;<samp><span class="samp">mason</span></samp>&rsquo; examples above:
 
-<pre class="example">      reportdata '{ "suite.name" =&gt; "perfmon" } :: //tap/tests_planned'
+<pre class="verbatim">
+ reportdata '{ "suite.name" => "perfmon" } :: //tap/tests_planned'
 </pre>
+
 <p>consists of 2 parts, divided by the &lsquo;<samp><span class="samp">::</span></samp>&rsquo;.
 
 <p>We call the first part in braces <em>reports filter</em> and the second
@@ -1664,33 +1746,41 @@ using the API without the need to talk the protocol and fiddle with
 
 <p>You can aquire a help page to each sub command:
 
-<pre class="example">     $ /home/artemis/perl510/bin/artemis-api help upload
+<pre class="verbatim">
+$ /home/artemis/perl510/bin/artemis-api help upload
 </pre>
+
 <p>prints
 
-<pre class="example">     artemis-api upload --reportid=s --file=s [ --contenttype=s ]
-        --verbose          some more informational output
-        --reportid         INT; the testrun id to change
-        --file             STRING; the file to upload, use '-' for STDIN
-        --contenttype      STRING; content-type, default 'plain',
-                           use 'application/octed-stream' for binaries
+<pre class="verbatim">
+artemis-api upload --reportid=s --file=s [ --contenttype=s ]
+   --verbose          some more informational output
+   --reportid         INT; the testrun id to change
+   --file             STRING; the file to upload, use '-' for STDIN
+   --contenttype      STRING; content-type, default 'plain', 
+                      use 'application/octed-stream' for binaries
 </pre>
+
 <h4 class="subsection">7.4.2 upload</h4>
 
 <p>Use it from the Artemis path, like:
 
-<pre class="example">     $ /home/artemis/perl510/bin/artemis-api upload \
-       --file /var/log/messages \
-       --reportid=301
+<pre class="verbatim">
+$ /home/artemis/perl510/bin/artemis-api upload \
+  --file /var/log/messages \
+  --reportid=301
 </pre>
+
 <p>You can also use the special filename <samp><span class="file">-</span></samp> to read from STDIN,
 e.g., if you need to pipe the output of tools like <code>dmesg</code>:
 
-<pre class="example">     $ dmesg | /home/artemis/perl510/bin/artemis-api upload \
-       --file=- \
-       --filename dmesg \
-       --reportid=301
+<pre class="verbatim">
+$ dmesg | /home/artemis/perl510/bin/artemis-api upload \
+  --file=- \
+  --filename dmesg \
+  --reportid=301
 </pre>
+
 <h4 class="subsection">7.4.3 mason</h4>
 
 <p>TODO
@@ -2484,32 +2574,36 @@ packages from NFS.
 webserver you only need to configure a Location for the path
 <code>/artemis</code>.
 
-<pre class="example">     bancroft$ <b>cat /etc/apache2/conf.d/artemis_reports_web.conf</b>
-     
-     Alias / /home/artemis/perl510/bin/artemis_reports_web_fastcgi_live.pl/
-     &lt;LocationMatch /artemis[.]*&gt;
-            Options ExecCGI
-            Order allow,deny
-            Allow from all
-            AddHandler fcgid-script .pl
-     &lt;/LocationMatch&gt;
+<pre class="verbatim">
+bancroft$ cat /etc/apache2/conf.d/artemis_reports_web.conf
+
+Alias / /home/artemis/perl510/bin/artemis_reports_web_fastcgi_live.pl/
+&lt;LocationMatch /artemis[.]*>
+       Options ExecCGI
+       Order allow,deny
+       Allow from all
+       AddHandler fcgid-script .pl
+&lt;/LocationMatch>
 </pre>
+
 <p>Additionally there is a reverse proxy configured on
 <code>osrc.amd.com</code> that points to the application server:
 
-<pre class="example">     osrc$ <b>cat /etc/apache2/conf.d/artemis_reverse_proxy.conf</b>
-     
-     ProxyRequests Off
-     &lt;Proxy *&gt;
-         Order deny,allow
-         Allow from all
-     &lt;/Proxy&gt;
-     ProxyPass        /artemis http://bancroft/artemis
-     ProxyPassReverse /artemis http://bancroft/artemis
-     ProxyPass        /hardwaredb http://bancroft/hardwaredb
-     ProxyPassReverse /hardwaredb http://bancroft/hardwaredb
-     
+<pre class="verbatim">
+osrc$ cat /etc/apache2/conf.d/artemis_reverse_proxy.conf
+
+ProxyRequests Off
+&lt;Proxy *>
+    Order deny,allow
+    Allow from all
+&lt;/Proxy>
+ProxyPass        /artemis http://bancroft/artemis
+ProxyPassReverse /artemis http://bancroft/artemis
+ProxyPass        /hardwaredb http://bancroft/hardwaredb
+ProxyPassReverse /hardwaredb http://bancroft/hardwaredb
+
 </pre>
+
 <p><strong>Person in charge</strong>: Steffen Schwigon
 
 <h3 class="section">9.5 Upgrading a database schema</h3>
@@ -2693,5 +2787,4 @@ config, and therefore using its own mechanism.
 
 </ul>
 
-</body></html>
-
+</div><!-- class="artemismanual"-->
