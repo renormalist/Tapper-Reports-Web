@@ -144,6 +144,17 @@ sub prepare_this_weeks_reportlists : Private
             (
              $filter_condition,
              {  order_by  => 'id desc',
+                columns   => [ qw( id
+                                   machine_name
+                                   created_at
+                                   success_ratio
+                                   successgrade
+                                   reviewed_successgrade
+                                   total
+                                   peerport
+                                   peeraddr
+                                   peerhost
+                                )],
                 join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', ],
                 '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport' ],
                 '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary'                      ],
