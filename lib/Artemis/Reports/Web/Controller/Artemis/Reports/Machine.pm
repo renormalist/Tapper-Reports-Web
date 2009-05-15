@@ -22,10 +22,10 @@ sub index :Path :Args(1)
             (
              $filter_condition,
              {
-              order_by  => 'id desc',
-              join      => [ 'reportgrouparbitrary',              'reportgrouptestrun' ],
-              '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouptestrun.testrun_id' ],
-              '+as'     => [ 'arbitrary_id',                      'testrun_id' ]
+              order_by  => 'me.id desc',
+              join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', 'suite' ],
+              '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouptestrun.testrun_id', 'suite.id', 'suite.name', 'suite.type', 'suite.description' ],
+              '+as'     => [ 'arbitrary_id',                      'testrun_id',                    'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
              });
         $reportlist     = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $all_reports ]);
         $c->forward('/artemis/reports/prepare_navi');

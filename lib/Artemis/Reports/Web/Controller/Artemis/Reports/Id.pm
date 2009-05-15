@@ -27,10 +27,10 @@ sub index :Path :Args(1)
                      {
                       "reportgrouparbitrary.arbitrary_id" => $rga->arbitrary_id
                      },
-                     {  order_by  => 'id desc',
-                        join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', ],
-                        '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport' ],
-                        '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary'                      ],
+                     {  order_by  => 'me.id desc',
+                        join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', 'suite'],
+                        '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport', 'suite.id', 'suite.name', 'suite.type', 'suite.description' ],
+                        '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
                      }
                     );
                 $reportlist_rga = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rga_reports ]);

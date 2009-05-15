@@ -44,11 +44,13 @@ sub prepare_simple_reportlist : Private
                 my $rga_primary = $cols{rga_primary};
                 my $rgt_id      = $cols{rgt_id};
                 my $rgt_primary = $cols{rgt_primary};
+                my $suite_name  = $cols{suite_name} || 'unknownsuite';
+                my $suite_id    = $cols{suite_id}   || '0';
                 my $r = {
                          id                    => $report->id,
-                         suite_name            => $report->suite ? $report->suite->name : 'unknown',
-                         suite_id              => $report->suite ? $report->suite->id : '0',
-                         machine_name          => $report->machine_name || 'unknown',
+                         suite_name            => $suite_name,
+                         suite_id              => $suite_id,
+                         machine_name          => $report->machine_name || 'unknownmachine',
                          created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
                          created_at_ymd        => $report->created_at->ymd('-'),
                          success_ratio         => $report->success_ratio,
@@ -143,7 +145,7 @@ sub prepare_this_weeks_reportlists : Private
         my $reports = $c->model('ReportsDB')->resultset('Report')->search
             (
              $filter_condition,
-             {  order_by  => 'id desc',
+             {  order_by  => 'me.id desc',
                 columns   => [ qw( id
                                    machine_name
                                    created_at
@@ -155,9 +157,9 @@ sub prepare_this_weeks_reportlists : Private
                                    peeraddr
                                    peerhost
                                 )],
-                join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', ],
-                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport' ],
-                '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary'                      ],
+                join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', 'suite' ],
+                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport', 'suite.id', 'suite.name', 'suite.type', 'suite.description' ],
+                '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
              }
             );
 
