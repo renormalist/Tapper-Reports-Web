@@ -8,6 +8,8 @@ use 5.010;
 use Catalyst::Runtime '5.70';
 use Hash::Merge;
 
+use Class::C3::Adopt::NEXT;
+
 # Set flags and add plugins for the application
 #
 #         -Debug: activates the debug mode for very useful log messages
