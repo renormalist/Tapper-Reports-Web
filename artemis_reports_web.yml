@@ -3,6 +3,10 @@
 name: Artemis::Reports::Web
 
 database:
+  TestrunDB:
+    dsn:        dbi:mysql:dbname=testrundb
+    username:   artemis
+    password:   artemis
   ReportsDB:
     dsn:        dbi:mysql:dbname=reportsdb
     username:   artemis
@@ -12,6 +16,10 @@ database:
 # explicit development environment
 development:
   database:
+    TestrunDB:
+      dsn:        dbi:mysql:dbname=testrundb_dev
+      username:   artemis
+      password:   artemis
     ReportsDB:
       dsn:        dbi:mysql:dbname=reportsdb_dev
       username:   artemis
@@ -21,6 +29,10 @@ development:
 # special test environment
 test:
   database:
+    TestrunDB:
+      dsn:        dbi:SQLite:dbname=t/artemis_schema_testrundb_test.sqlite
+      username:   ''
+      password:   ''
     ReportsDB:
       dsn:        dbi:SQLite:dbname=t/artemis_schema_reportsdb_test.sqlite
       username:   ''
