@@ -34,6 +34,7 @@ requires 'FindBin';
 requires 'YAML';
 requires 'FCGI';
 requires 'parent';
+requires 'Class::C3::Adopt::NEXT';
 
 catalyst;
 
