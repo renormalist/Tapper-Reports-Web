@@ -1,0 +1,17 @@
+<%args>
+    $report
+    %reportlist_rgt => {}
+</%args>
+<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/tap_formatter_html.css" />
+<script type="text/javascript" src="/artemis/static/js/tap_formatter_html_jquery-1.2.3.pack.js"></script>
+<script type="text/javascript" src="/artemis/static/js/tap_formatter_html.js"></script>
+
+% use Artemis::TAP::Harness;
+
+
+% if (%reportlist_rgt) {
+<& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
+%}
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
