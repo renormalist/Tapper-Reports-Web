@@ -50,8 +50,9 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Test-Protocol">3.2.8 YAML Diagnostics</a>
 <li><a href="#Test-Protocol">3.2.9 Headers for ARTEMIS</a>
 <li><a href="#Test-Protocol">3.2.10 Sections for ARTEMIS</a>
-<li><a href="#Test-Protocol">3.2.11 Developing with TAP</a>
-<li><a href="#Test-Protocol">3.2.12 TAP tips</a>
+<li><a href="#Test-Protocol">3.2.11 Explicit section markers with lazy plans</a>
+<li><a href="#Test-Protocol">3.2.12 Developing with TAP</a>
+<li><a href="#Test-Protocol">3.2.13 TAP tips</a>
 </li></ul>
 <li><a href="#Test-Protocol">3.3 Special Artemis headers inside TAP</a>
 <li><a href="#Test-Protocol">3.4 Particular use-cases</a>
@@ -99,8 +100,10 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Preconditions">5.2.4.8 type: prc (OK)</a>
 <li><a href="#Preconditions">5.2.4.9 type: exec</a>
 <li><a href="#Preconditions">5.2.4.10 type: reboot</a>
-<li><a href="#Preconditions">5.2.4.11 type: virt</a>
-<li><a href="#Preconditions">5.2.4.12 General precondition keys &ldquo;mountfile&rdquo;</a>
+<li><a href="#Preconditions">5.2.4.11 type: autoinstall</a>
+<li><a href="#Preconditions">5.2.4.12 type: testprogram</a>
+<li><a href="#Preconditions">5.2.4.13 type: virt</a>
+<li><a href="#Preconditions">5.2.4.14 General precondition keys &ldquo;mountfile&rdquo;</a>
 </li></ul>
 </li></ul>
 <li><a href="#Preconditions">5.3 Macro Preconditions</a>
@@ -143,6 +146,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <ul>
 <li><a href="#Reports-API">7.3.2.1 Data::DPath expressions</a>
 </li></ul>
+<li><a href="#Reports-API">7.3.3 Optimizations</a>
 </li></ul>
 <li><a href="#Reports-API">7.4 Client Utility <code>artemis-api</code></a>
 <ul>
@@ -181,9 +185,10 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 </li></ul>
 <li><a href="#Artemis-Development">9.2.2 Development environment</a>
 <ul>
-<li><a href="#Artemis-Development">9.2.2.1 Web User Interface</a>
-<li><a href="#Artemis-Development">9.2.2.2 Reports::Receiver</a>
-<li><a href="#Artemis-Development">9.2.2.3 Reports::API</a>
+<li><a href="#Artemis-Development">9.2.2.1 Preparing an MCP host</a>
+<li><a href="#Artemis-Development">9.2.2.2 Web User Interface</a>
+<li><a href="#Artemis-Development">9.2.2.3 Reports::Receiver</a>
+<li><a href="#Artemis-Development">9.2.2.4 Reports::API</a>
 </li></ul>
 <li><a href="#Artemis-Development">9.2.3 Logfiles</a>
 </li></ul>
@@ -192,11 +197,15 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Artemis-Development">9.3.1 Create and upload Python packages</a>
 <li><a href="#Artemis-Development">9.3.2 Create and upload Perl packages</a>
 <li><a href="#Artemis-Development">9.3.3 Generate complete Artemis toolchain in opt-artemis package</a>
-<li><a href="#Artemis-Development">9.3.4 Update Python wrappers in opt-artemis package</a>
+<li><a href="#Artemis-Development">9.3.4 Installation of the Web User Interface</a>
 </li></ul>
-<li><a href="#Artemis-Development">9.4 Installation of the Web User Interface</a>
-<li><a href="#Artemis-Development">9.5 Upgrading a database schema</a>
-<li><a href="#Artemis-Development">9.6 Environment variables</a>
+<li><a href="#Artemis-Development">9.4 Upgrading a database schema</a>
+<li><a href="#Artemis-Development">9.5 Environment variables</a>
+<li><a href="#Artemis-Development">9.6 Image preparation</a>
+<li><a href="#Artemis-Development">9.7 Troubleshooting</a>
+<ul>
+<li><a href="#Artemis-Development">9.7.1 Got a packet bigger than 'max_allowed_packet' bytes</a>
+</li></ul>
 </li></ul>
 </li></ul>
 </div>
@@ -212,7 +221,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">1 Synopsis</h2>
 
-<p>ARTEMIS is an infrastructure that consists of 3 important layers:
+<p>ARTEMIS is an infrastructure.
+
+<p>It consists of applications, tools and protocols for testing software
+and evaluating the results. One focus is on testing Operating Systems
+in virtualization environments on AMD hardware.
+
+<p>There are 3 important layers:
 
      <ul>
 <li><strong>Report Framework</strong>
@@ -523,8 +538,10 @@ These are the headers that apply to the whole report:
  # Artemis-suite-version:              -- suite version
  # Artemis-machine-name:               -- machine/host name
  # Artemis-machine-description:        -- more details to machine
- # Artemis-starttime-test-program:     -- start time for complete test (including guests)
- # Artemis-endtime-test-program:       -- end time for complete test (including guests)
+ # Artemis-starttime-test-program:     -- start time for complete test
+                                          (including guests)
+ # Artemis-endtime-test-program:       -- end time for complete test
+                                          (including guests)
 </pre>
 
 <h4 class="subsection">3.2.10 Sections for ARTEMIS</h4>
@@ -555,12 +572,19 @@ ok 3
 <p>These are the headers that apply to single sections:
 
 <pre class="verbatim">
+ # Artemis-explicit-section-start:   -- explicitely start a section now
+                                        instead of autorecognition
  # Artemis-ram:                      -- memory
  # Artemis-cpuinfo:                  -- what CPU
  # Artemis-uname:                    -- kernel information
  # Artemis-osname:                   -- OS information
+ # Artemis-flags:                    -- flags, usually linux kernel
+ # Artemis-changeset:                -- exact changeset of the currently tested software or kernel
+ # Artemis-description:              -- more description of the currently tested software or kernel, 
+                                        e.g., if changeset is not enough
  # Artemis-uptime:                   -- uptime, maybe the test run time
- # Artemis-language-description:     -- for Software tests, like "Perl 5.10", "Python 2.5"
+ # Artemis-language-description:     -- for Software tests, 
+                                        like "Perl 5.10", "Python 2.5"
  # Artemis-xen-version:              -- Xen version
  # Artemis-xen-changeset:            -- particular Xen changeset
  # Artemis-xen-dom0-kernel:          -- the kernel version of the dom0
@@ -581,7 +605,46 @@ ok 3
  # Artemis-reportcomment:            -- Freestyle comment
 </pre>
 
-<h4 class="subsection">3.2.11 Developing with TAP</h4>
+<h4 class="subsection">3.2.11 Explicit section markers with lazy plans</h4>
+
+<p>In TAP it is allowed to print the plan (1..n) after the test lines (a
+&ldquo;lazy plan&rdquo;).  In our ARTEMIS environment with concatenated sections
+this would break the default section splitting which uses the plan to
+recognize a section start.
+
+<p>If you want to use such a &ldquo;lazy plan&rdquo; in your report you can print
+an ARTEMIS header <code>Artemis-explicit-section-start</code> to explictely
+start a section. Everything until the next header
+<code>Artemis-explicit-section-start</code> is building one section. This
+also means that if you used this header <strong>once</strong> in a report you
+need to use it for <strong>all</strong> sections in this report.
+
+<p>The <code>Artemis-explicit-section-start</code> typically ignores its value
+but it is designed anyway to allow any garbage after the value that
+can help you visually structure your reports because explicit sections
+with &ldquo;lazy plans&rdquo; make a report hard to read.
+
+<p>Example:
+
+<pre class="verbatim">
+# Artemis-explicit-section-start: 1 ------ arithmetics -------
+# Artemis-section: arithmetics
+ok 1 add
+ok 2 multiply
+1..2
+# Artemis-explicit-section-start: 1 ------ string handling -------
+# Artemis-section: string handling
+ok 1 concat
+1..1
+# Artemis-explicit-section-start: 1 ------ benchmarks -------
+# Artemis-section: benchmarks
+ok 1
+ok 2
+ok 3
+1..3
+</pre>
+
+<h4 class="subsection">3.2.12 Developing with TAP</h4>
 
      <ul>
 <li>TAP::Parser
@@ -604,11 +667,11 @@ Files=4, Tests=6, 0 wallclock secs
 Result: PASS
 </pre>
 
-<h4 class="subsection">3.2.12 TAP tips</h4>
+<h4 class="subsection">3.2.13 TAP tips</h4>
 
      <ul>
 <li>Easy to produce but using it <strong>usefully</strong> can be a challenge
-<li>ARTEMIS - &ldquo;The art to emit&rdquo;
+<li>think &ldquo;ARTEMIS&rdquo; &ndash; l'Art `emis &ndash; &ldquo;The art to emit&rdquo;
 <li>use invariable test descriptions
 <li>put meta information in diagnostics lines, not test descriptions
 <li>use the description after <code># TODO/SKIP</code>
@@ -1181,7 +1244,37 @@ the first boot is always counted as number 0.
      count: 2
 </pre>
 
-<h5 class="subsubsection">5.2.4.11 type: virt</h5>
+<h5 class="subsubsection">5.2.4.11 type: autoinstall</h5>
+
+     <p>Install a system using autoinstall scripts. The filename denotes the
+grub config to be used. It is mandatory and can be given as absolut
+path or relative to /data/bancroft/.../repository/install_grub/. The
+optional timeout is measured in second. If its absent a default value
+is used.
+
+     <pre class="verbatim">     
+     precondition_type: autoinstall
+     filename: suse/SLES10SP3_x86_64.lst
+     timeout: 1800
+</pre>
+
+<h5 class="subsubsection">5.2.4.12 type: testprogram</h5>
+
+     <p>Define which test program to run. This way of defining a test program
+should be prefered to using the &rdquo;'PRC&rdquo;' type precondition. Only the
+&rdquo;'testprogram&rdquo;' precondition guarantees parsing that sets all
+internal Artemis variables correctly.
+
+     <pre class="verbatim">     
+     precondition_type: testprogram
+     runtime: 30
+     program: /bin/uname_tap.sh
+     timeout: 90
+     parameters:
+     - --verbose
+</pre>
+
+<h5 class="subsubsection">5.2.4.13 type: virt</h5>
 
      <p>A virtualization environment.
 
@@ -1242,7 +1335,7 @@ the root image (like tar.gz packages or subdir)
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.12 General precondition keys &ldquo;mountfile&rdquo;</h5>
+<h5 class="subsubsection">5.2.4.14 General precondition keys &ldquo;mountfile&rdquo;</h5>
 
 <p>These 2 options are possible in each precondition. With that you can
 execute the precondition inside guest images:
@@ -1733,6 +1826,24 @@ everything after the <code>::</code>. This part is passed through to
 
 <h5 class="subsubsection">7.3.2.1 Data::DPath expressions</h5>
 
+<h4 class="subsection">7.3.3 Optimizations</h4>
+
+<p>Using the query language can be slow. The biggest slowdown occurs with
+the &lsquo;<samp><span class="samp">ANYWHERE</span></samp>&rsquo; element <code>//</code>, again with several of them,
+because they span up a big search tree.
+
+<p>Therefore, if you know the depth of your path, try to replace the
+<code>//</code> with some <code>*</code> because that only spans up on the current
+step not every possible step, like this:
+
+<pre class="verbatim">
+  { ... } :: //section/stats-proc-interrupts-before//tap//data/TLB";
+</pre>
+
+<pre class="verbatim">
+  { ... } :: /results/*/section/stats-proc-interrupts-before/tap/lines/*/_children/*/data/TLB";
+</pre>
+
 <!-- ====================================================================== -->
 <p><a name="artemis_002dapi"></a>
 
@@ -2203,7 +2314,21 @@ Reports::API, Web User Interface.
 <p>The MCP is usually running on host <code>siegfried</code>, with a test
 target machine <code>bullock</code>.
 
-<h5 class="subsubsection">9.2.2.1 Web User Interface</h5>
+<h5 class="subsubsection">9.2.2.1 Preparing an MCP host</h5>
+
+<pre class="verbatim">
+
+ $ sudo apt-get install inetutils-inetd
+ $ sudo apt-get install atftpd
+ $ sudo chmod 777 /var/lib/tftpboot/
+ $ sudo ln -s /var/lib/tftpboot /tftpboot
+ $ # in /etc/group add group ``artemis'' with same ID as NFS group ``artemis'': 55435
+ $ # add local user to this ``artemis'' group
+ $ # needed to access /data/bancroft/artemis
+
+</pre>
+
+<h5 class="subsubsection">9.2.2.2 Web User Interface</h5>
 
 <p>The application is running with its own webserver on <code>bascha</code>:
 
@@ -2217,14 +2342,14 @@ target machine <code>bullock</code>.
  $ sudo /etc/init.d/artemis_reports_web
 </pre>
 
-<h5 class="subsubsection">9.2.2.2 Reports::Receiver</h5>
+<h5 class="subsubsection">9.2.2.3 Reports::Receiver</h5>
 
 <pre class="verbatim">
  $ ssh ss5@bascha
  $ sudo /etc/init.d/artemis_reports_receiver_daemon restart
 </pre>
 
-<h5 class="subsubsection">9.2.2.3 Reports::API</h5>
+<h5 class="subsubsection">9.2.2.4 Reports::API</h5>
 
 <pre class="verbatim">
  $ ssh ss5@bascha
@@ -2282,20 +2407,16 @@ worth to be installed in the development or live environment.
       cd Artemis/src/TestSuite-LmBench-Python
 </pre>
 
-     <li>Call the python setup script to generate a distribution
+     <li>Call make to generate the package used for live or development
 
      <pre class="verbatim">     
-      $ INCREMENT_VERSION=1 python setup.py sdist
+      $ make devel
 </pre>
 
-     <p>The setup.py increments the version number in source if
-<code>INCREMENT_VERSION</code> is set. This is needed before publicly
-uploading a new version. For local development this can be omitted.
-
-     <li>Upload the package
+     <p>or
 
      <pre class="verbatim">     
-      $ ./scripts/dist_upload_wotan.sh
+      $ make live
 </pre>
 
 </ul>
@@ -2303,6 +2424,27 @@ uploading a new version. For local development this can be omitted.
 <h4 class="subsection">9.3.2 Create and upload Perl packages</h4>
 
 <!-- ======================================== -->
+<p>For <code>Artemis::MCP</code>, <code>Artemis::PRC</code>,
+<code>Artemis::Installer</code>, <code>Artemis::Schema</code> and
+<code>Artemis::Config</code> the deployment also works via <code>make
+devel/live</code>:
+
+     <ul>
+<li><pre class="verbatim">     
+      $ make devel
+</pre>
+
+     <p>or
+
+     <pre class="verbatim">     
+      $ make live
+</pre>
+
+</ul>
+
+<p>For the other Perl libraries of the Reports framework follow these
+steps:
+
      <ul>
 <li>Go to the subdirectory of the package (Reports API in this example)
 
@@ -2348,6 +2490,11 @@ manually before publicly uploading a new version.
 <h4 class="subsection">9.3.3 Generate complete Artemis toolchain in opt-artemis package</h4>
 
 <!-- =================================================================== -->
+<p>The previous chapters described how to build packages based on an
+already prepared build environment.
+
+<p>If you need to start from scratch the following section applies.
+
 <p>Following are the steps to create a <code>opt-artemis.tar.gz</code> package
 in a mounted and chrooted image. It compiles Perl and Python, installs
 them under <code>/opt/artemis</code> and installs the Artemis libraries. For
@@ -2355,7 +2502,7 @@ the Perl part it also installs all CPAN dependencies from a local
 mirror.
 
 <p>The resulting <code>/opt/artemis</code> subdir can be used to continuously
-upgrade the Artemis libs as described in the following sections later.
+upgrade the Artemis libs as described in the preceding sections.
 
      <ul>
 <li>Login as User &lsquo;<samp><span class="samp">ss5</span></samp>&rsquo;
@@ -2484,90 +2631,9 @@ builders and a bind mounted <code>/dev</code> to get a random seed for ssh
 
 </ul>
 
-<h4 class="subsection">9.3.4 Update Python wrappers in opt-artemis package</h4>
-
-<!-- ====================================================== -->
-<p>This is usually done on an official Artemis release by the release
-manager.
-
-     <ul>
-<li>Login as user &lsquo;<samp><span class="samp">artemis</span></samp>&rsquo; on bancroft
-
-     <pre class="verbatim">     
-     ssh artemis@bancroft
-</pre>
-
-     <li>Chroot into to mounted build image
-
-     <pre class="verbatim">     
-     sudo chroot /opt/artemis/mnt64/
-</pre>
-
-     <li>Create <code>/tmp/wrapper</code> if it doesn't exist
-
-     <pre class="verbatim">     
-     mkdir -p /tmp/wrapper
-</pre>
-
-     <li>Change into this directory
-
-     <pre class="verbatim">     
-     cd /tmp/wrapper
-</pre>
-
-     <li>Copy all from Python repository
-
-     <p>Do this as user &lsquo;<samp><span class="samp">artemis</span></samp>&rsquo; because &lsquo;<samp><span class="samp">root</span></samp>&rsquo; can't read all
-packages from NFS.
-
-     <pre class="verbatim">     
-     sudo -u artemis cp -rf /home/artemis/PYTHONREPO/* .
-</pre>
-
-     <li>Install the wrappers in <code>/opt/artemis</code>
-
-     <pre class="verbatim">     
-     ./wrapper_install_opt.sh
-</pre>
-
-     <li>Leave chroot
-
-     <pre class="verbatim">     
-     exit
-</pre>
-
-     <li>Pack package together
-
-     <pre class="verbatim">     
-     cd /opt/artemis/mnt64
-     sudo tar -czf \
-      /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis64_rh4.7.tar.gz \
-      opt/
-</pre>
-
-     <li>Do the same for 32bit
-
-     <p>Basically the same steps, but with another mounted build image.
-
-     <pre class="verbatim">     
-     ssh artemis@bancroft
-     sudo chroot /opt/artemis/mnt32/
-     mkdir -p /tmp/wrapper
-     cd /tmp/wrapper
-     sudo -u artemis cp -rf /home/artemis/PYTHONREPO/* .
-     ./wrapper_install_opt.sh
-     exit 
-     cd /opt/artemis/mnt32
-     sudo tar -czf \
-      /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis32_rh4.7.tar.gz \
-      opt/
-</pre>
-
-</ul>
-
 <p><strong>Person in charge</strong>: Maik Hentsche, Conny Seidel, Steffen Schwigon
 
-<h3 class="section">9.4 Installation of the Web User Interface</h3>
+<h4 class="subsection">9.3.4 Installation of the Web User Interface</h4>
 
 <p>The web application itself is available via the NFS mounted
 <code>/home/artemis</code>. On the application server in the Apache
@@ -2606,7 +2672,7 @@ ProxyPassReverse /hardwaredb http://bancroft/hardwaredb
 
 <p><strong>Person in charge</strong>: Steffen Schwigon
 
-<h3 class="section">9.5 Upgrading a database schema</h3>
+<h3 class="section">9.4 Upgrading a database schema</h3>
 
 <p>The database schema is maintained as description for the Object
 Relational Mapper <em>DBIx::Class</em> using some versioning and
@@ -2689,7 +2755,7 @@ the environment. On development machine I have set
 
 </ul>
 
-<h3 class="section">9.6 Environment variables</h3>
+<h3 class="section">9.5 Environment variables</h3>
 
 <p>There are some environment variables used in several contexts. Some of
 them are set from the automation layer to support the testsuites, some
@@ -2784,6 +2850,101 @@ whether the config context either &ldquo;live&rdquo; or &ldquo;development&rdquo
 therefore similar to <code>ARTEMIS_DEVELOPMENT</code> but the web user
 interface is disconnected from the automation layer, even in the used
 config, and therefore using its own mechanism.
+
+</ul>
+
+<h3 class="section">9.6 Image preparation</h3>
+
+<p>There are several assumptions about available features inside the os
+images.
+
+     <ul>
+<li>netcat
+
+     <p>There must be a <code>netcat</code> or <code>nc</code> available.
+
+     <li>/etc/artemis
+
+     <p>The file <code>/etc/artemis</code> must be writeable.
+
+     <p>This is normally the case, but on some systems (non-writeable qcow
+images) this requires that the file is a link to a file in another
+writeable mounted image.
+
+     <li>/opt/artemis
+
+     <p>There directory <code>/opt/artemis</code> must be a writeable.
+
+     <p>This is normally the case, but on some systems (non-writeable qcow
+images) this requires that the file is a link to a file in another
+writeable mounted image.
+
+</ul>
+
+<h3 class="section">9.7 Troubleshooting</h3>
+
+<h4 class="subsection">9.7.1 Got a packet bigger than 'max_allowed_packet' bytes</h4>
+
+     <ul>
+<li>Context:
+mysql, usually via a Perl DBI driver.
+
+     <li>Error message:
+
+     <pre class="verbatim">     
+     Artemis::Reports::DPath::Mason::render_template::exec(anon_comp): 
+     DBIx::Class::DynamicDefault::update(): 
+     DBI Exception: 
+     DBD::mysql::st execute failed: 
+     Got a packet bigger than 'max_allowed_packet' bytes
+      [for Statement "UPDATE report SET tapdom = ?, updated_at = ? WHERE ( id = ? )" 
+       with ParamValues: 0='$VAR1 = [
+       {
+         'section' => {
+            'artemis-meta-information' => {
+               'tap' => bless( {
+                 'parse_errors' => [],
+                    'tests_run' => 1,
+                    'version' => 13,
+                    'exit' => 0,
+                    'start_time' => '1241791634.64412',
+                    'skip_all' => undef,
+                    'lines' => [
+                       {
+                         ...', 1='2009-05-08 14:07:14', 2='6033']
+      at /home/artemis/perl510/lib/site_perl/5.10.0/
+         Artemis/Schema/ReportsDB/Result/Report.pm line 132
+     
+     Stack:
+       [/home/artemis/perl510/lib/site_perl/5.10.0/Carp/Clan.pm:213]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Exception.pm:58]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Schema.pm:1020]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage.pm:122]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:863]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1113]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:608]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1123]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1206]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Row.pm:325]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Relationship/CascadeActions.pm:30]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/DynamicDefault.pm:117]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Schema/ReportsDB/Result/Report.pm:132]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:75]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:62]
+       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:26]
+       [/virtual/artemis_reports_dpath_mason:23]
+</pre>
+
+     <li>Fix:
+
+     <p>Increase the buffer size in the mysql config, e.g., on <code>bancroft</code> in <code>/etc/my.cnf</code>:
+
+     <pre class="verbatim">     
+     [mysqld]
+     ...
+     max_allowed_packet = 128M
+     ...
+</pre>
 
 </ul>
 
