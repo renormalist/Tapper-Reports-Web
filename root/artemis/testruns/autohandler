@@ -45,7 +45,7 @@
 		
 			<div id="columnC_2columns">
 	
-<& /artemis/reports/navi.mas &>
+<& /artemis/testruns/navi.mas &>
 						
 			</div>
 
