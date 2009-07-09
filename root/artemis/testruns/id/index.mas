@@ -11,39 +11,47 @@ $preconditions
 % use Data::Dumper;
 
 % if ($preconditions) {
-<h2><% ucfirst($preconditions->{name}) %></h2>
-    <table class="reportlist">
-        <thead>
-          <tr>
-            <th>Architecture</th>
-            <th>Root image</th>
-            <th>Test</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><% $preconditions->{arch} %></td>
-            <td><% $preconditions->{root} %></td>
-            <td><% $preconditions->{test} %></td>
-          </tr>
+<h3><% ucfirst($preconditions->{name}) %></h3>
+<h4>Summary</h4>
+<table class="reportsectionmeta">
+  <tbody>
+    <td colspan="2"><h5>Host</h5></td>
+    <tr>
+      <th>Architecture</th>
+      <td><% $preconditions->{arch} %></td>
+    </tr>
+    <tr>
+      <th>Root image</th>
+      <td><% $preconditions->{image} %></td>
+    </tr>
+    <tr>
+      <th>Test</th>
+      <td><% $preconditions->{test} %></td>
+    </tr>
 %   for(my $i = 0; $i <= $#{$preconditions->{guests}}; $i++) {
 %     my $guest = $preconditions->{guests}->[$i];
-         <tr>
-           <td colspan = "3"><h4>Guest number <% $i+1 %></h4></td>
-         </tr>
-         <tr>
-          <td><% $guest->{arch} %></td>
-          <td><% $guest->{root} %></td>
-          <td><% $guest->{test} %></td>
-        </tr>
+      <td colspan="2"><h5>Guest number <% $i+1 %></h5></td>
+      <tr>
+        <th>Architecture</th>
+        <td><% $guest->{arch} %></td>
+      </tr>
+      <tr>
+        <th>Root image</th>
+        <td><% $guest->{image} %></td>
+      </tr>
+      <tr>
+        <th>Test</th>
+        <td><% $guest->{test} %></td>
+      </tr>
+  </tbody>
+</table>
 %   }
 % }
-        </tbody>
-    </table>
-<hr>
+
 
 
 % if (%reportlist_rgt) {
+<h4>Reports of same group (Testrun <% $testrun->shortname %>)</h4>
 <& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
 %}
 %# Local Variables:
