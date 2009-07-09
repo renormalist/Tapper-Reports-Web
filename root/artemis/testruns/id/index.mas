@@ -27,7 +27,7 @@ $preconditions
     </tr>
     <tr>
       <th>Test</th>
-      <td><% $preconditions->{test} ? join ", ",@{$preconditions->{test}} : '' %></td>
+      <td><% $preconditions->{test} ? join "<br> ",@{$preconditions->{test}} : '' |n%></td>
     </tr>
 %   for(my $i = 0; $i <= $#{$preconditions->{guests}}; $i++) {
 %     my $guest = $preconditions->{guests}->[$i];
@@ -42,7 +42,7 @@ $preconditions
       </tr>
       <tr>
         <th>Test</th>
-        <td><% $guest->{test} ? join ", ",@{$guest->{test}} : '' %></td>
+        <td><% $guest->{test} ? join "<br/>",@{$guest->{test}} : '' %></td>
       </tr>
 %   }
   </tbody>
