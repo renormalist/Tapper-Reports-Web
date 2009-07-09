@@ -10,6 +10,8 @@ $preconditions
 
 % use Data::Dumper;
 
+<h1>Testrun <% $testrun->id %></h1>
+
 % if ($preconditions) {
 <h3><% ucfirst($preconditions->{name}) %></h3>
 <h4>Summary</h4>
@@ -48,6 +50,8 @@ $preconditions
 %   }
   </tbody>
 </table>
+<br/>
+<a href="/artemis/testrun/precondition/<% $testrun->id %>">Preconditions in YAML</a>
 % }
 
 
