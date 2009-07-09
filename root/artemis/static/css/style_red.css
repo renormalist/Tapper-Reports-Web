@@ -557,6 +557,7 @@ table.reportsectionmeta td
 table.reportsectionmeta th
 {
   padding: 0em 1em 0em 2em;
+  vertical-align: top
   }
 
 table.reportsectionmeta th
