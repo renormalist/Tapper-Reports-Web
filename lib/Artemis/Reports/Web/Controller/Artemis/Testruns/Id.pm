@@ -13,15 +13,15 @@ sub parse_precondition : Private
         foreach ($testrun->ordered_preconditions) {
                 my $precondition = $_->precondition_as_hash;
                 if ($precondition->{precondition_type} eq 'virt' ) {
-                        $retval->{name} = $precondition->{name} || "Virtualisation Test";
-                        $retval->{arch} = $precondition->{host}->{root}{arch};
+                        $retval->{name}  = $precondition->{name} || "Virtualisation Test";
+                        $retval->{arch}  = $precondition->{host}->{root}{arch};
                         $retval->{image} = $precondition->{host}->{root}{image} || $precondition->{host}->{root}{name}; # can be an image or copyfile or package
-                        $retval->{test} = basename($precondition->{host}->{testprogram}{execname}) if $precondition->{host}->{testprogram}{execname};
+                        push (@{$retval->{test}}, basename($precondition->{host}->{testprogram}{execname})) if $precondition->{host}->{testprogram}{execname};
                         foreach my $guest (@{$precondition->{guests}}) {
                                 my $guest_summary;
-                                $guest_summary->{arch} = $guest->{root}{arch};
+                                $guest_summary->{arch}  = $guest->{root}{arch};
                                 $guest_summary->{image} = $guest->{root}{image} || $guest->{root}{name}; # can be an image or copyfile or package
-                                $guest_summary->{test} = basename($guest->{testprogram}{execname}) if $guest->{testprogram}{execname};
+                                push @{$guest_summary->{test}}, basename($guest->{testprogram}{execname}) if $guest->{testprogram}{execname};
                                 push @{$retval->{guests}}, $guest_summary;
                         }
                         # can stop here because virt preconditions usually defines everything we need for a summary
@@ -42,10 +42,13 @@ sub parse_precondition : Private
                         }
                 } elsif ($precondition->{precondition_type} eq 'prc') {
                         if ($precondition->{config}->{testprogram_list}) {
-                                
+                                foreach my $thisprogram (@{$precondition->{config}->{testprogram_list}}) {
+                                        push @{$retval->{test}}, $thisprogram->{testprogram};
+                                }
+                        } elsif ($precondition->{config}->{test_program}) {
+                                push @{$retval->{test}}, $precondition->{config}->{test_program};
                         }
                 }
-                
         }
         return $retval;
 }
