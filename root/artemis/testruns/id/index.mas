@@ -15,7 +15,9 @@ $preconditions
 <h4>Summary</h4>
 <table class="reportsectionmeta">
   <tbody>
-    <td colspan="2"><h5>Host</h5></td>
+    <tr>
+      <td colspan="2"><h5>Host</h5></td>
+    </tr>
     <tr>
       <th>Architecture</th>
       <td><% $preconditions->{arch} %></td>
@@ -43,18 +45,18 @@ $preconditions
         <th>Test</th>
         <td><% $guest->{test} %></td>
       </tr>
+%   }
   </tbody>
 </table>
-%   }
 % }
 
 
 
 % if (%reportlist_rgt) {
-<h4>Reports of same group (Testrun <% $testrun->shortname %>)</h4>
+<h4>Reports of this Testrun</h4>
 <& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
 %}
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:
-  
+
