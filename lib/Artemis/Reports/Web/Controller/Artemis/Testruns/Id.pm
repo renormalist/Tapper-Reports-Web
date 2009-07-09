@@ -43,7 +43,7 @@ sub parse_precondition : Private
                 } elsif ($precondition->{precondition_type} eq 'prc') {
                         if ($precondition->{config}->{testprogram_list}) {
                                 foreach my $thisprogram (@{$precondition->{config}->{testprogram_list}}) {
-                                        push @{$retval->{test}}, $thisprogram->{testprogram};
+                                        push @{$retval->{test}}, $thisprogram->{program};
                                 }
                         } elsif ($precondition->{config}->{test_program}) {
                                 push @{$retval->{test}}, $precondition->{config}->{test_program};
