@@ -26,8 +26,22 @@ sub index :Path :Args(1)
                 my $disposition = $reportfile->contenttype =~ /plain/ ? 'inline' : 'attachment';
                 $c->response->content_type ($reportfile->contenttype || 'application/octet-stream');
                 $c->response->header ("Content-Disposition" => $disposition.'; filename="'.$reportfile->filename.'"');
-                $c->response->body ($reportfile->filecontent);
+                $c->response->body (filter($reportfile->filecontent));
         }
+}
+
+sub filter
+{
+        my @retval;
+        foreach my $line (@_) {
+                $line =~ s/\015//g;
+                $line =~ s/\033\[.*?[mH]//g;
+                $line =~ s/\033\d+/\t/g;
+                $line =~ s/\017//g;
+                $line =~ s/\033\[\?25h//g;
+                push @retval, $line;
+        }
+        return @retval;
 }
 
 1;
