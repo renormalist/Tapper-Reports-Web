@@ -48,7 +48,7 @@ $preconditions
   </tbody>
 </table>
 <br/>
-<a href="/artemis/testruns/precondition/<% $testrun->id %>">Preconditions in YAML</a>
+<a href="/artemis/preconditions/testrun/<% $testrun->id %>">Preconditions in YAML</a>
 % }
 
 
