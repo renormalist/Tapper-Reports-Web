@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Controller::Artemis::Testruns::Precondition;
+package Artemis::Reports::Web::Controller::Artemis::Preconditions::Testrun;
 
 use strict;
 use warnings;
@@ -8,9 +8,15 @@ use Data::Dumper;
 
 sub index :Path :Args(1)
 {
-        my ( $self, $c, $testrun_id ) = @_;
+        my ( $self, $c, $testrun_id, $raw ) = @_;
         my $testrun_search  : Stash = $c->model('TestrunDB')->resultset('Testrun')->find(id => $testrun_id);
 
+        if (not $raw) {
+                $c->response->body(qq(No value for raw));
+                return;
+
+        }
+        
         if ($testrun_search) {
                 $c->response->content_type ('plain');
                 $c->response->header ("Content-Disposition" => 'inline; filename="precondition-'.$testrun_id.'.yml"');
