@@ -1,2 +1,31 @@
-<h3>Hello testruns!</h3>
+<%args>
+@testruns
+</%args>
+
+<h1>Testruns</h1>
+<h4>Overview</h4>
+<table class="suitelist">
+  <thead>
+    <th>Testrun ID</th>
+    <th>Status of Testrun</th>
+    <th>Start time</th>
+    <th>End time</th>
+  </thead>
+  <tbody>
+% foreach my $testrun(@testruns){
+    <tr>
+      <td> <a href="/artemis/testruns/id/<% $testrun->{id} %>"><% $testrun->{id} %></a> </td>
+      <td> <% $testrun->{state} %> </td>
+      <td> <% $testrun->{start_time} %> </td>
+      <td> <% $testrun->{finish_time} %> </td>
+    </tr>
+% }
+  </tbody>
+</table>
+<br/>
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
+
+
 
