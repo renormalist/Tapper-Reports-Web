@@ -1,2 +1,25 @@
-<h3>Hello testruns!</h3>
+<%args>
+@preconditions
+</%args>
+
+<h1>Preconditions</h1>
+<h4>Overview</h4>
+<table  class="reportsectionmeta">
+  <tbody>
+% foreach my $precondition(@preconditions){
+%   foreach my $key(keys %$precondition){
+    <tr>
+      <th> <% $key %></a> </th>
+      <td> <% $precondition->{$key} %> </td>
+    </tr>
+%   }
+% }
+  </tbody>
+</table>
+<br/>
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
+
+
 
