@@ -8,6 +8,13 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
+        my @preconditions : Stash;
+
+        my $precond_search = $c->model('TestrunDB')->resultset('Precondition');
+        while (my $this_precond = $precond_search->next()) {
+                push @preconditions, $this_precond->precondition_as_hash;
+        }
+        return;
 }
 
 =head1 NAME
