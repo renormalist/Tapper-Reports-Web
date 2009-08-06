@@ -15,7 +15,13 @@
 % foreach my $testrun(@testruns){
     <tr>
       <td> <a href="/artemis/testruns/id/<% $testrun->{id} %>"><% $testrun->{id} %></a> </td>
+% if ($testrun->{state} eq 'Running or stopped') {
+      <td><label title="Testrun was started but did not send a finish
+         message. This could mean it is still running or MCP was stopped while it
+         was running and the testrun is in an unknown state."><% $testrun->{state} %></label></td>
+% } else {
       <td> <% $testrun->{state} %> </td>
+% }
       <td> <% $testrun->{start_time} %> </td>
       <td> <% $testrun->{finish_time} %> </td>
     </tr>
