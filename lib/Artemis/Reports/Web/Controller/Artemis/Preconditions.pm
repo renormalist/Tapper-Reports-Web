@@ -12,7 +12,10 @@ sub index :Path :Args(0)
 
         my $precond_search = $c->model('TestrunDB')->resultset('Precondition');
         while (my $this_precond = $precond_search->next()) {
-                push @preconditions, $this_precond->precondition_as_hash;
+                my $hash = $this_precond->precondition_as_hash;
+                $hash->{id} = $this_precond->id;
+
+                push @preconditions, $hash;
         }
         return;
 }
