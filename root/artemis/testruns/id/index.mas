@@ -11,7 +11,8 @@ $preconditions
 
 % if ($preconditions) {
 <h3><% ucfirst($preconditions->{name}) %></h3>
-<h4><a href="/artemis/testruns/rerun/<% $testrun->id %>" title="Tooltip">Restart testrun</a></h4>
+<h4><a href="/artemis/testruns/rerun/<% $testrun->id %>" 
+       title="Start testrun with exactly the same values now">Restart testrun</a></h4>
 <h4>Summary</h4>
 <table class="reportsectionmeta">
   <tbody>
