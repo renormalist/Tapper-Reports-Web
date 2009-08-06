@@ -12,6 +12,11 @@
 <link rel="alternate stylesheet" type="text/css" title="Brown" href="/artemis/static/css/style_brown.css" />
 <link rel="alternate stylesheet" type="text/css" title="Magenta" href="/artemis/static/css/style_magenta.css" />
 
+<!-- Title tip support -->
+<script language="JavaScript"  type="text/javascript" src="/artemis/static/js/qTip.js"></script>
+<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/qtip.css" />
+
+
 <style type="text/css" media="print">
         #secondaryContent_2columns { display: none; }
         #primaryContent_2columns   { margin-right: 1.5em; }
