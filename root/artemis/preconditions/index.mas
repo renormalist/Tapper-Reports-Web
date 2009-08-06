@@ -2,20 +2,22 @@
 @preconditions
 </%args>
 
+% use YAML::Syck;
+
+
 <h1>Preconditions</h1>
 <h4>Overview</h4>
-<table  class="reportsectionmeta">
-  <tbody>
 % foreach my $precondition(@preconditions){
-%   foreach my $key(keys %$precondition){
-    <tr>
-      <th> <% $key %></a> </th>
-      <td> <% $precondition->{$key} %> </td>
-    </tr>
-%   }
+<h5><a href = "/artemis/preconditions/id/<% $precondition->{id} %>">Precondition ID <% $precondition->{id} %></a></h5>
+% delete $precondition->{id};
+<pre>
+<% Dump $precondition %>
+</pre>
 % }
-  </tbody>
-</table>
+
+
+
+
 <br/>
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
