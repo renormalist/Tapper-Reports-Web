@@ -1,0 +1,28 @@
+<%args>
+$precondition
+</%args>
+
+% use YAML::Syck;
+
+<h1>Precondition ID <% $precondition->{id} %></h1>
+<h4><a href="/artemis/preconditions/change/id/<% $precondition->{id} %>" title="Change values of this preconditions without creating a new one">Change</a></h4>
+<h4><a href="/artemis/preconditions/delete/id/<% $precondition->{id} %>" title="Change values of this preconditions without creating a new one">Delete</a></h4>
+<h4><a href="/artemis/preconditions/new/id/<% $precondition->{id} %>"
+       title="Change values of this preconditions without creating a new
+              one">Create similar</a></h4>
+
+% delete $precondition->{id};
+<pre>
+<% Dump $precondition %>
+</pre>
+
+
+
+
+<br/>
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
+
+
+
