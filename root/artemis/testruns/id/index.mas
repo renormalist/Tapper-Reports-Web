@@ -8,9 +8,9 @@ $preconditions
 % use Data::Dumper;
 
 <h1>Testrun <% $testrun->id %></h1>
-<h4><a href="/artemis/testruns/new/<% $testrun->{id} %>" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a></h4>
-<h4><a href="/artemis/testruns/change/<% $testrun->{id} %>" title="Change values of this preconditions without creating a new one">Change Testrun</a></h4>
-<h4><a href="/artemis/testruns/delete/<% $testrun->{id} %>" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a></h4>
+<h4><a href="/artemis/testruns/new/<% $testrun->id %>" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a></h4>
+<h4><a href="/artemis/testruns/change/<% $testrun->id %>" title="Change values of this preconditions without creating a new one">Change Testrun</a></h4>
+<h4><a href="/artemis/testruns/delete/<% $testrun->id %>" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a></h4>
 <h4><a href="/artemis/testruns/rerun/<% $testrun->id %>" title="Start testrun with exactly the same values now">Restart testrun</a></h4>
 % if ($preconditions) {
 <h3><% ucfirst($preconditions->{name}) %></h3>
