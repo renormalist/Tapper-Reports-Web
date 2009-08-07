@@ -8,22 +8,22 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 
 sub index :Path 
 {
-        my ( $self, $c, $testrun_id, $force ) = @_;
+        my ( $self, $c, $precond_id, $force ) = @_;
         my $id : Stash;
         my $done : Stash;
-        $id = $testrun_id;
+        $id = $precond_id;
         $done = $force;
-
-        return if not $force;
-
-        my $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
-        if (not $testrun) {
-                $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
+        my $precond_search = $c->model('TestrunDB')->resultset('Precondition')->find($id);
+        if (not $precond_search) {
+                $c->response->body(qq(No testrun with id "$id" found in the database!));
                 return;
         }
 
+        return if not $force;
+
+
         my $cmd = Artemis::Cmd::Precondition->new();
-        my $retval = $cmd->del($testrun_id);
+        my $retval = $cmd->del($id);
         if ($retval) {
                 $c->response->body(qq(Can't rerun testrun: $retval));
                 return;
