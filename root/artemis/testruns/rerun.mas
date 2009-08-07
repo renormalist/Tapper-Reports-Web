@@ -4,7 +4,7 @@ $testrun
 
 % use Data::Dumper;
 
-<h1>Testrun <% $testrun->id %></h1>
+<h1>Restarted Testrun with ID <% $testrun->id %></h1>
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:

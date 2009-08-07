@@ -1,9 +1,10 @@
 <%args>
-$id
-$done
+$testrun
+$force
 </%args>
 
-% if (not $done){
+% my $id = $testrun->id;
+% if (not $force){
 <H3>Do you really want to delete Testrun <% $id %>?</h3>
 <ul class="additional_table">
   <li><a href="/artemis/testruns/delete/<% $id %>/force/">Really delete Testrun <% $id %></a></li>

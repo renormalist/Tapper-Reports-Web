@@ -20,6 +20,42 @@ sub index :Path :Args(0)
         return;
 }
 
+
+sub base : Chained PathPrefix CaptureArgs(0) { }
+
+sub id : Chained('base') PathPart('') CaptureArgs(1)
+{
+        my ( $self, $c, $precondition_id ) = @_;
+        $c->stash(precondition => $c->model('TestrunDB')->resultset('Precondition')->find($precondition_id));
+        if (not $c->stash->{precondition}) {
+                $c->response->body(qq(No precondition with id "$precondition_id" found in the database!));
+                return;
+        }
+        
+}
+
+sub delete : Chained('id') PathPart('delete')
+{
+        my ( $self, $c, $force) = @_;
+        $c->stash(force => $force);
+
+        return if not $force;
+
+        my $cmd = Artemis::Cmd::Precondition->new();
+        my $retval = $cmd->del($c->stash->{precondition}->id);
+        if ($retval) {
+                $c->response->body(qq(Can't delete precondition: $retval));
+                return;
+        }
+        $c->stash(force => 1);
+}
+
+
+sub similar : Chained('id') PathPart('similar') Args(0)
+{
+}
+
+
 =head1 NAME
 
 Artemis::Reports::Web::Controller::Artemis::Preconditions - Catalyst Controller

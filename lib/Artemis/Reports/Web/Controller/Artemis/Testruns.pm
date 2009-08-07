@@ -5,6 +5,8 @@ use warnings;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 
+use Artemis::Cmd::Testrun;
+
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
@@ -34,6 +36,53 @@ sub index :Path :Args(0)
         }
         return;
 }
+
+sub base : Chained PathPrefix CaptureArgs(0) { }
+
+sub id : Chained('base') PathPart('') CaptureArgs(1)
+{
+        my ( $self, $c, $testrun_id ) = @_;
+        $c->stash(testrun => $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id));
+        if (not $c->stash->{testrun}) {
+                $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
+                return;
+        }
+        
+}
+
+sub delete : Chained('id') PathPart('delete')
+{
+        my ( $self, $c, $force) = @_;
+        $c->stash(force => $force);
+
+        return if not $force;
+
+        my $cmd = Artemis::Cmd::Testrun->new();
+        my $retval = $cmd->del($c->stash->{testrun}->id);
+        if ($retval) {
+                $c->response->body(qq(Can't delete testrun: $retval));
+                return;
+        }
+        $c->stash(force => 1);
+}
+
+sub rerun : Chained('id') PathPart('rerun') Args(0)
+{
+        my ( $self, $c ) = @_;
+
+        my $cmd = Artemis::Cmd::Testrun->new();
+        my $retval = $cmd->rerun($c->stash->{testrun}->id);
+        if (not $retval) {
+                $c->response->body(qq(Can't rerun testrun));
+                return;
+        }
+        $c->stash(testrun => $c->model('TestrunDB')->resultset('Testrun')->find($retval));
+}
+
+sub similar : Chained('id') PathPart('similar') Args(0)
+{
+}
+
 
 =head1 NAME
 
