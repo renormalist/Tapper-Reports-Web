@@ -1,0 +1,19 @@
+<%args>
+$id
+$done
+</%args>
+
+% if (not $done){
+<H3>Do you really want to delete Testrun <% $id %>?</h3>
+<ul class="additional_table">
+  <li><a href="/artemis/testruns/delete/<% $id %>/force/">Really delete Testrun <% $id %></a></li>
+  <li><a href="/artemis/testruns/id/<% $id %>">Go back to overview of Testrun <% $id %></a></li>
+</ul>
+% } else {
+
+<h1>Testrun <% $id %> deleted</h1>
+% }
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
+
