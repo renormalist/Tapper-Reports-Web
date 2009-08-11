@@ -31,13 +31,14 @@ sub id : Chained('base') PathPart('') CaptureArgs(1)
                 $c->response->body(qq(No precondition with id "$precondition_id" found in the database!));
                 return;
         }
-        
 }
 
 sub delete : Chained('id') PathPart('delete')
 {
         my ( $self, $c, $force) = @_;
-        $c->stash(force => $force);
+        # when "done" is true, the precondition will already be deleted by the
+        # controller once we get into the template, hence the name
+        $c->stash(done => 0);
 
         return if not $force;
 
@@ -47,7 +48,7 @@ sub delete : Chained('id') PathPart('delete')
                 $c->response->body(qq(Can't delete precondition: $retval));
                 return;
         }
-        $c->stash(force => 1);
+        $c->stash(done => 1);
 }
 
 
@@ -66,7 +67,7 @@ Catalyst Controller.
 
 =head1 METHODS
 
-=head2 index 
+=head2 index
 
 
 
