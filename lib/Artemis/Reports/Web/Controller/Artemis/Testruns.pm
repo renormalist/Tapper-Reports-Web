@@ -47,7 +47,7 @@ sub id : Chained('base') PathPart('') CaptureArgs(1)
                 $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
                 return;
         }
-        
+
 }
 
 sub delete : Chained('id') PathPart('delete')
@@ -78,6 +78,34 @@ sub rerun : Chained('id') PathPart('rerun') Args(0)
         }
         $c->stash(testrun => $c->model('TestrunDB')->resultset('Testrun')->find($retval));
 }
+
+sub preconditions : Chained('id') PathPart('preconditions') CaptureArgs(0)
+{
+        my ( $self, $c ) = @_;
+        $c->stash(preconditions => $c->stash->{testrun}->ordered_preconditions);
+}
+
+sub as_yaml : Chained('preconditions') PathPart('yaml') Args(0)
+{
+        my ( $self, $c ) = @_;
+
+        my $id = $c->stash->{testrun}->id;
+        $c->response->content_type ('plain');
+        $c->response->header ("Content-Disposition" => 'inline; filename="precondition-'.$id.'.yml"');
+
+        my @preconditions;
+        foreach my $precondition ($c->stash->{preconditions}) {
+                push @preconditions, $precondition->precondition;
+        }
+        $c->response->body ( join "", @preconditions);
+}
+
+sub show_precondition : Chained('preconditions') PathPart('show') Args(0)
+{
+        my ( $self, $c ) = @_;
+
+}
+
 
 sub similar : Chained('id') PathPart('similar') Args(0)
 {
