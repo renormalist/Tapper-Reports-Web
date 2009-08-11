@@ -111,6 +111,32 @@ sub similar : Chained('id') PathPart('similar') Args(0)
 {
 }
 
+sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
+{
+        my ($self, $c) = @_;
+
+        my $form = $c->stash->{form};
+
+        if ($form->submitted_and_valid) {
+                $c->response->body(qq(Testrun created));
+        } else {
+                # Get the authors from the DB
+                my @all_topics = $c->model("TestrunDB")->resultset('Topic')->all();
+                my @topic_names;
+                foreach my $topic (sort {$a->name cmp $b->name} @all_topics) {
+                        push(@topic_names, [$topic->name, $topic->name." -- ".$topic->description]);
+                }
+                # Get the select added by the config file
+                my $select = $form->get_element({type => 'Select'});
+                # Add the authors to it
+                $select->options(\@topic_names);
+
+        }
+
+
+
+}
+
 
 =head1 NAME
 
