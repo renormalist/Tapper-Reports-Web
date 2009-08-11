@@ -1,0 +1,7 @@
+<%args>
+$form
+</%args>
+
+<% $form|n %>
+
+<p><a href="/artemis/testruns/">Return to Testrun list</a></p>
