@@ -1,0 +1,20 @@
+---
+# indicator is the field that is used to test for form submission
+indicator: submit
+# Start listing the form elements
+elements:
+    - type: Text
+      name: title
+      label: Name
+      # This is an optional 'mouse over' title pop-up
+      attributes:
+        title: Enter a descriptive name here
+
+    - type: Select
+      name: Topic
+      label: Topic
+
+    # The submit button
+    - type: Submit
+      name: submit
+      value: Create testrun
