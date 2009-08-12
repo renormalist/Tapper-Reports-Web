@@ -11,10 +11,12 @@
 <link rel="alternate stylesheet" type="text/css" title="Green" href="/artemis/static/css/style_green.css" />
 <link rel="alternate stylesheet" type="text/css" title="Brown" href="/artemis/static/css/style_brown.css" />
 <link rel="alternate stylesheet" type="text/css" title="Magenta" href="/artemis/static/css/style_magenta.css" />
+<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/formfu.css" />
 
 <!-- Title tip support -->
 <script language="JavaScript"  type="text/javascript" src="/artemis/static/js/qTip.js"></script>
 <link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/qtip.css" />
+
 
 
 <style type="text/css" media="print">
