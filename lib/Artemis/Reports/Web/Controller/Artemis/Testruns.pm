@@ -6,6 +6,7 @@ use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 
 use Artemis::Cmd::Testrun;
+use Artemis::Model 'model';
 
 sub index :Path :Args(0)
 {
@@ -114,26 +115,56 @@ sub similar : Chained('id') PathPart('similar') Args(0)
 sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 {
         my ($self, $c) = @_;
+        my $form = $self->form;
 
         my $form = $c->stash->{form};
 
         if ($form->submitted_and_valid) {
                 $c->response->body(qq(Testrun created));
         } else {
-                # Get the authors from the DB
-                my @all_topics = $c->model("TestrunDB")->resultset('Topic')->all();
-                my @topic_names;
-                foreach my $topic (sort {$a->name cmp $b->name} @all_topics) {
-                        push(@topic_names, [$topic->name, $topic->name." -- ".$topic->description]);
-                }
-                # Get the select added by the config file
-                my $select = $form->get_element({type => 'Select'});
-                # Add the authors to it
-                $select->options(\@topic_names);
+                my $select = $form->get_element({type => 'Select', name => 'topic'});
+                $select->options($self->get_topic_names());
 
+                $select = $form->get_element({type => 'Select', name => 'owner'});
+                $select->options($self->get_owner_names());
+
+                $select = $form->get_element({type => 'Select', name => 'system'});
+                $select->options($self->get_hostnames());
         }
 
+}
 
+sub get_topic_names
+{
+        my ($self) = @_;
+        my @all_topics = model("TestrunDB")->resultset('Topic')->all();
+        my @topic_names;
+        foreach my $topic (sort {$a->name cmp $b->name} @all_topics) {
+                push(@topic_names, [$topic->name, $topic->name." -- ".$topic->description]);
+        }
+        return \@topic_names;
+}
+
+sub get_owner_names
+{
+        my ($self) = @_;
+        my @all_owners = model("TestrunDB")->resultset('User')->all();
+        my @owners;
+        foreach my $owner (sort {$a->name cmp $b->name} @all_owners) {
+                push(@owners, [$owner->id, $owner->name." (".$owner->login.")"]);
+        }
+        return \@owners;
+}
+
+sub get_hostnames
+{
+        my ($self) = @_;
+        my @all_machines = model("HardwareDB")->resultset('Systems')->search({active => 1, scheduled => 1});
+        my @machines;
+        foreach my $host (sort {$a->systemname cmp $b->systemname} @all_machines) {
+                push(@machines, [$host->id, $host->systemname]);
+        }
+        return \@machines;
 
 }
 
