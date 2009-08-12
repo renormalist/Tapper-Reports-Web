@@ -2,5 +2,6 @@
 
 <ul class="menu">
 <li>Testrun by state</li>
+<li><a href="/artemis/testruns/create/">Create a new Testrun</a></li>
 </ul>
 
