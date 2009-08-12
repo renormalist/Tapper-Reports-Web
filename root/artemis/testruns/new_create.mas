@@ -1,9 +1,13 @@
 <%args>
 $form
+$testrun => undef
 </%args>
 
+% if ($testrun){
+<h1>Testrun <% $testrun->shortname %> created with ID <% $testrun->id %></h1>
+% } else {
 <fieldset>
 <% $form|n %>
 </fieldset>
-
+% }
 <p><a href="/artemis/testruns/">Return to Testrun list</a></p>
