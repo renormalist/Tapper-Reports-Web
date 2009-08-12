@@ -11,8 +11,23 @@ elements:
         title: Enter a descriptive name here
 
     - type: Select
-      name: Topic
+      name: topic
       label: Topic
+
+    - type: Select
+      name: owner
+      label: Owner
+
+    - type: Select
+      name: system
+      label: Testmaschine
+
+    - type: DateTime
+      name: starttime
+      label: Earliest start time
+      attributes:
+        title: Time information have to be relative to UTC
+
 
     # The submit button
     - type: Submit
