@@ -9,10 +9,16 @@ elements:
       # This is an optional 'mouse over' title pop-up
       attributes:
         title: Enter a descriptive name here
+      constraints:
+        - type: Printable
+          message: "Needs to be readable text"
 
     - type: Select
       name: topic
       label: Topic
+      constraints:
+      - type: required
+        message: Please select a topic
 
     - type: Select
       name: owner
@@ -21,12 +27,15 @@ elements:
     - type: Select
       name: system
       label: Testmaschine
+      constraints:
+      - type: required
+        message: Please select a machine
 
     - type: DateTime
       name: starttime
       label: Earliest start time
       attributes:
-        title: Time information have to be relative to UTC
+        title: Time information have to be relative to UTC. Dates before current date are set to now.
 
 
     # The submit button
