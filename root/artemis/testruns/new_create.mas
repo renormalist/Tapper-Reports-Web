@@ -2,6 +2,8 @@
 $form
 </%args>
 
+<fieldset>
 <% $form|n %>
+</fieldset>
 
 <p><a href="/artemis/testruns/">Return to Testrun list</a></p>
