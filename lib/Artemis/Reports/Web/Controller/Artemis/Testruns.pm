@@ -7,6 +7,7 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 
 use Artemis::Cmd::Testrun;
 use Artemis::Model 'model';
+use DateTime::Format::DateParse;
 
 sub index :Path :Args(0)
 {
@@ -120,7 +121,20 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         my $form = $c->stash->{form};
 
         if ($form->submitted_and_valid) {
-                $c->response->body(qq(Testrun created));
+                my $cmd = Artemis::Cmd::Testrun->new();
+                my $data = $form->input();
+                $data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($data->{starttime});
+                use Data::Dumper;
+                print STDERR Dumper $data;
+                my $testrun;
+                my $retval = $cmd->add($data);
+                print STDERR "Testrun ID is $retval";
+                if (not $retval) {
+                        $c->response->body(qq(Testrun not created successfully));
+                } else {
+                        $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($retval);
+                }
+                $c->stash(testrun => $testrun);
         } else {
                 my $select = $form->get_element({type => 'Select', name => 'topic'});
                 $select->options($self->get_topic_names());
@@ -128,7 +142,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $select = $form->get_element({type => 'Select', name => 'owner'});
                 $select->options($self->get_owner_names());
 
-                $select = $form->get_element({type => 'Select', name => 'system'});
+                $select = $form->get_element({type => 'Select', name => 'hardwaredb_systems_id'});
                 $select->options($self->get_hostnames());
         }
 
@@ -151,7 +165,7 @@ sub get_owner_names
         my @all_owners = model("TestrunDB")->resultset('User')->all();
         my @owners;
         foreach my $owner (sort {$a->name cmp $b->name} @all_owners) {
-                push(@owners, [$owner->id, $owner->name." (".$owner->login.")"]);
+                push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
         }
         return \@owners;
 }
