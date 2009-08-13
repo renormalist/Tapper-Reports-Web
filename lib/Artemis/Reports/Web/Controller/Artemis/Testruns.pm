@@ -116,19 +116,14 @@ sub similar : Chained('id') PathPart('similar') Args(0)
 sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 {
         my ($self, $c) = @_;
-        my $form = $self->form;
-
         my $form = $c->stash->{form};
 
         if ($form->submitted_and_valid) {
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $data = $form->input();
                 $data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($data->{starttime});
-                use Data::Dumper;
-                print STDERR Dumper $data;
                 my $testrun;
                 my $retval = $cmd->add($data);
-                print STDERR "Testrun ID is $retval";
                 if (not $retval) {
                         $c->response->body(qq(Testrun not created successfully));
                 } else {
