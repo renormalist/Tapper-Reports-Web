@@ -4,7 +4,6 @@
 
 		<div id="logo">
 			<h1><span>artemis</span>2.0</h1>
-<!--			<h2>testruns</h2> -->
 		</div>
 		
 		<div id="menu">
@@ -46,7 +45,7 @@
 		
 			<div id="columnC_2columns">
 	
-<& /artemis/testruns/navi.mas &>
+<& /artemis/preconditions/navi.mas &>
 						
 			</div>
 
