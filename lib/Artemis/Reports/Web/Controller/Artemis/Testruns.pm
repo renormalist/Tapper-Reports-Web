@@ -4,13 +4,15 @@ use strict;
 use warnings;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
-use File::Slurp;
+use Template;
+use TryCatch;
 
 use 5.010;
 
 use Artemis::Cmd::Testrun;
 use Artemis::Model 'model';
 use DateTime::Format::DateParse;
+
 
 use Data::Dumper;
 
@@ -126,17 +128,10 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         print STDERR Dumper $c->session;
 
         if ($form->submitted_and_valid) {
-                my $cmd = Artemis::Cmd::Testrun->new();
                 my $data = $form->input();
-                $data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($data->{starttime});
-                my $testrun;
-                my $retval = $cmd->add($data);
-                if (not $retval) {
-                        $c->response->body(qq(Testrun not created successfully));
-                } else {
-                        $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($retval);
-                }
-                $c->stash(testrun => $testrun);
+                $c->session->{testrun_data} = $data;
+                $c->res->redirect("/artemis/testruns/add_usecase/");
+
         } else {
                 my $select = $form->get_element({type => 'Select', name => 'topic'});
                 $select->options($self->get_topic_names());
@@ -254,7 +249,42 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $macros{$name} = $form->input->{$name} if $form->input->{$name};
                 }
                 $c->session->{macros} = \%macros;
-                $c->res->redirect('/artemis/testruns/create');
+
+                my $mpc = do {local $/; <$fh>};
+
+                my $ttapplied;
+
+                my $tt = new Template ();
+                if (not $tt->process(\$mpc, \%macros, \$ttapplied) ) {
+                        $c->stash(error => $tt->error());
+                        return;
+                }
+
+
+                my $testrun_data = $c->session->{testrun_data};
+
+                $testrun_data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($testrun_data->{starttime});
+                my $testrun;
+
+                my $cmd = Artemis::Cmd::Testrun->new();
+                my $testrun_id;
+                try {  $testrun_id = $cmd->add($testrun_data);}
+                  catch ($exception) {
+                          $c->stash(error => $exception->msg);
+                          return;
+                  }
+
+                $cmd = Artemis::Cmd::Precondition->new();
+                my @preconditions;
+                try {  @preconditions = $cmd->add($ttapplied);}
+                  catch ($exception) {
+                          $c->stash(error => $exception->msg);
+                          return;
+                  }
+
+                $cmd->assign_preconditions($testrun_id, @preconditions);
+                $c->stash->{testrun_id} = $testrun_id;
+                $c->stash->{preconditions} = \@preconditions;
         }
 }
 
