@@ -1,4 +1,4 @@
-# artemis-mandatory-fields: kernel_version.string
+# artemis-mandatory-fields: kernel_version.text
 # artemis-optional-fields: kernelpkg.file
 ---
 arch: linux64
