@@ -178,6 +178,22 @@ sub get_hostnames
 }
 
 
+sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
+{
+        my ($self, $c) = @_;
+        my $form = $c->stash->{form};
+        $c->session->{valid} = 1;
+
+        my @use_cases;
+        foreach my $file (<root/mpc/*>) {
+                ($file, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
+                push @use_cases, [$file, $file];
+
+        }
+        my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
+        $select->options(\@use_cases);
+}
+
 =head1 NAME
 
 Artemis::Reports::Web::Controller::Artemis::Testruns - Catalyst Controller
