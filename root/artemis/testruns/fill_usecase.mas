@@ -1,0 +1,12 @@
+<%args>
+$form
+</%args>
+
+% if ($c->session->{valid}) {
+<fieldset>
+<% $form|n %>
+</fieldset>
+% } else {
+<h1>Error: You followed an incorrect deep link. Session data is missing</h1>
+% }
+<p><a href="/artemis/testruns/">Return to Testrun list</a></p>
