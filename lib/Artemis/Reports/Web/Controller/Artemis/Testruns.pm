@@ -4,10 +4,15 @@ use strict;
 use warnings;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
+use File::Slurp;
+
+use 5.010;
 
 use Artemis::Cmd::Testrun;
 use Artemis::Model 'model';
 use DateTime::Format::DateParse;
+
+use Data::Dumper;
 
 sub index :Path :Args(0)
 {
@@ -118,6 +123,8 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         my ($self, $c) = @_;
         my $form = $c->stash->{form};
 
+        print STDERR Dumper $c->session;
+
         if ($form->submitted_and_valid) {
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $data = $form->input();
@@ -184,14 +191,71 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
         my $form = $c->stash->{form};
         $c->session->{valid} = 1;
 
-        my @use_cases;
-        foreach my $file (<root/mpc/*>) {
-                ($file, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
-                push @use_cases, [$file, $file];
+        if ($form->submitted_and_valid) {
+                $c->session->{usecase_file} = $form->input->{use_case};
+                $c->res->redirect('/artemis/testruns/fill_usecase');
+        } else {
+
+                my @use_cases;
+                foreach my $file (<root/mpc/*>) {
+                        my ($shortfile, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
+                        push @use_cases, [$file, $shortfile];
+
+                }
+                my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
+                $select->options(\@use_cases);
+        }
+}
+
+sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfig
+{
+        my ($self, $c) = @_;
+        my $form = $c->stash->{form};
+        my $position   = $form->get_element({type => 'Submit'});
+        my $file       = $c->session->{usecase_file};
+        my %macros;
+
+        open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
+        my ($required, $optional);
+        while (my $line = <$fh>) {
+                ($required) = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
+                ($optional) = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
+                last if $required and $optional;
+        }
+
+        foreach my $field (split /,\w*/, $required) {
+                my ($name, $type) = split /\./, $field;
+
+                $type = 'Text' if not $type;
+
+                my $element = $form->element({type => ucfirst($type), name => $name, label => $name});
+                $form->insert_before($element, $position);
+                $form->process($c->req);
 
         }
-        my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
-        $select->options(\@use_cases);
+
+        foreach my $field (split /,\w*/, $optional) {
+                my ($name, $type) = split /\./, $field;
+                $type = 'Text' if not $type;
+
+                my $element = $form->element({type => ucfirst($type), name => $name, label => $name});
+                $form->insert_before($element, $position);
+        }
+        $form->process();
+
+        if ($form->submitted_and_valid) {
+                foreach my $field (split /,\w*/, $required) {
+                        my ($name, $type) = split /\./, $field;
+                        $macros{$name} = $form->input->{$name} if $form->input->{$name};
+                }
+
+                foreach my $field (split /,\w*/, $optional) {
+                        my ($name, $type) = split /\./, $field;
+                        $macros{$name} = $form->input->{$name} if $form->input->{$name};
+                }
+                $c->session->{macros} = \%macros;
+                $c->res->redirect('/artemis/testruns/create');
+        }
 }
 
 =head1 NAME
