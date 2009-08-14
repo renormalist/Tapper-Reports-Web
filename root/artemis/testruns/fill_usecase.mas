@@ -1,11 +1,24 @@
 <%args>
 $form
+$error => undef
+$preconditions => undef
+$testrun_id => undef
 </%args>
 
 % if ($c->session->{valid}) {
+%     if ($error) {
+<h4>Can't create testrun!</h4>
+<pre>
+<% $error %>
+</pre>
+%     } elsif ( $testrun_id and $preconditions ) {
+<h1>Testrun <% $testrun_id %> created with preconditions <% join ',', @$preconditions %></h1>
+%     } else {
 <fieldset>
 <% $form|n %>
 </fieldset>
+<p><a href="/artemis/testruns/add_usecase">Return to choosing a use case</a></p>
+%     }
 % } else {
 <h1>Error: You followed an incorrect deep link. Session data is missing</h1>
 % }
