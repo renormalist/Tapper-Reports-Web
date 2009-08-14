@@ -6,7 +6,6 @@
 <meta name="keywords" content="artemis test framework tap" />
 <meta name="description" content="artemis reports" />
 <link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/style_red.css" />
-<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/texinfo.css" />
 <link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/formfu.css" />
 <link rel="alternate stylesheet" type="text/css" title="Blue" href="/artemis/static/css/style_blue.css" />
 <link rel="alternate stylesheet" type="text/css" title="Green" href="/artemis/static/css/style_green.css" />
