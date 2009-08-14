@@ -15,7 +15,7 @@ use Class::C3::Adopt::NEXT;
 #         -Debug: activates the debug mode for very useful log messages
 #   ConfigLoader: will load the configuration from a Config::General file in the
 #                 application's home directory
-# Static::Simple: will serve static files from the application's root 
+# Static::Simple: will serve static files from the application's root
 #                 directory
 
 use parent qw/Catalyst/;
@@ -53,7 +53,7 @@ sub debug
 # All conditionally only when this annoying environment is there.
 sub prepare_path
 {
-        my $c = shift; 
+        my $c = shift;
 
         $c->NEXT::prepare_path(@_);
 
@@ -64,14 +64,18 @@ sub prepare_path
 }
 
 
-# Configure the application. 
+# Configure the application.
 __PACKAGE__->config( name => 'Artemis::Reports::Web' );
 __PACKAGE__->config->{static}->{dirs} = [
                                          'artemis/static',
                                         ];
 
 # Start the application
-__PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
+__PACKAGE__->setup(qw/-Debug
+                      ConfigLoader
+                      Static::Simple Session
+                      Session::State::Cookie
+                      Session::Store::File/);
 
 
 =head1 NAME
