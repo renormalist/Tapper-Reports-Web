@@ -1,4 +1,11 @@
 ---
+# indicator is the field that is used to test for form submission
+indicator: submit
+# Start listing the form elements
 elements:
   - type: Radiogroup
     name: use_case
+
+  - type: Submit
+    name: submit
+    value: Fill out fields of use case
