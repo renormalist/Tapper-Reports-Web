@@ -9,13 +9,5 @@ $testrun => undef
 <fieldset>
 <% $form|n %>
 </fieldset>
-<h4><a href="/artemis/testruns/add_usecase/">Add usecase</a></h4>
-<ul>
-%   if ($c->session->{use_cases} and %{$c->session->{use_cases}}){
-<h4>Associated use cases</h4>
-%   }
-%   foreach my $use_case($c->session->{use_cases}){
-  <li><% $use_case->{name} %></li>
-%   }
 % }
 <p><a href="/artemis/testruns/">Return to Testrun list</a></p>
