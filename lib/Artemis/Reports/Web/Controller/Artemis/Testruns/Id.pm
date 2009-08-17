@@ -1,5 +1,7 @@
 package Artemis::Reports::Web::Controller::Artemis::Testruns::Id;
 
+use 5.010;
+
 use strict;
 use warnings;
 use File::Basename;
@@ -57,9 +59,9 @@ sub parse_precondition : Private
 sub index :Path :Args(1)
 {
         my ( $self, $c, $testrun_id ) = @_;
-        my $report         : Stash;
-        my $testrun        : Stash;
-        my $preconditions  : Stash;
+        my $report        : Stash;
+        my $testrun       : Stash;
+        my $overview      : Stash;
 
         my $reportlist_rgt : Stash = {};
         $testrun = $c->model('TestrunDB')->resultset('Testrun')->search(id => $testrun_id)->first();
@@ -69,7 +71,6 @@ sub index :Path :Args(1)
                 return;
         }
         
-        $preconditions = parse_precondition($testrun);
         
         my $rgt_reports = $c->model('ReportsDB')->resultset('Report')->search
           (
