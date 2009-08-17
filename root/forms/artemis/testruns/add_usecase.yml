@@ -10,4 +10,4 @@ elements:
     
   - type: Submit
     name: submit
-    value: Fill out fields of use case
+    value: Add use case to testrun
