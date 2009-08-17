@@ -12,14 +12,15 @@ $testrun_id => undef
 <% $error %>
 </pre>
 %     } elsif ( $testrun_id and $preconditions ) {
-<h1>Testrun <% $testrun_id %> created with preconditions <% join ',', @$preconditions %></h1>
+<h3>Testrun <% $testrun_id %> created with preconditions <% join ',', @$preconditions %></h3>
 %     } else {
+<h3>Fill out fields of use case</h3>
 <fieldset>
 <% $form|n %>
+<p><a href="/artemis/testruns/add_usecase">Back</a></p>
 </fieldset>
-<p><a href="/artemis/testruns/add_usecase">Return to choosing a use case</a></p>
 %     }
 % } else {
 <h1>Error: You followed an incorrect deep link. Session data is missing</h1>
 % }
-<p><a href="/artemis/testruns/">Return to Testrun list</a></p>
+<p><a href="/artemis/testruns/">Cancel</a></p>
