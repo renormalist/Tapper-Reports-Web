@@ -4,8 +4,9 @@ $testrun => undef
 </%args>
 
 % if ($testrun){
-<h1>Testrun <% $testrun->shortname %> created with ID <% $testrun->id %></h1>
+<h3>Testrun <% $testrun->shortname %> created with ID <% $testrun->id %></h3>
 % } else {
+<h3>Create a new testrun</h3>
 <fieldset>
 <% $form|n %>
 </fieldset>
