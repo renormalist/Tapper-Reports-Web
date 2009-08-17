@@ -1,7 +1,7 @@
 	<h4>Testruns</h4>
 
 <ul class="menu">
-<li>Testrun by state</li>
+<!-- <li>Testrun by state</li> -->
 <li><a href="/artemis/testruns/create/">Create a new Testrun</a></li>
 </ul>
 
