@@ -91,7 +91,7 @@ sub rerun : Chained('id') PathPart('rerun') Args(0)
 sub preconditions : Chained('id') PathPart('preconditions') CaptureArgs(0)
 {
         my ( $self, $c ) = @_;
-        $c->stash(preconditions => $c->stash->{testrun}->ordered_preconditions);
+        $c->stash(preconditions => [$c->stash->{testrun}->ordered_preconditions]);
 }
 
 sub as_yaml : Chained('preconditions') PathPart('yaml') Args(0)
@@ -99,14 +99,18 @@ sub as_yaml : Chained('preconditions') PathPart('yaml') Args(0)
         my ( $self, $c ) = @_;
 
         my $id = $c->stash->{testrun}->id;
-        $c->response->content_type ('plain');
-        $c->response->header ("Content-Disposition" => 'inline; filename="precondition-'.$id.'.yml"');
 
         my @preconditions;
-        foreach my $precondition ($c->stash->{preconditions}) {
+        foreach my $precondition (@{$c->stash->{preconditions}}) {
                 push @preconditions, $precondition->precondition;
         }
-        $c->response->body ( join "", @preconditions);
+        if (@preconditions) {
+                $c->response->content_type ('plain');
+                $c->response->header ("Content-Disposition" => 'inline; filename="precondition-'.$id.'.yml"');
+                $c->response->body ( join "", @preconditions);
+        } else {
+                $c->response->body ("No preconditions assigned");
+        }
 }
 
 sub show_precondition : Chained('preconditions') PathPart('show') Args(0)
