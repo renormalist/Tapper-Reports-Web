@@ -7,7 +7,9 @@ elements:
     name: use_case
     attributes:
       class: radiogroup vertical 
-    
+    constraints:
+      - Required
+
   - type: Submit
     name: submit
     value: Add use case to testrun
