@@ -2,7 +2,7 @@
 @testruns
 </%args>
 
-<h1>Testruns</h1>
+<h3>Testruns</h3>
 <h4>Overview</h4>
 <table class="suitelist">
   <thead>
