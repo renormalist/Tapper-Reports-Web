@@ -4,20 +4,12 @@ $precondition
 
 % use YAML::Syck;
 
-<h1>Precondition ID <% $precondition->{id} %></h1>
-<h4><a href="/artemis/preconditions/<% $precondition->{id} %>/new" title="Create a new precondition and use this precondition as a template.">Create similar Precondition</a></h4>
-<h4><a href="/artemis/preconditions/<% $precondition->{id} %>/change" title="Change values of this preconditions without creating a new one">Change Precondition</a></h4>
-<h4><a href="/artemis/preconditions/<% $precondition->{id} %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Precondition</a></h4>
+<h3>Precondition <% $precondition->{id} %></h3>
 
 % delete $precondition->{id};
 <pre>
 <% Dump $precondition %>
 </pre>
-
-
-
-
-<br/>
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:
