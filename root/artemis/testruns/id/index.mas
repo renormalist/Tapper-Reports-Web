@@ -1,7 +1,7 @@
 <%args>
 $report
 $testrun
-$preconditions
+$overview
 %reportlist_rgt => {}
 </%args>
 
@@ -12,8 +12,8 @@ $preconditions
 <h4><a href="/artemis/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a></h4>
 <h4><a href="/artemis/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a></h4>
 <h4><a href="/artemis/testruns/<% $testrun->id %>/rerun" title="Start testrun with exactly the same values now">Restart testrun</a></h4>
-% if ($preconditions) {
-<h3><% ucfirst($preconditions->{name}) %></h3>
+% if ($overview) {
+<h3><% ucfirst($overview->{name}) %></h3>
 <h4>Summary</h4>
 <table class="reportsectionmeta">
   <tbody>
@@ -22,18 +22,18 @@ $preconditions
     </tr>
     <tr>
       <th>Architecture</th>
-      <td><% $preconditions->{arch} %></td>
+      <td><% $overview->{arch} %></td>
     </tr>
     <tr>
       <th>Root image</th>
-      <td><% $preconditions->{image} %></td>
+      <td><% $overview->{image} %></td>
     </tr>
     <tr>
       <th>Test</th>
-      <td><% $preconditions->{test} ? join "<br> ",@{$preconditions->{test}} : '' |n%></td>
+      <td><% $overview->{test} ? join "<br> ",@{$overview->{test}} : '' |n%></td>
     </tr>
-%   for(my $i = 0; $i <= $#{$preconditions->{guests}}; $i++) {
-%     my $guest = $preconditions->{guests}->[$i];
+%   for(my $i = 0; $i <= $#{$overview->{guests}}; $i++) {
+%     my $guest = $overview->{guests}->[$i];
       <td colspan="2"><h5>Guest number <% $i+1 %></h5></td>
       <tr>
         <th>Architecture</th>
@@ -51,10 +51,10 @@ $preconditions
   </tbody>
 </table>
 <br/>
-<a href="/artemis/preconditions/testrun/<% $testrun->id %>/raw">Preconditions in YAML</a>
 % } else {
-<h4>No Preconditions associated to this testrun</h4>
+<h4>Can't create precondition overview</h4>
 % }
+<a href="/artemis/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in YAML</a>
 
 
 
