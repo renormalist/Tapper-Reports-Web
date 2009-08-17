@@ -12,4 +12,4 @@ elements:
 
   - type: Submit
     name: submit
-    value: Add use case to testrun
+    value: Choose
