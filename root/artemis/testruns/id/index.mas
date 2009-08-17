@@ -63,7 +63,7 @@ $time
 % } else {
 <h4>Can't create precondition overview</h4>
 % }
-<a href="/artemis/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> |
+<!-- <a href="/artemis/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> | -->
 <a href="/artemis/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a> |
 <a href="/artemis/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a> |
 <a href="/artemis/testruns/<% $testrun->id %>/rerun" title="Start testrun with exactly the same values now">Restart testrun</a>
