@@ -17,6 +17,7 @@ $testrun_id => undef
 <h3>Fill out fields of use case</h3>
 <fieldset>
 <% $form|n %>
+<p>(*) Required</p>
 <p><a href="/artemis/testruns/add_usecase">Back</a></p>
 </fieldset>
 %     }
