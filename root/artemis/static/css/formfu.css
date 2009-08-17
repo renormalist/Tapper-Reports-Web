@@ -39,6 +39,7 @@ fieldset .recaptcha iframe {
     height: 230px ! important;
 }
 
+
 fieldset .button.label,
 fieldset .checkbox.label,
 fieldset .contentbutton.label,
@@ -56,6 +57,7 @@ fieldset .text.label,
 fieldset .textarea.label
 {
 	margin-left: 1px;
+        padding: 0.3em;
 }
 
 fieldset .error.label {
