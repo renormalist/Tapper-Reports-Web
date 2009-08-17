@@ -1,5 +1,6 @@
 # artemis-mandatory-fields: kernel_version.text
 # artemis-optional-fields: kernelpkg.file
+# artemis-description: Test a prebuilt kernel package
 ---
 arch: linux64
 image: suse/suse_sles10_64b_smp_raw.tar.gz
