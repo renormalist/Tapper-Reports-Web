@@ -227,7 +227,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
                 $type = 'Text' if not $type;
 
-                my $element = $form->element({type => ucfirst($type), name => $name, label => $name});
+                my $element = $form->element({type => ucfirst($type), name => $name, label => $name.'*', constraints => [ 'Required' ]});
                 $form->insert_before($element, $position);
                 $form->process($c->req);
 
@@ -237,7 +237,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 my ($name, $type) = split /\./, $field;
                 $type = 'Text' if not $type;
 
-                my $element = $form->element({type => ucfirst($type), name => $name, label => $name});
+                my $element = $form->element({type => ucfirst($type), name => $name, label => $name.' '});
                 $form->insert_before($element, $position);
         }
         $form->process();
