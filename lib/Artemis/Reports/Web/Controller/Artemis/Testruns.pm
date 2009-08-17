@@ -197,8 +197,15 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
 
                 my @use_cases;
                 foreach my $file (<root/mpc/*>) {
+                        open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
+                        my $desc;
+                        while (my $line = <$fh>) {
+                                ($desc) = $line =~/# (?:artemis[_-])?description:\s*(.+)/;
+                                last if $desc;
+                        }
+
                         my ($shortfile, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
-                        push @use_cases, [$file, $shortfile];
+                        push @use_cases, [$file, "$shortfile - $desc"];
 
                 }
                 my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
