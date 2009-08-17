@@ -1,8 +1,8 @@
 	<h4>Testruns</h4>
 
 <ul class="menu">
-<li>Preconditions by Id</li>
-<li>Preconditions by Testrun</li>
+<li><a href="/artemis/preconditions/">Preconditions by Id</a></li>
+<!-- <li>Preconditions by Testrun</li> -->
 <!-- <li><a href="/artemis/preconditions/create/">Create a new Precondition</a></li> -->
 </ul>
 
