@@ -5,6 +5,8 @@ use 5.010;
 use strict;
 use warnings;
 use File::Basename;
+use Artemis::Model 'model';
+
 
 use parent 'Artemis::Reports::Web::Controller::Base';
 
@@ -62,16 +64,23 @@ sub index :Path :Args(1)
         my $report        : Stash;
         my $testrun       : Stash;
         my $overview      : Stash;
+        my $hostname      : Stash;
+        my $time          : Stash;
+
 
         my $reportlist_rgt : Stash = {};
         $testrun = $c->model('TestrunDB')->resultset('Testrun')->search(id => $testrun_id)->first();
-        
+
         if (not $testrun) {
                 $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
                 return;
         }
-        
-        
+
+        $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
+        $hostname = model('HardwareDB')->resultset('Systems')->find($testrun->hardwaredb_systems_id)->systemname;
+
+        $overview = parse_precondition($testrun);
+
         my $rgt_reports = $c->model('ReportsDB')->resultset('Report')->search
           (
            {
@@ -93,9 +102,9 @@ sub index :Path :Args(1)
             join => [ 'reportgrouptestrun', ]
            }
            );
-        
 
-        
+
+
 }
 
 
