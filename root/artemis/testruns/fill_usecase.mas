@@ -12,7 +12,7 @@ $testrun_id => undef
 <% $error %>
 </pre>
 %     } elsif ( $testrun_id and $preconditions ) {
-<h3>Testrun <% $testrun_id %> created with preconditions <% join ',', @$preconditions %></h3>
+<h3><a href="/artemis/testruns/id/<% $testrun_id %>">Testrun <% $testrun_id %></a> created with preconditions <% join ',', @$preconditions %></h3>
 %     } else {
 <h3>Fill out fields of use case</h3>
 <fieldset>
