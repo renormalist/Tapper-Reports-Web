@@ -131,8 +131,6 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         my ($self, $c) = @_;
         my $form = $c->stash->{form};
 
-        print STDERR Dumper $c->session;
-
         if ($form->submitted_and_valid) {
                 my $data = $form->input();
                 $c->session->{testrun_data} = $data;
@@ -231,7 +229,8 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 last if $required and $optional;
         }
 
-        foreach my $field (split /,\w*/, $required) {
+        my $delim = qr/,+\s*/;
+        foreach my $field (split $delim, $required) {
                 my ($name, $type) = split /\./, $field;
 
                 $type = 'Text' if not $type;
@@ -242,7 +241,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
         }
 
-        foreach my $field (split /,\w*/, $optional) {
+        foreach my $field (split $delim, $optional) {
                 my ($name, $type) = split /\./, $field;
                 $type = 'Text' if not $type;
 
@@ -267,9 +266,9 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                           return;
                   }
 
-                foreach my $field (split /,+\s*/, "$required,$optional") {
+                foreach my $field (split $delim, "$required,$optional") {
                         my ($name, $type) = split /\./, $field;
-                        print STDERR "name, type = $name, $type\n";
+                        next if not defined $form->input->{$name};
                         $macros{$name} = $form->input->{$name} if $form->input->{$name};
                         if ($type eq 'file') {
                                 my $upload = $c->req->upload($name);
