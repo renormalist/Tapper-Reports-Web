@@ -6,9 +6,11 @@ use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Template;
 use TryCatch;
+use File::Path;
 
 use 5.010;
 
+use Artemis::Config;
 use Artemis::Cmd::Testrun;
 use Artemis::Model 'model';
 use DateTime::Format::DateParse;
@@ -250,15 +252,41 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         $form->process();
 
         if ($form->submitted_and_valid) {
-                foreach my $field (split /,\w*/, $required) {
+
+
+
+                my $testrun_data = $c->session->{testrun_data};
+                $testrun_data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($testrun_data->{starttime});
+                my $testrun;
+
+                my $cmd = Artemis::Cmd::Testrun->new();
+                my $testrun_id;
+                try {  $testrun_id = $cmd->add($testrun_data);}
+                  catch ($exception) {
+                          $c->stash(error => $exception->msg);
+                          return;
+                  }
+
+                foreach my $field (split /,+\s*/, "$required,$optional") {
                         my ($name, $type) = split /\./, $field;
+                        print STDERR "name, type = $name, $type\n";
                         $macros{$name} = $form->input->{$name} if $form->input->{$name};
+                        if ($type eq 'file') {
+                                my $upload = $c->req->upload($name);
+                                my $destdir = sprintf("%s/uploads/%s/%s", Artemis::Config->subconfig->{paths}{package_dir}, $testrun_id, $name);
+                                my $destfile = $destdir."/".$upload->basename;
+                                my $error;
+                                mkpath( $destdir, \$error );
+
+                                foreach my $diag (@$error) {
+                                        my ($dir, $message) = each %$diag;
+                                        $c->response->body("Can't create $dir: $message");
+                                }
+                                $upload->copy_to($destfile);
+                                $macros{$name} = $destfile;
+                        }
                 }
 
-                foreach my $field (split /,\w*/, $optional) {
-                        my ($name, $type) = split /\./, $field;
-                        $macros{$name} = $form->input->{$name} if $form->input->{$name};
-                }
                 $c->session->{macros} = \%macros;
 
                 my $mpc = do {local $/; <$fh>};
@@ -271,19 +299,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         return;
                 }
 
-
-                my $testrun_data = $c->session->{testrun_data};
-
-                $testrun_data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($testrun_data->{starttime});
-                my $testrun;
-
-                my $cmd = Artemis::Cmd::Testrun->new();
-                my $testrun_id;
-                try {  $testrun_id = $cmd->add($testrun_data);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
-                          return;
-                  }
+                
 
                 $cmd = Artemis::Cmd::Precondition->new();
                 my @preconditions;
