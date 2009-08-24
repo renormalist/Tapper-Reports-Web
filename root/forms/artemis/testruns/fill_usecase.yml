@@ -5,4 +5,4 @@ indicator: submit
 elements:
   - type: Submit
     name: submit
-    value: Add usecase to testrun
+    value: Submit
