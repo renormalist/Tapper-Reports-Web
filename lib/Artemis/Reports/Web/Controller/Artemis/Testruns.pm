@@ -275,7 +275,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                                 my $destdir = sprintf("%s/uploads/%s/%s", Artemis::Config->subconfig->{paths}{package_dir}, $testrun_id, $name);
                                 my $destfile = $destdir."/".$upload->basename;
                                 my $error;
-                                mkpath( $destdir, \$error );
+                                mkpath( $destdir, {error => \$error} );
 
                                 foreach my $diag (@$error) {
                                         my ($dir, $message) = each %$diag;
@@ -298,7 +298,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         return;
                 }
 
-                
 
                 $cmd = Artemis::Cmd::Precondition->new();
                 my @preconditions;
