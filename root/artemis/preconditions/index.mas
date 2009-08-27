@@ -9,14 +9,16 @@
 <h4>Overview</h4>
 % foreach my $precondition(@preconditions){
 <h5><a href = "/artemis/preconditions/id/<% $precondition->{id} %>">Precondition ID <% $precondition->{id} %></a></h5>
-% delete $precondition->{id};
 <pre>
-<% Dump $precondition %>
-</pre>
+  type: <% $precondition->{precondition_type} %>
+% if ($precondition->{name}){
+  name: <% $precondition->{name} %>
+% } elsif ($precondition->{shortname}){
+  shortname: <% $precondition->{shortname} %>
 % }
-
-
-
+</pre>
+<br/>
+% }
 
 <br/>
 %# Local Variables:
