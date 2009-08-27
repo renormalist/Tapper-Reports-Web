@@ -1,5 +1,5 @@
 # artemis-mandatory-fields: kernel_version.text
-# artemis-optional-fields: kernelpkg.file, foo.checkbox
+# artemis-optional-fields: kernelpkg.file
 # artemis-description: Test a prebuilt kernel package
 ---
 arch: linux64
@@ -26,15 +26,6 @@ precondition_type: exec
 filename: /bin/gen_initrd.sh
 options:
   - [% kernel_version %]
-[% IF foo %]
----
-precondition_type: exec
-filename: /bin/true
-[% ELSE %]
----
-precondition_type: exec
-filename: /bin/false
-[% END %]
 ---
 precondition_type: prc
 config:
