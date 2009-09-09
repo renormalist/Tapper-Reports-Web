@@ -31,24 +31,38 @@ sub report_name : Chained('base') PathPart('') CaptureArgs(1)
 
 }
 
-sub days : Chained('report_name') PathPart('days') Args(1)
+sub show_all : Chained('report_name') PathPart('') Args(0)
 {
-        my ( $self, $c, $days ) = @_;
+        my ( $self, $c ) = @_;
+        $c->stash(template => "artemis/metareports/list.mas");
+        $self->list($c);
+}
+
+sub list
+{
+        my ( $self, $c ) = @_;
         my $rule         = $c->stash->{rule};
         my $report_name  = $c->stash->{report_name};
-        my $day_seconds  = 24*60*60;
-        my $oldest_mtime = time - $days * $day_seconds;
-        $rule->mtime(">=$oldest_mtime");
         $rule->start("root/artemis/static/metareports/$report_name/");
         my @files;
         while (my $match = $rule->match) {
                 push @files, "/artemis/static/metareports/$report_name/$match";
         } 
         
-        say STDERR "files found";
-        say STDERR join "\n",@files;
         $c->stash(files => \@files);
 }
+
+sub days : Chained('report_name') Args(1)
+{
+        my ( $self, $c, $days ) = @_;
+        my $report_name  = $c->stash->{report_name};
+        my $day_seconds  = 24*60*60;
+        my $oldest_mtime = time - $days * $day_seconds;
+        $c->stash->{rule}->mtime(">=$oldest_mtime");
+        $c->stash(template => "artemis/metareports/list.mas");
+        $self->list($c);
+}
+
 
 =head1 NAME
 
