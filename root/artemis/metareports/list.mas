@@ -4,7 +4,7 @@ $files
 
 <H3>Metareports</H3>
 % foreach my $file(@$files){
-<img src="<% $file %>">
+<img src="<% $file %>" width="70%">
 %}
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
