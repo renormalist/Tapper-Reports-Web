@@ -2,7 +2,7 @@
 
 BEGIN {
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
-    $ENV{CATALYST_SCRIPT_GEN} = 39;
+    $ENV{CATALYST_SCRIPT_GEN} = 37;
     require Catalyst::Engine::HTTP;
 }
 
@@ -35,7 +35,7 @@ GetOptions(
     'fork|f'              => \$fork,
     'help|?'              => \$help,
     'host=s'              => \$host,
-    'port|p=s'            => \$port,
+    'port=s'              => \$port,
     'keepalive|k'         => \$keepalive,
     'restart|r'           => \$restart,
     'restartdelay|rd=s'   => \$check_interval,
@@ -78,12 +78,10 @@ my $runner = sub {
 };
 
 if ( $restart ) {
-    die "Cannot run in the background and also watch for changed files.\n"
-        if $background;
-
     require Catalyst::Restarter;
 
-    my $subclass = Catalyst::Restarter->pick_subclass;
+    die "Cannot run in the background and also watch for changed files.\n"
+        if $background;
 
     my %args;
     $args{follow_symlinks} = 1
@@ -95,10 +93,9 @@ if ( $restart ) {
     $args{filter} = qr/$file_regex/
         if defined $file_regex;
 
-    my $restarter = $subclass->new(
+    my $restarter = Catalyst::Restarter->new(
         %args,
         start_sub => $runner,
-        argv      => \@argv,
     );
 
     $restarter->run_and_watch;
