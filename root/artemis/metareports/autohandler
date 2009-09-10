@@ -10,7 +10,8 @@
 			<ul>
 				<li><a href="/artemis/manual/">Manual</a></li>
 				<li><a href="/artemis/reports/date/7">Reports</a></li>
-				<li><a href="/artemis/testruns/" class="active">Testruns</a></li>
+				<li><a href="/artemis/metareports/" class="active">Metareports</a></li>
+				<li><a href="/artemis/testruns/">Testruns</a></li>
 				<li><a href="/artemis/preconditions/">Preconditions</a></li>
 				<li><a href="/artemis/hardware/">Hardware</a></li>
 			</ul>
