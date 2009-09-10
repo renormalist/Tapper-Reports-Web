@@ -51,31 +51,23 @@ sub base : Chained PathPrefix CaptureArgs(0) {
         $c->stash(rule => $rule);
 }
 
-# sub report_name : Chained('base') PathPart('') CaptureArgs(1)
-# {
-#         my ( $self, $c, $report_name ) = @_;
-#         my $rule =  File::Find::Rule->new;
-#         $c->stash(report_name => $report_name);
-#         $rule->file;
-#         $rule->relative;
-#         $rule->name( '*.png' );
-#         $c->stash(rule => $rule);
-# }
-
-# sub list : Chained('report_name') PathPart('') Args(0)
-# {
-#         my ( $self, $c ) = @_;
-#         my $rule         = $c->stash->{rule};
-#         my $report_name  = $c->stash->{report_name};
-#         $rule->start("root/artemis/static/metareports/$report_name/");
-#         my @files;
-#         while (my $match = $rule->match) {
-#                 push @files, "/artemis/static/metareports/$report_name/$match";
-#         } 
-        
-#         $c->stash(files => \@files);
-# }
-
+sub report_name : Chained('base') PathPart('') Args(2)
+{
+        my ( $self, $c, $category, $report_name ) = @_;
+        my $rule =  File::Find::Rule->new;
+        $c->stash(report_name => $report_name);
+        $c->stash(category    => $category);
+        $rule->file;
+        $rule->relative;
+        $rule->name( '*.png' );
+        $rule->start("root/artemis/static/metareports/$category/$report_name/");
+        my @files;
+        while (my $match = $rule->match) {
+                push @files, "/artemis/static/metareports/$category/$report_name/$match";
+        }
+        $c->stash(files    => \@files);
+        print STDERR Dumper \@files;
+}
 
 
 =head1 NAME
