@@ -13,55 +13,69 @@ use Data::Dumper;
 
 sub index :Path :Args(0)
 {
-        my ( $self, $c ) = @_;
-        return;
-}
-
-sub base : Chained PathPrefix CaptureArgs(0) { }
-
-sub report_name : Chained('base') PathPart('') CaptureArgs(1)
-{
-        my ( $self, $c, $report_name ) = @_;
+        my ($self, $c) = @_;
         my $rule =  File::Find::Rule->new;
-        $c->stash(report_name => $report_name);
-        $rule->file;
+        $rule->directory;
         $rule->relative;
-        $rule->name( '*.png' );
+        $rule->maxdepth(1);
+        $rule->start("root/artemis/static/metareports/");
+        my %categories;
+        while (my $category = $rule->match) {
+                my ($short);
+                {
+                        open my $fh, "<", "root/artemis/static/metareports/$category/short.txt" or last;
+                        $short = <$fh>;
+                        close $fh;
+                }
+                $categories{$category}->{short} = $short ||  '';
+                my $rule_cat =  File::Find::Rule->new;
+                $rule_cat->directory;
+                $rule_cat->relative;
+                $rule_cat->maxdepth(1);
+                $rule_cat->start("root/artemis/static/metareports/$category");
+                while (my $report = $rule_cat->match) {
+                        {
+                                open my $fh, "<", "root/artemis/static/metareports/$category/$report/short.txt" or last;
+                                $short = <$fh>;
+                                close $fh;
+                        }
+                        $categories{$category}->{data}->{$report}->{short} = $short || 'No short description';
+                }
+        }
+        $c->stash(categories => \%categories);
+}
+
+sub base : Chained PathPrefix CaptureArgs(0) {
+        my ( $self, $c ) = @_;
+        my $rule =  File::Find::Rule->new;
         $c->stash(rule => $rule);
-
 }
 
-sub show_all : Chained('report_name') PathPart('') Args(0)
-{
-        my ( $self, $c ) = @_;
-        $c->stash(template => "artemis/metareports/list.mas");
-        $self->list($c);
-}
+# sub report_name : Chained('base') PathPart('') CaptureArgs(1)
+# {
+#         my ( $self, $c, $report_name ) = @_;
+#         my $rule =  File::Find::Rule->new;
+#         $c->stash(report_name => $report_name);
+#         $rule->file;
+#         $rule->relative;
+#         $rule->name( '*.png' );
+#         $c->stash(rule => $rule);
+# }
 
-sub list
-{
-        my ( $self, $c ) = @_;
-        my $rule         = $c->stash->{rule};
-        my $report_name  = $c->stash->{report_name};
-        $rule->start("root/artemis/static/metareports/$report_name/");
-        my @files;
-        while (my $match = $rule->match) {
-                push @files, "/artemis/static/metareports/$report_name/$match";
-        } 
+# sub list : Chained('report_name') PathPart('') Args(0)
+# {
+#         my ( $self, $c ) = @_;
+#         my $rule         = $c->stash->{rule};
+#         my $report_name  = $c->stash->{report_name};
+#         $rule->start("root/artemis/static/metareports/$report_name/");
+#         my @files;
+#         while (my $match = $rule->match) {
+#                 push @files, "/artemis/static/metareports/$report_name/$match";
+#         } 
         
-        $c->stash(files => \@files);
-}
+#         $c->stash(files => \@files);
+# }
 
-sub days : Chained('report_name') Args(1)
-{
-        my ( $self, $c, $days ) = @_;
-        my $report_name  = $c->stash->{report_name};
-        my $day_seconds  = 24*60*60;
-        my $oldest_mtime = time - $days * $day_seconds;
-        $c->stash->{rule}->mtime(">=$oldest_mtime");
-        $c->stash(template => "artemis/metareports/list.mas");
-        $self->list($c);
-}
 
 
 =head1 NAME
