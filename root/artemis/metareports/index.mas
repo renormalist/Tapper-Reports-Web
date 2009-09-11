@@ -12,7 +12,7 @@ $categories
     </tr>
 %     foreach my $report (keys %{$categories->{$category}->{data}}){
     <tr>
-      <th><a href="/artemis/metareports/<% $report %>/"><% $report %></a></h5></th>
+      <th><a href="/artemis/metareports/<% $category %>/<% $report %>/"><% $report %></a></h5></th>
       <td><% $categories->{$category}->{data}->{$report}->{short} %></td>
     </tr>
 %     }
