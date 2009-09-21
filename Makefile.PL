@@ -10,7 +10,7 @@ perl_version '5.010';
 
 requires 'Artemis::Test';
 requires 'Artemis::Config'       => '2.01';
-requires 'Artemis::Cmd'       => '2.01';
+requires 'Artemis::Cmd'          => '2.010018';
 requires 'Artemis::Schema'       => '2.01';
 requires 'Artemis::TAP::Harness' => '2.010010';
 requires 'Catalyst::Runtime'     => '5.7014';
