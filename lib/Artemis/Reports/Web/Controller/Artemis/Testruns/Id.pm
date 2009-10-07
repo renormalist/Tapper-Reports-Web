@@ -77,7 +77,9 @@ sub index :Path :Args(1)
         }
 
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
-        $hostname = model('HardwareDB')->resultset('Systems')->find($testrun->hardwaredb_systems_id)->systemname;
+        my $systems_id = $testrun->hardwaredb_systems_id;
+        my $system = model('HardwareDB')->resultset('Systems')->find($systems_id);
+        $hostname = $system ? $system->systemname : "unknown($systems_id)";
 
         $overview = parse_precondition($testrun);
 
