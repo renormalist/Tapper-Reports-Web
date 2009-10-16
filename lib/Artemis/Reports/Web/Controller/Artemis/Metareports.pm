@@ -51,19 +51,19 @@ sub base : Chained PathPrefix CaptureArgs(0) {
         $c->stash(rule => $rule);
 }
 
-sub report_name : Chained('base') PathPart('') Args(2)
+sub report_name : Chained('base') PathPart('') Args(3)
 {
-        my ( $self, $c, $category, $report_name ) = @_;
+        my ( $self, $c, $category, $subcategory, $report_name ) = @_;
         my $rule =  File::Find::Rule->new;
         $c->stash(report_name => $report_name);
-        $c->stash(category    => $category);
+        $c->stash(category    => $category, subcategory => $subcategory);
         $rule->file;
         $rule->relative;
         $rule->name( '*.png' );
         $rule->start("root/artemis/static/metareports/$category/$report_name/");
         my @files;
         while (my $match = $rule->match) {
-                push @files, "/artemis/static/metareports/$category/$report_name/$match";
+                push @files, "/artemis/static/metareports/$category/$subcategory/$report_name/$match";
         }
         $c->stash(files    => \@files);
         print STDERR Dumper \@files;
