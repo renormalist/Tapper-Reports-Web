@@ -222,11 +222,13 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my %macros;
 
         open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
-        my ($required, $optional);
+        my ($required, $optional, $mpc_config) = ('', '', '');
         while (my $line = <$fh>) {
-                ($required) = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
-                ($optional) = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
-                last if $required and $optional;
+                ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
+                ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
+                ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
+                
+                last if $required and $optional and $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
