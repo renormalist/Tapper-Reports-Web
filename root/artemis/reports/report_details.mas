@@ -22,35 +22,16 @@
 %    if ($section->some_meta_available) {
 
 %        my %cols = $section->get_columns;
-%        my @meta_cols = qw/
-%                           osname
-%                           uname
-%                           language_description
-%                           cpuinfo
-%                           ram
-%                           lspci
-%                           lsusb
+%        # this enumeration is a bit lame. anyway: copy the list from Artemis::TAP::Harness.@SECTION_HEADER_KEYS_GENERAL.
+%        my @meta_cols = qw/ram cpuinfo bios lspci uname osname uptime language-description
+%                           flags changeset description
+%                           xen-version xen-changeset xen-dom0-kernel xen-base-os-description
+%                           xen-guest-description xen-guest-test xen-guest-start xen-guest-flags
+%                           kvm-module-version kvm-userspace-version kvm-kernel
+%                           kvm-base-os-description kvm-guest-description
+%                           kvm-guest-test kvm-guest-start kvm-guest-flags
 %                           flags
-%                           uptime
-%                           xen_dom0_kernel
-%                           xen_base_os_description
-%                           xen_guest_description
-%                           xen_guest_flags
-%                           xen_changeset
-%                           xen_hvbits
-%                           xen_version
-%                           xen_guest_test
-%                           xen_guest_start
-%                           kvm_module_version
-%                           kvm_userspace_version
-%                           kvm_kernel
-%                           kvm_base_os_description
-%                           kvm_guest_description
-%                           kvm_guest_test
-%                           kvm_guest_start
-%                           kvm_guest_flags
 %                          /;
-
         <td colspan="2"><h5><% $section->name %></h5></td>
 %           foreach (@meta_cols) {
                 <& SELF:meta_row, name => $_ , value => $cols{$_} &>
