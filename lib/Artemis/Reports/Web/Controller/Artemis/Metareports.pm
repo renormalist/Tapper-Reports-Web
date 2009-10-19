@@ -33,15 +33,32 @@ sub index :Path :Args(0)
                 $rule_cat->relative;
                 $rule_cat->maxdepth(1);
                 $rule_cat->start("root/artemis/static/metareports/$category");
-                while (my $report = $rule_cat->match) {
+                while (my $subcategory = $rule_cat->match) {
                         {
-                                open my $fh, "<", "root/artemis/static/metareports/$category/$report/short.txt" or last;
+                                open my $fh, "<", "root/artemis/static/metareports/$category/$subcategory/short.txt" or last;
                                 $short = <$fh>;
                                 close $fh;
                         }
-                        $categories{$category}->{data}->{$report}->{short} = $short || 'No short description';
+                        $categories{$category}->{data}->{$subcategory}->{short} = $short || 'No short description';
+
+                        my $rule_subcat =  File::Find::Rule->new;
+                        $rule_subcat->directory;
+                        $rule_subcat->relative;
+                        $rule_subcat->maxdepth(1);
+                        $rule_subcat->start("root/artemis/static/metareports/$category/$subcategory/");
+
+                        while (my $report = $rule_subcat->match) {
+                                {
+                                        open my $fh, "<", "root/artemis/static/metareports/$category/$subcategory/$report/short.txt" or last;
+                                        $short = <$fh>;
+                                        close $fh;
+                                }
+                                $categories{$category}->{data}->{$subcategory}->{data}->{$report}->{short} = $short || 'No short description';
+                        }
+
                 }
         }
+        print STDERR Dumper \%categories;
         $c->stash(categories => \%categories);
 }
 
@@ -54,17 +71,10 @@ sub base : Chained PathPrefix CaptureArgs(0) {
 sub report_name : Chained('base') PathPart('') Args(3)
 {
         my ( $self, $c, $category, $subcategory, $report_name ) = @_;
-        my $rule =  File::Find::Rule->new;
         $c->stash(report_name => $report_name);
         $c->stash(category    => $category, subcategory => $subcategory);
-        $rule->file;
-        $rule->relative;
-        $rule->name( '*.png' );
-        $rule->start("root/artemis/static/metareports/$category/$report_name/");
-        my @files;
-        while (my $match = $rule->match) {
-                push @files, "/artemis/static/metareports/$category/$subcategory/$report_name/$match";
-        }
+
+        my @files = qx (ls -rt1 root/artemis/static/metareports/$category/$subcategory/$report_name/*.png);
         $c->stash(files    => \@files);
         print STDERR Dumper \@files;
 }
