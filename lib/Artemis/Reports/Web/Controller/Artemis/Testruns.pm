@@ -224,7 +224,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
         say STDERR $home;
 
-        open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
+        open my $fh, "<", $file or $c->forward('/artemis/testruns/create');   # can't read file most often means we are not in a session
         my ($required, $optional, $mpc_config) = ('', '', '');
         while (my $line = <$fh>) {
                 ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
@@ -274,7 +274,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 my $testrun;
 
                 use Data::Dumper;
-                say STDERR Dumper $form->input;
 
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $testrun_id;
