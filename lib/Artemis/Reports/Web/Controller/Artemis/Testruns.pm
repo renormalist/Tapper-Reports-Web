@@ -196,7 +196,7 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
         } else {
 
                 my @use_cases;
-                foreach my $file (<root/mpc/*>) {
+                foreach my $file (<root/mpc/*.mpc>) {
                         open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {
@@ -216,10 +216,13 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
 sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfig
 {
         my ($self, $c) = @_;
+        my $home = $c->path_to();
         my $form = $c->stash->{form};
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
+
+        say STDERR $home;
 
         open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
         my ($required, $optional, $mpc_config) = ('', '', '');
@@ -227,20 +230,18 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
                 ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
                 ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
-                
+
                 last if $required and $optional and $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
+        no warnings 'uninitialized';
         foreach my $field (split $delim, $required) {
                 my ($name, $type) = split /\./, $field;
 
                 $type = 'Text' if not $type;
 
                 my $element = $form->element({type => ucfirst($type), name => $name, label => $name.'*', constraints => [ 'Required' ]});
-                $form->insert_before($element, $position);
-                $form->process($c->req);
-
         }
 
         foreach my $field (split $delim, $optional) {
@@ -248,8 +249,20 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 $type = 'Text' if not $type;
 
                 my $element = $form->element({type => ucfirst($type), name => $name, label => $name.' '});
-                $form->insert_before($element, $position);
         }
+
+
+        if ($mpc_config) {
+                $mpc_config = "$home/$mpc_config" if not substr($mpc_config, 0, 1) eq '/';
+                if (not -r $mpc_config) {
+                        $c->stash(error => qq(Config file "$mpc_config" does not exists or is not readable));
+                        return;
+                }
+                $form->load_config_file( $mpc_config );
+        }
+        use warnings;
+        $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
+
         $form->process();
 
         if ($form->submitted_and_valid) {
@@ -260,6 +273,9 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 $testrun_data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($testrun_data->{starttime});
                 my $testrun;
 
+                use Data::Dumper;
+                say STDERR Dumper $form->input;
+
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $testrun_id;
                 try {  $testrun_id = $cmd->add($testrun_data);}
@@ -268,10 +284,16 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                           return;
                   }
 
+                my %remaining = %{$form->input};
+
                 foreach my $field (split $delim, "$required,$optional") {
+                        next if not $field; # happens if $required is empty
                         my ($name, $type) = split /\./, $field;
                         next if not defined $form->input->{$name};
-                        $macros{$name} = $form->input->{$name} if $form->input->{$name};
+                        if (defined($form->input->{$name})) {
+                                delete $remaining{$name};
+                                $macros{$name} = $form->input->{$name};
+                        }
                         if ($type eq 'file') {
                                 my $upload = $c->req->upload($name);
                                 my $destdir = sprintf("%s/uploads/%s/%s", Artemis::Config->subconfig->{paths}{package_dir}, $testrun_id, $name);
@@ -288,8 +310,23 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         }
                 }
 
+                foreach my $name (keys %remaining) {
+                        next if $name eq 'submit';
+                        # checkboxgroups return an array but since you don't
+                        # know its order in advance its easier to access a hash
+                        if (ref $form->input->{$name} ~~ 'ARRAY') {
+                                foreach my $element (@{$form->input->{$name}}) {
+                                        $macros{$name}->{$element} = 1;                
+                                }
+                        } else {
+                                $macros{$name} = $form->input->{$name};
+                        }
+                }
+
+
                 $c->session->{macros} = \%macros;
 
+                open $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
                 my $mpc = do {local $/; <$fh>};
 
                 my $ttapplied;
@@ -300,7 +337,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         return;
                 }
 
-
                 $cmd = Artemis::Cmd::Precondition->new();
                 my @preconditions;
                 try {  @preconditions = $cmd->add($ttapplied);}
@@ -308,7 +344,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                           $c->stash(error => $exception->msg);
                           return;
                   }
-
                 $cmd->assign_preconditions($testrun_id, @preconditions);
                 $c->stash->{testrun_id} = $testrun_id;
                 $c->stash->{preconditions} = \@preconditions;
