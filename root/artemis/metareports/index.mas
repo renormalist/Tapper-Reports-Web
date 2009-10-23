@@ -7,8 +7,16 @@ $categories
   <tbody>
 % foreach my $category (keys %$categories){
     <tr>
-      <td><h5><% $category %></h5></td>
-      <td><% $categories->{$category}->{short} %></td>
+      <td>
+        &nbsp;
+        <br/>
+        <h4><b><% $category %></b></h4>
+      </td>
+      <td>
+        &nbsp;
+        <br/>
+        <% $categories->{$category}->{short} %>
+      </td>
     </tr>
 
 %     foreach my $subcategory(sort keys %{$categories->{$category}->{data}}) {
