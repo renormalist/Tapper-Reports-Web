@@ -34,6 +34,7 @@ sub filter
 {
         my @retval;
         foreach my $line (@_) {
+                $line =~ s/\000//g;
                 $line =~ s/\015//g;
                 $line =~ s/\033\[.*?[mH]//g;
                 $line =~ s/\033\d+/\t/g;
