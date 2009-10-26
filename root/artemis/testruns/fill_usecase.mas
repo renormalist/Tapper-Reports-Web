@@ -7,7 +7,7 @@ $testrun_id => undef
 
 % if ($c->session->{valid}) {
 %     if ($error) {
-<h4>Can't create testrun!</h4>
+<h4>Can not create testrun!</h4>
 <pre>
 <% $error %>
 </pre>

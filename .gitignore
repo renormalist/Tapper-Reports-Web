@@ -15,4 +15,4 @@ t/artemis_schema_reportsdb_test.sqlite
 t/artemis_schema_hardwaredb_test.sqlite
 t/artemis_schema_testrundb_test.sqlite
 inc
-
+root/artemis/static/metareports

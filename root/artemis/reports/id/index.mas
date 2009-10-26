@@ -46,7 +46,6 @@
         <p>
           <ul class="additional_table">
             <li><a href="/artemis/reports/tap/<% $report->id%>">raw TAP report</a></li>
-            <li><a href="/artemis/reports/precondition/<% $report->id%>">Preconditions in YAML</a></li>
           </ul>
         </p>
 

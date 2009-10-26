@@ -7,14 +7,29 @@ $categories
   <tbody>
 % foreach my $category (keys %$categories){
     <tr>
-      <td><h5><% $category %></h5></td>
-      <td><% $categories->{$category}->{short} %>
+      <td>
+        &nbsp;
+        <br/>
+        <h4><b><% $category %></b></h4>
+      </td>
+      <td>
+        &nbsp;
+        <br/>
+        <% $categories->{$category}->{short} %>
+      </td>
     </tr>
-%     foreach my $report (keys %{$categories->{$category}->{data}}){
-    <tr>
-      <th><a href="/artemis/metareports/<% $category %>/<% $report %>/"><% $report %></a></h5></th>
-      <td><% $categories->{$category}->{data}->{$report}->{short} %></td>
-    </tr>
+
+%     foreach my $subcategory(sort keys %{$categories->{$category}->{data}}) {
+       <tr>
+         <td><h5><% $subcategory %></h5></td>
+         <td><% $categories->{$category}->{data}->{$subcategory}->{short} %></td>
+      </tr>
+%         foreach my $report (sort keys %{$categories->{$category}->{data}->{$subcategory}->{data}}){
+          <tr>
+            <th><a href="/artemis/metareports/<% $category %>/<% $subcategory %>/<% $report %>/"><% $report %></a></h5></th>
+            <td><% $categories->{$category}->{data}->{$subcategory}->{data}->{$report}->{short} %></td>
+          </tr>
+%         }
 %     }
 % }
   </tbody>

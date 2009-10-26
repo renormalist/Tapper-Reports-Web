@@ -1,0 +1,58 @@
+# artemis-optional-fields: kernelpkg.file, kernel_version
+# artemis-config-file: root/mpc/kernel_reboot.yml
+# artemis-description: Reboot test with a prebuilt kernel package
+---
+arch: linux64
+image: suse/suse_sles10_64b_smp_raw.tar.gz
+mount: /
+partition: testing
+precondition_type: image
+---
+precondition_type: copyfile
+name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
+dest: /bin/
+protocol: local
+---
+precondition_type: copyfile
+name: /data/bancroft/artemis/live/repository/packages/artemisutils/kernel/gen_initrd.sh
+dest: /bin/
+protocol: local
+---
+[% IF  kernelpkg %]
+precondition_type: exec
+filename: /bin/gen_initrd.sh
+options:
+  - [% kernel_version %]
+---
+precondition_type: package
+filename: [% kernelpkg %]
+[% ELSE %]
+precondition_type: produce
+producer: Kernel
+[% END %]
+---
+precondition_type: testprogram
+program: /opt/artemis/bin/py_parselog
+timeout: 300
+---
+precondition_type: reboot
+count: 2
+---
+[% IF Tests.CTCS %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_ctcs
+timeout: 10800
+---
+[% END %]
+[% IF Tests.LMBench %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_lmbench
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Parselog %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_parselog
+timeout: 300
+---
+[% END %]

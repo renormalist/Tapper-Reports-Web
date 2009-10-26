@@ -1,0 +1,9 @@
+---
+elements:
+  - type: Checkboxgroup
+    name: Tests
+    label: 'Test suites to be used'
+    options:
+      - [ 'CTCS', 'CTCS testuite' ]
+      - [ 'LMBench', 'LMBench' ]
+      - [ 'parselog', 'Parse logfiles']

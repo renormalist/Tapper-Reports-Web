@@ -69,7 +69,7 @@ sub index :Path :Args(1)
 
 
         my $reportlist_rgt : Stash = {};
-        $testrun = $c->model('TestrunDB')->resultset('Testrun')->search(id => $testrun_id)->first();
+        $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
 
         if (not $testrun) {
                 $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
@@ -77,7 +77,7 @@ sub index :Path :Args(1)
         }
 
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
-        $hostname = model('HardwareDB')->resultset('Systems')->find($testrun->hardwaredb_systems_id)->systemname;
+        $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host : "unknown";
 
         $overview = parse_precondition($testrun);
 
