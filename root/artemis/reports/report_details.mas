@@ -33,7 +33,7 @@
 %                           flags
 %                          /;
         <td colspan="2"><h5><% $section->name %></h5></td>
-%           foreach (@meta_cols) {
+%           foreach (map { s/-/_/g; $_ } @meta_cols) {
                 <& SELF:meta_row, name => $_ , value => $cols{$_} &>
 %           }
 %    }
