@@ -24,6 +24,7 @@ requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Model::DBIC::Schema';
 requires 'Catalyst::Action::RenderView';
+requires 'HTML::FormFu';
 requires 'Test::Fixture::DBIC::Schema';
 requires 'DateTime::Format::Natural';
 requires 'DateTime::Format::DateParse';

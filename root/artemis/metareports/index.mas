@@ -21,7 +21,7 @@ $categories
 
 %     foreach my $subcategory(sort keys %{$categories->{$category}->{data}}) {
        <tr>
-         <td><h5><% $subcategory %></h5></td>
+         <td><h5><b><% $subcategory %></b></h5></td>
          <td><% $categories->{$category}->{data}->{$subcategory}->{short} %></td>
       </tr>
 %         foreach my $report (sort keys %{$categories->{$category}->{data}->{$subcategory}->{data}}){
