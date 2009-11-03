@@ -1,0 +1,79 @@
+# artemis-config-file: root/mpc/autoinstall.yml
+# artemis-description: Kickstart installation with requested workload
+---
+precondition_type: autoinstall
+name: opensuse-11.2-rc2-x86_64
+timeout: 10000
+grub_text: |
+   timeout 2
+
+   title RHEL 5
+   kernel /tftpboot/stable/rhel/5/x86_64/vmlinuz  console=ttyS0,115200 ks=http://bancroft/autoinstall/stable/rhel/5/x86_64/artemis-ai.ks  noapic $ARTEMIS_OPTIONS
+   initrd /tftpboot/stable/rhel/5/x86_64/initrd.img
+---
+[% IF Tests.CTCS %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_ctcs
+timeout: 10800
+---
+[% END %]
+[% IF Tests.LMBench %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_lmbench
+timeout: 10800
+---
+[% END %]
+[% IF Tests.LTP %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_ltp
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Kernbench %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_kernbench
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Aim %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_aim
+timeout: 10800
+---
+[% END %]
+[% IF Tests.HTS %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_hts
+timeout: 10800
+---
+[% END %]
+[% IF Tests.LLC %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_llc
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Parselog %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_parselog
+timeout: 10800
+---
+[% END %]
+[% IF Tests.ReAim %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_reaim
+timeout: 10800
+---
+[% END %]
+[% IF Tests.RHv7 %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_rhv7
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Phoronix %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_phoronix
+timeout: 10800
+---
+[% END %]
