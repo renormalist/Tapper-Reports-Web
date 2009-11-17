@@ -20,6 +20,7 @@
 %   my $sections = $r->reportsections;
 
 %   if ($r->some_meta_available) {
+      <h4>Context</h4>
       <h5><b><% $r->suite ? $r->suite->name : 'unknown suite' %></b></h5>
       <table class="reportsectionmeta">
 %     while (my $section = $sections->next) {

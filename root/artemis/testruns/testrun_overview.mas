@@ -1,8 +1,8 @@
 <%args>
 $overview
 </%args>
-    <h4>Summary</h4>
 % if ($overview) {
+    <h4>Testrun Specification</h4>
     <table class="reportsectionmeta">
       <tbody>
         <tr>
@@ -43,6 +43,4 @@ $overview
       </tbody>
     </table>
     <br/>
-% } else {
-    <h4>No precondition overview</h4>
 % }
