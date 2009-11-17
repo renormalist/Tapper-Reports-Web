@@ -27,10 +27,11 @@ sub index :Path :Args(1)
                 return;
         }
 
+        return unless $testrun->testrun_scheduling;
+
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
         $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host : "unknown";
 
-        # $overview = parse_precondition($testrun);
         $overview = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
 
         my $rgt_reports = $c->model('ReportsDB')->resultset('Report')->search
