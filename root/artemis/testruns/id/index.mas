@@ -79,7 +79,6 @@ $time
 <!-- <a href="/artemis/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> |> -->
 <!-- <a href="/artemis/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a> | -->
 <!-- <a href="/artemis/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a> | -->
-<a href="/artemis/testruns/<% $testrun->id %>/rerun" title="Start testrun with exactly the same values now">Restart testrun</a>
 
     <!-- ************************************************************ -->
 
@@ -88,6 +87,25 @@ $time
 
     <!-- ************************************************************ -->
 
+  <SCRIPT language="JavaScript">
+    <!--
+      function rerun_confirm() {
+        var where_to= confirm("Do you really want to re-start this testrun?");
+        if (where_to == true) {
+          alert("true");
+          window.location="/foo/artemis/testruns/<% $testrun->id %>/rerun";
+        } else {
+          alert("false");
+          window.location="#";
+        }
+      }
+       //-->
+  </SCRIPT>
+    <h4>
+      <form>
+        <input type="button" value="Restart Testrun" onClick="rerun_confirm()">
+      </form>
+    </h4>
 
 
 %# Local Variables:
