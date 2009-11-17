@@ -7,6 +7,7 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 use Template;
 use TryCatch;
 use File::Path;
+use File::Basename;
 
 use 5.010;
 
@@ -46,6 +47,54 @@ sub index :Path :Args(0)
                                  finish_time => $end_time};
         }
         return;
+}
+
+sub get_testrun_overview : Private
+{
+        my ( $self, $c, $testrun ) = @_;
+
+        my $retval;
+        foreach ($testrun->ordered_preconditions) {
+                my $precondition = $_->precondition_as_hash;
+                if ($precondition->{precondition_type} eq 'virt' ) {
+                        $retval->{name}  = $precondition->{name} || "Virtualisation Test";
+                        $retval->{arch}  = $precondition->{host}->{root}{arch};
+                        $retval->{image} = $precondition->{host}->{root}{image} || $precondition->{host}->{root}{name}; # can be an image or copyfile or package
+                        push (@{$retval->{test}}, basename($precondition->{host}->{testprogram}{execname})) if $precondition->{host}->{testprogram}{execname};
+                        foreach my $guest (@{$precondition->{guests}}) {
+                                my $guest_summary;
+                                $guest_summary->{arch}  = $guest->{root}{arch};
+                                $guest_summary->{image} = $guest->{root}{image} || $guest->{root}{name}; # can be an image or copyfile or package
+                                push @{$guest_summary->{test}}, basename($guest->{testprogram}{execname}) if $guest->{testprogram}{execname};
+                                push @{$retval->{guests}}, $guest_summary;
+                        }
+                        # can stop here because virt preconditions usually defines everything we need for a summary
+                        return $retval;
+                }
+                elsif ($precondition->{precondition_type} eq 'image' ) {
+                        $retval->{image} = $precondition->{image};
+                        if ($retval->{arch}) {
+                                $retval->{arch} = $precondition->{arch};
+                        } else {
+                                if ($precondition->{image} =~ m/(64b)|(x86_64)/) {
+                                        $retval->{arch} = 'unknown (probably linux64)';
+                                } elsif ($precondition->{image} =~ m/(32b)|(i386)/) {
+                                        $retval->{arch} = 'unknown (probably linux32)';
+                                } else {
+                                        $retval->{arch} = 'unknown';
+                                }
+                        }
+                } elsif ($precondition->{precondition_type} eq 'prc') {
+                        if ($precondition->{config}->{testprogram_list}) {
+                                foreach my $thisprogram (@{$precondition->{config}->{testprogram_list}}) {
+                                        push @{$retval->{test}}, $thisprogram->{program};
+                                }
+                        } elsif ($precondition->{config}->{test_program}) {
+                                push @{$retval->{test}}, $precondition->{config}->{test_program};
+                        }
+                }
+        }
+        return $retval;
 }
 
 sub base : Chained PathPrefix CaptureArgs(0) { }

@@ -39,7 +39,7 @@ $time
     <!-- ************************************************************ -->
 
     <h4>Details</h4>
-    <a href="/artemis/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in YAML</a>
+    <a href="/artemis/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in raw YAML</a>
 
     <!-- ************************************************************ -->
 
