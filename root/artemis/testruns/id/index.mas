@@ -13,6 +13,16 @@ $time
   Testrun <% $testrun->id %>
 </h3>
 
+    <!-- ************************************************************ -->
+
+% if (%reportlist_rgt) {
+<h4>Testrun</h4>
+<& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
+%}
+
+    <!-- ************************************************************ -->
+
+
 	<ul class="post_info">
 		<li class="date"><% $time %></li>
 		<li class="meta">Host: '<% $hostname %>'</li>
@@ -73,10 +83,6 @@ $time
 
 
 
-% if (%reportlist_rgt) {
-<h4>Reports of this Testrun</h4>
-<& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
-%}
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:
