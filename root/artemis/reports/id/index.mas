@@ -16,6 +16,12 @@
         <% $report->suite_version ? $report->suite_version : '' %>
     </h3>
 
+    <!-- ************************************************************ -->
+
+        <& /artemis/reports/report_group_list.mas, report => $report, reportlist_rga => \%reportlist_rga, reportlist_rgt => \%reportlist_rgt &>
+
+    <!-- ************************************************************ -->
+
 	<ul class="post_info">
 		<li class="date">report id: <% $report->id %></li>
 		<li class="date"><% $report->created_at->ymd %> <% $report->created_at->hms %> GMT</li>
@@ -31,8 +37,12 @@
                 </li>
 	</ul>
 
+    <!-- ************************************************************ -->
+
         <h4>Context</h4>
         <& /artemis/reports/report_details.mas, report => $report &>
+
+    <!-- ************************************************************ -->
 
         <h4>Test results</h4>
 %       if ($report->tap) {
@@ -43,14 +53,20 @@
                 No TAP available.
 %       }
 
+    <!-- ************************************************************ -->
+
         <p>
           <ul class="additional_table">
             <li><a href="/artemis/reports/tap/<% $report->id%>">raw TAP report</a></li>
           </ul>
         </p>
 
+    <!-- ************************************************************ -->
+
         <& /artemis/reports/report_files.mas, report => $report &>
-        <& /artemis/reports/report_group_list.mas, report => $report, reportlist_rga => \%reportlist_rga, reportlist_rgt => \%reportlist_rgt &>
+
+    <!-- ************************************************************ -->
+
 % }
 
 %# Local Variables:

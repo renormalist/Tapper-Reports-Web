@@ -14,29 +14,34 @@
 % }
 </%method>
 
-% my $sections = $report->reportsections;
+% foreach my $r ( $report->reportgrouptestrun->groupreports->all) {
+%   my $sections = $r->reportsections;
 
-    <table class="reportsectionmeta">
-% while (my $section = $sections->next) {
+%   if ($r->some_meta_available) {
+      <h5><b><% $r->suite ? $r->suite->name : 'unknown suite' %></b></h5>
+      <table class="reportsectionmeta">
+%     while (my $section = $sections->next) {
 
-%    if ($section->some_meta_available) {
+%        if ($section->some_meta_available) {
 
-%        my %cols = $section->get_columns;
-%        # this enumeration is a bit lame. anyway: copy the list from Artemis::TAP::Harness.@SECTION_HEADER_KEYS_GENERAL.
-%        my @meta_cols = qw/ram cpuinfo bios lspci uname osname uptime language-description
-%                           flags changeset description
-%                           xen-version xen-changeset xen-dom0-kernel xen-base-os-description
-%                           xen-guest-description xen-guest-test xen-guest-start xen-guest-flags
-%                           kvm-module-version kvm-userspace-version kvm-kernel
-%                           kvm-base-os-description kvm-guest-description
-%                           kvm-guest-test kvm-guest-start kvm-guest-flags
-%                           flags
-%                          /;
-        <tr><td colspan="2"><h5><% $section->name %></h5></td></tr>
+%          my %cols = $section->get_columns;
+%          # this enumeration is a bit lame. anyway: copy the list from Artemis::TAP::Harness.@SECTION_HEADER_KEYS_GENERAL.
+%          my @meta_cols = qw/ram cpuinfo bios lspci uname osname uptime language-description
+%                             flags changeset description
+%                             xen-version xen-changeset xen-dom0-kernel xen-base-os-description
+%                             xen-guest-description xen-guest-test xen-guest-start xen-guest-flags
+%                             kvm-module-version kvm-userspace-version kvm-kernel
+%                             kvm-base-os-description kvm-guest-description
+%                             kvm-guest-test kvm-guest-start kvm-guest-flags
+%                             flags
+%                            /;
+        <tr><td colspan="2"><h5>&nbsp;<% $section->name %></h5></td></tr>
 %           foreach (map { s/-/_/g; $_ } @meta_cols) {
                 <& SELF:meta_row, name => $_ , value => $cols{$_} &>
 %           }
-%    }
+%        }
+%     }
+%   }
 % }
     </table>
 
