@@ -14,7 +14,9 @@
 % }
 </%method>
 
-% foreach my $r ( $report->reportgrouptestrun->groupreports->all) {
+% my $reportgrouptestrun = $report->reportgrouptestrun;
+% if ($reportgrouptestrun) {
+%  foreach my $r ( $reportgrouptestrun->groupreports->all) {
 %   my $sections = $r->reportsections;
 
 %   if ($r->some_meta_available) {
@@ -42,6 +44,7 @@
 %        }
 %     }
 %   }
+%  }
 % }
     </table>
 
