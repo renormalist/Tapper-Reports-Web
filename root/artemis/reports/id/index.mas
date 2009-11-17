@@ -1,5 +1,6 @@
 <%args>
     $report
+    $overview
     %reportlist_rga => {}
     %reportlist_rgt => {}
 </%args>
@@ -39,8 +40,11 @@
 
     <!-- ************************************************************ -->
 
-        <h4>Context</h4>
         <& /artemis/reports/report_details.mas, report => $report &>
+
+    <!-- ************************************************************ -->
+
+    <& /artemis/testruns/testrun_overview.mas, overview => $overview &>
 
     <!-- ************************************************************ -->
 
