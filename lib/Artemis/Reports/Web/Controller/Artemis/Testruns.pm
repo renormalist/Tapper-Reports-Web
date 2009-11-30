@@ -319,10 +319,14 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
 
                 my $testrun_data = $c->session->{testrun_data};
-                $testrun_data->{starttime_earliest} = DateTime::Format::DateParse->parse_datetime($testrun_data->{starttime});
+                $testrun_data->{starttime_earliest} = DateTime->new(year => $testrun_data->{starttime_year},
+                                                                    month => $testrun_data->{starttime_month},
+                                                                    day => $testrun_data->{starttime_day},
+                                                                    hour => $testrun_data->{starttime_hour},
+                                                                    minute => $testrun_data->{starttime_minute},
+                                                                   );
                 my $testrun;
 
-                use Data::Dumper;
 
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $testrun_id;
