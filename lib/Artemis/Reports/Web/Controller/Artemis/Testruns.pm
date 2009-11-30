@@ -223,7 +223,7 @@ sub get_owner_names
 sub get_hostnames
 {
         my ($self) = @_;
-        my @all_machines = model("HardwareDB")->resultset('Systems')->search({active => 1, scheduled => 1});
+        my @all_machines = model("HardwareDB")->resultset('Systems')->search({active => 1, current_owner => {'like', '%artemis%'}});
         my @machines;
         foreach my $host (sort {$a->systemname cmp $b->systemname} @all_machines) {
                 push(@machines, [$host->id, $host->systemname]);
