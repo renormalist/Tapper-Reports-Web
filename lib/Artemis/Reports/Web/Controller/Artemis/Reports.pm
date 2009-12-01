@@ -35,7 +35,6 @@ sub prepare_simple_reportlist : Private
         my %rga;
         my %rgt_prims;
         my %rga_prims;
-        #say STDERR "------------------------------------------- {";
         foreach my $report ($reports->all)
         {
                 my %cols = $report->get_columns;
