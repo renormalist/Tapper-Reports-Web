@@ -30,7 +30,7 @@ sub index :Path :Args(1)
         return unless $testrun->testrun_scheduling;
 
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
-        $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host : "unknown";
+        $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host->name : "unknown";
 
         $overview = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
 
