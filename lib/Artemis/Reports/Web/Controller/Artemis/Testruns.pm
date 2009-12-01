@@ -245,8 +245,8 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
         } else {
 
                 my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{use_cases_path};
-                foreach my $file (<$path/root/mpc/*.mpc>) {
+                my $path = Artemis::Config->subconfig->{paths}{use_case_path};
+                foreach my $file (<$path/*.mpc>) {
                         open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {
@@ -271,8 +271,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
-
-        say STDERR $home;
 
         open my $fh, "<", $file or $c->forward('/artemis/testruns/create');   # can't read file most often means we are not in a session
         my ($required, $optional, $mpc_config) = ('', '', '');
