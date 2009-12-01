@@ -28,4 +28,4 @@ rsync -vv --progress --ignore-existing ${DISTFILES} artemis@wotan:/home/artemis/
 echo ""
 echo '----- re-index -------------------------------------------------'
 ssh artemis@wotan /home/artemis/perl510/bin/cpansite -vl index /home/artemis/CPANSITE/CPAN/
-ssh artemis@wotan 'echo "/home/artemis/perl510/bin/cpansite install Artemis::Reports::Web" | bash -l'
+ssh artemis@wotan /home/artemis/perl510/bin/cpan Artemis::Reports::Web
