@@ -84,10 +84,10 @@ sub report_name : Chained('base') PathPart('') Args(3)
         $c->stash(category    => $category, subcategory => $subcategory);
 
         my @files =
-          #            map { s,^.*/root(/artemis/static/metareports/.*),$1,; $_ }
-            qx (ls -1 $path/$subcategory/$report_name/*.png | tail -1);
-        $c->stash(files    => \@files);
+          map { s,^.+/([^/]+\.png),/artemis/static/metareports/$category/$subcategory/$report_name/$1,; $_ }
+            qx (ls -1 $path/$category/$subcategory/$report_name/*.png | tail -1);
         print STDERR Dumper \@files;
+        $c->stash(files    => \@files);
 }
 
 
