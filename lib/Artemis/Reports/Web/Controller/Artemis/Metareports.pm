@@ -5,6 +5,8 @@ use warnings;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use File::Find::Rule;
 
+use Artemis::Config;
+
 use 5.010;
 
 
@@ -15,20 +17,20 @@ sub index :Path :Args(0)
 {
         my ($self, $c) = @_;
 
-        my $home = $c->path_to();
+        my $path = Artemis::Config->subconfig->{paths}{metareport_path};
         my $rule =  File::Find::Rule->new;
         $rule->directory;
         $rule->relative;
         $rule->maxdepth(1);
-        $rule->start("$home/root/artemis/static/metareports/");
+        $rule->start("$path/");
         use Data::Dumper;
         my %categories;
 	use Cwd;
         while (my $category = $rule->match) {
                 print STDERR "category: ", Dumper($category);
-                my ($short);
+                my $short;
                 {
-                        open my $fh, "<", "$home/root/artemis/static/metareports/$category/short.txt" or last;
+                        open my $fh, "<", "$path/$category/short.txt" or last;
                         $short = <$fh>;
                         close $fh;
                 }
@@ -37,33 +39,34 @@ sub index :Path :Args(0)
                 $rule_cat->directory;
                 $rule_cat->relative;
                 $rule_cat->maxdepth(1);
-                $rule_cat->start("$home/root/artemis/static/metareports/$category");
+                $rule_cat->start("$path/$category");
                 while (my $subcategory = $rule_cat->match) {
+                        my $sub_short;
                         {
-                                open my $fh, "<", "$home/root/artemis/static/metareports/$category/$subcategory/short.txt" or last;
-                                $short = <$fh>;
+                                open my $fh, "<", "$path/$category/$subcategory/short.txt" or last;
+                                $sub_short = <$fh>;
                                 close $fh;
                         }
-                        $categories{$category}->{data}->{$subcategory}->{short} = $short || 'No short description';
+                        $categories{$category}->{data}->{$subcategory}->{short} = $sub_short || '';
 
                         my $rule_subcat =  File::Find::Rule->new;
                         $rule_subcat->directory;
                         $rule_subcat->relative;
                         $rule_subcat->maxdepth(1);
-                        $rule_subcat->start("$home/root/artemis/static/metareports/$category/$subcategory/");
+                        $rule_subcat->start("$path/$category/$subcategory/");
 
                         while (my $report = $rule_subcat->match) {
+                                my $report_short;
                                 {
-                                        open my $fh, "<", "$home/root/artemis/static/metareports/$category/$subcategory/$report/short.txt" or last;
-                                        $short = <$fh>;
+                                        open my $fh, "<", "$path/$category/$subcategory/$report/short.txt" or last;
+                                        $report_short = <$fh>;
                                         close $fh;
                                 }
-                                $categories{$category}->{data}->{$subcategory}->{data}->{$report}->{short} = $short || 'No short description';
+                                $categories{$category}->{data}->{$subcategory}->{data}->{$report}->{short} = $report_short;
                         }
 
                 }
         }
-        print STDERR Dumper \%categories;
         $c->stash(categories => \%categories);
 }
 
@@ -76,13 +79,13 @@ sub base : Chained PathPrefix CaptureArgs(0) {
 sub report_name : Chained('base') PathPart('') Args(3)
 {
         my ( $self, $c, $category, $subcategory, $report_name ) = @_;
-        my $home = $c->path_to();
+        my $path = Artemis::Config->subconfig->{paths}{metareport_path};
         $c->stash(report_name => $report_name);
         $c->stash(category    => $category, subcategory => $subcategory);
 
         my @files =
-            map { s,^.*/root(/artemis/static/metareports/.*),$1,; $_ }
-            qx (ls -1 $home/root/artemis/static/metareports/$category/$subcategory/$report_name/*.png | tail -1);
+          #            map { s,^.*/root(/artemis/static/metareports/.*),$1,; $_ }
+            qx (ls -1 $path/$subcategory/$report_name/*.png | tail -1);
         $c->stash(files    => \@files);
         print STDERR Dumper \@files;
 }
