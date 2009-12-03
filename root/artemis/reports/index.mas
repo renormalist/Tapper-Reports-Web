@@ -17,3 +17,14 @@
                 </li>
         </ul>
 </p>
+
+<p>
+        Testrun handling
+</p>
+<p>
+        <ul>
+                <li>
+                        <a href="/artemis/testruns/create">Create a new testrun</a>
+                </li>
+        </ul>
+</p>
