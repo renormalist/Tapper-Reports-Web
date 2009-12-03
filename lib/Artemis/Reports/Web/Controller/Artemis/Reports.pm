@@ -64,8 +64,6 @@ sub prepare_simple_reportlist : Private
                          peeraddr              => $report->peeraddr,
                          peerhost              => $report->peerhost,
                         };
-                # say STDERR sprintf("* r: %s - %s - %s ", $r->{id}, $r->{rga_primary}||'', $r->{rga_primary}||'');
-                #say STDERR "r = ".Dumper($r);# unless $r->{id};
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
                 {
@@ -96,7 +94,6 @@ sub prepare_simple_reportlist : Private
 
                 push @all_reports, $r; # for easier overall stats
         }
-        #say STDERR "\n------------------------------------------- }";
 
         # Find groups without primary report
         my @rga_noprim;
@@ -110,12 +107,10 @@ sub prepare_simple_reportlist : Private
         # Pull out latest one and put into @reports as primary
         foreach (@rga_noprim) {
                 my $rga_primary = pop @{$rga{$_}};
-                #say STDERR "semi rga_primary: ".Dumper($rga_primary);
                 push @reports, $rga_primary;
         }
         foreach (@rgt_noprim) {
                 my $rgt_primary = pop @{$rgt{$_}};
-                #say STDERR "semi rgt_primary: ".Dumper($rgt_primary);
                 push @reports, $rgt_primary;
         }
 
