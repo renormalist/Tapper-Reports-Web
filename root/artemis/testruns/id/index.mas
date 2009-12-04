@@ -57,11 +57,6 @@ $time
       }
        //-->
   </SCRIPT>
-    <h4>
-      <form>
-        <input type="button" value="Restart Testrun" onClick="rerun_confirm()">
-      </form>
-    </h4>
 
 
 %# Local Variables:
