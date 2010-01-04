@@ -196,7 +196,7 @@ sub prepare_navi : Private
         my $navi : Stash = [
                             {
                              title  => "reports by date",
-                             href   => "/artemis/reports/date/7",
+                             href   => "/artemis/reports/date/2",
                              active => 0,
                              subnavi => [
                                          {
