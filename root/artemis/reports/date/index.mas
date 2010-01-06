@@ -1,10 +1,21 @@
 <%args>
         @this_weeks_reportlists
+        $list_count_all     => "n"
+        $list_count_pass    => "n"
+        $list_count_fail    => "n"
+        $list_count_unknown => "n"
+
 </%args>
 
 % my $now = gmtime();
 <h3>Last weeks reports</h3>
-<& /artemis/reports/week_reportlists.mas, week_reportlists => \@this_weeks_reportlists &>
+<& /artemis/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
+                                          list_count_all     => $list_count_all,
+                                          list_count_pass    => $list_count_pass,
+                                          list_count_fail    => $list_count_fail,
+                                          list_count_unknown => $list_count_unknown
+
+  &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8

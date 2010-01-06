@@ -9,7 +9,7 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 use DateTime::Format::Natural;
 use Data::Dumper;
 
-sub auto :Pivate
+sub auto :Private
 {
         my ( $self, $c ) = @_;
 
@@ -158,8 +158,8 @@ sub prepare_this_weeks_reportlists : Private
             );
 
         my $parser = new DateTime::Format::Natural;
-        my $today = $parser->parse_datetime("today at midnight");
-        my @day = ( $today );
+        my $today  = $parser->parse_datetime("today at midnight");
+        my @day    = ( $today );
         push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
@@ -187,6 +187,20 @@ sub prepare_this_weeks_reportlists : Private
 #                                        %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
 #                                       };
 
+        my $list_count_all     : Stash = 0;
+        my $list_count_pass    : Stash = 0;
+        my $list_count_fail    : Stash = 0;
+        my $list_count_unknown : Stash = 0;
+
+        foreach (0..$lastday) {
+                my $reportlist = $this_weeks_reportlists[$_];
+                $list_count_all += @{$reportlist->{all_reports}};
+                foreach my $report (@{$reportlist->{all_reports}}) {
+                        if    ($report->{successgrade} eq 'PASS') { $list_count_pass++    }
+                        elsif ($report->{successgrade} eq 'FAIL') { $list_count_fail++    }
+                        else                                      { $list_count_unknown++ }
+                }
+        }
 }
 
 sub prepare_navi : Private
