@@ -401,6 +401,189 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         }
 }
 
+sub prepare_reportlist : Private
+{
+        my ( $self, $c, $reports ) = @_;
+
+        # Mnemonic:
+        #           rga = ReportGroup Arbitrary
+        #           rgt = ReportGroup Testrun
+
+        my @all_reports;
+        my @reports;
+        my %rgt;
+        my %rga;
+        my %rgt_prims;
+        my %rga_prims;
+        foreach my $report ($reports->all)
+        {
+                my %cols = $report->get_columns;
+                #print STDERR Dumper(\%cols);
+                my $suite_name  = $cols{suite_name} || 'unknownsuite';
+                my $suite_id    = $cols{suite_id}   || '0';
+                my $r = {
+                         rgt_report_id           => 'rgt_report_id',
+                         rgt_testrun_id          => 'rgt_testrun_id',
+                         rgts_success_ratio      => 'rgts_success_ratio',
+
+                         # report_id               => $report->report_id,
+                         # testrun_id              => $report->testrun_id,
+                         # rgts_success_ratio      => $report->rgts_success_ratio,
+
+                         # id                    => $report->id,
+                         # suite_name            => $suite_name,
+                         # suite_id              => $suite_id,
+                         # machine_name          => $report->machine_name || 'unknownmachine',
+                         # created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
+                         # created_at_ymd        => $report->created_at->ymd('-'),
+                         # success_ratio         => $report->success_ratio,
+                         # successgrade          => $report->successgrade,
+                         # reviewed_successgrade => $report->reviewed_successgrade,
+                         # total                 => $report->total,
+                         # peerport              => $report->peerport,
+                         # peeraddr              => $report->peeraddr,
+                         # peerhost              => $report->peerhost,
+                        };
+                push @reports, $r;
+        }
+
+        return {
+                reports     => \@reports,
+               };
+}
+
+sub prepare_reportlists : Private
+{
+        my ( $self, $c ) = @_;
+
+        my @requested_reportlists : Stash = ();
+        my %groupstats            : Stash = ();
+
+        # requested time period
+        my $days : Stash;
+        my $lastday = $days ? $days - 1 : 6;
+
+        # ----- general -----
+
+        my $filter_condition = {
+                                # "me.id" => { '>=', 22530 }
+                               };
+        # select max(report_id), rgt.testrun_id, rgts.success_ratio
+        #        from reportgrouptestrun rgt,
+        #             reportgrouptestrunstats rgts
+        #        where rgt.testrun_id=rgts.testrun_id and
+        #              rgt.testrun_id=25126
+        #        group by rgt.testrun_id;
+
+        my $groupstats_rs = $c->model('ReportsDB')->resultset('ReportgroupTestrun')->search
+            (
+             { },
+             {
+              select     => [ { max => 'me.report_id' }, 'me.testrun_id' ],              # ' emacs quote bug
+              as         => [ 'report_id',               'testrun_id' ],
+              join       => [ 'reportgrouptestrunstats' ],
+              '+select'  => [ 'reportgrouptestrunstats.success_ratio' ],
+              '+as'      => [ 'rgts_success_ratio' ],
+              group_by   => [ 'testrun_id' ],
+              order_by   => 'me.report_id desc',
+             }
+            );
+
+        # TODO: change this to a while loop, currently not working. Bug? Related to group-by?
+        foreach ($groupstats_rs->all) {
+                my %cols = $_->get_columns;
+                $groupstats{$_->report_id} = $cols{rgts_success_ratio};
+        }
+
+        print STDERR "as_query: ", Dumper(${$groupstats_rs->get_column('report_id')->as_query});
+        my $q = ${ $groupstats_rs->get_column('report_id')->as_query }->[0];
+        print STDERR "as_query: ", $q, "\n";
+
+        # HIER WEITER:
+        # - IN-Bedingung zum Laufen bekommen, notfalls mit manuellem Array
+        # - dann in Template den Hash %groupstats aus Stash nutzen für rgts_success_ratio
+        # - dann in Template wieder (%%) zu <%%> machen
+        # - Liste überprüfen, könnte damit alles gewesen sein.
+
+        my $reports = $c->model('ReportsDB')->resultset('Report')->search
+            (
+             #{ "me.id" => { ">" => 22000 } }
+             { "me.id" => { 'IN' => \$q } }   # TODO: report bug of wrong REF'erencing, rlated to above while/next bug?
+            );
+
+        my $parser = new DateTime::Format::Natural;
+        my $today  = $parser->parse_datetime("today at midnight");
+        my @day    = ( $today );
+        push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
+
+        # ----- today -----
+        my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
+        push @requested_reportlists, {
+                                      day => $day[0],
+                                      %{ $c->forward('/artemis/testruns/prepare_reportlist', [ $day0_reports ]) }
+                                     };
+
+        # ----- last week days -----
+        foreach (1..$lastday) {
+                my $day_reports = $reports->search ({ -and => [ created_at => { '>', $day[$_]     },
+                                                                created_at => { '<', $day[$_ - 1] } ] });
+                push @requested_reportlists, {
+                                              day => $day[$_],
+                                              %{ $c->forward('/artemis/testruns/prepare_reportlist', [ $day_reports ]) }
+                                             };
+        }
+}
+
+sub prepare_navi : Private
+{
+        my ( $self, $c ) = @_;
+
+        my $navi : Stash = [
+                            {
+                             title  => "Testruns by date",
+                             href   => "/artemis/testruns/days/2",
+                             active => 0,
+                             subnavi => [
+                                         {
+                                          title  => "today",
+                                          href   => "/artemis/testruns/days/1",
+                                         },
+                                         {
+                                          title  => "1 week",
+                                          href   => "/artemis/testruns/days/7",
+                                         },
+                                         {
+                                          title  => "2 weeks",
+                                          href   => "/artemis/testruns/days/14",
+                                         },
+                                         {
+                                          title  => "3 weeks",
+                                          href   => "/artemis/testruns/days/21",
+                                         },
+                                         {
+                                          title  => "1 month",
+                                          href   => "/artemis/testruns/days/30",
+                                         },
+                                         {
+                                          title  => "2 months",
+                                          href   => "/artemis/testruns/days/60",
+                                         },
+                                        ],
+                            },
+                            {
+                             title  => "Control",
+                             href   => "",
+                             active => 0,
+                             subnavi => [
+                                         {
+                                          title  => "Create new Testrun",
+                                          href   => "/artemis/testruns/create/",
+                                         },
+                                        ],
+                            },
+                           ];
+}
+
 =head1 NAME
 
 Artemis::Reports::Web::Controller::Artemis::Testruns - Catalyst Controller

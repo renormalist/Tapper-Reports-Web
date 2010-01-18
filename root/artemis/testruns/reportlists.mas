@@ -1,0 +1,27 @@
+<%args>
+        @requested_reportlists
+</%args>
+
+% my $days = $c->stash->{days} || 7;
+% my $lastday = $days - 1;
+
+%#        <ul class="post_info">
+%#		<li class="comments">        <% $list_count_all     %> reports</li>
+%#		<li class="comments pass">   <% $list_count_pass    %> pass</li>
+%#		<li class="comments fail">   <% $list_count_fail    %> fail</li>
+%#		<li class="comments unknown"><% $list_count_unknown %> unknown</li>
+%#	</ul>
+
+% foreach (0..$lastday) {
+%       my $day_infos = $requested_reportlists[$_];
+%       my $day        = $day_infos->{day};
+%       my $reportlist = $day_infos;
+%       # my $rgt = $day_infos->{rgt};
+        <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
+<& /artemis/testruns/reportlist.mas, reportlist => $reportlist &>
+% }
+
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
