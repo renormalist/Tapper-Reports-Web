@@ -26,7 +26,7 @@ sub index :Path :Args(0)
 
         my $format = '%T %F';
         my $testrun_search = $c->model('TestrunDB')->resultset('Testrun');
-        while (my $this_testrun = $testrun_search->next()) {
+        while (my $this_testrun = $testrun_search->next) {
                 my $state = 'Not started';
                 my $start_time;
                 my $end_time;
@@ -41,14 +41,15 @@ sub index :Path :Args(0)
 
                 }
 
-                push @testruns, {id => $this_testrun->id,
-                                 state => $state,
-                                 start_time => $start_time,
+                push @testruns, {id          => $this_testrun->id,
+                                 state       => $state,
+                                 start_time  => $start_time,
                                  finish_time => $end_time};
         }
         return;
 }
 
+# XXX: subject to deletion
 sub get_testrun_overview : Private
 {
         my ( $self, $c, $testrun ) = @_;
@@ -120,7 +121,7 @@ sub delete : Chained('id') PathPart('delete')
         my $cmd = Artemis::Cmd::Testrun->new();
         my $retval = $cmd->del($c->stash->{testrun}->id);
         if ($retval) {
-                $c->response->body(qq(Can't delete testrun: $retval));
+                $c->response->body(qq(Can not delete testrun: $retval));
                 return;
         }
         $c->stash(force => 1);
@@ -133,7 +134,7 @@ sub rerun : Chained('id') PathPart('rerun') Args(0)
         my $cmd = Artemis::Cmd::Testrun->new();
         my $retval = $cmd->rerun($c->stash->{testrun}->id);
         if (not $retval) {
-                $c->response->body(qq(Can't rerun testrun));
+                $c->response->body(qq(Can not rerun testrun));
                 return;
         }
         $c->stash(testrun => $c->model('TestrunDB')->resultset('Testrun')->find($retval));
@@ -247,7 +248,7 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
                 my @use_cases;
                 my $path = Artemis::Config->subconfig->{paths}{use_case_path};
                 foreach my $file (<$path/*.mpc>) {
-                        open my $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
+                        open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {
                                 ($desc) = $line =~/# (?:artemis[_-])?description:\s*(.+)/;
@@ -354,7 +355,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
                                 foreach my $diag (@$error) {
                                         my ($dir, $message) = each %$diag;
-                                        $c->response->body("Can't create $dir: $message");
+                                        $c->response->body("Can not create $dir: $message");
                                 }
                                 $upload->copy_to($destfile);
                                 $macros{$name} = $destfile;
@@ -377,7 +378,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
                 $c->session->{macros} = \%macros;
 
-                open $fh, "<", $file or $c->response->body(qq(Can't open $file: $!)), return;
+                open $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                 my $mpc = do {local $/; <$fh>};
 
                 my $ttapplied;
