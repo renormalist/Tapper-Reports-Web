@@ -1,5 +1,5 @@
 <%args>
-        @requested_reportlists
+        @requested_testrunlists
 </%args>
 
 % my $days = $c->stash->{days} || 7;
@@ -13,12 +13,12 @@
 %#	</ul>
 
 % foreach (0..$lastday) {
-%       my $day_infos = $requested_reportlists[$_];
+%       my $day_infos = $requested_testrunlists[$_];
 %       my $day        = $day_infos->{day};
-%       my $reportlist = $day_infos;
+%       my $testrunlist = $day_infos;
 %       # my $rgt = $day_infos->{rgt};
         <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
-<& /artemis/testruns/reportlist.mas, reportlist => $reportlist &>
+<& /artemis/testruns/testrunlist.mas, testrunlist => $testrunlist &>
 % }
 
 

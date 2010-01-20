@@ -402,7 +402,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         }
 }
 
-sub prepare_reportlist : Private
+sub prepare_testrunlist : Private
 {
         my ( $self, $c, $reports ) = @_;
 
@@ -453,11 +453,11 @@ sub prepare_reportlist : Private
                };
 }
 
-sub prepare_reportlists : Private
+sub prepare_testrunlists : Private
 {
         my ( $self, $c ) = @_;
 
-        my @requested_reportlists : Stash = ();
+        my @requested_testrunlists : Stash = ();
         my %groupstats            : Stash = ();
 
         # requested time period
@@ -490,6 +490,7 @@ sub prepare_reportlists : Private
              }
             );
 
+
         # TODO: change this to a while loop, currently not working. Bug? Related to group-by?
         foreach ($groupstats_rs->all) {
                 my %cols = $_->get_columns;
@@ -518,20 +519,20 @@ sub prepare_reportlists : Private
         push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
-        my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
-        push @requested_reportlists, {
-                                      day => $day[0],
-                                      %{ $c->forward('/artemis/testruns/prepare_reportlist', [ $day0_reports ]) }
-                                     };
+        my $day0_testruns = $testruns->search ( { created_at => { '>', $day[0] } } );
+        push @requested_testrunlists, {
+                                       day => $day[0],
+                                       %{ $c->forward('/artemis/testruns/prepare_testrunlist', [ $day0_testruns ]) }
+                                      };
 
         # ----- last week days -----
         foreach (1..$lastday) {
-                my $day_reports = $reports->search ({ -and => [ created_at => { '>', $day[$_]     },
-                                                                created_at => { '<', $day[$_ - 1] } ] });
-                push @requested_reportlists, {
-                                              day => $day[$_],
-                                              %{ $c->forward('/artemis/testruns/prepare_reportlist', [ $day_reports ]) }
-                                             };
+                my $day_testruns = $testruns->search ({ -and => [ created_at => { '>', $day[$_]     },
+                                                                  created_at => { '<', $day[$_ - 1] } ] });
+                push @requested_testrunlists, {
+                                               day => $day[$_],
+                                               %{ $c->forward('/artemis/testruns/prepare_testrunlist', [ $day_testruns ]) }
+                                              };
         }
 }
 

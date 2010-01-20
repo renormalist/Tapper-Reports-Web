@@ -21,7 +21,7 @@ sub index :Path :Args(1)
         my ( $self, $c, $showdays ) = @_;
 
         my $days : Stash = $showdays || 2;
-        $c->forward('/artemis/testruns/prepare_reportlists');
+        $c->forward('/artemis/testruns/prepare_testrunlists');
 }
 
 

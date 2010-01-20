@@ -1,5 +1,5 @@
 <%args>
-  @requested_reportlists
+  @requested_testrunlists
 </%args>
 
 % my $now = gmtime();
@@ -22,7 +22,7 @@
   try the <a href="/artemis/reports/date/2">Reports</a> list.
 </p>
 
-<& /artemis/testruns/reportlists.mas, requested_reportlists => \@requested_reportlists &>
+<& /artemis/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
