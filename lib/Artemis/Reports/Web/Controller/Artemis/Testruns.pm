@@ -469,49 +469,24 @@ sub prepare_testrunlists : Private
         my $filter_condition = {
                                 # "me.id" => { '>=', 22530 }
                                };
-        # select max(report_id), rgt.testrun_id, rgts.success_ratio
-        #        from reportgrouptestrun rgt,
-        #             reportgrouptestrunstats rgts
-        #        where rgt.testrun_id=rgts.testrun_id and
-        #              rgt.testrun_id=25126
-        #        group by rgt.testrun_id;
 
-        my $groupstats_rs = $c->model('ReportsDB')->resultset('ReportgroupTestrun')->search
+        my $testruns = $c->model('ReportsDB')->resultset('View020TestrunOverview')->search
             (
-             { },
-             {
-              select     => [ { max => 'me.report_id' }, 'me.testrun_id' ],              # ' emacs quote bug
-              as         => [ 'report_id',               'testrun_id' ],
-              join       => [ 'reportgrouptestrunstats' ],
-              '+select'  => [ 'reportgrouptestrunstats.success_ratio' ],
-              '+as'      => [ 'rgts_success_ratio' ],
-              group_by   => [ 'testrun_id' ],
-              order_by   => 'me.report_id desc',
-             }
+             $filter_condition,
+             { order_by => 'rgt_testrun_id desc' }
             );
 
 
         # TODO: change this to a while loop, currently not working. Bug? Related to group-by?
-        foreach ($groupstats_rs->all) {
+        while ($groupstats_rs->all) {
                 my %cols = $_->get_columns;
-                $groupstats{$_->report_id} = $cols{rgts_success_ratio};
         }
-
-        print STDERR "as_query: ", Dumper(${$groupstats_rs->get_column('report_id')->as_query});
-        my $q = ${ $groupstats_rs->get_column('report_id')->as_query }->[0];
-        print STDERR "as_query: ", $q, "\n";
 
         # HIER WEITER:
         # - IN-Bedingung zum Laufen bekommen, notfalls mit manuellem Array
         # - dann in Template den Hash %groupstats aus Stash nutzen für rgts_success_ratio
         # - dann in Template wieder (%%) zu <%%> machen
         # - Liste überprüfen, könnte damit alles gewesen sein.
-
-        my $reports = $c->model('ReportsDB')->resultset('Report')->search
-            (
-             #{ "me.id" => { ">" => 22000 } }
-             { "me.id" => { 'IN' => \$q } }   # TODO: report bug of wrong REF'erencing, rlated to above while/next bug?
-            );
 
         my $parser = new DateTime::Format::Natural;
         my $today  = $parser->parse_datetime("today at midnight");
