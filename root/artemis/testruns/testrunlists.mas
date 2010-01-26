@@ -12,6 +12,7 @@
 %#		<li class="comments unknown"><% $list_count_unknown %> unknown</li>
 %#	</ul>
 
+% use Data::Dumper;
 % foreach (0..$lastday) {
 %       my $day_infos = $requested_testrunlists[$_];
 %       my $day        = $day_infos->{day};

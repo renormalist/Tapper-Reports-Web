@@ -5,14 +5,14 @@
 % my $now = gmtime();
 % my $days = $c->stash->{days} || 7;
 
-<h3>Testruns of last <% $days %> days</h3>
-<p><strong>*** TODO: continue in Controller::Artemis::Testruns::Days ***</strong></p>
+<h3>Automated testruns of last <% $days %> days</h3>
+<h4>Explanation</h4>
 <p>
-  This list of completed <strong>Testruns</strong> shows only the
-  summaries of the automatically generated testruns,
-  <strong>not</strong> reports that are submitted directly or
-  manually, like the "Daily-Reports", or from some other (i.e., not
-  the Artemis built-in) automation system.
+  This list of completed <strong>Testruns</strong> shows the summaries
+  of the automatically generated testruns. (It does not show reports
+  that are submitted directly or manually, like the "Daily-Reports",
+  or from some other (i.e., not the Artemis built-in) automation
+  system.)
 
   Choosing a testrun will give you a list of all Reports of this
   Testrun.

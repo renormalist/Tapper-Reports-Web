@@ -54,7 +54,10 @@ sub get_testrun_overview : Private
 {
         my ( $self, $c, $testrun ) = @_;
 
-        my $retval;
+        my $retval = {};
+
+        return $retval unless $testrun;
+
         foreach ($testrun->ordered_preconditions) {
                 my $precondition = $_->precondition_as_hash;
                 if ($precondition->{precondition_type} eq 'virt' ) {
@@ -404,52 +407,39 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
 sub prepare_testrunlist : Private
 {
-        my ( $self, $c, $reports ) = @_;
+        my ( $self, $c, $testruns ) = @_;
 
         # Mnemonic:
         #           rga = ReportGroup Arbitrary
         #           rgt = ReportGroup Testrun
 
-        my @all_reports;
-        my @reports;
+        my @testruns;
         my %rgt;
         my %rga;
         my %rgt_prims;
         my %rga_prims;
-        foreach my $report ($reports->all)
+        foreach my $testrun ($testruns->all)
         {
-                my %cols = $report->get_columns;
-                #print STDERR Dumper(\%cols);
+                my %cols = $testrun->get_columns;
+                print STDERR Dumper(\%cols);
                 my $suite_name  = $cols{suite_name} || 'unknownsuite';
                 my $suite_id    = $cols{suite_id}   || '0';
-                my $r = {
-                         rgt_report_id           => 'rgt_report_id',
-                         rgt_testrun_id          => 'rgt_testrun_id',
-                         rgts_success_ratio      => 'rgts_success_ratio',
+                my $tr = {
+                          rgt_testrun_id        => $testrun->rgt_testrun_id,
+                          rgts_success_ratio    => $testrun->rgts_success_ratio,
+                          primary_report_id     => $testrun->primary_report_id,
 
-                         # report_id               => $report->report_id,
-                         # testrun_id              => $report->testrun_id,
-                         # rgts_success_ratio      => $report->rgts_success_ratio,
-
-                         # id                    => $report->id,
-                         # suite_name            => $suite_name,
-                         # suite_id              => $suite_id,
-                         # machine_name          => $report->machine_name || 'unknownmachine',
-                         # created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         # created_at_ymd        => $report->created_at->ymd('-'),
-                         # success_ratio         => $report->success_ratio,
-                         # successgrade          => $report->successgrade,
-                         # reviewed_successgrade => $report->reviewed_successgrade,
-                         # total                 => $report->total,
-                         # peerport              => $report->peerport,
-                         # peeraddr              => $report->peeraddr,
-                         # peerhost              => $report->peerhost,
-                        };
-                push @reports, $r;
+                          suite_name            => $suite_name,
+                          suite_id              => $suite_id,
+                          machine_name          => $testrun->machine_name || 'unknownmachine',
+                          created_at_ymd_hms    => $testrun->created_at, #$testrun->created_at->ymd('-')." ".$testrun->created_at->hms(':'),
+                          created_at_ymd        => $testrun->created_at, #$testrun->created_at->ymd('-'),
+                         };
+                push @testruns, $tr;
         }
 
         return {
-                reports     => \@reports,
+                testruns => \@testruns,
                };
 }
 
@@ -458,7 +448,7 @@ sub prepare_testrunlists : Private
         my ( $self, $c ) = @_;
 
         my @requested_testrunlists : Stash = ();
-        my %groupstats            : Stash = ();
+        my %groupstats             : Stash = ();
 
         # requested time period
         my $days : Stash;
@@ -478,8 +468,8 @@ sub prepare_testrunlists : Private
 
 
         # TODO: change this to a while loop, currently not working. Bug? Related to group-by?
-        while ($groupstats_rs->all) {
-                my %cols = $_->get_columns;
+        while (my $tr = $testruns->next) {
+                my %cols = $tr->get_columns;
         }
 
         # HIER WEITER:

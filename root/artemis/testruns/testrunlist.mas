@@ -18,11 +18,11 @@
                                 <a title="Click to show details" href="/artemis/testruns/id/<% $testrun->{rgt_testrun_id} %>">tr<% $testrun->{rgt_testrun_id} %></a>
                               </b>
                         </td>
-                        <td>(% $testrun->{created_at_ymd} %)</td>
+                        <td><% $testrun->{created_at_ymd} %></td>
 
-                        <td><a title="Click to show reports of suite '(% $testrun->{suite_name} %)'" href="/artemis/reports/suite/(% $testrun->{suite_id} %)">(% $testrun->{suite_name} %)</a></td>
-                        <td><a title="Click to show reports on '(% $testrun->{machine_name} %)' <% $testrun->{peeraddr} ? '(reported from ip '.$testrun->{peeraddr} .')' : ''%>" href="/artemis/reports/machine/(% $testrun->{machine_name} %)">(% $testrun->{machine_name} %)</a></td>
-                        <td><a href="/artemis/testruns/id/(% $testrun->{rgt_testrun_id} %)" title="<% $testrun->{rgts_success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a></td>
+                        <td><a title="Click to show reports of suite '<% $testrun->{suite_name} %>'" href="/artemis/reports/suite/<% $testrun->{suite_id} %>"><% $testrun->{suite_name} %></a></td>
+                        <td><a title="Click to show reports on '<% $testrun->{machine_name} %>' <% $testrun->{peeraddr} ? '(reported from ip '.$testrun->{peeraddr} .')' : ''%>" href="/artemis/reports/machine/<% $testrun->{machine_name} %>"><% $testrun->{machine_name} %></a></td>
+                        <td><a href="/artemis/testruns/id/<% $testrun->{rgt_testrun_id} %>" title="<% $testrun->{rgts_success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar.png" height="16" width="<% $red_width %>"></a></td>
                 </tr>
 </%method>
 % #
@@ -30,9 +30,9 @@
 % # ----------------------------------------------------------------------
 % #
 % #
+% use Data::Dumper;
 % my @testruns = @{$testrunlist{testruns}};
 % my @ids = map { $_->{id} } @testruns;
-% use Data::Dumper;
 % if (@testruns) {
     <table class="reportlist">
         <thead>
