@@ -9,10 +9,10 @@
 		<div id="menu">
 			<ul>
 				<li><a href="/artemis/manual/">Manual</a></li>
-				<li><a href="/artemis/reports/date/1">Reports</a></li>
+				<li><a href="/artemis/reports/date/2">Reports</a></li>
 				<li><a href="/artemis/metareports/">Metareports</a></li>
-				<li><a href="/artemis/testruns/">Testruns</a></li>
-				<li><a href="/artemis/preconditions/" class="active">Preconditions</a></li>
+				<li><a href="/artemis/testruns/days/2">Testruns</a></li>
+				<!-- <li><a href="/artemis/preconditions/" class="active">Preconditions</a></li> -->
 				<li><a href="/artemis/hardware/">Hardware</a></li>
 <!--				<li><a href="/artemis/tools/">Tools</a></li> -->
 <!--				<li><a href="/artemis/acme/">Acme</a></li> -->
