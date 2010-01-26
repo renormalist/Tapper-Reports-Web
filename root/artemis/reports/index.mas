@@ -1,25 +1,28 @@
 <h3>OSRC Test Reports</h3>
 
 <p>
-        Start with some of the overview lists:
+  This is the Web interface of the <strong>ARTEMIS</strong> test infrastructure.
+        Primarily it provides access to test results. 
+</p>
+<p>
 </p>
 
 <p>
         <ul>
                 <li>
-                        <a href="/artemis/reports/date/1">Today's test reports</a>
+                  <a href="/artemis/testruns/days/2">Testruns</a> &mdash; Overview of automated testruns.
                 </li>
                 <li>
-                        <a href="/artemis/reports/date/7">Last weeks test reports</a>
+                  <a href="/artemis/reports/date/2">Reports</a> &mdash; More detailed view of single test reports.
                 </li>
                 <li>
-                        <a href="/artemis/reports/suite/all">All test suites</a>
+                  <a href="/artemis/reports/suite/all">Testsuites</a> &mdash; Overview of all test suites.
                 </li>
         </ul>
 </p>
 
 <p>
-        Testrun handling
+        There are also some control tools:
 </p>
 <p>
         <ul>

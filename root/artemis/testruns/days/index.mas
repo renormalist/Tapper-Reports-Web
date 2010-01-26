@@ -9,10 +9,10 @@
 <h4>Explanation</h4>
 <p>
   This list of completed <strong>Testruns</strong> shows the summaries
-  of the automatically generated testruns. (It does not show reports
+  of the automatically generated testruns. It does not show reports
   that are submitted directly or manually, like the "Daily-Reports",
   or from some other (i.e., not the Artemis built-in) automation
-  system.)
+  system.
 
   Choosing a testrun will give you a list of all Reports of this
   Testrun.
