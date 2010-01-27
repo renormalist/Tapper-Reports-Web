@@ -422,8 +422,11 @@ sub prepare_testrunlist : Private
         {
                 my %cols = $testrun->get_columns;
                 print STDERR Dumper(\%cols);
-                my $suite_name  = $cols{suite_name} || 'unknownsuite';
-                my $suite_id    = $cols{suite_id}   || '0';
+                my $suite_name        = $cols{suite_name} || 'unknownsuite';
+                my $suite_id          = $cols{suite_id}   || '0';
+                my $created_at_ymd_hm = $testrun->created_at;
+                $created_at_ymd_hm    =~ s/:\d\d$//;
+
                 my $tr = {
                           rgt_testrun_id        => $testrun->rgt_testrun_id,
                           rgts_success_ratio    => $testrun->rgts_success_ratio,
@@ -433,6 +436,7 @@ sub prepare_testrunlist : Private
                           suite_id              => $suite_id,
                           machine_name          => $testrun->machine_name || 'unknownmachine',
                           created_at_ymd_hms    => $testrun->created_at, #$testrun->created_at->ymd('-')." ".$testrun->created_at->hms(':'),
+                          created_at_ymd_hm     => $created_at_ymd_hm,
                           created_at_ymd        => $testrun->created_at, #$testrun->created_at->ymd('-'),
                          };
                 push @testruns, $tr;

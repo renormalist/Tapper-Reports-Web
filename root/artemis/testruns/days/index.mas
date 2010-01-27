@@ -6,21 +6,15 @@
 % my $days = $c->stash->{days} || 7;
 
 <h3>Automated testruns of last <% $days %> days</h3>
-<h4>Explanation</h4>
-<p>
-  This list of completed <strong>Testruns</strong> shows the summaries
-  of the automatically generated testruns. It does not show reports
-  that are submitted directly or manually, like the "Daily-Reports",
-  or from some other (i.e., not the Artemis built-in) automation
-  system.
 
-  Choosing a testrun will give you a list of all Reports of this
-  Testrun.
+  This list shows automated <strong>testruns</strong>.
 
-  If you look for a more reports oriented overview, e.g., to find a
-  particular one, then
-  try the <a href="/artemis/reports/date/2">Reports</a> list.
-</p>
+  Links in columns <i>ID</i> show details of single report; on
+  column <i>Suite</i> show all reports of this suite; on
+  column <i>Machine</i> show all reports on this machine.
+
+  If you look for more finegrained results not limited to the
+  automation system try <a href="/artemis/reports/date/2">Reports</a>.
 
 <& /artemis/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
 
