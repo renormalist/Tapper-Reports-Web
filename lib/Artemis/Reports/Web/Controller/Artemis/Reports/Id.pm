@@ -5,6 +5,16 @@ use warnings;
 
 use parent 'Artemis::Reports::Web::Controller::Base';
 
+sub generate_metareport_link
+{
+        my ( $self ) = @_;
+        my %metareport;
+        %metareport = (url => '/artemis/metareports/Topic-ratio/AIMbench/monthly/',
+                       img => "/artemis/static/metareports/Topic-ratio/AIMbench/monthly/2010-02-15_success_ratio_AIMbench.png",
+                       alt => 'Metareport');
+        return %metareport;
+}
+
 sub index :Path :Args(1)
 {
         my ( $self, $c, $report_id ) = @_;
@@ -12,6 +22,7 @@ sub index :Path :Args(1)
         my $report         : Stash;
         my $reportlist_rga : Stash = {};
         my $reportlist_rgt : Stash = {};
+        my %metareport     : Stash;
         my $overview       : Stash = undef;
 
         $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
@@ -60,8 +71,8 @@ sub index :Path :Args(1)
                 my $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
                 $overview      = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
         }
-
-
+        
+        %metareport = generate_metareport_link();
 }
 
 1;
