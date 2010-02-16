@@ -64,10 +64,7 @@ sub index :Path :Args(1)
                 $reportlist_rgt = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rgt_reports ]);
 
                 my %cols = $rgt_reports->first->get_columns;
-                use Data::Dumper;
-                print STDERR "======================== cols.rgt_id: ", $cols{rgt_id};
                 my $testrun_id = $cols{rgt_id};
-                print STDERR "======================== testrun_id: $testrun_id\n";
                 my $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
                 $overview      = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
         }
