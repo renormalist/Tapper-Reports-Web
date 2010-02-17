@@ -38,3 +38,11 @@
 %               }
 %           }
 % }
+% my %metareport;
+% %metareport = %{$c->stash->{metareport}} if $c->stash->{metareport}
+%                                             and ref($c->stash->{metareport}) eq 'HASH';
+%       if (%metareport) {
+        <div align="center">
+          <a href="<% $metareport{url} %>"><img src="<% $metareport{img} %>" alt="<% $metareport{alt} || 'metareport' %>" width="150" height="100">
+        </div>
+%       }
