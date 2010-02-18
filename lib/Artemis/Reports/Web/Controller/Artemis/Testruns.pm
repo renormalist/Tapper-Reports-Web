@@ -249,7 +249,7 @@ sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
         } else {
 
                 my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{use_case_path};
+                my $path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
                 foreach my $file (<$path/*.mpc>) {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
