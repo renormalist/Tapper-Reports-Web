@@ -77,13 +77,24 @@ sub report_name : Chained('base') PathPart('') Args(3)
 {
         my ( $self, $c, $category, $subcategory, $report_name ) = @_;
         my $path = Artemis::Config->subconfig->{paths}{metareport_path};
+        my $subpath = "$category/$subcategory/$report_name";
+        $c->stash(path        => $path);
+        $c->stash(subpath     => $subpath);
         $c->stash(report_name => $report_name);
         $c->stash(category    => $category, subcategory => $subcategory);
 
-        my @files =
-          map { s,^.+/([^/]+\.png),/artemis/static/metareports/$category/$subcategory/$report_name/$1,; $_ }
+        my @img_files =
+          map { s,^.+/([^/]+\.png),/artemis/static/metareports/$subpath/$1,; $_ }
             qx (ls -1 $path/$category/$subcategory/$report_name/*.png | tail -1);
-        $c->stash(files    => \@files);
+
+        my @html_files =
+          map { s,^.+/([^/]+\.html),$path/$subpath/$1,; $_ }
+            qx (ls -1 $path/$category/$subcategory/$report_name/*.html | tail -1);
+
+        print STDERR Dumper($path, $subpath, "$path/$subpath", \@html_files);
+        $c->stash(img_files => \@img_files,
+                  html_files => \@html_files,
+                 );
 }
 
 
