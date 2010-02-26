@@ -23,7 +23,7 @@ make dist || exit -1
 
 echo ""
 echo '----- upload ---------------------------------------------------'
-rsync -vv --progress --ignore-existing ${DISTFILES} artemis@wotan:/home/artemis/CPANSITE/CPAN/authors/id/A/AR/ARTEMIS/
+rsync -vv --progress --ignore-existing ${DISTFILES} artemis@bancroft:/home/artemis/CPANSITE/CPAN/authors/id/A/AR/ARTEMIS/
 
 echo ""
 echo '----- re-index -------------------------------------------------'
