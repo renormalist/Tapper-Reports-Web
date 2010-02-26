@@ -1,17 +1,75 @@
 package Artemis::Reports::Web::Controller::Artemis::Reports::Id;
 
+use 5.010;
 use strict;
 use warnings;
 
+use File::Basename;
+use File::stat;
 use parent 'Artemis::Reports::Web::Controller::Base';
+use YAML;
+
+use Data::Dumper;
+
+sub younger
+{
+        my $astat = stat($a);
+        my $bstat = stat($b);
+        return $bstat->mtime() <=> $astat->mtime();
+}
+
+
+=head2 generate_metareport_link
+
+Generate config for showing metareport image associated to given report.
+
+@param hash - config describing the relevant report
+
+@return success - hash containing (url, img, alt, headline)
+@return error   - empty list
+
+=cut
 
 sub generate_metareport_link
 {
-        my ( $self ) = @_;
+        my ( $self, $report ) = @_;
         my %metareport;
-        %metareport = (url => '/artemis/metareports/Topic-ratio/AIMbench/monthly/',
-                       img => "/artemis/static/metareports/Topic-ratio/AIMbench/monthly/2010-02-15_success_ratio_AIMbench.png",
-                       alt => 'Metareport');
+        my $path = Artemis::Config->subconfig->{paths}{config_path};
+        $path .= "/web/metareport_associate.yml";
+        my $config;
+        eval {
+                $config = YAML::LoadFile($path);
+        };
+        if ($@) {
+                # TODO: Enable Log4perl
+                # $self->log->error("Can not open association config for metareports: $@");
+                say STDERR "Can not open association config for metareports: $@";
+                return ();
+        }
+        use Data::Dumper;
+        my $suite;
+        $suite = $config->{suite}->{$report->{suite}} || $config->{suite}->{$report->{group_suite}};
+        if ($suite) {
+                my $category    = $suite->{category};
+                my $subcategory = $suite->{subcategory};
+                my $time_frame  = $suite->{time_frame};
+
+                $path  = Artemis::Config->subconfig->{paths}{metareport_path};
+                my ($filename) = sort younger <$path/$category/$subcategory/teaser/*.png>;
+                if (not $filename) {
+                        ($filename) = sort younger <$path/$category/$subcategory/$time_frame/*.png>;
+                        $filename = "/artemis/static/metareports/$category/$subcategory/$time_frame/".basename($filename);
+                } else {
+                        $filename = "/artemis/static/metareports/$category/$subcategory/teaser/".basename($filename);
+                }
+                return () if not $filename;
+
+                %metareport = (url => "/artemis/metareports/$category/$subcategory/$time_frame/",
+                               img => $filename,
+                               alt => $suite->{alt},
+                               headline => $suite->{headline},
+                              );
+        }
         return %metareport;
 }
 
@@ -68,8 +126,12 @@ sub index :Path :Args(1)
                 my $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
                 $overview      = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
         }
-        
-        %metareport = generate_metareport_link();
+
+        my $tmp = [ grep {defined($_->{rgt_primary}) and $_->{rgt_primary} == 1} @{$reportlist_rgt->{all_reports}} ]->[0]->{suite_name};
+        my $report_data = {suite => $report->suite->name,
+                           group_suite => $tmp};
+
+        %metareport = $self->generate_metareport_link($report_data);
 }
 
 1;
