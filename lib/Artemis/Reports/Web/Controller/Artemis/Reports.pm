@@ -51,7 +51,7 @@ sub prepare_simple_reportlist : Private
                          suite_id              => $suite_id,
                          machine_name          => $report->machine_name || 'unknownmachine',
                          created_at_ymd_hms    => $report->created_at->ymd('-')." ".$report->created_at->hms(':'),
-                         created_at_ymd_hm    => $report->created_at->ymd('-')." ".$report->created_at->hour.":".$report->created_at->minute,
+                         created_at_ymd_hm     => sprintf("%s %02d:%02d",$report->created_at->ymd('-'), $report->created_at->hour, $report->created_at->minute),
                          created_at_ymd        => $report->created_at->ymd('-'),
                          success_ratio         => $report->success_ratio,
                          successgrade          => $report->successgrade,
