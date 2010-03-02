@@ -1,14 +1,20 @@
 <%args>
-$files
+$img_files
+$html_files
 </%args>
 
 <H3>Metareports</H3>
-% foreach my $file(@$files){
-<img src="<% $file %>" width="70%">
-%}
-%# Local Variables:
-%# buffer-file-coding-system: utf-8
-%# End:
-
-
-
+% foreach my $file (@$img_files) {
+    <img src="<% $file %>" width="70%">
+% }
+%
+% foreach my $file (@$html_files) {
+%   chomp $file;
+%   my $content;
+%   {
+%     local $/; open F, "<", $file; $content = <F>; close F;
+%   }
+% $content =~ s/retmp_ports/reports/msg;
+% print STDERR $content;
+    <% $content | n%>
+% }
