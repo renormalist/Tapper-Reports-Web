@@ -4,9 +4,9 @@ use strict;
 use warnings;
 use parent 'Artemis::Reports::Web::Controller::Base';
 
-sub index :Path :Args(1)
+sub index :Path :CaptureArgs(2)
 {
-        my ( $self, $c, $file_id ) = @_;
+        my ( $self, $c, $file_id, $viewmode ) = @_;
         my $reportfile : Stash = $c->model('ReportsDB')->resultset('ReportFile')->find($file_id);
 
         if (not $reportfile)
@@ -26,7 +26,11 @@ sub index :Path :Args(1)
                 my $disposition = $reportfile->contenttype =~ /plain/ ? 'inline' : 'attachment';
                 $c->response->content_type ($reportfile->contenttype || 'application/octet-stream');
                 $c->response->header ("Content-Disposition" => $disposition.'; filename="'.$reportfile->filename.'"');
-                $c->response->body ($reportfile->filecontent);
+                my @filecontent =
+                    $viewmode eq "inline"
+                        ? filter($reportfile->filecontent)
+                        : $reportfile->filecontent;
+                $c->response->body (@filecontent);
         }
 }
 
