@@ -26,7 +26,7 @@ sub index :Path :Args(1)
                 my $disposition = $reportfile->contenttype =~ /plain/ ? 'inline' : 'attachment';
                 $c->response->content_type ($reportfile->contenttype || 'application/octet-stream');
                 $c->response->header ("Content-Disposition" => $disposition.'; filename="'.$reportfile->filename.'"');
-                $c->response->body (filter($reportfile->filecontent));
+                $c->response->body ($reportfile->filecontent);
         }
 }
 
