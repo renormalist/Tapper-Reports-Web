@@ -128,7 +128,7 @@ sub index :Path :Args(1)
         }
 
         my $tmp = [ grep {defined($_->{rgt_primary}) and $_->{rgt_primary} == 1} @{$reportlist_rgt->{all_reports}} ]->[0]->{suite_name};
-        my $report_data = {suite => $report->suite->name,
+        my $report_data = {suite => $report->suite ? $report->suite->name : 'unknownsuite' ,
                            group_suite => $tmp};
 
         %metareport = $self->generate_metareport_link($report_data);
