@@ -26,7 +26,7 @@
             <td align="right"><% $file->{length_filecontent} %> Bytes</td>
             <th>
 % if ($file->{contenttype} =~ /plain/) {
-              <a title="Optimized for inline viewing by dropping known useless binary chars and escape sequences." href="/artemis/reportfile/id/<% $file->{id} %>/inline">view filtered</a>
+              <a title="Optimized for inline viewing by dropping known useless binary chars and escape sequences." href="/artemis/reportfile/id/<% $file->{id} %>/inline">show filtered</a>
 % }
             </th>
             <th><% $file->{contenttype} %></th>

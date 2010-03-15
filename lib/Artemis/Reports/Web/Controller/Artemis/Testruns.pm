@@ -8,6 +8,7 @@ use Template;
 use TryCatch;
 use File::Path;
 use File::Basename;
+use Data::DPath 'dpath';
 
 use 5.010;
 
@@ -64,6 +65,7 @@ sub get_testrun_overview : Private
                         $retval->{name}  = $precondition->{name} || "Virtualisation Test";
                         $retval->{arch}  = $precondition->{host}->{root}{arch};
                         $retval->{image} = $precondition->{host}->{root}{image} || $precondition->{host}->{root}{name}; # can be an image or copyfile or package
+                        ($retval->{xen_package}) = grep { m!/data/bancroft/artemis/[^/]+/repository/packages/xen/builds! } @{ $precondition ~~ dpath '/host/preconditions//filename' };
                         push (@{$retval->{test}}, basename($precondition->{host}->{testprogram}{execname})) if $precondition->{host}->{testprogram}{execname};
                         foreach my $guest (@{$precondition->{guests}}) {
                                 my $guest_summary;

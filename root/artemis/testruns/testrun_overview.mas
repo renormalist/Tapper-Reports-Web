@@ -1,6 +1,7 @@
 <%args>
 $overview
 </%args>
+% use File::Basename;
 % if ($overview) {
     <h4>Testrun Specification</h4>
     <table class="reportsectionmeta">
@@ -20,6 +21,12 @@ $overview
           <th>Root image</th>
           <td><% $overview->{image} %></td>
         </tr>
+%   if ($overview->{xen_package}) {
+        <tr>
+          <th>Xen package</th>
+          <td><% basename($overview->{xen_package}) %></td>
+        </tr>
+%   }
         <tr>
           <th>Test</th>
           <td><% $overview->{test} ? join "<br> ",@{$overview->{test}} : '' |n%></td>
