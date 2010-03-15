@@ -23,9 +23,9 @@ make dist || exit -1
 
 echo ""
 echo '----- upload ---------------------------------------------------'
-rsync -vv --progress --ignore-existing ${DISTFILES} artemis@bancroft:/home/artemis/CPANSITE/CPAN/authors/id/A/AR/ARTEMIS/
+rsync -vv --progress --ignore-existing ${DISTFILES} artemis@wotan:/home/artemis/CPANSITE/CPAN/authors/id/A/AR/ARTEMIS/
 
 echo ""
 echo '----- re-index -------------------------------------------------'
-ssh artemis@wotan /home/artemis/perl510/bin/cpansite -vl index /home/artemis/CPANSITE/CPAN/
+ssh artemis@wotan /home/artemis/perl510/bin/cpansite -v --site=/home/artemis/CPANSITE/CPAN/ --cpan=ftp://ftp.fu-berlin.de/unix/languages/perl/ index
 ssh artemis@wotan /home/artemis/perl510/bin/cpan Artemis::Reports::Web
