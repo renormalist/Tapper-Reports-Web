@@ -108,10 +108,12 @@ sub prepare_simple_reportlist : Private
         # Pull out latest one and put into @reports as primary
         foreach (@rga_noprim) {
                 my $rga_primary = pop @{$rga{$_}};
+                $rga_primary->{rga_primary} = 1;
                 push @reports, $rga_primary;
         }
         foreach (@rgt_noprim) {
                 my $rgt_primary = pop @{$rgt{$_}};
+                $rgt_primary->{rgt_primary} = 1;
                 push @reports, $rgt_primary;
         }
 
