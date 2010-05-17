@@ -13,8 +13,8 @@
 % if ( $report ) {
 
     <h3>
-        <% $report->suite ? $report->suite->name : 'unknown suite' %>
-        <% $report->suite_version ? $report->suite_version : '' %>
+        <strong><% $report->id %></strong>:
+        <strong><% $report->suite ? $report->suite->name : 'unknown suite' %></strong>
     </h3>
 
     <!-- ************************************************************ -->
@@ -24,14 +24,14 @@
     <!-- ************************************************************ -->
 
 	<ul class="post_info">
-		<li class="date">report id: <% $report->id %></li>
+		<li class="date">report id: <strong><% $report->id %></strong></li>
 		<li class="date"><% $report->created_at->ymd %> <% $report->created_at->hms %> GMT</li>
 		<li class="meta"><% (grep /./, $report->sections_cpuinfo)[0] || '' %></li>
 %               if (my $os = (grep /./, $report->sections_osname)[0]) {
 		<li class="meta"><% $os %></li>
 %               }
 		<li class="meta">
-                        Host: '<% $report->machine_name || 'unknown host' %>'
+                        Host: '<strong><% $report->machine_name || 'unknown host' %></strong>'
 %                       if ($report->machine_description) {
                         	(<% $report->machine_description %>)
 %                       }
