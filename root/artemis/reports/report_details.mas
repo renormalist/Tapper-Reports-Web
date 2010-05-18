@@ -38,7 +38,7 @@
 %   my $sections = $r->reportsections;
 
 %   if ($r->some_meta_available) {
-      <h5><b><% $r->suite ? $r->suite->name : 'unknown suite' %></b> (<a href="<% $r->id %>"><% $r->id %></a>)</h5>
+      <h5><b><% $r->suite ? $r->suite->name : 'unknown suite' %></b> (r<a href="<% $r->id %>"><% $r->id %></a>)</h5>
       <table class="reportsectionmeta">
 %     while (my $section = $sections->next) {
 
