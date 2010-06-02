@@ -16,7 +16,7 @@
 
 %          # this enumeration is a bit lame. anyway: copy the list from Artemis::TAP::Harness.@SECTION_HEADER_KEYS_GENERAL.
 %          my @meta_cols = qw/ram cpuinfo bios lspci uname osname uptime language-description
-%                             flags changeset description
+%                             flags kernel changeset description
 %                             xen-version xen-changeset xen-dom0-kernel xen-base-os-description
 %                             xen-guest-description xen-guest-test xen-guest-start xen-guest-flags
 %                             kvm-module-version kvm-userspace-version kvm-kernel
