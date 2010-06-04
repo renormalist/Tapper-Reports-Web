@@ -247,16 +247,16 @@ sub prepare_navi : Private
                              href   => "/artemis/reports/suite/all",
                              active => 0,
                             },
-                            {
-                             title  => "reports by topic",
-                             href   => "/artemis/reports/topic/",
-                             active => 0,
-                            },
-                            {
-                             title  => "reports by people",
-                             href   => "/artemis/reports/people/",
-                             active => 0,
-                            },
+                            # {
+                            #  title  => "reports by topic",
+                            #  href   => "/artemis/reports/topic/",
+                            #  active => 0,
+                            # },
+                            # {
+                            #  title  => "reports by people",
+                            #  href   => "/artemis/reports/people/",
+                            #  active => 0,
+                            # },
                            ];
 }
 
