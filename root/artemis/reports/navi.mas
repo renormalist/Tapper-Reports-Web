@@ -25,14 +25,14 @@
 %                               my $href = $snav->{href};
 %                               my $subhref = $href;
 %                               $subhref =~ s,(^/[^/]+/[^/]+/[^/]+/[^/]+).*,$1,; # first four path elements
-%                               my $subhighlight = $path =~ /$subhref/ ? 1 : 0;
+%                               my $subhighlight = $path =~ /$subhref\b/ ? 1 : 0;
 % #print STDERR ("path: ".$path."\n");
 % #print STDERR ("subhref: $subhref\n");
 % #print STDERR ("subhighlight: $subhighlight\n");
 %                               if ($subhighlight) {
                                         <b>
 %                               }
-                                <li><a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
 %                               if ($subhighlight) {
                                         </b>
 %                               }
