@@ -1,6 +1,8 @@
 <%method navi>
 % my $navi = $c->stash->{navi};
 % my $path = "/".$c->req->path;
+% print STDERR "path: $path\n";
+% return if $path =~ m,/artemis/reports/id,;
 % foreach my $nav (@$navi) {
 %       my $href = $nav->{href};
 %       my $tophref = $href;
