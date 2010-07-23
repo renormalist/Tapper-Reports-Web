@@ -1,33 +1,38 @@
-<h3>OSRC Test Reports</h3>
+<%args>
+        @this_weeks_reportlists
+        $list_count_all     => "n"
+        $list_count_pass    => "n"
+        $list_count_fail    => "n"
+        $list_count_unknown => "n"
 
-<p>
-  This is the Web interface of the <strong>ARTEMIS</strong> test infrastructure.
-        Primarily it provides access to test results. 
-</p>
-<p>
-</p>
+</%args>
 
-<p>
-        <ul>
-                <li>
-                  <a href="/artemis/testruns/days/2">Testruns</a> &mdash; Overview of automated testruns.
-                </li>
-                <li>
-                  <a href="/artemis/reports/date/2">Reports</a> &mdash; More detailed view of single test reports.
-                </li>
-                <li>
-                  <a href="/artemis/reports/suite/all">Testsuites</a> &mdash; Overview of all test suites.
-                </li>
-        </ul>
-</p>
+% my $now = gmtime();
+% my $days = $c->stash->{days} || 7;
+<h3>Reports of last <% $days %> days</h3>
 
-<p>
-        There are also some control tools:
-</p>
-<p>
-        <ul>
-                <li>
-                        <a href="/artemis/testruns/create">Create a new testrun</a>
-                </li>
-        </ul>
-</p>
+  This list shows all incoming single <strong>reports</strong> .
+
+  Some reports are grouped together, consisting of a primary report
+  and related reports which are visually greyed out.
+
+  Links in columns <i>ID</i> show details of single report; on
+  column <i>Suite</i> show all reports of this suite; on
+  column <i>Machine</i> show all reports on this machine; on
+  column <i>Grouped by / testrun</i> show overview of the testrun.
+
+  If you are interested in a less detailed overview of only the
+  automated testrun results then
+  try <a href="/artemis/testruns/days/2">Testruns</a>.
+
+<& /artemis/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
+                                          list_count_all     => $list_count_all,
+                                          list_count_pass    => $list_count_pass,
+                                          list_count_fail    => $list_count_fail,
+                                          list_count_unknown => $list_count_unknown
+
+  &>
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
