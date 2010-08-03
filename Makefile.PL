@@ -42,6 +42,7 @@ requires 'FCGI';
 requires 'parent';
 requires 'Class::C3::Adopt::NEXT';
 requires 'TryCatch';
+requires 'common::sense';
 #requires 'HTML::FromANSI';
 
 catalyst;
