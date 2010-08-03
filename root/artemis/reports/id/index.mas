@@ -49,8 +49,8 @@
     <!-- ************************************************************ -->
 
         <h4>Test results</h4>
-%       if ($report->tap) {
-%               my $harness = new Artemis::TAP::Harness( tap => $report->tap );
+%       if ($report->tap->tap) {
+%               my $harness = new Artemis::TAP::Harness( tap => $report->tap->tap );
 %               my $html = $harness->generate_html;
                 <% $html | n %>
 %       } else {
