@@ -1,4 +1,4 @@
-				<h4>reports <span><a href="/artemis/testruns/date/2">by date</a></span></h4>
+				<h4>reports <span><a href="/artemis/testruns/days/2">by date</a></span></h4>
 				<h4>reports <span><a href="/artemis/testruns/suite/">by suite</a></span></h4>
 				<h4>reports <span><a href="/artemis/testruns/topic/">by topic</a></span></h4>
 				<h4>reports <span><a href="/artemis/testruns/people/">by people</a></span></h4>

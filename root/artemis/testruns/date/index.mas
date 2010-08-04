@@ -23,7 +23,7 @@
 
   If you look for a more reports oriented overview, e.g., to find a
   particular one, then
-  try the <a href="/artemis/reports/date/2">Reports</a> list.
+  try the <a href="/artemis/reports/days/2">Reports</a> list.
 </p>
 
 <& /artemis/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
