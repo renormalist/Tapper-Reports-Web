@@ -6,24 +6,33 @@
         $list_count_unknown => "n"
 
 </%args>
+% my $error_msg = $c->stash->{error_msg} || '';
+% if ($error_msg) {
+<h3 title = "<% $error_msg %>">An error occured. See title for details.</h3>
+% }
 
 % my $now = gmtime();
+% if ($c->stash->{date}) {
+<h3>Reports of <% $c->stash->{date} %></h3>
+% } else {  
 % my $days = $c->stash->{days} || 7;
 <h3>Reports of last <% $days %> days</h3>
-
+%}
   This list shows all incoming single <strong>reports</strong> .
 
   Some reports are grouped together, consisting of a primary report
   and related reports which are visually greyed out.
 
-  Links in columns <i>ID</i> show details of single report; on
-  column <i>Suite</i> show all reports of this suite; on
-  column <i>Machine</i> show all reports on this machine; on
-  column <i>Grouped by / testrun</i> show overview of the testrun.
+  Links in columns <i>ID</i> show details of single report. Links in the
+  columns <i>Suite</i>, <i>Machine</i> and <i>Success</i> apply filters
+  on the list of testruns. Clicking on the plus sign adds the associated
+  filter to the current filters, clicking on the text link filters only on
+  the associated detail.
 
-  If you are interested in a less detailed overview of only the
-  automated testrun results then
-  try <a href="/artemis/testruns/days/2">Testruns</a>.
+  Use the column <i>Grouped by / testrun</i> to get an overview of the testrun.
+
+  If you are interested in a less detailed overview of only the automated
+  testrun results then try <a href="/artemis/testruns/days/2">Testruns</a>.
 
 <& /artemis/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
                                           list_count_all     => $list_count_all,

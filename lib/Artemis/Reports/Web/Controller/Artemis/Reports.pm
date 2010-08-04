@@ -1,13 +1,14 @@
 package Artemis::Reports::Web::Controller::Artemis::Reports;
 
-use 5.010;
-use strict;
-use warnings;
 
 use parent 'Artemis::Reports::Web::Controller::Base';
 
 use DateTime::Format::Natural;
 use Data::Dumper;
+
+use Artemis::Reports::Web::Util::Filter;
+use common::sense;
+
 
 sub auto :Private
 {
@@ -16,9 +17,23 @@ sub auto :Private
         $c->forward('/artemis/reports/prepare_navi');
 }
 
-sub index :Path :Args(0)
+
+
+sub index :Path :Args()
 {
-        my ( $self, $c ) = @_;
+        my ( $self, $c, @args ) = @_;
+
+        my $today     : Stash = DateTime->new(month => 06, year => 2010, day => 01);
+        my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
+
+        my $filter_condition = $filter->parse_filters(\@args);
+        my $error_msg : Stash;
+        $error_msg = join("; ", @{$filter_condition->{error}}) if $filter_condition->{error};
+        $today     = $filter->today if $filter->today;
+
+        $filter->{early}->{-or} = [{rga_primary => 1}, {rgt_primary => 1}];
+        $c->forward('/artemis/reports/prepare_this_weeks_reportlists', [ $filter_condition ]);
+
 }
 
 sub prepare_simple_reportlist : Private
@@ -38,7 +53,6 @@ sub prepare_simple_reportlist : Private
         while (my $report = $reports->next)
         {
                 my %cols = $report->get_columns;
-                #print STDERR Dumper(\%cols);
                 my $rga_id      = $cols{rga_id};
                 my $rga_primary = $cols{rga_primary};
                 my $rgt_id      = $cols{rgt_id};
@@ -127,21 +141,28 @@ sub prepare_simple_reportlist : Private
 
 sub prepare_this_weeks_reportlists : Private
 {
-        my ( $self, $c ) = @_;
+        my ( $self, $c, $filter_condition ) = @_;
 
-        my $filter_condition       : Stash;
         my @this_weeks_reportlists : Stash = ();
+        my $today                  : Stash;
+        my $days                   : Stash = $filter_condition->{days};
+        my $date                   : Stash = $filter_condition->{date};
+
+        $today //= DateTime->now();
+
+        $filter_condition->{early} =  {} unless
+          defined($filter_condition->{early}) and
+            ref($filter_condition->{early}) eq 'HASH' ;
 
         # how long is "last weeks"
-        my $days : Stash;
-        my $lastday = $days ? $days - 1 : 6;
+        my $lastday = $filter_condition->{days} ? $filter_condition->{days} - 1 : 6;
 
         # ----- general -----
 
         # Mnemonic: rga = ReportGroupArbitrary, rgt = ReportGroupTestrun
         my $reports = $c->model('ReportsDB')->resultset('Report')->search
             (
-             $filter_condition,
+             $filter_condition->{early},
              {  order_by  => 'me.id desc',
                 columns   => [ qw( id
                                    machine_name
@@ -159,9 +180,11 @@ sub prepare_this_weeks_reportlists : Private
                 '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
              }
             );
+        foreach my $filter (@{$filter_condition->{late}}) {
+                $reports = $reports->search($filter);
+        }
 
-        my $parser = new DateTime::Format::Natural;
-        my $today  = $parser->parse_datetime("today at midnight");
+
         my @day    = ( $today );
         push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
 
@@ -183,12 +206,6 @@ sub prepare_this_weeks_reportlists : Private
                                               };
         }
 
-#         # ----- the rest -----
-#         my $rest_of_reports = $reports->search ({ created_at => { '<', $day[$lastday] } });
-#         push @this_weeks_reportlists, {
-#                                        day => $day[$lastday],
-#                                        %{ $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rest_of_reports ]) }
-#                                       };
 
         my $list_count_all     : Stash = 0;
         my $list_count_pass    : Stash = 0;
@@ -213,39 +230,41 @@ sub prepare_navi : Private
         my $navi : Stash = [
                             {
                              title  => "reports by date",
-                             href   => "/artemis/reports/date/2",
-                             active => 0,
+                             href   => "/artemis/overview/date",
                              subnavi => [
                                          {
                                           title  => "today",
-                                          href   => "/artemis/reports/date/1",
+                                          href   => "/artemis/reports/days/1",
+                                         },
+                                         {
+                                          title  => "2 days",
+                                          href   => "/artemis/reports/days/2",
                                          },
                                          {
                                           title  => "1 week",
-                                          href   => "/artemis/reports/date/7",
+                                          href   => "/artemis/reports/days/7",
                                          },
                                          {
                                           title  => "2 weeks",
-                                          href   => "/artemis/reports/date/14",
+                                          href   => "/artemis/reports/days/14",
                                          },
                                          {
                                           title  => "3 weeks",
-                                          href   => "/artemis/reports/date/21",
+                                          href   => "/artemis/reports/days/21",
                                          },
                                          {
                                           title  => "1 month",
-                                          href   => "/artemis/reports/date/30",
-                                         },
-                                         {
-                                          title  => "2 months",
-                                          href   => "/artemis/reports/date/60",
+                                          href   => "/artemis/reports/days/30",
                                          },
                                         ],
                             },
                             {
                              title  => "reports by suite",
-                             href   => "/artemis/reports/suite/all",
-                             active => 0,
+                             href   => "/artemis/overview/suite",
+                            },
+                            {
+                             title  => "reports by host",
+                             href   => "/artemis/overview/host",
                             },
                             # {
                             #  title  => "reports by topic",

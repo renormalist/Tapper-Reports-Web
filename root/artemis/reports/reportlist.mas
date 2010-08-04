@@ -35,9 +35,21 @@
 %#                          t<% $report->{reportgroup_testrun_id} || '' %>
                         </td>
                         <td><% $report->{created_at_ymd_hm} %></td>
-                        <td><a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/artemis/reports/suite/<% $report->{suite_id} %>"><% $report->{suite_name} %></a></td>
-                        <td><a title="Click to show reports on '<% $report->{machine_name} %>' <% $report->{peeraddr} ? '(reported from ip '.$report->{peeraddr} .')' : ''%>" href="/artemis/reports/machine/<% $report->{machine_name} %>"><% $report->{machine_name} %></a></td>
-                        <td class="<% lc $successgrade %>"><% $successgrade %></td>
+                        <td><a title="Add <% $report->{suite_name} %> to filter" href="/<% $c->req->path %>/suite/<% $report->{suite_id} %>">
+                            <img src="/artemis/static/images/plus.png" size="16"></a>
+                            <a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/artemis/reports/suite/<% $report->{suite_id} %>">
+                            <% $report->{suite_name} %></a>
+                        </td>
+                        <td><a title="Add <% $report->{machine_name} %> to filter" href="/<% $c->req->path %>/host/<% $report->{machine_name} %>">
+                            <img src="/artemis/static/images/plus.png" size="16"></a>
+                            <a title="Click to show reports on '<% $report->{machine_name} %>' <% $report->{peeraddr} ? '(reported from ip '.$report->{peeraddr} .')' : ''%>" href="/artemis/reports/host/<% $report->{machine_name} %>">
+                            <% $report->{machine_name} %></a>
+                        </td>
+                        <td class="<% lc $successgrade %>">
+                          <a title="Add <% $successgrade %> to filter" href="/<% $c->req->path %>/success/<% $successgrade %>">
+                            <img src="/artemis/static/images/plus.png" size="16"></a>
+                          <a href="/artemis/reports/success/<% $successgrade %>"><% $successgrade %></a>
+                        </td>
                         <td>
                                   <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
                         </td>

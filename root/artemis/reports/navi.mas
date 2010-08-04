@@ -1,45 +1,26 @@
 <%method navi>
 % my $navi = $c->stash->{navi};
-% my $path = "/".$c->req->path;
-% print STDERR "path: $path\n";
-% return if $path =~ m,/artemis/reports/id,;
 % foreach my $nav (@$navi) {
 %       my $href = $nav->{href};
-%       my $tophref = $href;
-%       $tophref =~ s,(^/[^/]+/[^/]+/[^/]+).*,$1,; # only first three path elements
-%       my $highlight = $m->top_comp->path =~ /$tophref/ ? 1 : 0;
+%       my $subnavi = $nav->{subnavi};
 	<h4>
-%           if ($highlight) {
+%           if ($subnavi) {
                 <span>
 %           }
             <a href="<% $nav->{href} %>"><% $nav->{title} %></a>
-%           if ($highlight) {
+%           if ($subnavi) {
                 </span>
 %           }
         </h4>
-%           if ($highlight) {
-%               my $subnavi = $nav->{subnavi};
 %               if ($subnavi and @$subnavi) {
                         <ul>
 %                       foreach my $snav (@$subnavi) {
 %                               my $href = $snav->{href};
 %                               my $subhref = $href;
-%                               $subhref =~ s,(^/[^/]+/[^/]+/[^/]+/[^/]+).*,$1,; # first four path elements
-%                               my $subhighlight = $path =~ /$subhref\b/ ? 1 : 0;
-% #print STDERR ("path: ".$path."\n");
-% #print STDERR ("subhref: $subhref\n");
-% #print STDERR ("subhighlight: $subhighlight\n");
-%                               if ($subhighlight) {
-                                        <b>
-%                               }
                                 <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
-%                               if ($subhighlight) {
-                                        </b>
-%                               }
 %                       }
                         </ul>
 %               }
-%           }
 % }
 </%method>
 % my %metareport;
