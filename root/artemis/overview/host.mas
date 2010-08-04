@@ -1,0 +1,7 @@
+<h2>Hosts with reports</h2>
+% my @hosts = @{$c->stash->{hosts} || [] };
+<ul>
+% foreach my $host ( @hosts ) {
+  <li><a href="/artemis/reports/host/<% $host %>"><% $host %></a></li>
+% }
+</ul>
