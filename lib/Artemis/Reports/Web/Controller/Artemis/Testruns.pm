@@ -423,7 +423,6 @@ sub prepare_testrunlist : Private
         foreach my $testrun ($testruns->all)
         {
                 my %cols = $testrun->get_columns;
-                print STDERR Dumper(\%cols);
                 my $suite_name        = $cols{suite_name} || 'unknownsuite';
                 my $suite_id          = $cols{suite_id}   || '0';
                 my $created_at_ymd_hm = $testrun->created_at;
