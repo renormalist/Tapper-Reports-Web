@@ -23,7 +23,7 @@ sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
 
-        my $today     : Stash = DateTime->new(month => 06, year => 2010, day => 01);
+        my $today     : Stash = DateTime->now;
         my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
 
         my $filter_condition = $filter->parse_filters(\@args);
@@ -144,11 +144,9 @@ sub prepare_this_weeks_reportlists : Private
         my ( $self, $c, $filter_condition ) = @_;
 
         my @this_weeks_reportlists : Stash = ();
-        my $today                  : Stash;
+        my $today                  : Stash = DateTime->now();
         my $days                   : Stash = $filter_condition->{days};
         my $date                   : Stash = $filter_condition->{date};
-
-        $today //= DateTime->now();
 
         $filter_condition->{early} =  {} unless
           defined($filter_condition->{early}) and

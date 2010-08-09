@@ -19,7 +19,7 @@ sub days
                 return $filter_condition;
         }
         $filter_condition->{days} = $days;
-        my $now = DateTime->new(month => 06, year => 2010, day => 01);
+        my $now = DateTime->now();
         $self->today($now);
 
         $now->subtract(days => $days);
