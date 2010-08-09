@@ -1,7 +1,7 @@
 <h2>Overview</h2>
 % my $overviews = $c->stash->{overviews} || {};
 <ul>
-% foreach my $key(keys %$overviews) {
+% foreach my $key(sort keys %$overviews) {
   <li><a href="<% $overviews->{$key} %>"><% $key  %></a></li>
 % }
 </ul>
