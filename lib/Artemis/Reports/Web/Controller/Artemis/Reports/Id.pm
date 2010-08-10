@@ -123,7 +123,10 @@ sub index :Path :Args(1)
 
                 my %cols = $rgt_reports->first->get_columns;
                 my $testrun_id = $cols{rgt_id};
-                my $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
+                my $testrun;
+                eval {
+                        $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
+                };
                 $overview      = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
         }
 
