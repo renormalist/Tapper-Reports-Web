@@ -20,7 +20,7 @@ use Class::C3::Adopt::NEXT;
 
 use parent qw/Catalyst/;
 
-our $VERSION = '2.010095';
+our $VERSION = '2.010099';
 
 # used by Catalyst::Plugin::ConfigLoader
 sub finalize_config
