@@ -11,6 +11,75 @@ use YAML;
 
 use Data::Dumper;
 
+sub auto :Private
+{
+        my ( $self, $c ) = @_;
+
+        my $navi : Stash = [
+                 {
+                  title  => "reports by date",
+                  href   => "/artemis/overview/date",
+                  subnavi => [
+                              {
+                               title  => "today",
+                               href   => "/artemis/reports/days/1",
+                              },
+                              {
+                               title  => "2 days",
+                               href   => "/artemis/reports/days/2",
+                              },
+                              {
+                               title  => "1 week",
+                               href   => "/artemis/reports/days/7",
+                              },
+                              {
+                               title  => "2 weeks",
+                               href   => "/artemis/reports/days/14",
+                              },
+                              {
+                               title  => "3 weeks",
+                               href   => "/artemis/reports/days/21",
+                              },
+                              {
+                               title  => "1 month",
+                               href   => "/artemis/reports/days/31",
+                              },
+                              {
+                               title  => "2 months",
+                               href   => "/artemis/reports/days/62",
+                              },
+                              {
+                               title  => "4 months",
+                               href   => "/artemis/reports/days/124",
+                              },
+                              {
+                               title  => "6 months",
+                               href   => "/artemis/reports/days/182",
+                              },
+                              {
+                               title  => "12 months",
+                               href   => "/artemis/reports/days/365",
+                              },
+
+                             ],
+                 },
+                 {
+                  title  => "reports by suite",
+                  href   => "/artemis/overview/suite",
+                 },
+                 {
+                  title  => "reports by host",
+                  href   => "/artemis/overview/host",
+                 },
+                 # {
+                 #  title  => "reports by people",
+                 #  href   => "/artemis/reports/people/",
+                 #  active => 0,
+                 # },
+                ];
+}
+
+
 sub younger
 {
         my $astat = stat($a);

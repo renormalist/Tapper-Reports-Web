@@ -22,14 +22,20 @@ sub auto :Private
 sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
-
-        my $today     : Stash = DateTime->now;
-        my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
-
-        my $filter_condition = $filter->parse_filters(\@args);
         my $error_msg : Stash;
-        $error_msg = join("; ", @{$filter_condition->{error}}) if $filter_condition->{error};
-        $today     = $filter->today if $filter->today;
+
+
+        my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
+        my $filter_condition = $filter->parse_filters(\@args);
+
+        if ($filter_condition->{error}) {
+                $error_msg = join("; ", @{$filter_condition->{error}});
+                $c->res->redirect("/artemis/reports/");
+
+        }
+
+        my $requested_day : Stash = 
+          $filter->requested_day || DateTime::Format::Natural->new->parse_datetime("today at midnight");
 
         $filter->{early}->{-or} = [{rga_primary => 1}, {rgt_primary => 1}];
         $c->forward('/artemis/reports/prepare_this_weeks_reportlists', [ $filter_condition ]);
@@ -144,7 +150,7 @@ sub prepare_this_weeks_reportlists : Private
         my ( $self, $c, $filter_condition ) = @_;
 
         my @this_weeks_reportlists : Stash = ();
-        my $today                  : Stash = DateTime->now();
+        my $requested_day          : Stash;
         my $days                   : Stash = $filter_condition->{days};
         my $date                   : Stash = $filter_condition->{date};
 
@@ -183,8 +189,8 @@ sub prepare_this_weeks_reportlists : Private
         }
 
 
-        my @day    = ( $today );
-        push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
+        my @day    = ( $requested_day );
+        push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
         my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
@@ -221,60 +227,87 @@ sub prepare_this_weeks_reportlists : Private
         }
 }
 
+sub prepare_filter_path
+{
+        my ($self, $c, $days) = @_;
+        my %args = @{$c->req->arguments};
+
+        $args{days} = $days;
+
+        return join('/', %args );
+}
+
 sub prepare_navi : Private
 {
         my ( $self, $c ) = @_;
+        my $navi : Stash = [];
 
-        my $navi : Stash = [
-                            {
-                             title  => "reports by date",
-                             href   => "/artemis/overview/date",
-                             subnavi => [
-                                         {
-                                          title  => "today",
-                                          href   => "/artemis/reports/days/1",
-                                         },
-                                         {
-                                          title  => "2 days",
-                                          href   => "/artemis/reports/days/2",
-                                         },
-                                         {
-                                          title  => "1 week",
-                                          href   => "/artemis/reports/days/7",
-                                         },
-                                         {
-                                          title  => "2 weeks",
-                                          href   => "/artemis/reports/days/14",
-                                         },
-                                         {
-                                          title  => "3 weeks",
-                                          href   => "/artemis/reports/days/21",
-                                         },
-                                         {
-                                          title  => "1 month",
-                                          href   => "/artemis/reports/days/30",
-                                         },
-                                        ],
-                            },
-                            {
-                             title  => "reports by suite",
-                             href   => "/artemis/overview/suite",
-                            },
-                            {
-                             title  => "reports by host",
-                             href   => "/artemis/overview/host",
-                            },
-                            # {
-                            #  title  => "reports by topic",
-                            #  href   => "/artemis/reports/topic/",
-                            #  active => 0,
-                            # },
-                            # {
-                            #  title  => "reports by people",
-                            #  href   => "/artemis/reports/people/",
-                            #  active => 0,
-                            # },
-                           ];
+        my %args = @{$c->req->arguments};
+        return [] if grep { /^date$/ } keys %args;
+
+        $navi = [
+                 {
+                  title  => "reports by date",
+                  href   => "/artemis/overview/date",
+                  subnavi => [
+                              {
+                               title  => "today",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 1),
+                              },
+                              {
+                               title  => "2 days",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 2),
+                              },
+                              {
+                               title  => "1 week",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 7),
+                              },
+                              {
+                               title  => "2 weeks",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 14),
+                              },
+                              {
+                               title  => "3 weeks",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 21),
+                              },
+                              {
+                               title  => "1 month",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 31),
+                              },
+                              {
+                               title  => "2 months",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 62),
+                              },
+                              {
+                               title  => "4 months",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 124),
+                              },
+                              {
+                               title  => "6 months",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 182),
+                              },
+                              {
+                               title  => "12 months",
+                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 365),
+                              },
+
+                             ],
+                 },
+                 {
+                  title  => "reports by suite",
+                  href   => "/artemis/overview/suite",
+                 },
+                 {
+                  title  => "reports by host",
+                  href   => "/artemis/overview/host",
+                 },
+                 # {
+                 #  title  => "reports by people",
+                 #  href   => "/artemis/reports/people/",
+                 #  active => 0,
+                 # },
+                ];
+
 }
 
 1;

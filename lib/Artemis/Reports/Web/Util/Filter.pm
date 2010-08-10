@@ -9,21 +9,23 @@ use Moose;
 use common::sense;
 
 has 'context' => (is => 'rw');
-has 'today'   => (is => 'rw');
+has 'requested_day'   => (is => 'rw');
 
 sub days
 {
         my ($self, $filter_condition, $days) = @_;
-        if (defined($self->today)) {
+        if (defined($self->requested_day)) {
                 push @{$filter_condition->{error}}, "Time filter already exists, only using first one";
                 return $filter_condition;
         }
         $filter_condition->{days} = $days;
-        my $now = DateTime->now();
-        $self->today($now);
+        my $parser = new DateTime::Format::Natural;
+        my $requested_day  = $parser->parse_datetime("today at midnight");
+        print STDERR $requested_day;
+        $self->requested_day($requested_day);
 
-        $now->subtract(days => $days);
-        $filter_condition->{early}->{created_at} = {'>' => $now};
+        my $yesterday = $parser->parse_datetime("today at midnight")->subtract(days => $days);
+        $filter_condition->{early}->{created_at} = {'>' => $yesterday};
         return $filter_condition;
 }
 
@@ -73,24 +75,28 @@ sub date
         my ($self, $filter_condition, $date) = @_;
         return $self->days($filter_condition, $date) if $date =~m/^\d+$/; # handle old date links correctly
 
-        if (defined($self->today)) {
+        if (defined($self->requested_day)) {
                 push @{$filter_condition->{error}}, "Time filter already exists, only using first one";
                 return $filter_condition;
         }
 
         $filter_condition->{days} = 1;
 
-        my $today = DateTime::Format::DateParse->parse_datetime( $date );
-        my $tomorrow = DateTime::Format::DateParse->parse_datetime( $date )->add(days => 1);
-        if (not defined $today) {
+        my $requested_day;
+        my $one_day_later;
+        eval {
+                $requested_day = DateTime::Format::DateParse->parse_datetime( $date );
+                $one_day_later = DateTime::Format::DateParse->parse_datetime( $date )->add(days => 1);
+        };
+        if (not defined $requested_day) {
                 push @{$filter_condition->{error}}, "Can not parse date '$date'";
                 return $filter_condition;
         }
 
-        $filter_condition->{date} = $today->ymd('/');
-        $self->today($today);
-        push @{$filter_condition->{late}}, {created_at => {'>=' => $today}};
-        push @{$filter_condition->{late}}, {created_at => {'<'  => $tomorrow}};
+        $filter_condition->{date} = $requested_day->ymd('/');
+        $self->requested_day($requested_day);
+        push @{$filter_condition->{late}}, {created_at => {'>=' => $requested_day}};
+        push @{$filter_condition->{late}}, {created_at => {'<'  => $one_day_later}};
         return $filter_condition;
 }
 
@@ -143,6 +149,12 @@ sub parse_filters
                                 when ('host')    { $filter_condition = $self->host($filter_condition, $value) }
                                 when ('suite')   { $filter_condition = $self->suite($filter_condition, $value) }
                                 when ('success') { $filter_condition = $self->success($filter_condition, $value) }
+                                default {my @errors = @{$filter_condition->{error} || [] };
+                                         $filter_condition = {};
+                                         push @errors, "Can not parse filter $key/$value. No filters applied";
+                                         $filter_condition->{error} = \@errors;
+                                         return $filter_condition;
+                                 }
                         }
                 }
         }
