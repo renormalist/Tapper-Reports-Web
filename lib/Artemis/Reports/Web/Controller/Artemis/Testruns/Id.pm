@@ -20,9 +20,10 @@ sub index :Path :Args(1)
         my $time          : Stash;
 
         my $reportlist_rgt : Stash = {};
-        $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
-
-        if (not $testrun) {
+        eval {
+                $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
+        };
+        if ($@ or not $testrun) {
                 $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
                 return;
         }
