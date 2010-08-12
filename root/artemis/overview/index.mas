@@ -1,7 +1,33 @@
-<h2>Overview</h2>
-% my $overviews = $c->stash->{overviews} || {};
-<ul>
-% foreach my $key(sort keys %$overviews) {
-  <li><a href="<% $overviews->{$key} %>"><% $key  %></a></li>
-% }
-</ul>
+<h1><strong>ARTEMIS</strong> test infrastructure</h1>
+
+<p>
+</p>
+
+<h4>Test results</h4>
+<p>
+        <table class="overviewlist">
+                <tr>
+                  <td>&bull;&nbsp;<a href="/artemis/testruns/days/2">Testruns</a></td><td>Overview of automated testruns.</td>
+                </tr>
+                <tr>
+                  <td>&bull;&nbsp;<a href="/artemis/reports/date/2">Reports</a></td><td>More detailed view of single test reports.</td>
+                </tr>
+                <tr>
+                  <td>&bull;&nbsp;<a href="/artemis/overview/host">Hosts</a></td><td>List of all hosts.</td>
+                </tr>
+                <tr>
+                  <td>&bull;&nbsp;<a href="/artemis/overview/suite">Test Suites</a></td><td>Overview of all test suites.</td>
+                </tr>
+        </table>
+</p>
+
+<p>
+        There are also some control tools:
+</p>
+<p>
+        <ul>
+                <li>
+                        <a href="/artemis/testruns/create">Create a new testrun</a>
+                </li>
+        </ul>
+</p>

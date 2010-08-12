@@ -603,6 +603,32 @@ table.reportfile h5
   padding: 0.5em 0em 0em 0em;
   }
 
+
+/* ----- overview list ----- */
+
+table.overviewlist
+{
+  text-align: left;
+  }
+
+table.overviewlist tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.overviewlist th,
+table.overviewlist td
+{
+  padding: 0em 1em 0em 0em;
+  }
+
+table.overviewlist th.overviewid,
+table.overviewlist td.overviewid
+{
+  text-align: right;
+  }
+
+
 /* ----- artemis manual ----- */
 
 .artemismanual h1,

@@ -15,9 +15,9 @@ sub index :Path :Args(0)
         my $body = <<EOF;
 <html>
 <head>
-<meta http-equiv="refresh" content="0; URL=/artemis/reports">
-<meta name="description" content="Artemis Reports"
-<title>Artemis | Reports</title>
+<meta http-equiv="refresh" content="0; URL=/artemis/overview">
+<meta name="description" content="Artemis"
+<title>Artemis</title>
 </head>
 EOF
         $c->response->body($body);
