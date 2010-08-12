@@ -8,10 +8,10 @@
 		
 		<div id="menu">
 			<ul>
+				<li><a href="/artemis/overview/" class="active">Start</a></li>
 				<li><a href="/artemis/testruns/days/2">Testruns</a></li>
 				<li><a href="/artemis/reports/days/2">Reports</a></li>
 				<li><a href="/artemis/metareports/">Metareports</a></li>
-				<li><a href="/artemis/overview/" class="active">Overviews</a></li>
 				<li><a href="/artemis/hardware/">Hardware</a></li>
 				<li><a href="/artemis/manual/">Manual</a></li>
 			</ul>
