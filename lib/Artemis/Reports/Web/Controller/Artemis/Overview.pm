@@ -29,13 +29,6 @@ sub index :Path :Args()
                                                                                             distinct => 1});
                         $overviews = { map{$_->machine_name, '/artemis/reports/host/'.$_->machine_name} $reports->all };
                 }
-                default {
-                        $overviews = {
-                                      Testsuites => '/artemis/overview/suite',
-                                      Hostnames  => '/artemis/overview/host',
-                                     };
-                        
-                }
         }
 }
 

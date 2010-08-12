@@ -1,14 +1,13 @@
 package Artemis::Reports::Web::Controller::Artemis::Rss;
 
-use strict;
-use warnings;
 use XML::Feed;
 use DateTime;
 use Artemis::Reports::Web::Util::Filter;
 
-use 5.010;
-
 use parent 'Catalyst::Controller';
+
+use common::sense;
+
 
 =head2 index
 
@@ -20,7 +19,7 @@ typical catalyst arguments $self and $c do not occur in the API doc.
 
 @param array - filter arguments
 
-=cut 
+=cut
 
 sub index :Path :Args()
 {
@@ -32,32 +31,35 @@ sub index :Path :Args()
         my $feed = XML::Feed->new('RSS');
         $feed->title( ' RSS Feed' );
         $feed->link( $c->req->base ); # link to the site.
-        $feed->description('Artemis Reports'); 
+        $feed->description('Artemis Reports');
 
         my $feed_entry;
         my $title;
 
-        
+
         my $filter_condition;
-        my $now = DateTime->now();
-        
-        $now->subtract(days => 2);
-        $filter_condition->{created_at} = {'>' => $now};
+
 
         $filter_condition = $filter->parse_filters(\@args);
-        if ( defined $filter_condition->error ) {
+        if ( defined $filter_condition->{error} ) {
                 $feed_entry  = XML::Feed::Entry->new('RSS');
-                $feed_entry->title( $filter_condition->error );
+                $feed_entry->title( $filter_condition->{error} );
                 $feed_entry->issued( DateTime->now );
                 $feed->add_entry($feed_entry);
         }
 
-        my $date = DateTime->now;
-        $date = $date->subtract(weeks => 1);
+        # default 2 days
+        if (not $filter_condition->{early}{created_at}) {
+                my $now = DateTime->now();
+                $now->subtract(days => 2);
+                $filter_condition->{early}{created_at} = {'>' => $now};
+        }
+
+
         my $reports = $c->model('ReportsDB')->resultset('Report')->search
-          ( 
-           $filter_condition,              
-           { 
+          (
+           $filter_condition->{early},
+           {
             columns   => [ qw( id
                                suite_id
                                created_at
@@ -70,13 +72,17 @@ sub index :Path :Args()
                             )],
            }
            );
+        foreach my $filter (@{$filter_condition->{late}}) {
+                $reports = $reports->search($filter);
+        }
+
 
         # Process the entries
         foreach my $report ($reports->all) {
                 $feed_entry  = XML::Feed::Entry->new('RSS');
                 $title       = $report->successgrade;
-                $title      .= " ".$report->success_ratio."%";
-                $title      .= " ".$report->suite->name;
+                $title      .= " ".($report->success_ratio // 0)."%";
+                $title      .= " ".($report->suite ? $report->suite->name : 'unknown suite');
                 $title      .= " @ ";
                 $title      .= $report->machine_name || 'unknown machine';
                 $feed_entry->title( $title );

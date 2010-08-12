@@ -11,4 +11,4 @@ $form
 % } else {
 <h1>Error: You followed an incorrect deep link. Session data is missing</h1>
 % }
-<p><a href="/artemis/testruns/">Cancel</a></p>
+<p><a href="/artemis/start/">Cancel</a></p>

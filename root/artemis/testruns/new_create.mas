@@ -11,4 +11,4 @@ $testrun => undef
 <% $form|n %>
 </fieldset>
 % }
-<p><a href="/artemis/testruns/">Return to Testrun list</a></p>
+<p><a href="/artemis/start/">Cancel</a></p>

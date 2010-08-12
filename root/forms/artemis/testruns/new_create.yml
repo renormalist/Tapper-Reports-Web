@@ -16,6 +16,7 @@ elements:
     - type: Select
       name: topic
       label: Topic
+      value: Misc
       constraints:
       - type: Required
         message: Please select a topic
