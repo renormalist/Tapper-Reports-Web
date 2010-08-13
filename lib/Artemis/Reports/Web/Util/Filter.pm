@@ -21,7 +21,6 @@ sub days
         $filter_condition->{days} = $days;
         my $parser = new DateTime::Format::Natural;
         my $requested_day  = $parser->parse_datetime("today at midnight");
-        print STDERR $requested_day;
         $self->requested_day($requested_day);
 
         my $yesterday = $parser->parse_datetime("today at midnight")->subtract(days => $days);
