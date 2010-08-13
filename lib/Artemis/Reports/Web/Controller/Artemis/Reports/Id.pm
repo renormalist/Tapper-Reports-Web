@@ -4,6 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
+use Artemis::Reports::Web::Util::Report;
 use File::Basename;
 use File::stat;
 use parent 'Artemis::Reports::Web::Controller::Base';
@@ -158,6 +159,7 @@ sub index :Path :Args(1)
                 $c->response->body("No such report");
                 return;
         }
+        my $util_report = Artemis::Reports::Web::Util::Report->new();
 
         if (my $rga = $report->reportgrouparbitrary) {
                 #my $rga_reports = $c->model('ReportsDB')->resultset('ReportgroupArbitrary')->search ({ arbitrary_id => $rga->arbitrary_id });
@@ -172,7 +174,7 @@ sub index :Path :Args(1)
                         '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
                      }
                     );
-                $reportlist_rga = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rga_reports ]);
+                $reportlist_rga = $util_report->prepare_simple_reportlist($c,  $rga_reports);
         }
 
         if (my $rgt = $report->reportgrouptestrun) {
@@ -188,7 +190,7 @@ sub index :Path :Args(1)
                         '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_name', 'suite_type', 'suite_description' ],
                      }
                     );
-                $reportlist_rgt = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rgt_reports ]);
+                $reportlist_rgt = $util_report->prepare_simple_reportlist($c,  $rgt_reports);
 
                 my %cols = $rgt_reports->first->get_columns;
                 my $testrun_id = $cols{rgt_id};

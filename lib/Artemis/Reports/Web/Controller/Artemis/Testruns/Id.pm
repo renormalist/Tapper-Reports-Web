@@ -5,7 +5,7 @@ use 5.010;
 use strict;
 use warnings;
 use Artemis::Model 'model';
-
+use Artemis::Reports::Web::Util::Report;
 
 use parent 'Artemis::Reports::Web::Controller::Base';
 
@@ -46,7 +46,9 @@ sub index :Path :Args(1)
               '+as'     => [ 'rgt_id',                        'rgt_primary',                      'suite_name', 'suite_type', 'suite_description' ],
            }
           );
-        $reportlist_rgt = $c->forward('/artemis/reports/prepare_simple_reportlist', [ $rgt_reports ]);
+        my $util_report = Artemis::Reports::Web::Util::Report->new();
+
+        $reportlist_rgt = $util_report->prepare_simple_reportlist($c,  $rgt_reports);
         $report = $c->model('ReportsDB')->resultset('Report')->search
           (
            {
