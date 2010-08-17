@@ -134,7 +134,7 @@ sub prepare_filter_path
         my ($self, $c, $days) = @_;
         my %args = @{$c->req->arguments};
 
-        $args{days} = $days;
+        $args{days} = $days if $days;
 
         return join('/', %args );
 }
@@ -203,6 +203,12 @@ sub prepare_navi : Private
                   title  => "reports by host",
                   href   => "/artemis/overview/host",
                  },
+                 {
+                  title  => "This list as RSS",
+                  href   => "/artemis/rss/".$self->prepare_filter_path($c),
+                  image  => "/artemis/static/images/rss.png",
+                 }
+
                  # {
                  #  title  => "reports by people",
                  #  href   => "/artemis/reports/people/",
