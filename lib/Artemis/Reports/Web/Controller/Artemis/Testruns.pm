@@ -5,7 +5,6 @@ use warnings;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Template;
-use TryCatch;
 use File::Path;
 use File::Basename;
 use Data::DPath 'dpath';
@@ -335,11 +334,11 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
                 my $cmd = Artemis::Cmd::Testrun->new();
                 my $testrun_id;
-                try {  $testrun_id = $cmd->add($testrun_data);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
+                eval {  $testrun_id = $cmd->add($testrun_data)};
+	        if ($@){
+                          $c->stash(error => $@);
                           return;
-                  }
+                }	
 
                 my %remaining = %{$form->input};
 
@@ -396,11 +395,11 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
                 $cmd = Artemis::Cmd::Precondition->new();
                 my @preconditions;
-                try {  @preconditions = $cmd->add($ttapplied);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
+                eval {  @preconditions = $cmd->add($ttapplied)};
+                if($@){
+                          $c->stash(error => $@);
                           return;
-                  }
+                }
                 $cmd->assign_preconditions($testrun_id, @preconditions);
                 $c->stash->{testrun_id} = $testrun_id;
                 $c->stash->{preconditions} = \@preconditions;
