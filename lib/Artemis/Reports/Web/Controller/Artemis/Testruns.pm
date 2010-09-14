@@ -16,35 +16,20 @@ use DateTime::Format::DateParse;
 
 use common::sense;
 
-use Data::Dumper;
+=head2 index
+
+Prints a list of a testruns together with their state, start time and
+end time. No options, not return values.
+
+TODO: Too many testruns, takes too long to display. Thus, we need to add
+filter facility.
+
+=cut
 
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
-        my @testruns : Stash;
-
-        my $format = '%T %F';
-        my $testrun_search = $c->model('TestrunDB')->resultset('Testrun');
-        while (my $this_testrun = $testrun_search->next) {
-                my $state = 'Not started';
-                my $start_time;
-                my $end_time;
-
-                if ($this_testrun->starttime_testrun) {
-                        $state = 'Running or stopped';
-                        $start_time = $this_testrun->starttime_testrun->strftime($format);
-                }
-                if ($this_testrun->endtime_test_program) {
-                        $state = 'Finished';
-                        $end_time = $this_testrun->endtime_test_program->strftime($format);
-
-                }
-
-                push @testruns, {id          => $this_testrun->id,
-                                 state       => $state,
-                                 start_time  => $start_time,
-                                 finish_time => $end_time};
-        }
+        $c->res->redirect('/artemis/testruns/days/2');
         return;
 }
 
