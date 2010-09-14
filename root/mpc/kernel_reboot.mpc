@@ -3,7 +3,7 @@
 # artemis-description: Reboot test with a prebuilt kernel package
 ---
 arch: linux64
-image: suse/suse_sles10_64b_smp_raw.tar.gz
+image: suse/suse_sles10_sp2_64b_smp_raw_new.tar.gz
 mount: /
 partition: testing
 precondition_type: image
@@ -19,21 +19,17 @@ dest: /bin/
 protocol: local
 ---
 [% IF  kernelpkg %]
+precondition_type: package
+filename: [% kernelpkg %]
+---
 precondition_type: exec
 filename: /bin/gen_initrd.sh
 options:
   - [% kernel_version %]
----
-precondition_type: package
-filename: [% kernelpkg %]
 [% ELSE %]
 precondition_type: produce
 producer: Kernel
 [% END %]
----
-precondition_type: testprogram
-program: /opt/artemis/bin/py_parselog
-timeout: 300
 ---
 precondition_type: reboot
 count: 2
@@ -50,9 +46,57 @@ program: /opt/artemis/bin/py_lmbench
 timeout: 10800
 ---
 [% END %]
+[% IF Tests.LTP %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_ltp
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Kernbench %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_kernbench
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Aim %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_aim
+timeout: 10800
+---
+[% END %]
+[% IF Tests.HTS %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_hts
+timeout: 10800
+---
+[% END %]
+[% IF Tests.LLC %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_llc
+timeout: 10800
+---
+[% END %]
 [% IF Tests.Parselog %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_parselog
-timeout: 300
+timeout: 10800
+---
+[% END %]
+[% IF Tests.ReAim %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_reaim
+timeout: 10800
+---
+[% END %]
+[% IF Tests.RHv7 %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_rhv7
+timeout: 10800
+---
+[% END %]
+[% IF Tests.Phoronix %]
+precondition_type: testprogram
+program: /opt/artemis/bin/py_phoronix
+timeout: 10800
 ---
 [% END %]
