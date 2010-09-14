@@ -10,7 +10,6 @@ $msg
 
 % } else {
 
-<strong>Choose use case</strong>
 <fieldset>
 <% $form|n %>
 </fieldset>
