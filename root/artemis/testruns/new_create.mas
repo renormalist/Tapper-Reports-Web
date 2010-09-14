@@ -8,6 +8,7 @@ $testrun => undef
 % } else {
 <h3>Create a new testrun</h3>
 <fieldset>
+<strong>Choose use case</strong>
 <% $form|n %>
 </fieldset>
 % }

@@ -32,7 +32,7 @@ sub index :Path :Args()
 
         if ($filter_condition->{error}) {
                 $error_msg = join("; ", @{$filter_condition->{error}});
-                $c->res->redirect("/artemis/reports/");
+                $c->res->redirect("/artemis/reports/days/2");
 
         }
 

@@ -11,6 +11,7 @@ elements:
       - type: Required
         message: Repository must be choosen
       values: 
+        - tip
         - andreas
         - boris
         - robert
@@ -18,7 +19,6 @@ elements:
         - stable-33
         - stable-34
         - stable-35
-        - tip
 
     - type: ComboBox
       name: changeset

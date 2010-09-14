@@ -10,6 +10,12 @@ $overview
           <td><h5>Name</h5></td>
           <td><% ucfirst($overview->{name}) %></td>
         </tr>
+% if ($overview->{shortname}) {
+        <tr>
+          <td><h5>Short name</h5></td>
+          <td><% $overview->{shortname} %></td>
+        </tr>
+% }
         <tr>
           <td colspan="2"><h5>Host</h5></td>
         </tr>
