@@ -1,7 +1,5 @@
 package Artemis::Reports::Web::Controller::Artemis::Testruns;
 
-use strict;
-use warnings;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Template;
@@ -10,13 +8,13 @@ use File::Path;
 use File::Basename;
 use Data::DPath 'dpath';
 
-use 5.010;
 
 use Artemis::Config;
 use Artemis::Cmd::Testrun;
 use Artemis::Model 'model';
 use DateTime::Format::DateParse;
 
+use common::sense;
 
 use Data::Dumper;
 
