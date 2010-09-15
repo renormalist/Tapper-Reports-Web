@@ -33,7 +33,23 @@ sub index :Path :Args(0)
         return;
 }
 
-# XXX: subject to deletion
+
+=head2 get_testrun_overview
+
+This function reads and parses all precondition of a testrun to generate
+a summary of the testrun which will then be shown as an overview. It
+returns a hash reference containing:
+* name
+* arch
+* image
+* test
+
+@param testrun result object
+
+@return hash reference
+
+=cut
+
 sub get_testrun_overview : Private
 {
         my ( $self, $c, $testrun ) = @_;
@@ -41,6 +57,8 @@ sub get_testrun_overview : Private
         my $retval = {};
 
         return $retval unless $testrun;
+
+        $retval->{shortname} = $testrun->shortname;
 
         foreach ($testrun->ordered_preconditions) {
                 my $precondition = $_->precondition_as_hash;
@@ -145,7 +163,7 @@ sub as_yaml : Chained('preconditions') PathPart('yaml') Args(0)
                 push @preconditions, $precondition->precondition;
         }
         if (@preconditions) {
-                $c->response->content_type ('plain');
+                $c->response->content_type ('text/plain');
                 $c->response->header ("Content-Disposition" => 'inline; filename="precondition-'.$id.'.yml"');
                 $c->response->body ( join "", @preconditions);
         } else {
@@ -164,6 +182,13 @@ sub similar : Chained('id') PathPart('similar') Args(0)
 {
 }
 
+=head2 new_create
+
+This function handles the form for the first step of creating a new
+testrun.
+
+=cut
+
 sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 {
         my ($self, $c) = @_;
@@ -172,7 +197,9 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         if ($form->submitted_and_valid) {
                 my $data = $form->input();
                 $c->session->{testrun_data} = $data;
-                $c->res->redirect("/artemis/testruns/add_usecase/");
+                $c->session->{valid} = 1;
+                $c->session->{usecase_file} = $form->input->{use_case};
+                $c->res->redirect('/artemis/testruns/fill_usecase');
 
         } else {
                 my $select = $form->get_element({type => 'Select', name => 'topic'});
@@ -181,8 +208,25 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $select = $form->get_element({type => 'Select', name => 'owner'});
                 $select->options($self->get_owner_names());
 
-                $select = $form->get_element({type => 'Select', name => 'hardwaredb_systems_id'});
+                $select = $form->get_element({type => 'Select', name => 'requested_hosts'});
                 $select->options($self->get_hostnames());
+
+                my @use_cases;
+                my $path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
+                foreach my $file (<$path/*.mpc>) {
+                        open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
+                        my $desc;
+                        while (my $line = <$fh>) {
+                                ($desc) = $line =~/# (?:artemis[_-])?description:\s*(.+)/;
+                                last if $desc;
+                        }
+
+                        my ($shortfile, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
+                        push @use_cases, [$file, "$shortfile - $desc"];
+
+                }
+                my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
+                $select->options(\@use_cases);
         }
 
 }
@@ -212,82 +256,67 @@ sub get_owner_names
 sub get_hostnames
 {
         my ($self) = @_;
-        my @all_machines = model("HardwareDB")->resultset('Systems')->search({active => 1, current_owner => {'like', '%artemis%'}});
+        my @all_machines = model("TestrunDB")->resultset('Host')->search({active => 1});
         my @machines;
-        foreach my $host (sort {$a->systemname cmp $b->systemname} @all_machines) {
-                push(@machines, [$host->id, $host->systemname]);
+        foreach my $host (sort {$a->name cmp $b->name} @all_machines) {
+                # TODO: check queue bindings
+                next if $host->name =~ /^billjones|fasolt|incubus|uruk$/;
+                push(@machines, [ $host->name, $host->name ]);
         }
         return \@machines;
 
 }
 
 
-sub add_usecase : Chained('base') :PathPart('add_usecase') :Args(0) :FormConfig
+=head2 parse_macro_precondition
+
+Parse the given file as macro precondition and return a has ref
+containing required, optional and mcp_config fields.
+
+@param catalyst context
+@param string - file name
+
+@return success - hash ref
+@return error   - string
+
+=cut
+
+sub parse_macro_precondition :Private
 {
-        my ($self, $c) = @_;
-        my $form = $c->stash->{form};
-        $c->session->{valid} = 1;
-
-        if ($form->submitted_and_valid) {
-                $c->session->{usecase_file} = $form->input->{use_case};
-                $c->res->redirect('/artemis/testruns/fill_usecase');
-        } else {
-
-                my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
-                foreach my $file (<$path/*.mpc>) {
-                        open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
-                        my $desc;
-                        while (my $line = <$fh>) {
-                                ($desc) = $line =~/# (?:artemis[_-])?description:\s*(.+)/;
-                                last if $desc;
-                        }
-
-                        my ($shortfile, undef, undef) = File::Basename::fileparse($file, ('.mpc'));
-                        push @use_cases, [$file, "$shortfile - $desc"];
-
-                }
-                my $select = $form->get_element({type => 'Radiogroup', name => 'use_case'});
-                $select->options(\@use_cases);
-        }
-}
-
-sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfig
-{
-        my ($self, $c) = @_;
+        my ($self, $c, $file) = @_;
+        my $config;
         my $home = $c->path_to();
-        my $form = $c->stash->{form};
-        my $position   = $form->get_element({type => 'Submit'});
-        my $file       = $c->session->{usecase_file};
-        my %macros;
 
-        open my $fh, "<", $file or $c->forward('/artemis/testruns/create');   # can't read file most often means we are not in a session
+
+        open my $fh, "<", $file or return "Can not open use case description $file:$!";
         my ($required, $optional, $mpc_config) = ('', '', '');
+
         while (my $line = <$fh>) {
                 ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
                 ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
                 ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
-
                 last if $required and $optional and $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
-        no warnings 'uninitialized';
         foreach my $field (split $delim, $required) {
                 my ($name, $type) = split /\./, $field;
-
                 $type = 'Text' if not $type;
-
-                my $element = $form->element({type => ucfirst($type), name => $name, label => $name.'*', constraints => [ 'Required' ]});
+                push @{$config->{required}}, {type => ucfirst($type),
+                                              name => $name,
+                                              label => $name,
+                                              constraints => [ 'Required' ]
+                                             }
         }
 
         foreach my $field (split $delim, $optional) {
                 my ($name, $type) = split /\./, $field;
                 $type = 'Text' if not $type;
-
-                my $element = $form->element({type => ucfirst($type), name => $name, label => $name.' '});
+                push @{$config->{optional}},{type => ucfirst($type),
+                                             name => $name,
+                                             label => $name,
+                                            };
         }
-
 
         if ($mpc_config) {
                 $mpc_config = "$home/$mpc_config" if not substr($mpc_config, 0, 1) eq '/';
@@ -295,99 +324,152 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $c->stash(error => qq(Config file "$mpc_config" does not exists or is not readable));
                         return;
                 }
-                $form->load_config_file( $mpc_config );
+                $config->{mpc_config} = $mpc_config;
         }
-        use warnings;
-        $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
+        return $config;
+}
 
-        $form->process();
+
+=head2 handle_precondition
+
+Check whether each required precondition has a value, uploads files and
+so on.
+
+@param
+
+@return
+
+=cut
+
+sub handle_precondition
+{
+        my ($self, $c, $config) = @_;
+        my $form = $c->stash->{form};
+        my %macros;
+        my %all_form_elements = %{$c->request->{parameters}};
+
+        foreach my $element (@{$config->{required}}, @{$config->{optional}}) {
+                my $name = $element->{name};
+                next if not defined $all_form_elements{$name};
+
+                if (lc($element->{type}) eq 'file') {
+                        my $upload = $c->req->upload($name);
+                        my $destdir = sprintf("%s/uploads/%s/%s",
+                                              Artemis::Config->subconfig->{paths}{package_dir}, $config->{testrun_id}, $name);
+                        my $destfile = $destdir."/".$upload->basename;
+                        my $error;
+
+                        mkpath( $destdir, {error => \$error} );
+
+                        foreach my $diag (@$error) {
+                                my ($dir, $message) = each %$diag;
+                                $c->response->body("Can not create $dir: $message");
+                        }
+                        $upload->copy_to($destfile);
+                        $macros{$name} = $destfile;
+                        delete $all_form_elements{$name};
+                }
+
+                if (defined($all_form_elements{$name})) {
+                        $macros{$name} = $all_form_elements{$name};
+                        delete $all_form_elements{$name};
+                } else {
+                        # TODO: handle error
+                }
+
+        }
+
+        foreach my $name (keys %all_form_elements) {
+                next if $name eq 'submit';
+                # checkboxgroups return an array but since you don't
+                # know its order in advance its easier to access a hash
+                if (ref $all_form_elements{$name} ~~ 'ARRAY') {
+                        foreach my $element (@{$all_form_elements{$name}}) {
+                                $macros{$name}->{$element} = 1;
+                        }
+                } else {
+                        $macros{$name} = $all_form_elements{$name};
+                }
+        }
+
+        open my $fh, "<", $config->{file} or $c->response->body(qq(Can not open $config->{file}: $!)), return;
+        my $mpc = do {local $/; <$fh>};
+
+        my $ttapplied;
+
+        my $tt = new Template ();
+        if (not $tt->process(\$mpc, \%macros, \$ttapplied) ) {
+                $c->stash(error => $tt->error());
+                return;
+        }
+
+        my $cmd = Artemis::Cmd::Precondition->new();
+        my @preconditions;
+        try {  @preconditions = $cmd->add($ttapplied);}
+          catch ($exception) {
+                  $c->stash(error => $exception->msg);
+                  return;
+          }
+        $cmd->assign_preconditions($config->{testrun_id}, @preconditions);
+        $c->stash->{testrun_id} = $config->{testrun_id};
+        $c->stash->{preconditions} = \@preconditions;
+        return;
+}
+
+=head2 fill_usecase
+
+Creates the form for the last step of creating a testrun. When this form
+is submitted and valid the testrun is created based on the gathered
+data. The function is used directly by Catalyst which therefore cares
+for params and returns.
+
+=cut
+
+sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfig
+{
+        my ($self, $c) = @_;
+        my $form       = $c->stash->{form};
+        my $position   = $form->get_element({type => 'Submit'});
+        my $file       = $c->session->{usecase_file};
+        my %macros;
+        $c->forward('/artemis/testruns/create') unless $file;
+        my $config = $self->parse_macro_precondition($c, $file);
+
 
         if ($form->submitted_and_valid) {
-
-
-
                 my $testrun_data = $c->session->{testrun_data};
-                $testrun_data->{starttime_earliest} = DateTime->new(year => $testrun_data->{starttime_year},
-                                                                    month => $testrun_data->{starttime_month},
-                                                                    day => $testrun_data->{starttime_day},
-                                                                    hour => $testrun_data->{starttime_hour},
-                                                                    minute => $testrun_data->{starttime_minute},
-                                                                   );
-                my $testrun;
-
-
+                if (defined ($testrun_data->{requested_hosts}) and
+                    not ref($testrun_data->{requested_hosts}) eq 'ARRAY') {
+                        # Artemis::Cmd expects a list
+                        $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
+                }
                 my $cmd = Artemis::Cmd::Testrun->new();
-                my $testrun_id;
-                try {  $testrun_id = $cmd->add($testrun_data);}
+                try { $config->{testrun_id} = $cmd->add($testrun_data);}
                   catch ($exception) {
                           $c->stash(error => $exception->msg);
                           return;
                   }
 
-                my %remaining = %{$form->input};
+                $config->{file} = $file;
+                $self->handle_precondition($c, $config);
 
-                foreach my $field (split $delim, "$required,$optional") {
-                        next if not $field; # happens if $required is empty
-                        my ($name, $type) = split /\./, $field;
-                        next if not defined $form->input->{$name};
-                        if (defined($form->input->{$name})) {
-                                delete $remaining{$name};
-                                $macros{$name} = $form->input->{$name};
-                        }
-                        if ($type eq 'file') {
-                                my $upload = $c->req->upload($name);
-                                my $destdir = sprintf("%s/uploads/%s/%s", Artemis::Config->subconfig->{paths}{package_dir}, $testrun_id, $name);
-                                my $destfile = $destdir."/".$upload->basename;
-                                my $error;
-                                mkpath( $destdir, {error => \$error} );
-
-                                foreach my $diag (@$error) {
-                                        my ($dir, $message) = each %$diag;
-                                        $c->response->body("Can not create $dir: $message");
-                                }
-                                $upload->copy_to($destfile);
-                                $macros{$name} = $destfile;
-                        }
+        } else {
+                foreach my $element (@{$config->{required}}) {
+                        $element->{label} .= '*'; # mark field as required
+                        $form->element($element);
                 }
 
-                foreach my $name (keys %remaining) {
-                        next if $name eq 'submit';
-                        # checkboxgroups return an array but since you don't
-                        # know its order in advance its easier to access a hash
-                        if (ref $form->input->{$name} ~~ 'ARRAY') {
-                                foreach my $element (@{$form->input->{$name}}) {
-                                        $macros{$name}->{$element} = 1;                
-                                }
-                        } else {
-                                $macros{$name} = $form->input->{$name};
-                        }
+                foreach my $element (@{$config->{optional}}) {
+                        $element->{label} .= ' ';
+                        $form->element($element);
                 }
 
+                $form->load_config_file( $config->{mpc_config} ) if $config->{mpc_config};
+                $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
 
-                $c->session->{macros} = \%macros;
-
-                open $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
-                my $mpc = do {local $/; <$fh>};
-
-                my $ttapplied;
-
-                my $tt = new Template ();
-                if (not $tt->process(\$mpc, \%macros, \$ttapplied) ) {
-                        $c->stash(error => $tt->error());
-                        return;
-                }
-
-                $cmd = Artemis::Cmd::Precondition->new();
-                my @preconditions;
-                try {  @preconditions = $cmd->add($ttapplied);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
-                          return;
-                  }
-                $cmd->assign_preconditions($testrun_id, @preconditions);
-                $c->stash->{testrun_id} = $testrun_id;
-                $c->stash->{preconditions} = \@preconditions;
+                $form->process();
         }
+
 }
 
 sub prepare_testrunlist : Private
