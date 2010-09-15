@@ -1,9 +1,9 @@
 package Artemis::Reports::Web::Controller::Artemis::ReportFile::Id;
 
-use strict;
-use warnings;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Directory::Scratch;
+
+use common::sense;
 
 #use HTML::FromANSI (); # avoid exports if using OO
 
@@ -14,53 +14,79 @@ sub index :Path :CaptureArgs(2)
 
         if (not $reportfile)
         {
-                $c->response->content_type ("plain");
+                $c->response->content_type ("text/plain");
                 $c->response->header ("Content-Disposition" => 'inline; filename="nonexistent.reportfile.'.$file_id.'"');
                 $c->response->body ("Error: File with id $file_id does not exist.");
         }
         elsif (not $reportfile->filecontent)
         {
-                $c->response->content_type ("plain");
+                $c->response->content_type ("text/plain");
                 $c->response->header ("Content-Disposition" => 'inline; filename="empty.reportfile.'.$file_id.'"');
                 $c->response->body ("Error: File with id $file_id is empty.");
         }
         else
         {
-                my $disposition = $reportfile->contenttype =~ /plain/ ? 'inline' : 'attachment';
-                $c->response->content_type ($reportfile->contenttype || 'application/octet-stream');
-                $c->response->header ("Content-Disposition" => $disposition.'; filename="'.$reportfile->filename.'"');
-                my @filecontent =
-                    $viewmode eq "inline"
-                        ? filter($reportfile->filecontent)
-                        : $viewmode eq 'ansi2txt'
-                            ? ansi2txt($reportfile->filecontent)
-                                : $viewmode eq 'ansi2html'
-                                    ? ansi2html($reportfile->filecontent)
-                                    : $reportfile->filecontent;
+                my $contenttype = $reportfile->contenttype eq 'plain' ? 'text/plain' : $reportfile->contenttype;
+                my $disposition = $contenttype =~ /plain/ ? 'inline' : 'attachment';
+                $c->response->content_type ($contenttype || 'application/octet-stream');
+
+                my $filename = $reportfile->filename;
+                my @filecontent;
+                my $content_disposition;
+
+                if ( $viewmode eq 'ansi2txt' ) {
+                        $filename    =~ s,[./],_,g if $disposition eq 'inline';
+                        $filename   .=  '.txt';
+                        @filecontent =  ansi2txt($reportfile->filecontent);
+
+                } elsif ( $viewmode eq 'ansi2html' ) {
+                        $filename    =~ s,[./],_,g if $disposition eq 'inline';
+                        $filename   .=  '.html';
+                        @filecontent =  ansi2html($reportfile->filecontent);
+                        $c->response->content_type('text/html');
+                } else {
+                        @filecontent =  $reportfile->filecontent;
+                }
+
+                $c->response->header ("Content-Disposition" => qq($disposition; filename="$filename"));
                 $c->response->body (@filecontent);
         }
 }
 
 sub ansi2html {
         my @content = @_;
-        my $temp  = new Directory::Scratch (TEMPLATE => 'ARW_XXXXXXXXXXXX', CLEANUP  => 1);
+        my $ansi2txt = 'ansi2txt';
+        qx(ansi2txt /dev/null);
+        if ( $? != 256 ) {  # ansi2txt returns exit code 1 on /dev/null but exists
+                print STDERR "ansi2txt not installed";
+                return @content;
+        }
+
+        my $temp  = Directory::Scratch->new(TEMPLATE => 'ARW_XXXXXXXXXXXX');
         my $dir   = $temp->mkdir("ansi2txt");
         my $fname = "section/foo.txt";
         $temp->touch($fname, join("", @content));
-        my $ansi2txt = "ansi2txt";
         my $html = qx!$ansi2txt -html $temp/$fname!;
         $html =~ s!^</b><b style="color: #000000; background: #000000;">[ \t\n]+</b>!</b>!msg;
+        $temp->cleanup;
         return $html;
 }
 
 sub ansi2txt {
         my @content = @_;
-        my $temp  = new Directory::Scratch (TEMPLATE => 'ARW_XXXXXXXXXXXX', CLEANUP  => 1);
+        my $ansi2txt = 'ansi2txt';
+        qx(ansi2txt /dev/null);
+        if ( $? != 256 ) {  # ansi2txt returns exit code 1 on /dev/null but exists
+                print STDERR "ansi2txt not installed";
+                return @content;
+        }
+
+        my $temp  = Directory::Scratch->new(TEMPLATE => 'ARW_XXXXXXXXXXXX');
         my $dir   = $temp->mkdir("ansi2txt");
         my $fname = "section/foo.txt";
         $temp->touch($fname, join("", @content));
-        my $ansi2txt = "ansi2txt";
         my $html = qx!$ansi2txt $temp/$fname!;
+        $temp->cleanup;
         return $html;
 }
 
