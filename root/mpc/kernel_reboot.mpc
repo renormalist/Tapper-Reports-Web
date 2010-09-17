@@ -1,6 +1,11 @@
 # artemis-optional-fields: kernelpkg.file, kernel_version
 # artemis-config-file: root/mpc/kernel_reboot.yml
 # artemis-description: Reboot test with a prebuilt kernel package
+### Dies ist die Geschichte von Polly Nom.
+### Polly wollte eine Liste mit Anstrichen. Kriegt sie:
+### - erster Anstrich
+### - zweiter Anstrich
+###         weit eingerückter Sonderkram
 ---
 arch: linux64
 image: suse/suse_sles10_sp2_64b_smp_raw_new.tar.gz
