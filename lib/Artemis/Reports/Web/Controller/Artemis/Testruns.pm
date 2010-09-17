@@ -320,7 +320,10 @@ sub parse_macro_precondition :Private
         }
 
         if ($mpc_config) {
-                $mpc_config = "$home/$mpc_config" if not substr($mpc_config, 0, 1) eq '/';
+                my $use_case_path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
+                $mpc_config = "$use_case_path/$mpc_config"
+                  unless substr($mpc_config, 0, 1) eq '/';
+
                 if (not -r $mpc_config) {
                         $c->stash(error => qq(Config file "$mpc_config" does not exists or is not readable));
                         return;
@@ -465,7 +468,10 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $form->element($element);
                 }
 
-                $form->load_config_file( $config->{mpc_config} ) if $config->{mpc_config};
+                if ($config->{mpc_config}) {
+                        $form->load_config_file( $config->{mpc_config} );
+                }
+
                 $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
 
                 $form->process();
