@@ -6,7 +6,7 @@ elements:
     - type: Radiogroup
       name: use_case
       attributes:
-        class: radiogroup vertical 
+        class: radiogroup vertical
       constraints:
       - Required
 
