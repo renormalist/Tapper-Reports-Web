@@ -292,10 +292,11 @@ sub parse_macro_precondition :Private
         my ($required, $optional, $mpc_config) = ('', '', '');
 
         while (my $line = <$fh>) {
+                $config->{description_text} .= "$1\n" if $line =~ /^### ?(.*)$/;
+
                 ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
                 ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
                 ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
-                last if $required and $optional and $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
