@@ -10,7 +10,13 @@ elements:
       constraints:
       - Required
 
+    - type: Block
+      tag: br
+
     - type: Hr
+
+    - type: Block
+      tag: br
 
     - type: Text
       name: shortname
