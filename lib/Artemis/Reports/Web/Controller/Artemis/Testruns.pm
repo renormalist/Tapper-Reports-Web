@@ -433,10 +433,11 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 {
         my ($self, $c) = @_;
         my $form       = $c->stash->{form};
+        my $description_text : Stash;
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
-        $c->forward('/artemis/testruns/create') unless $file;
+        $c->res->redirect('/artemis/testruns/create') unless $file;
         my $config = $self->parse_macro_precondition($c, $file);
 
 
@@ -458,6 +459,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 $self->handle_precondition($c, $config);
 
         } else {
+                $description_text = $config->{description_text};
                 foreach my $element (@{$config->{required}}) {
                         $element->{label} .= '*'; # mark field as required
                         $form->element($element);
