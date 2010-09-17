@@ -39,67 +39,67 @@ producer: Kernel
 precondition_type: reboot
 count: 2
 ---
-[% IF Tests.CTCS %]
+[% IF (Tests.CTCS) or (Tests == 'CTCS') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_ctcs
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.LMBench %]
+[% IF (Tests.LMBench) or (Tests == 'LMBench') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_lmbench
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.LTP %]
+[% IF (Tests.LTP) or (Tests == 'LTP') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_ltp
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.Kernbench %]
+[% IF (Tests.Kernbench) or (Tests == 'Kernbench') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_kernbench
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.Aim %]
+[% IF (Tests.Aim) or (Tests == 'Aim') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_aim
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.HTS %]
+[% IF (Tests.HTS) or (Tests == 'HTS') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_hts
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.LLC %]
+[% IF (Tests.LLC) or (Tests == 'LLC') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_llc
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.Parselog %]
+[% IF (Tests.Parselog) or (Tests == 'Parselog') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_parselog
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.ReAim %]
+[% IF (Tests.ReAim) or (Tests == 'ReAim') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_reaim
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.RHv7 %]
+[% IF (Tests.RHv7) or (Tests == 'RHv7') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_rhv7
 timeout: 10800
 ---
 [% END %]
-[% IF Tests.Phoronix %]
+[% IF (Tests.Phoronix) or (Tests == 'Phoronix') %]
 precondition_type: testprogram
 program: /opt/artemis/bin/py_phoronix
 timeout: 10800
