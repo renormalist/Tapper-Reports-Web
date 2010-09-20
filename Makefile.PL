@@ -41,7 +41,6 @@ requires 'YAML';
 requires 'FCGI';
 requires 'parent';
 requires 'Class::C3::Adopt::NEXT';
-requires 'TryCatch';
 requires 'XML::Feed';
 requires 'common::sense';
 #requires 'HTML::FromANSI';

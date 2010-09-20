@@ -3,7 +3,6 @@ package Artemis::Reports::Web::Controller::Artemis::Testruns;
 use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Template;
-use TryCatch;
 use File::Path;
 use File::Basename;
 use Data::DPath 'dpath';
