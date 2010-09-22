@@ -20,6 +20,15 @@
 
 # -------------------- testruns "perfmon", "lmbench"
 
+- schema: Queue
+  name: AdHoc Queue
+  data:
+    id: 1
+    name: AdHoc
+    priority: 300
+    active: 1
+
+
 - schema: Testrun
   name: Autoinstall
   data:

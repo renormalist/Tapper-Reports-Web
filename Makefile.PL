@@ -8,6 +8,8 @@ license 'restrictive';
 
 perl_version '5.010';
 
+build_requires 'Test::WWW::Mechanize::Catalyst';
+
 requires 'Artemis::Test';
 requires 'Artemis::Config'       => '2.010060';
 requires 'Artemis::Cmd'          => '2.010018';

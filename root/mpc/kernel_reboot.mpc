@@ -1,5 +1,5 @@
 # artemis-optional-fields: kernelpkg.file, kernel_version
-# artemis-config-file: root/mpc/kernel_reboot.yml
+# artemis-config-file: kernel_reboot.yml
 # artemis-description: Reboot test with a prebuilt kernel package
 ### Dies ist die Geschichte von Polly Nom.
 ### Polly wollte eine Liste mit Anstrichen. Kriegt sie:
