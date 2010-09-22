@@ -34,4 +34,4 @@ $testrun_id => undef
 % } else {
 <h1>Error: You followed an incorrect deep link. Session data is missing</h1>
 % }
-<p><a href="/artemis/start/">Cancel</a></p>
+<p><a href="/artemis/start/">Back to start page</a></p>
