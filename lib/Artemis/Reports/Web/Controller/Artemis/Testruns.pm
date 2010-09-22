@@ -441,7 +441,29 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my $file       = $c->session->{usecase_file};
         my %macros;
         $c->res->redirect('/artemis/testruns/create') unless $file;
+
         my $config = $self->parse_macro_precondition($c, $file);
+
+        # adding these elements to the form has to be done both before
+        # and _after_ submit. Otherwise FormFu won't see the constraint
+        # (required) in the form
+        $description_text = $config->{description_text};
+        foreach my $element (@{$config->{required}}) {
+                $element->{label} .= '*'; # mark field as required
+                $form->element($element);
+        }
+
+        foreach my $element (@{$config->{optional}}) {
+                $element->{label} .= ' ';
+                $form->element($element);
+        }
+
+        if ($config->{mpc_config}) {
+                $form->load_config_file( $config->{mpc_config} );
+        }
+
+        $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
+        $form->process();
 
 
         if ($form->submitted_and_valid) {
@@ -461,25 +483,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 $config->{file} = $file;
                 $self->handle_precondition($c, $config);
 
-        } else {
-                $description_text = $config->{description_text};
-                foreach my $element (@{$config->{required}}) {
-                        $element->{label} .= '*'; # mark field as required
-                        $form->element($element);
-                }
-
-                foreach my $element (@{$config->{optional}}) {
-                        $element->{label} .= ' ';
-                        $form->element($element);
-                }
-
-                if ($config->{mpc_config}) {
-                        $form->load_config_file( $config->{mpc_config} );
-                }
-
-                $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
-
-                $form->process();
         }
 
 }
