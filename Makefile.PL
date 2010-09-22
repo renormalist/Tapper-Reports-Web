@@ -11,7 +11,7 @@ perl_version '5.010';
 build_requires 'Test::WWW::Mechanize::Catalyst';
 
 requires 'Artemis::Test';
-requires 'Artemis::Config'       => '2.010060';
+requires 'Artemis::Config'       => '2.010074';
 requires 'Artemis::Cmd'          => '2.010018';
 requires 'Artemis::Schema'       => '2.010067';
 requires 'Artemis::TAP::Harness' => '2.010030';
