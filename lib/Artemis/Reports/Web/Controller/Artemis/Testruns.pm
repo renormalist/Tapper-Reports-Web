@@ -414,11 +414,9 @@ sub handle_precondition
 
         my $cmd = Artemis::Cmd::Precondition->new();
         my @preconditions;
-        try {  @preconditions = $cmd->add($ttapplied);}
-          catch ($exception) {
-                  $c->stash(error => $exception->msg);
-                  return;
-          }
+        eval {  @preconditions = $cmd->add($ttapplied)};
+        $c->stash(error => $@) if $@;
+
         $cmd->assign_preconditions($config->{testrun_id}, @preconditions);
         $c->stash->{testrun_id} = $config->{testrun_id};
         $c->stash->{preconditions} = \@preconditions;
@@ -454,11 +452,11 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
                 }
                 my $cmd = Artemis::Cmd::Testrun->new();
-                try { $config->{testrun_id} = $cmd->add($testrun_data);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
-                          return;
-                  }
+                eval { $config->{testrun_id} = $cmd->add($testrun_data)};
+                if ($@) {
+                        $c->stash(error => $@);
+                        return;
+                }
 
                 $config->{file} = $file;
                 $self->handle_precondition($c, $config);
