@@ -211,7 +211,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $select->options($self->get_hostnames());
 
                 my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
+                my $path = Artemis::Config->subconfig->{paths}{use_case_path};
                 foreach my $file (<$path/*.mpc>) {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
@@ -319,9 +319,15 @@ sub parse_macro_precondition :Private
         }
 
         if ($mpc_config) {
-                my $use_case_path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
+                my $use_case_path = Artemis::Config->subconfig->{paths}{use_case_path};
                 $mpc_config = "$use_case_path/$mpc_config"
                   unless substr($mpc_config, 0, 1) eq '/';
+
+                # configs with relative paths are searched in FormFu's
+                # config_file_path which is somewhere in root/forms. We
+                # want our own config_path which starts at cwd when
+                # being a relative path
+                $mpc_config = getcwd()."/$mpc_config" if $mpc_config !~ m'^/'o;
 
                 if (not -r $mpc_config) {
                         $c->stash(error => qq(Config file "$mpc_config" does not exists or is not readable));
