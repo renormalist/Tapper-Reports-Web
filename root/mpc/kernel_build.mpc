@@ -1,43 +1,46 @@
-# artemis-optional-fields: kernelpkg.file, kernel_version
+# artemis-description: Build a kernel from git and test it
+# artemis-mandatory-fields: giturl
+# artemis-optional-fields: gitchangeset
 # artemis-config-file: kernel_reboot.yml
-# artemis-description: Reboot test with a prebuilt kernel package
-### Dies ist die Geschichte von Polly Nom.
-### Polly wollte eine Liste mit Anstrichen. Kriegt sie:
-### - erster Anstrich
-### - zweiter Anstrich
-###         weit eingerückter Sonderkram
+### Usecase: "Build a kernel from git and test it by rebooting"
+###
+### Mandatory fields:
+###
+###  - git-url:        a full URL that contains the test kernel sources
+###
+### Optional fields:
+###
+###  - git-changeset: a branch name or commit ID or anything that git checkout understands
+###                   (default is HEAD)
+###
+###
+###  - Tests:          Choose one or more workloads to run on this kernel;
+###                    possible values are:
+###                      - CTCS       - CTCS    test suite
+###                      - LMBench    - LMbench benchmark suite
+###                      - LTP        - Linux Test Project test suite
+###                      - Kernbench  - Kernbench benchmark suite
+###                      - Aim        - Aim benchmark suite
+###                      - ReAim      - ReAim benchmark suite
+###                      - HTS        - RedHat Hardware Test Suite
+###                      - LLC        - LLC benchmark suite
+###                      - Parselog   - Check logs for known issues
+###                      - RHv7       - Red Hat v7 hardware certification suite
+###                      - Phoronix   - Phoronix benchmark suite (using predefined test subset)
 ---
 arch: linux64
 image: suse/suse_sles10_sp2_64b_smp_raw_new.tar.gz
 mount: /
-partition: testing
+partition: sda2
 precondition_type: image
 ---
-precondition_type: copyfile
-name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
-dest: /bin/
-protocol: local
----
-precondition_type: copyfile
-name: /data/bancroft/artemis/live/repository/packages/artemisutils/kernel/gen_initrd.sh
-dest: /bin/
-protocol: local
----
-[% IF  kernelpkg %]
-precondition_type: package
-filename: [% kernelpkg %]
----
-precondition_type: exec
-filename: /bin/gen_initrd.sh
-options:
-  - [% kernel_version %]
+precondition_type: kernelbuild
+git_url: [% giturl %]
+[% IF gitchangeset %]
+changeset: [% gitchangeset %]
 [% ELSE %]
-precondition_type: produce
-producer: Kernel
+changeset: HEAD
 [% END %]
----
-precondition_type: reboot
-count: 2
 ---
 [% IF (Tests.CTCS) or (Tests == 'CTCS') %]
 precondition_type: testprogram

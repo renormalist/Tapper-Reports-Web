@@ -7,10 +7,10 @@
 %           if ($subnavi) {
                 <span>
 %           }
+            <a class="navilink" href="<% $nav->{href} %>"><% $nav->{title} %></a>
 %           if ($nav->{image}) {
-            <img src="<% $nav->{image} %>">
+              <a class="navilink" href="<% $nav->{href} %>"><img src="<% $nav->{image} %>"></a>
 %           }
-            <a href="<% $nav->{href} %>"><% $nav->{title} %></a>
 %           if ($subnavi) {
                 </span>
 %           }

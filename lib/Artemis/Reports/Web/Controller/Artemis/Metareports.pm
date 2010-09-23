@@ -24,7 +24,6 @@ sub index :Path :Args(0)
         my %categories;
 	use Cwd;
         while (my $category = $rule->match) {
-                print STDERR "category: ", Dumper($category);
                 my $short;
                 {
                         open my $fh, "<", "$path/$category/short.txt" or last;

@@ -6,7 +6,6 @@ use warnings;
 use parent 'Artemis::Reports::Web::Controller::Base';
 use Artemis::Cmd::Precondition;
 use Artemis::Model 'model';
-use TryCatch;
 
 sub index :Path :Args(0)
 {
@@ -72,10 +71,10 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 my $file = $form->param('precondition');
                 my $data = $file->slurp;
                 my @preconditions;
-                try { @preconditions = $cmd->add($data);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
-                  }
+                eval { @preconditions = $cmd->add($data)};
+                if($@) {
+                          $c->stash(error => $@);
+                }
                 $c->stash(preconditions => \@preconditions);
         } else {
                 print STDERR "created form for new precondition";

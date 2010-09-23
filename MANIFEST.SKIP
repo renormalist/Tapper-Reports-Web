@@ -1,6 +1,6 @@
 Artemis-Reports-Web-*.*.tar.gz
 ^Artemis-Reports-Web-*.*$
-_build
+^_build$
 blib
 ^Build$
 ^Makefile$

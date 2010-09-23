@@ -1,18 +1,17 @@
 package Artemis::Reports::Web::Controller::Artemis::Testruns;
 
-use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
-use Template;
-use TryCatch;
-use File::Path;
-use File::Basename;
+use Cwd;
 use Data::DPath 'dpath';
-
-
-use Artemis::Config;
-use Artemis::Cmd::Testrun;
-use Artemis::Model 'model';
 use DateTime::Format::DateParse;
+use DateTime;
+use File::Basename;
+use File::Path;
+use Template;
+
+use Artemis::Cmd::Testrun;
+use Artemis::Config;
+use Artemis::Model 'model';
 
 use common::sense;
 
@@ -212,7 +211,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $select->options($self->get_hostnames());
 
                 my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{config_path}."/use_cases/";
+                my $path = Artemis::Config->subconfig->{paths}{use_case_path};
                 foreach my $file (<$path/*.mpc>) {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
@@ -292,10 +291,11 @@ sub parse_macro_precondition :Private
         my ($required, $optional, $mpc_config) = ('', '', '');
 
         while (my $line = <$fh>) {
+                $config->{description_text} .= "$1\n" if $line =~ /^### ?(.*)$/;
+
                 ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
                 ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
                 ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
-                last if $required and $optional and $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
@@ -319,7 +319,16 @@ sub parse_macro_precondition :Private
         }
 
         if ($mpc_config) {
-                $mpc_config = "$home/$mpc_config" if not substr($mpc_config, 0, 1) eq '/';
+                my $use_case_path = Artemis::Config->subconfig->{paths}{use_case_path};
+                $mpc_config = "$use_case_path/$mpc_config"
+                  unless substr($mpc_config, 0, 1) eq '/';
+
+                # configs with relative paths are searched in FormFu's
+                # config_file_path which is somewhere in root/forms. We
+                # want our own config_path which starts at cwd when
+                # being a relative path
+                $mpc_config = getcwd()."/$mpc_config" if $mpc_config !~ m'^/'o;
+
                 if (not -r $mpc_config) {
                         $c->stash(error => qq(Config file "$mpc_config" does not exists or is not readable));
                         return;
@@ -405,11 +414,9 @@ sub handle_precondition
 
         my $cmd = Artemis::Cmd::Precondition->new();
         my @preconditions;
-        try {  @preconditions = $cmd->add($ttapplied);}
-          catch ($exception) {
-                  $c->stash(error => $exception->msg);
-                  return;
-          }
+        eval {  @preconditions = $cmd->add($ttapplied)};
+        $c->stash(error => $@) if $@;
+
         $cmd->assign_preconditions($config->{testrun_id}, @preconditions);
         $c->stash->{testrun_id} = $config->{testrun_id};
         $c->stash->{preconditions} = \@preconditions;
@@ -429,11 +436,34 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 {
         my ($self, $c) = @_;
         my $form       = $c->stash->{form};
+        my $description_text : Stash;
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
-        $c->forward('/artemis/testruns/create') unless $file;
+        $c->res->redirect('/artemis/testruns/create') unless $file;
+
         my $config = $self->parse_macro_precondition($c, $file);
+
+        # adding these elements to the form has to be done both before
+        # and _after_ submit. Otherwise FormFu won't see the constraint
+        # (required) in the form
+        $description_text = $config->{description_text};
+        foreach my $element (@{$config->{required}}) {
+                $element->{label} .= '*'; # mark field as required
+                $form->element($element);
+        }
+
+        foreach my $element (@{$config->{optional}}) {
+                $element->{label} .= ' ';
+                $form->element($element);
+        }
+
+        if ($config->{mpc_config}) {
+                $form->load_config_file( $config->{mpc_config} );
+        }
+
+        $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
+        $form->process();
 
 
         if ($form->submitted_and_valid) {
@@ -444,30 +474,15 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
                 }
                 my $cmd = Artemis::Cmd::Testrun->new();
-                try { $config->{testrun_id} = $cmd->add($testrun_data);}
-                  catch ($exception) {
-                          $c->stash(error => $exception->msg);
-                          return;
-                  }
+                eval { $config->{testrun_id} = $cmd->add($testrun_data)};
+                if ($@) {
+                        $c->stash(error => $@);
+                        return;
+                }
 
                 $config->{file} = $file;
                 $self->handle_precondition($c, $config);
 
-        } else {
-                foreach my $element (@{$config->{required}}) {
-                        $element->{label} .= '*'; # mark field as required
-                        $form->element($element);
-                }
-
-                foreach my $element (@{$config->{optional}}) {
-                        $element->{label} .= ' ';
-                        $form->element($element);
-                }
-
-                $form->load_config_file( $config->{mpc_config} ) if $config->{mpc_config};
-                $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
-
-                $form->process();
         }
 
 }

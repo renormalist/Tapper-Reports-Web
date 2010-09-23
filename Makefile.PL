@@ -8,8 +8,10 @@ license 'restrictive';
 
 perl_version '5.010';
 
+build_requires 'Test::WWW::Mechanize::Catalyst';
+
 requires 'Artemis::Test';
-requires 'Artemis::Config'       => '2.010060';
+requires 'Artemis::Config'       => '2.010074';
 requires 'Artemis::Cmd'          => '2.010018';
 requires 'Artemis::Schema'       => '2.010067';
 requires 'Artemis::TAP::Harness' => '2.010030';
@@ -41,7 +43,6 @@ requires 'YAML';
 requires 'FCGI';
 requires 'parent';
 requires 'Class::C3::Adopt::NEXT';
-requires 'TryCatch';
 requires 'XML::Feed';
 requires 'common::sense';
 #requires 'HTML::FromANSI';
@@ -50,4 +51,19 @@ catalyst;
 
 install_script glob('script/*.pl');
 auto_install;
+
+
+postamble("
+
+live:
+\t./script/dist_upload_wotan.sh dist || exit 1
+\tssh artemis\@bancroft sudo /opt/artemis/bin/cpan Artemis::Reports::Web || exit 1
+\tssh artemis\@bancroft sudo /usr/sbin/rcapache2 stop
+\tssh artemis\@bancroft sudo /usr/sbin/rcapache2 start
+
+
+devel: install
+
+");
+
 WriteAll;
