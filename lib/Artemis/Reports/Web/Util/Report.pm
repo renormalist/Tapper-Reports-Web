@@ -1,7 +1,10 @@
 package Artemis::Reports::Web::Util::Report;
 
 use Moose;
+use Artemis::Model 'model';
+
 use common::sense;
+
 
 sub prepare_simple_reportlist
 {
@@ -60,6 +63,8 @@ sub prepare_simple_reportlist
                 # --- testrun ---
                 if ($rgt_id and $rgt_primary)
                 {
+                        my $testrun = model('TestrunDB')->resultset('Testrun')->find($rgt_id);
+                        $r->{owner} = $testrun->owner->login if $testrun;
                         push @reports, $r;
                         $rgt_prims{$rgt_id} = 1;
                 }
@@ -95,6 +100,10 @@ sub prepare_simple_reportlist
         foreach (@rgt_noprim) {
                 my $rgt_primary = pop @{$rgt{$_}};
                 $rgt_primary->{rgt_primary} = 1;
+
+                my $testrun = model('TestrunDB')->resultset('Testrun')->find($_);
+                $rgt_primary->{owner} = $testrun->owner->login if $testrun;
+
                 push @reports, $rgt_primary;
         }
 

@@ -59,7 +59,7 @@
                                                <% $report->{rga_id} %>
 %                                        }
 %                                        if ($report->{rgt_id}) {
-                                               <a href="/artemis/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a>
+                                               <a href="/artemis/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a> (<% $report->{owner} || '' %>)
 %                                        }
 %                         }
                         </td>
