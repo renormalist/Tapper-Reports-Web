@@ -247,7 +247,11 @@ sub get_owner_names
         my @all_owners = model("TestrunDB")->resultset('User')->all();
         my @owners;
         foreach my $owner (sort {$a->name cmp $b->name} @all_owners) {
-                push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                if ($owner->login eq 'artemis') {
+                        unshift(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                } else {
+                        push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                }
         }
         return \@owners;
 }
