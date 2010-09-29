@@ -90,7 +90,6 @@ sub report_name : Chained('base') PathPart('') Args(3)
           map { s,^.+/([^/]+\.html),$path/$subpath/$1,; $_ }
             qx (ls -1 $path/$category/$subcategory/$report_name/*.html | tail -1);
 
-        print STDERR Dumper($path, $subpath, "$path/$subpath", \@html_files);
         $c->stash(img_files => \@img_files,
                   html_files => \@html_files,
                  );
