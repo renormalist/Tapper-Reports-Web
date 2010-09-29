@@ -36,7 +36,7 @@ sub finalize_config
         $c->config(
                    Hash::Merge::merge(
                                       $c->config,
-                                      $c->config->{ $env },
+                                      $c->config->{ $env } || {} ,
                                      )
                   );
 
