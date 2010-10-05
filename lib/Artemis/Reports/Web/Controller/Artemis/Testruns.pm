@@ -1,17 +1,17 @@
 package Artemis::Reports::Web::Controller::Artemis::Testruns;
 
-use DateTime;
 use parent 'Artemis::Reports::Web::Controller::Base';
-use Template;
-use File::Path;
-use File::Basename;
+use Cwd;
 use Data::DPath 'dpath';
-
-
-use Artemis::Config;
-use Artemis::Cmd::Testrun;
-use Artemis::Model 'model';
 use DateTime::Format::DateParse;
+use DateTime;
+use File::Basename;
+use File::Path;
+use Template;
+
+use Artemis::Cmd::Testrun;
+use Artemis::Config;
+use Artemis::Model 'model';
 
 use common::sense;
 
@@ -247,7 +247,11 @@ sub get_owner_names
         my @all_owners = model("TestrunDB")->resultset('User')->all();
         my @owners;
         foreach my $owner (sort {$a->name cmp $b->name} @all_owners) {
-                push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                if ($owner->login eq 'artemis') {
+                        unshift(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                } else {
+                        push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
+                }
         }
         return \@owners;
 }
@@ -441,7 +445,29 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my $file       = $c->session->{usecase_file};
         my %macros;
         $c->res->redirect('/artemis/testruns/create') unless $file;
+
         my $config = $self->parse_macro_precondition($c, $file);
+
+        # adding these elements to the form has to be done both before
+        # and _after_ submit. Otherwise FormFu won't see the constraint
+        # (required) in the form
+        $description_text = $config->{description_text};
+        foreach my $element (@{$config->{required}}) {
+                $element->{label} .= '*'; # mark field as required
+                $form->element($element);
+        }
+
+        foreach my $element (@{$config->{optional}}) {
+                $element->{label} .= ' ';
+                $form->element($element);
+        }
+
+        if ($config->{mpc_config}) {
+                $form->load_config_file( $config->{mpc_config} );
+        }
+
+        $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
+        $form->process();
 
 
         if ($form->submitted_and_valid) {
@@ -461,25 +487,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 $config->{file} = $file;
                 $self->handle_precondition($c, $config);
 
-        } else {
-                $description_text = $config->{description_text};
-                foreach my $element (@{$config->{required}}) {
-                        $element->{label} .= '*'; # mark field as required
-                        $form->element($element);
-                }
-
-                foreach my $element (@{$config->{optional}}) {
-                        $element->{label} .= ' ';
-                        $form->element($element);
-                }
-
-                if ($config->{mpc_config}) {
-                        $form->load_config_file( $config->{mpc_config} );
-                }
-
-                $form->elements({type => 'Submit', name => 'submit', value => 'Submit'});
-
-                $form->process();
         }
 
 }

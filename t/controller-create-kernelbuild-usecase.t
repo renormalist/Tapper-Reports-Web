@@ -48,9 +48,13 @@ $mech->content_contains('Use case details', 'Form to fill out use case details l
 diag($mech->content) unless $mech->content() =~ /Use case details/;
 
 $mech->forms(0);
-$mech->set_fields(git_url => 'git://osrc.amd.com/linux-2.6.git');
 $mech->submit_form(button => 'submit' );
+$mech->content_like(qr/This field is required/, 'Form rejected with empty git url');
 
+
+$mech->set_fields(giturl => 'git://osrc.amd.com/linux-2.6.git');
+$mech->submit_form(button => 'submit' );
 $mech->content_like(qr/Testrun \d+.+created with preconditions/, 'Testrun created');
+
 
 done_testing();

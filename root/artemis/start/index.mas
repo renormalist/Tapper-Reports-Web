@@ -43,7 +43,7 @@
                 <tr>
                   <td>&bull;&nbsp;<a href="/artemis/testruns/create">Create a new testrun</a></td><td></td>
                 </tr>
-                <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/builder/create">Build a kernel and test it</a></td><td></td>
-                </tr>
+% #                <tr>
+% #                  <td>&bull;&nbsp;<a href="/artemis/builder/create">Build a kernel and test it</a></td><td></td>
+% #                </tr>
         </table>
