@@ -9,6 +9,7 @@ license 'restrictive';
 perl_version '5.010';
 
 build_requires 'Test::WWW::Mechanize::Catalyst';
+build_requires 'Test::Perl::Critic';
 
 requires 'Artemis::Test';
 requires 'Artemis::Config'       => '2.010074';
