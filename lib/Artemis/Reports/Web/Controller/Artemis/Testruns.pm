@@ -14,6 +14,7 @@ use Artemis::Config;
 use Artemis::Model 'model';
 
 use common::sense;
+## no critic (RequireUseStrict)
 
 =head2 index
 
@@ -212,7 +213,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 
                 my @use_cases;
                 my $path = Artemis::Config->subconfig->{paths}{use_case_path};
-                foreach my $file (<$path/*.mpc>) {
+                foreach my $file (glob "$path/*.mpc") {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {

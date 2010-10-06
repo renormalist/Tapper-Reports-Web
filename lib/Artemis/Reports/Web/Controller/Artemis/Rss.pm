@@ -7,7 +7,7 @@ use Artemis::Reports::Web::Util::Filter;
 use parent 'Catalyst::Controller';
 
 use common::sense;
-
+## no critic (RequireUseStrict)
 
 =head2 index
 
