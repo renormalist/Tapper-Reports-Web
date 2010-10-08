@@ -83,11 +83,11 @@ sub report_name : Chained('base') PathPart('') Args(3)
         $c->stash(category    => $category, subcategory => $subcategory);
 
         my @img_files =
-          map { my ($x = $_) =~ s,^.+/([^/]+\.png),/artemis/static/metareports/$subpath/$1,; $x }
+          map { my $x = $_; $x =~ s,^.+/([^/]+\.png),/artemis/static/metareports/$subpath/$1,; $x }
             qx (ls -1 $path/$category/$subcategory/$report_name/*.png | tail -1);
 
         my @html_files =
-          map { my ($x = $_) =~ s,^.+/([^/]+\.html),$path/$subpath/$1,; $x }
+          map { my $x = $_; $x =~ s,^.+/([^/]+\.html),$path/$subpath/$1,; $x }
             qx (ls -1 $path/$category/$subcategory/$report_name/*.html | tail -1);
 
         $c->stash(img_files => \@img_files,
