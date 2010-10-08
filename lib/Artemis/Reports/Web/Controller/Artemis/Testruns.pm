@@ -486,6 +486,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         # Artemis::Cmd expects a list
                         $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
                 }
+                $testrun_data->{queue} = Artemis::Config->subconfig->{new_testrun_queue};
                 my $cmd = Artemis::Cmd::Testrun->new();
                 eval { $config->{testrun_id} = $cmd->add($testrun_data)};
                 if ($@) {
