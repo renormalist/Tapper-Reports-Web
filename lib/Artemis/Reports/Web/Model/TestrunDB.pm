@@ -4,15 +4,16 @@ use strict;
 use warnings;
 
 use Artemis::Reports::Web;
+use Artemis::Config;
 
 use base 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
                     schema_class => 'Artemis::Schema::TestrunDB',
                     connect_info => [
-                                     Artemis::Reports::Web->config->{database}{TestrunDB}{dsn},
-                                     Artemis::Reports::Web->config->{database}{TestrunDB}{username},
-                                     Artemis::Reports::Web->config->{database}{TestrunDB}{password},
+                                     Artemis::Config->subconfig->{database}{TestrunDB}{dsn},
+                                     Artemis::Config->subconfig->{database}{TestrunDB}{username},
+                                     Artemis::Config->subconfig->{database}{TestrunDB}{password},
                                     ],
                    );
 

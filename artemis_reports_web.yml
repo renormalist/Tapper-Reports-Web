@@ -1,43 +1,14 @@
 ---
-
 name: Artemis::Reports::Web
 
-database:
-  TestrunDB:
-    dsn:        dbi:mysql:dbname=testrundb
-    username:   artemis
-    password:   artemis
-  ReportsDB:
-    dsn:        dbi:mysql:dbname=reportsdb
-    username:   artemis
-    password:   artemis
-
-
-# explicit development environment
-development:
-  database:
-    TestrunDB:
-      dsn:        dbi:mysql:dbname=testrundb_dev
-      username:   artemis
-      password:   artemis
-    ReportsDB:
-      dsn:        dbi:mysql:dbname=reportsdb_dev
-      username:   artemis
-      password:   artemis
-
-
-# special test environment
-test:
-  database:
-    TestrunDB:
-      dsn:        dbi:SQLite:dbname=t/artemis_schema_testrundb_test.sqlite
-      username:   ''
-      password:   ''
-    ReportsDB:
-      dsn:        dbi:SQLite:dbname=t/artemis_schema_reportsdb_test.sqlite
-      username:   ''
-      password:   ''
-
-# live environment, mini hash structure must exist
+# override special configs for live mode here
 live:
-  test_value:     live
+  dummy_value:     live
+
+# override special configs for development mode here
+development:
+  dummy_value:     development
+
+# override special configs for test mode here
+test:
+  dummy_value:     test

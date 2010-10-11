@@ -9,7 +9,7 @@ use Data::Dumper;
 use Artemis::Reports::Web::Util::Filter;
 use Artemis::Reports::Web::Util::Report;
 use common::sense;
-
+## no critic (RequireUseStrict)
 
 sub auto :Private
 {
@@ -17,8 +17,6 @@ sub auto :Private
 
         $c->forward('/artemis/reports/prepare_navi');
 }
-
-
 
 sub index :Path :Args()
 {
@@ -43,7 +41,6 @@ sub index :Path :Args()
         $c->forward('/artemis/reports/prepare_this_weeks_reportlists', [ $filter_condition ]);
 
 }
-
 
 sub prepare_this_weeks_reportlists : Private
 {

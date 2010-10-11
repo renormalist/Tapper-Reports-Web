@@ -1,18 +1,15 @@
 package Artemis::Reports::Web::Controller::Artemis::Overview;
 
-
 use parent 'Artemis::Reports::Web::Controller::Base';
 
 use common::sense;
-
+## no critic (RequireUseStrict)
 
 sub auto :Private
 {
         my ( $self, $c ) = @_;
         $c->forward('/artemis/overview/prepare_navi');
 }
-
-
 
 sub index :Path :Args()
 {

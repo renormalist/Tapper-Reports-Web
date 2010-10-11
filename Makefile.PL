@@ -9,6 +9,7 @@ license 'restrictive';
 perl_version '5.010';
 
 build_requires 'Test::WWW::Mechanize::Catalyst';
+build_requires 'Test::Perl::Critic';
 
 requires 'Artemis::Test';
 requires 'Artemis::Config'       => '2.010074';
@@ -53,17 +54,5 @@ install_script glob('script/*.pl');
 auto_install;
 
 
-postamble("
-
-live:
-\t./script/dist_upload_wotan.sh dist || exit 1
-\tssh artemis\@bancroft sudo /opt/artemis/bin/cpan Artemis::Reports::Web || exit 1
-\tssh artemis\@bancroft sudo /usr/sbin/rcapache2 stop
-\tssh artemis\@bancroft sudo /usr/sbin/rcapache2 start
-
-
-devel: install
-
-");
 
 WriteAll;

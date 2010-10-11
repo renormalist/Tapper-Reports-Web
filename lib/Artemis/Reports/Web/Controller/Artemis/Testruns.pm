@@ -14,6 +14,7 @@ use Artemis::Config;
 use Artemis::Model 'model';
 
 use common::sense;
+## no critic (RequireUseStrict)
 
 =head2 index
 
@@ -212,7 +213,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 
                 my @use_cases;
                 my $path = Artemis::Config->subconfig->{paths}{use_case_path};
-                foreach my $file (<$path/*.mpc>) {
+                foreach my $file (glob "$path/*.mpc") {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {
@@ -261,9 +262,17 @@ sub get_hostnames
         my ($self) = @_;
         my @all_machines = model("TestrunDB")->resultset('Host')->search({active => 1});
         my @machines;
+ HOST:
         foreach my $host (sort {$a->name cmp $b->name} @all_machines) {
-                # TODO: check queue bindings
-                next if $host->name =~ /^billjones|fasolt|incubus|uruk$/;
+                
+                # if host is bound, is must be bound to
+                #  new_testrun_queue (possibly among others)
+                if ($host->queuehosts->count()) {
+                        my $new_testrun_queue = Artemis::Config->subconfig->{new_testrun_queue};
+                        next HOST unless 
+                          grep {$_->queue->name eq $new_testrun_queue} $host->queuehosts->all;
+                }
+
                 push(@machines, [ $host->name, $host->name ]);
         }
         return \@machines;
@@ -477,6 +486,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         # Artemis::Cmd expects a list
                         $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
                 }
+                $testrun_data->{queue} = Artemis::Config->subconfig->{new_testrun_queue};
                 my $cmd = Artemis::Cmd::Testrun->new();
                 eval { $config->{testrun_id} = $cmd->add($testrun_data)};
                 if ($@) {

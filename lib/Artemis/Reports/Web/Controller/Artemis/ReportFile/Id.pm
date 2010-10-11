@@ -4,6 +4,7 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 use Directory::Scratch;
 
 use common::sense;
+## no critic (RequireUseStrict)
 
 #use HTML::FromANSI (); # avoid exports if using OO
 
