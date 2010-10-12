@@ -2,9 +2,10 @@
 # expected.  you have been warned
 use inc::Module::Install;
 
-name 'Artemis-Reports-Web';
+name     'Artemis-Reports-Web';
 all_from 'lib/Artemis/Reports/Web.pm';
-license 'restrictive';
+author   'OSRC SysInt Team <osrc-sysint@elbe.amd.com>';
+license  'freebsd';
 
 perl_version '5.010';
 
@@ -52,7 +53,5 @@ catalyst;
 
 install_script glob('script/*.pl');
 auto_install;
-
-
 
 WriteAll;
