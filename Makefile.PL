@@ -37,6 +37,7 @@ requires 'DateTime::Format::DateParse';
 requires 'DateTime::Format::Natural';
 requires 'FCGI';
 requires 'FindBin';
+requires 'File::Find';
 requires 'Getopt::Long';
 requires 'Hash::Merge';
 requires 'HTML::FormFu';
