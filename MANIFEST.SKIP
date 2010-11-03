@@ -4,5 +4,6 @@ Artemis-Reports-Web-*.*.tar.gz
 blib
 ^Build$
 ^Makefile$
+^.*sqlite$
 MANIFEST.bak
 MANIFEST.old
