@@ -106,6 +106,9 @@ sub generate_metareport_link
         my %metareport;
         my $path = Artemis::Config->subconfig->{paths}{config_path};
         $path .= "/web/metareport_associate.yml";
+
+        return if not -e $path;
+
         my $config;
         eval {
                 $config = YAML::LoadFile($path);
