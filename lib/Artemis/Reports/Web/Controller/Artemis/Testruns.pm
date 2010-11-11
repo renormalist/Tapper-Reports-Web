@@ -257,6 +257,17 @@ sub get_owner_names
         return \@owners;
 }
 
+=head2 get_hostnames
+
+Get an array of all hostnames that can be used for a new testrun.  Note:
+The array contains array that contain the hostname twice (i.e. (['host',
+'host'], ...) because that is what the template expects. 
+
+@return success - ref to array of [ hostname, hostname ] 
+
+
+=cut
+
 sub get_hostnames
 {
         my ($self) = @_;
@@ -357,9 +368,11 @@ sub parse_macro_precondition :Private
 Check whether each required precondition has a value, uploads files and
 so on.
 
-@param
+@param  Catalyst context
+@param  config hash
 
-@return
+@return success - list of precondition ids
+@return error   - error message
 
 =cut
 
@@ -385,7 +398,7 @@ sub handle_precondition
 
                         foreach my $diag (@$error) {
                                 my ($dir, $message) = each %$diag;
-                                $c->response->body("Can not create $dir: $message");
+                                return("Can not create $dir: $message");
                         }
                         $upload->copy_to($destfile);
                         $macros{$name} = $destfile;
@@ -414,26 +427,21 @@ sub handle_precondition
                 }
         }
 
-        open my $fh, "<", $config->{file} or $c->response->body(qq(Can not open $config->{file}: $!)), return;
+        open my $fh, "<", $config->{file} or return(qq(Can not open $config->{file}: $!));
         my $mpc = do {local $/; <$fh>};
 
         my $ttapplied;
 
         my $tt = new Template ();
-        if (not $tt->process(\$mpc, \%macros, \$ttapplied) ) {
-                $c->stash(error => $tt->error());
-                return;
-        }
+        return $tt->error if not $tt->process(\$mpc, \%macros, \$ttapplied);
 
         my $cmd = Artemis::Cmd::Precondition->new();
         my @preconditions;
         eval {  @preconditions = $cmd->add($ttapplied)};
-        $c->stash(error => $@) if $@;
+        return $@ if $@;
 
         $cmd->assign_preconditions($config->{testrun_id}, @preconditions);
-        $c->stash->{testrun_id} = $config->{testrun_id};
-        $c->stash->{preconditions} = \@preconditions;
-        return;
+        return \@preconditions;
 }
 
 =head2 fill_usecase
@@ -450,6 +458,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my ($self, $c) = @_;
         my $form       = $c->stash->{form};
         my $description_text : Stash;
+        my $all_testruns : Stash;
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
@@ -481,24 +490,49 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
         if ($form->submitted_and_valid) {
                 my $testrun_data = $c->session->{testrun_data};
-                if (defined ($testrun_data->{requested_hosts}) and
-                    not ref($testrun_data->{requested_hosts}) eq 'ARRAY') {
-                        # Artemis::Cmd expects a list
-                        $testrun_data->{requested_hosts} = [ $testrun_data->{requested_hosts} ];
+                my @testhosts;
+                if ( defined ($testrun_data->{requested_hosts})){
+                        if ( ref($testrun_data->{requested_hosts}) eq 'ARRAY') {
+                                @testhosts = @{$testrun_data->{requested_hosts}};
+                        } else {
+                                @testhosts = ( $testrun_data->{requested_hosts} );
+                        }
+                } else {
+                        use Data::Dumper;
+                        @testhosts = map { say STDERR Dumper $_; $_->[0] } @{get_hostnames()};
                 }
-                $testrun_data->{queue} = Artemis::Config->subconfig->{new_testrun_queue};
-                my $cmd = Artemis::Cmd::Testrun->new();
-                eval { $config->{testrun_id} = $cmd->add($testrun_data)};
-                if ($@) {
-                        $c->stash(error => $@);
-                        return;
+                
+                $all_testruns = [];
+        HOST:
+                for( my $i=0; $i < @testhosts; $i++) {
+                        my $host = $testhosts[$i];
+                        # we need a copy since we modify the hash before
+                        # giving it to Artemis::Cmd and this
+                        # modification would be used when the user clicks reload
+                        my %testrun_settings     = %$testrun_data;
+                        $testrun_settings{queue} = Artemis::Config->subconfig->{new_testrun_queue};
+
+                        $all_testruns->[$i]->{host} = $host;
+                        
+                        $testrun_settings{requested_hosts} = [ requested_hosts => $host ];
+                        my $cmd = Artemis::Cmd::Testrun->new();
+                        eval { $config->{testrun_id} = $cmd->add(\%testrun_settings)};
+                        if ($@) {
+                                $all_testruns->[$i]->{ error } = @_;
+                                next HOST;
+                        }
+                        $all_testruns->[$i]->{id} = $config->{testrun_id};
+
+                        $config->{file} = $file;
+                        my $preconditions = $self->handle_precondition($c, $config);
+                        if (ref($preconditions) eq 'ARRAY') {
+                                $all_testruns->[$i]->{ preconditions } = $preconditions;
+                        } else {
+                                $all_testruns->[$i]->{ error } = $preconditions;
+                        }
+                        
                 }
-
-                $config->{file} = $file;
-                $self->handle_precondition($c, $config);
-
         }
-
 }
 
 sub prepare_testrunlist : Private

@@ -1,37 +1,46 @@
 <%args>
 $description_text => undef
 $form
-$error => undef
-$preconditions => undef
-$testrun_id => undef
-</%args>
-
+$all_testruns => undef
+</%args>      
+              
 % if ($c->session->{valid}) {
-%     if ($error) {
-<h4>Can not create testrun!</h4>
-<pre>
-<% $error %>
-</pre>
-%     } elsif ( $testrun_id and $preconditions ) {
-<h3><a href="/artemis/testruns/id/<% $testrun_id %>">Testrun <% $testrun_id %></a> created with preconditions <% join ',', @$preconditions %></h3>
+%     if ($all_testruns) {
+          <h3>Testruns created</h3>
+          <ul>
+%         foreach my $testrun (@{$all_testruns}) {
+%             if ($testrun->{error}) {
+                  <li>Can not create testrun on host <% $testrun->{host} %>: <% $testrun->{error} %></li>
+%             } else {
+                  <li>
+                  <a href="/artemis/testruns/id/<% $testrun->{id} %>">Testrun <% $testrun->{id} %></a> 
+                  created on host <strong><% $testrun->{host} %></strong>
+                  with precondition IDs: 
+%                    foreach my $precondition (@{$testrun->{preconditions}}) {
+                        <a href="/artemis/preconditions/id/<% $precondition %>"><% $precondition %></a> 
+%                    }
+                 </li>
+%             }
+%         }
+          </ul>
 %     } else {
-<h3>Use case details</h3>
-% if ($description_text) {
-<p>
-<h4>Description</h4>
-<pre>
-<% $description_text %>
-</pre>
-</p>
-% }
-<h4>Values</h4>
-<fieldset>
-<% $form|n %>
-<p>(*) Required</p>
-<p><a href="/artemis/testruns/create">Back</a></p>
-</fieldset>
-%     }
+          <h3>Use case details</h3>
+%         if ($description_text) {
+              <p>
+              <h4>Description</h4>
+              <pre>
+              <% $description_text %>
+              </pre>
+              </p>
+%        }
+         <h4>Values</h4>
+         <fieldset>
+         <% $form|n %>
+         <p>(*) Required</p>
+         <p><a href="/artemis/testruns/create">Back</a></p>
+         </fieldset>
+%    }
 % } else {
-<h1>Error: You followed an incorrect deep link. Session data is missing</h1>
+    <h1>Error: You followed an incorrect deep link. Session data is missing</h1>
 % }
 <p><a href="/artemis/start/">Back to start page</a></p>
