@@ -256,6 +256,17 @@ sub get_owner_names
         return \@owners;
 }
 
+=head2 get_hostnames
+
+Get an array of all hostnames that can be used for a new testrun.  Note:
+The array contains array that contain the hostname twice (i.e. (['host',
+'host'], ...) because that is what the template expects. 
+
+@return success - ref to array of [ hostname, hostname ] 
+
+
+=cut
+
 sub get_hostnames
 {
         my ($self) = @_;
@@ -473,14 +484,13 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 my @testhosts;
                 if ( defined ($testrun_data->{requested_hosts})){
                         if ( ref($testrun_data->{requested_hosts}) eq 'ARRAY') {
-                                use Data::Dumper;
-                                say STDERR Dumper $testrun_data->{requested_hosts};
                                 @testhosts = @{$testrun_data->{requested_hosts}};
                         } else {
                                 @testhosts = ( $testrun_data->{requested_hosts} );
                         }
                 } else {
-                        @testhosts = @{ get_hostnames() };
+                        use Data::Dumper;
+                        @testhosts = map { say STDERR Dumper $_; $_->[0] } @{get_hostnames()};
                 }
                 
                 $all_testruns = [];

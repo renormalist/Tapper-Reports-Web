@@ -6,19 +6,23 @@ $all_testruns => undef
               
 % if ($c->session->{valid}) {
 %     if ($all_testruns) {
+          <h3>Testruns created</h3>
+          <ul>
 %         foreach my $testrun (@{$all_testruns}) {
-              <h4>Host <% $testrun->{host} %></h4>
 %             if ($testrun->{error}) {
-                  Can not create testrun: <% $testrun->{error} %>
+                  <li>Can not create testrun on host <% $testrun->{host} %>: <% $testrun->{error} %></li>
 %             } else {
-                  <a href="/artemis/testruns/id/<% $testrun->{id} %>">Testrun <% $testrun->{id} %></a> created with precondition IDs: 
-                  <ul>
+                  <li>
+                  <a href="/artemis/testruns/id/<% $testrun->{id} %>">Testrun <% $testrun->{id} %></a> 
+                  created on host <strong><% $testrun->{host} %></strong>
+                  with precondition IDs: 
 %                    foreach my $precondition (@{$testrun->{preconditions}}) {
-                        <li>&nbsp;&bull;&nbsp;<a href="/artemis/preconditions/id/<% $precondition %>"><% $precondition %></a></li>
+                        <a href="/artemis/preconditions/id/<% $precondition %>"><% $precondition %></a> 
 %                    }
-                  </ul>
+                 </li>
 %             }
 %         }
+          </ul>
 %     } else {
           <h3>Use case details</h3>
 %         if ($description_text) {
