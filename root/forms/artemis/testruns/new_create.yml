@@ -43,11 +43,11 @@ elements:
 
     - type: Select
       name: requested_hosts
-      label: Restrict to machines
+      label: Test on these machines
       attributes:
         size: 5
         multiple: 1
-        title: Select one or multiple hosts that can be used for your test or none for the first one available
+        title: Select one or multiple hosts on which your test will be executed
 
     # When we add requested features this could be done with a combo box.
     # This box allows the use to choose a requested feature by clicking or writing
