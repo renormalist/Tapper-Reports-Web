@@ -4,7 +4,6 @@
 
 		<div id="logo">
 			<h1><span>artemis</span>2.0</h1>
-<!--			<h2>hardware</h2> -->
 		</div>
 		
 		<div id="menu">
@@ -13,7 +12,6 @@
 				<li><a href="/artemis/testruns/days/2">Testruns</a></li>
 				<li><a href="/artemis/reports/days/2">Reports</a></li>
 				<li><a href="/artemis/metareports/">Metareports</a></li>
-				<li><a href="/artemis/hardware/">Hardware</a></li>
 				<li><a href="/artemis/manual/" class="active">Manual</a></li>
 			</ul>
 		</div>

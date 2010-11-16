@@ -1,8 +1,8 @@
 <div class="artemismanual">
-<h1 class="settitle">ARTEMIS Manual</h1>
+<h1 class="settitle">ARTEMIS User Manual</h1>
 <div class="node">
-<p><hr>
 <a name="Top"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Synopsis">Synopsis</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#dir">(dir)</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
@@ -15,25 +15,43 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a accesskey="3" href="#Test-Protocol">Test Protocol</a>
 <li><a accesskey="4" href="#Test-Suite-Wrappers">Test Suite Wrappers</a>
 <li><a accesskey="5" href="#Preconditions">Preconditions</a>
-<li><a accesskey="6" href="#Commandline">Commandline</a>
+<li><a accesskey="6" href="#Command-line-interface">Command line interface</a>
 <li><a accesskey="7" href="#Web-User-Interface">Web User Interface</a>
 <li><a accesskey="8" href="#Reports-API">Reports API</a>
-<li><a accesskey="9" href="#Complete-Use_002dCases">Complete Use-Cases</a>
-<li><a href="#Artemis-Development">Artemis Development</a>
+<li><a accesskey="9" href="#Complete-Use-Cases">Complete Use Cases</a>
 </ul>
 
 <div class="contents">
 <h2>Table of Contents</h2>
 <ul>
 <li><a name="toc_Synopsis" href="#Synopsis">1 Synopsis</a>
+<ul>
+<li><a href="#Synopsis">1.1 ARTEMIS infrastructure</a>
+<li><a href="#Synopsis">1.2 Vocabulary</a>
+<ul>
+<li><a href="#Synopsis">1.2.1 Master Control Program (MCP)</a>
+<li><a href="#Synopsis">1.2.2 Program Run Control (PRC)</a>
+<li><a href="#Synopsis">1.2.3 Reports Receiver</a>
+<li><a href="#Synopsis">1.2.4 Reports API</a>
+<li><a href="#Synopsis">1.2.5 Web User Interface</a>
+<li><a href="#Synopsis">1.2.6 Reports DB</a>
+<li><a href="#Synopsis">1.2.7 Testrun DB</a>
+<li><a href="#Synopsis">1.2.8 Testrun</a>
+<li><a href="#Synopsis">1.2.9 Preconditions</a>
+<li><a href="#Synopsis">1.2.10 Report</a>
+<li><a href="#Synopsis">1.2.11 Test Anything Protocol (TAP)</a>
+<li><a href="#Synopsis">1.2.12 TAP archives</a>
+</li></ul>
+</li></ul>
 <li><a name="toc_Technical-Infrastructure" href="#Technical-Infrastructure">2 Technical Infrastructure</a>
 <ul>
 <li><a href="#Technical-Infrastructure">2.1 Adding a new host into automation</a>
 <ul>
-<li><a href="#Technical-Infrastructure">2.1.1 Make machine remote restartable</a>
+<li><a href="#Technical-Infrastructure">2.1.1 Make machine remote hard resetable</a>
 <li><a href="#Technical-Infrastructure">2.1.2 Make machine PXE boot aware</a>
-<li><a href="#Technical-Infrastructure">2.1.3 Add host to the hardware database</a>
-<li><a href="#Technical-Infrastructure">2.1.4 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</a>
+<li><a href="#Technical-Infrastructure">2.1.3 Configure TFTP on central MCP machine</a>
+<li><a href="#Technical-Infrastructure">2.1.4 Make the hosts known in the TestrunDB</a>
+<li><a href="#Technical-Infrastructure">2.1.5 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Test-Protocol" href="#Test-Protocol">3 Test Protocol</a>
@@ -49,11 +67,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Test-Protocol">3.2.6 Mark tests as SKIP (with reason)</a>
 <li><a href="#Test-Protocol">3.2.7 Diagnostics</a>
 <li><a href="#Test-Protocol">3.2.8 YAML Diagnostics</a>
-<li><a href="#Test-Protocol">3.2.9 Headers for ARTEMIS</a>
-<li><a href="#Test-Protocol">3.2.10 Sections for ARTEMIS</a>
-<li><a href="#Test-Protocol">3.2.11 Explicit section markers with lazy plans</a>
-<li><a href="#Test-Protocol">3.2.12 Developing with TAP</a>
-<li><a href="#Test-Protocol">3.2.13 TAP tips</a>
+<li><a href="#Test-Protocol">3.2.9 Meta information headers for reports</a>
+<li><a href="#Test-Protocol">3.2.10 Report sections</a>
+<li><a href="#Test-Protocol">3.2.11 Meta information headers for report sections</a>
+<li><a href="#Test-Protocol">3.2.12 Meta information structure summary</a>
+<li><a href="#Test-Protocol">3.2.13 Explicit section markers with lazy plans</a>
+<li><a href="#Test-Protocol">3.2.14 Developing with TAP</a>
+<li><a href="#Test-Protocol">3.2.15 TAP tips</a>
 </li></ul>
 <li><a href="#Test-Protocol">3.3 Particular use-cases</a>
 <ul>
@@ -62,6 +82,12 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Test-Protocol">3.3.1.1 Report grouping by same testrun</a>
 <li><a href="#Test-Protocol">3.3.1.2 Report grouping by arbitrary idenitifier</a>
 </li></ul>
+</li></ul>
+<li><a href="#Test-Protocol">3.4 TAP Archives</a>
+<li><a href="#Test-Protocol">3.5 Reporting TAP to the reports receiver</a>
+<ul>
+<li><a href="#Test-Protocol">3.5.1 Submitting raw TAP</a>
+<li><a href="#Test-Protocol">3.5.2 Submitting TAP Archives</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Test-Suite-Wrappers" href="#Test-Suite-Wrappers">4 Test Suite Wrappers</a>
@@ -73,57 +99,68 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Test-Suite-Wrappers">4.1.3 CTCS</a>
 <li><a href="#Test-Suite-Wrappers">4.1.4 LTP</a>
 <li><a href="#Test-Suite-Wrappers">4.1.5 dom0-meta</a>
+<li><a href="#Test-Suite-Wrappers">4.1.6 Many more</a>
 </li></ul>
 <li><a href="#Test-Suite-Wrappers">4.2 Environment variables</a>
 </li></ul>
 <li><a name="toc_Preconditions" href="#Preconditions">5 Preconditions</a>
 <ul>
 <li><a href="#Preconditions">5.1 SYNOPSIS</a>
-<li><a href="#Preconditions">5.2 Precondition repository</a>
+<li><a href="#Preconditions">5.2 Layers of preconditions</a>
 <ul>
 <li><a href="#Preconditions">5.2.1 Normal preconditions</a>
 <li><a href="#Preconditions">5.2.2 Macro preconditions</a>
-<li><a href="#Preconditions">5.2.3 Precondition types</a>
-<ul>
-<li><a href="#Preconditions">5.2.3.1 Action preconditions</a>
-<li><a href="#Preconditions">5.2.3.2 Highlevel preconditions</a>
 </li></ul>
-<li><a href="#Preconditions">5.2.4 Precondition description</a>
+<li><a href="#Preconditions">5.3 Precondition repository</a>
+<li><a href="#Preconditions">5.4 Overview: Precondition Types</a>
 <ul>
-<li><a href="#Preconditions">5.2.4.1 installer_stop</a>
-<li><a href="#Preconditions">5.2.4.2 grub</a>
-<li><a href="#Preconditions">5.2.4.3 package</a>
-<li><a href="#Preconditions">5.2.4.4 copyfile</a>
-<li><a href="#Preconditions">5.2.4.5 fstab</a>
-<li><a href="#Preconditions">5.2.4.6 image</a>
-<li><a href="#Preconditions">5.2.4.7 repository</a>
-<li><a href="#Preconditions">5.2.4.8 type: prc</a>
-<li><a href="#Preconditions">5.2.4.9 type: exec</a>
-<li><a href="#Preconditions">5.2.4.10 quote subtleties</a>
-<li><a href="#Preconditions">5.2.4.11 type: reboot</a>
-<li><a href="#Preconditions">5.2.4.12 type: autoinstall</a>
-<li><a href="#Preconditions">5.2.4.13 type: testprogram</a>
-<li><a href="#Preconditions">5.2.4.14 type: virt</a>
-<li><a href="#Preconditions">5.2.4.15 General precondition keys &ldquo;mountfile&rdquo;</a>
+<li><a href="#Preconditions">5.4.1 Overview: Action precondition types</a>
+<li><a href="#Preconditions">5.4.2 Overview: Highlevel precondition types</a>
+</li></ul>
+<li><a href="#Preconditions">5.5 Details: Precondition Types</a>
+<ul>
+<li><a href="#Preconditions">5.5.1 installer_stop</a>
+<li><a href="#Preconditions">5.5.2 grub</a>
+<li><a href="#Preconditions">5.5.3 package</a>
+<li><a href="#Preconditions">5.5.4 copyfile</a>
+<li><a href="#Preconditions">5.5.5 fstab</a>
+<li><a href="#Preconditions">5.5.6 image</a>
+<li><a href="#Preconditions">5.5.7 repository</a>
+<li><a href="#Preconditions">5.5.8 type: prc</a>
+<li><a href="#Preconditions">5.5.9 type: exec</a>
+<li><a href="#Preconditions">5.5.10 type: hint</a>
+<li><a href="#Preconditions">5.5.11 quote subtleties</a>
+<li><a href="#Preconditions">5.5.12 type: reboot</a>
+<li><a href="#Preconditions">5.5.13 type: autoinstall</a>
+<li><a href="#Preconditions">5.5.14 type: testprogram</a>
+<li><a href="#Preconditions">5.5.15 type: virt</a>
+<li><a href="#Preconditions">5.5.16 General precondition keys &ldquo;mountfile&rdquo;</a>
+</li></ul>
+<li><a href="#Macro-Preconditions">5.6 Macro Preconditions</a>
+<ul>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.6.1 A real live example - kernel boot test</a>
+</li></ul>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7 Precondition Producers</a>
+<ul>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.1 Lazy precondition</a>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.2 Producer API</a>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.3 Existing producers</a>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.4 Example: &ldquo;Kernel&rdquo; precondition producer</a>
+<ul>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.4.1 Lazy precondition</a>
+<li><a href="#A-real-live-example-_002d-kernel-boot-test">5.7.4.2 Resulting preconditions</a>
 </li></ul>
 </li></ul>
-<li><a href="#Preconditions">5.3 Macro Preconditions</a>
-<ul>
-<li><a href="#Preconditions">5.3.1 A real live example: kernel boot test</a>
 </li></ul>
-<li><a href="#Preconditions">5.4 Producers</a>
+<li><a name="toc_Command-line-interface" href="#Command-line-interface">6 Command line interface</a>
 <ul>
-<li><a href="#Preconditions">5.4.1 Lazy precondition</a>
-<li><a href="#Preconditions">5.4.2 Producer API</a>
-</li></ul>
-</li></ul>
-<li><a name="toc_Commandline" href="#Commandline">6 Command line interface</a>
+<li><a href="#SYNOPSIS">6.1 SYNOPSIS</a>
+<li><a href="#Scheduling">6.2 Scheduling</a>
 <ul>
-<li><a href="#Commandline">6.1 SYNOPSIS</a>
-<li><a href="#Commandline">6.2 Scheduling: hosts, queues, jobs</a>
-<ul>
-<li><a href="#Commandline">6.2.1 Create new queue, new host, bind both together</a>
-<li><a href="#Commandline">6.2.2 Change queue priority</a>
+<li><a href="#Create-new-queue-and-new-host-and-bind-both-together">6.2.1 Create new queue and new host and bind both together</a>
+<li><a href="#Change-queue-priority">6.2.2 Change queue priority</a>
+<li><a href="#requested-features">6.2.3 requested features</a>
+<li><a href="#Cancel-current-testrun-on-host">6.2.4 Cancel current testrun on host</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Web-User-Interface" href="#Web-User-Interface">7 Web User Interface</a>
@@ -136,118 +173,75 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Web-User-Interface">7.2.3 Part 3 Testrun</a>
 </li></ul>
 </li></ul>
-<li><a name="toc_Reports-API" href="#Reports-API">8 Reports::API</a>
+<li><a name="toc_Reports-API" href="#Reports-API">8 Reports API</a>
 <ul>
-<li><a href="#Reports-API">8.1 Overview</a>
-<li><a href="#Reports-API">8.2 Raw API Commands</a>
+<li><a href="#Overview">8.1 Overview</a>
+<li><a href="#Raw-API-Commands">8.2 Raw API Commands</a>
 <ul>
-<li><a href="#Reports-API">8.2.1 upload - attach a file to a report</a>
+<li><a href="#upload-aka_002e-attach-a-file-to-a-report">8.2.1 upload aka. attach a file to a report</a>
 <ul>
-<li><a href="#Reports-API">8.2.1.1 Synopsis</a>
-<li><a href="#Reports-API">8.2.1.2 Parameters</a>
-<li><a href="#Reports-API">8.2.1.3 Payload</a>
-<li><a href="#Reports-API">8.2.1.4 Example usage</a>
+<li><a href="#upload-_002d-Synopsis">8.2.1.1 upload - Synopsis</a>
+<li><a href="#Parameters">8.2.1.2 Parameters</a>
+<li><a href="#upload-Payload">8.2.1.3 upload Payload</a>
+<li><a href="#upload-Example-usage">8.2.1.4 upload Example usage</a>
 </li></ul>
-<li><a href="#Reports-API">8.2.2 mason - Render templates with embedded query language</a>
+<li><a href="#download-_002d-download-a-file-which-is-attached-to-a-report">8.2.2 download - download a file which is attached to a report</a>
 <ul>
-<li><a href="#Reports-API">8.2.2.1 Synopsis</a>
-<li><a href="#Reports-API">8.2.2.2 Parameters</a>
-<li><a href="#Reports-API">8.2.2.3 Payload</a>
-<li><a href="#Reports-API">8.2.2.4 Example usage</a>
+<li><a href="#download-Synopsis">8.2.2.1 download Synopsis</a>
+<li><a href="#download-Parameters">8.2.2.2 download Parameters</a>
+<li><a href="#download-Example-usage">8.2.2.3 download Example usage</a>
 </li></ul>
-</li></ul>
-<li><a href="#Reports-API">8.3 Query language DPath</a>
+<li><a href="#mason-_002d-Render-templates-with-embedded-query-language">8.2.3 mason - Render templates with embedded query language</a>
 <ul>
-<li><a href="#Reports-API">8.3.1 Reports Filter (SQL::Abstract)</a>
-<ul>
-<li><a href="#Reports-API">8.3.1.1 SQL::Abstract expressions</a>
-<li><a href="#Reports-API">8.3.1.2 The data structure</a>
-</li></ul>
-<li><a href="#Reports-API">8.3.2 Data Filter (Data::DPath)</a>
-<ul>
-<li><a href="#Reports-API">8.3.2.1 Data::DPath expressions</a>
-</li></ul>
-<li><a href="#Reports-API">8.3.3 Optimizations</a>
-</li></ul>
-<li><a href="#Reports-API">8.4 Client Utility <code>artemis-api</code></a>
-<ul>
-<li><a href="#Reports-API">8.4.1 help</a>
-<li><a href="#Reports-API">8.4.2 upload</a>
-<li><a href="#Reports-API">8.4.3 mason</a>
+<li><a href="#mason-Synopsis">8.2.3.1 mason Synopsis</a>
+<li><a href="#mason-Parameters">8.2.3.2 mason Parameters</a>
+<li><a href="#Payload">8.2.3.3 mason Payload</a>
+<li><a href="#Example-usage">8.2.3.4 Example usage</a>
 </li></ul>
 </li></ul>
-<li><a name="toc_Complete-Use_002dCases" href="#Complete-Use_002dCases">9 Complete Use-Cases</a>
+<li><a href="#Query-language-DPath">8.3 Query language DPath</a>
 <ul>
-<li><a href="#Complete-Use_002dCases">9.1 Automatic Xen testing</a>
+<li><a href="#Reports-Filter-_0028SQL_002dAbstract_0029">8.3.1 Reports Filter (SQL-Abstract)</a>
 <ul>
-<li><a href="#Complete-Use_002dCases">9.1.1 Paths</a>
-<li><a href="#Complete-Use_002dCases">9.1.2 Choose an image for Dom0 and images for each guest</a>
-<li><a href="#Complete-Use_002dCases">9.1.3 PRC configuration</a>
-<ul>
-<li><a href="#Complete-Use_002dCases">9.1.3.1 Guest Start Configuration</a>
-<li><a href="#Complete-Use_002dCases">9.1.3.2 Testsuite Configuration</a>
+<li><a href="#SQL_002dAbstract-expressions">8.3.1.1 SQL::Abstract expressions</a>
+<li><a href="#The-data-structure">8.3.1.2 The data structure</a>
 </li></ul>
-<li><a href="#Complete-Use_002dCases">9.1.4 Preconditions</a>
-<li><a href="#Complete-Use_002dCases">9.1.5 Resulting YAML config</a>
-<li><a href="#Complete-Use_002dCases">9.1.6 Grub</a>
-<li><a href="#Complete-Use_002dCases">9.1.7 Order Testrun</a>
+<li><a href="#Data-Filter">8.3.2 Data Filter</a>
+<ul>
+<li><a href="#Data_002dDPath-expressions">8.3.2.1 Data-DPath expressions</a>
+</li></ul>
+<li><a href="#Optimizations">8.3.3 Optimizations</a>
+</li></ul>
+<li><a href="#Client-Utility-artemis_002dapi">8.4 Client Utility artemis-api</a>
+<ul>
+<li><a href="#help">8.4.1 help</a>
+<li><a href="#upload">8.4.2 upload</a>
+<li><a href="#mason">8.4.3 mason</a>
 </li></ul>
 </li></ul>
-<li><a name="toc_Artemis-Development" href="#Artemis-Development">10 Artemis Development</a>
+<li><a name="toc_Complete-Use-Cases" href="#Complete-Use-Cases">9 Complete Use Cases</a>
 <ul>
-<li><a href="#Artemis-Development">10.1 Repositories</a>
-<li><a href="#Artemis-Development">10.2 Starting/Stopping Artemis server applications</a>
+<li><a href="#Complete-Use-Cases">9.1 Automatic Xen testing</a>
 <ul>
-<li><a href="#Artemis-Development">10.2.1 Live environment</a>
+<li><a href="#Complete-Use-Cases">9.1.1 Paths</a>
+<li><a href="#Complete-Use-Cases">9.1.2 Choose an image for Dom0 and images for each guest</a>
+<li><a href="#Complete-Use-Cases">9.1.3 PRC configuration</a>
 <ul>
-<li><a href="#Artemis-Development">10.2.1.1 Web User Interface</a>
-<li><a href="#Artemis-Development">10.2.1.2 Reports::Receiver</a>
-<li><a href="#Artemis-Development">10.2.1.3 Reports::API</a>
+<li><a href="#Complete-Use-Cases">9.1.3.1 Guest Start Configuration</a>
+<li><a href="#Complete-Use-Cases">9.1.3.2 Testsuite Configuration</a>
 </li></ul>
-<li><a href="#Artemis-Development">10.2.2 Development environment</a>
-<ul>
-<li><a href="#Artemis-Development">10.2.2.1 Preparing an MCP host</a>
-<li><a href="#Artemis-Development">10.2.2.2 Web User Interface</a>
-<li><a href="#Artemis-Development">10.2.2.3 Reports::Receiver</a>
-<li><a href="#Artemis-Development">10.2.2.4 Reports::API</a>
-</li></ul>
-<li><a href="#Artemis-Development">10.2.3 Logfiles</a>
-</li></ul>
-<li><a href="#Artemis-Development">10.3 Deployment</a>
-<ul>
-<li><a href="#Artemis-Development">10.3.1 Create and upload Python packages</a>
-<li><a href="#Artemis-Development">10.3.2 Create and upload Perl packages</a>
-<li><a href="#Artemis-Development">10.3.3 Generate complete Artemis toolchain in opt-artemis package</a>
-<li><a href="#Artemis-Development">10.3.4 Installation of the Web User Interface</a>
-</li></ul>
-<li><a href="#Artemis-Development">10.4 Upgrading a database schema</a>
-<li><a href="#Artemis-Development">10.5 Environment variables</a>
-<li><a href="#Artemis-Development">10.6 Files</a>
-<ul>
-<li><a href="#Artemis-Development">10.6.1 Special files</a>
-<li><a href="#Artemis-Development">10.6.2 PID files</a>
-<li><a href="#Artemis-Development">10.6.3 Log files</a>
-</li></ul>
-<li><a href="#Artemis-Development">10.7 Image preparation</a>
-<li><a href="#Artemis-Development">10.8 temare - use a local temare</a>
-<li><a href="#Artemis-Development">10.9 Host Forensics</a>
-<ul>
-<li><a href="#Artemis-Development">10.9.1 Investigate a host</a>
-<li><a href="#Artemis-Development">10.9.2 Console</a>
-<li><a href="#Artemis-Development">10.9.3 View Artemis spec</a>
-<li><a href="#Artemis-Development">10.9.4 Restart the Artemis scripts on a waiting machine</a>
-</li></ul>
-<li><a href="#Artemis-Development">10.10 Troubleshooting</a>
-<ul>
-<li><a href="#Artemis-Development">10.10.1 Got a packet bigger than 'max_allowed_packet' bytes</a>
+<li><a href="#Complete-Use-Cases">9.1.4 Preconditions</a>
+<li><a href="#Complete-Use-Cases">9.1.5 Resulting YAML config</a>
+<li><a href="#Complete-Use-Cases">9.1.6 Grub</a>
+<li><a href="#Complete-Use-Cases">9.1.7 Order Testrun</a>
 </li></ul>
 </li></ul>
 </li></ul>
 </div>
 
 <div class="node">
-<p><hr>
 <a name="Synopsis"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Technical-Infrastructure">Technical Infrastructure</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Top">Top</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
@@ -256,16 +250,18 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">1 Synopsis</h2>
 
+<h3 class="section">1.1 ARTEMIS infrastructure</h3>
+
 <p>ARTEMIS is an infrastructure.
 
 <p>It consists of applications, tools and protocols for testing software
-and evaluating the results. One focus is on testing Operating Systems
-in virtualization environments on AMD hardware.
+and evaluating the results. One main focus is on testing Operating
+Systems in virtualization environments.
 
 <p>There are 3 important layers:
 
      <ul>
-<li><strong>Report Framework</strong>
+<li><strong>Reports Framework</strong>
 
      <li><strong>Test Suites</strong>
 
@@ -273,10 +269,26 @@ in virtualization environments on AMD hardware.
 
 </ul>
 
-<p>The layers work completely autonomously, though can also be connected
-together.
+<p>The layers can work completely autonomously, though can also be
+connected together and are targeted to be stacked in this order:
 
-<p>To fully exploit the system the tasks you need to learn are
+     <ul>
+<li>The <strong>Report Framework</strong> is for receiving and evaluating
+test reports sent by any source. The only requirement is that the
+result reports are using TAP, the Test Anything Protocol.
+
+     <li>The <strong>Test Suites</strong> are either directed test suites or
+wrappers around existing test projects doing conversion of their
+results into TAP. These are the TAP producers that create reports and
+send them to the Reports Framework.
+
+     <li>The <strong>Automation System</strong> is taking care of setting up
+machines, installing dependencies and test suites and running the
+latter. It can set up virtualized environments.
+
+</ul>
+
+<p>To fully exploit the system you need to learn:
 
      <ul>
 <li><strong>Connect and prepare a new machine into the infrastructure</strong>
@@ -291,11 +303,90 @@ together.
 
 </ul>
 
-<p><strong>Person in charge</strong>: Steffen Schwigon
+<h3 class="section">1.2 Vocabulary</h3>
+
+<h4 class="subsection">1.2.1 Master Control Program (MCP)</h4>
+
+<p>There is a central server controlling the automation by running the
+<strong>Master Control Program</strong>, aka. <strong>MCP</strong>. Usually it also
+centralizes several other services: it is the TFTP server for network
+booting, runs the daemons of the reports framework (reports receiver,
+remote api) and the web application, including the mysql databases,
+and also serves the file repository via NFS.
+
+<h4 class="subsection">1.2.2 Program Run Control (PRC)</h4>
+
+<p>When machines run automated tests, these test program runs are
+controlled by a <strong>Program Run Control</strong>, aka. <strong>PRC</strong>. In
+virtualization scenarios, each host and guest has its own PRC,
+numbered PRC0 (for the host), PRC1 (1st guest), PRC2 (2nd guest), etc.
+
+<h4 class="subsection">1.2.3 Reports Receiver</h4>
+
+<p>The <strong>Reports Receiver</strong> means the daemons that accept
+reports. We often run them on the same machine as the MCP and the Web
+framework, but that's not neccessary.
+
+<h4 class="subsection">1.2.4 Reports API</h4>
+
+<p>Similar to the reports receiver is the <strong>Reports API</strong> which is
+the daemon for all more complex interfaces, like uploading files,
+downloading files, querying the reports. Similar to reports API we
+often run them on the same machine as the MCP and the Web application,
+but that's not neccessary.
+
+<h4 class="subsection">1.2.5 Web User Interface</h4>
+
+<p>The <strong>Web User Interface</strong> is an independent web
+application. Similar to the reports receiver and the reports API it
+can run anywhere, either standalone or in Apache, via mod_perl, FCGI,
+etc.. The only common thing for all those central applications (MCP,
+reports receiver, reports api, web application) is the config to use
+the same databases.
+
+<h4 class="subsection">1.2.6 Reports DB</h4>
+
+<p>The <strong>Reports DB</strong> contains all data that are reported. It's the
+base for the reports receiver, the reports API, the web application.
+
+<h4 class="subsection">1.2.7 Testrun DB</h4>
+
+<p>The <strong>Testrun DB</strong> is the DB for the automation layer. It
+contains hosts, testrun specifications and scheduling information.
+
+<h4 class="subsection">1.2.8 Testrun</h4>
+
+<p>A <strong>Testrun</strong> is a request to the automation layer to set up a
+host machine and run a workload on it. It consists of
+&ldquo;preconditions&rdquo; and scheduling information (host name, wanted host
+features, scheduling queue).
+
+<h4 class="subsection">1.2.9 Preconditions</h4>
+
+<p><strong>Preconditions</strong> are specifications that describe how to set up
+a host. They are the essential part of a testrun.
+
+<h4 class="subsection">1.2.10 Report</h4>
+
+<p>A <strong>Report</strong> is the reported result of any workload, regardless
+of how it was produced (automatically, by a tes suite, manually via
+echo and netcat). Its only requirement is to be formatted in TAP (the
+Test Anything Protocol), or as TAP archive.
+
+<h4 class="subsection">1.2.11 Test Anything Protocol (TAP)</h4>
+
+<p>The <strong>Test Anything Protocol</strong> aka. <strong>TAP</strong> is the syntax to
+describe test results.
+
+<h4 class="subsection">1.2.12 TAP archives</h4>
+
+<p>A <strong>TAP archive</strong> is a .tar.gz file that contains files of
+TAP. It's the result of a test suite that can consist of many parts
+compressed into a single file.
 
 <div class="node">
-<p><hr>
 <a name="Technical-Infrastructure"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Test-Protocol">Test Protocol</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Synopsis">Synopsis</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
@@ -304,101 +395,180 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">2 Technical Infrastructure</h2>
 
+<p>See also the &ldquo;Getting Started Guide&rdquo; for more complete step-by-step
+instructions how to install the infrastructure from scratch up to a
+first example test run.
+
 <h3 class="section">2.1 Adding a new host into automation</h3>
 
 <p>This chapter describes what you need to do in order to get a new
-machine into the Artemis test rotation.
+machine into the Artemis test scheduling rotation.
 
-<h4 class="subsection">2.1.1 Make machine remote restartable</h4>
+<h4 class="subsection">2.1.1 Make machine remote hard resetable</h4>
 
-<p>In the osrc network this means attaching it to <code>osrc_rst</code> which
-is the reset switch tool, a physical device plus the software to
-trigger the reset.
+<p>Connect the machine physically to some facility to programmatically
+switch it completely off.
 
-<p><strong>Person in charge</strong>: Jan Krocker
+<p>This can be the Reset cable wires connected to a dedicated reset box
+which can be programmed usually with an external tool. It can also be
+a TCP/IP controllable Power Control.
+
+<p>As an example Artemis comes with a plugin for the &ldquo;Infratec PM211
+MIP&rdquo; ethernet controllable multi socket outlet. To use it write this
+in the configuration file:
+
+<pre class="verbatim">reset_plugin: PM211MIP
+reset_plugin_options:
+  ip: 192.168.1.39
+  user: admin
+  passwd: secret
+  outletnr:
+    johnconnor: 1
+    sarahconnor: 2
+</pre>
+
+<p>This configures to use the PM211MIP plugin for reset and gives it the
+configuration that the host &ldquo;johnconnor&rdquo; is connected on port 0 and
+the host &ldquo;sarahconnor&rdquo; on port 1, together with IP address, username
+and password of the multi-socket outlet.
+
+<p>If you have other hardware then write your own reset plugin
+<code>FooBar</code> in a Perl module
+<code>Artemis::MCP::Net::Reset::FooBar</code>. Look into the code of
+<code>Artemis::MCP::Net::Reset::PM211MIP</code> to get inspiration.
 
 <h4 class="subsection">2.1.2 Make machine PXE boot aware</h4>
 
      <ul>
 <li>Set booting order in BIOS to network first
 
-     <li>Create (or change) a file wotan:/tftpboot/cfgs/FOOBAR.lst
+     <li>Configure DHCP for each connected machine
 
-     <li>Insert the following as first host configuration, i.e. after serial and timeout settings
+     <p>The following example configures two hosts &lsquo;<samp><span class="samp">sarahconnor</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">johnconnor</span></samp>&rsquo; to use the respective files
+&lsquo;<samp><span class="samp">/tftpboot/sarahconnor.lst</span></samp>&rsquo; and &lsquo;<samp><span class="samp">/tftpboot/johnconnor.lst</span></samp>&rsquo;
+as grub config.
 
-     <pre class="verbatim">     
-     title Automatic test
-     tftpserver 165.204.15.71
-     configfile (nd)/tftpboot/FOOBAR.lst
+     <pre class="verbatim">     # example dhcp config with invalid ethernet addresses
+     subnet 192.168.1.0 netmask 255.255.255.0 {
+     group
+     {
+      filename '/tftpboot/pxegrub';
+      # offer the host the here given name as host name
+      option host-name = host-decl-name;
+      option dhcp-parameter-request-list = concat(option dhcp-parameter-request-list,96);
+      host sarahconnor
+      {
+        hardware ethernet 00:09:11:11:11:11;
+        fixed-address 192.168.1.2;
+        option configfile "/tftpboot/sarahconnor.lst";
+      }
+      host johnconnor
+      {
+       hardware ethernet 00:09:22:22:22:22;
+       fixed-address 192.168.1.3;
+       option configfile "/tftpboot/johnconnor.lst";
+      }
+     }
 </pre>
 
-     <p>The IP address is that of our application server <code>bancroft</code>.
+     <p>These grub config files are later dynamically overwritten for each
+boot by your application server's &ldquo;Master Control Program&rdquo; (MCP).
 
-     <li>Set the appropriate DHCP config in wotan:/etc/dhcpd.conf
+     <p>The example above assumes the DHCP also running on the central Master
+Control Program (MCP) server. To use a DHCP server running on another
+host configure it with some grub/tftp redirection chains to in the end
+lead to the same files &lsquo;<samp><span class="samp">/tftpboot/sarahconnor.lst</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">/tftpboot/johnconnor.lst</span></samp>&rsquo; loaded from the MCP server.
 
-     <li>Search for your host in this file
+     <li>Force DHCP server to reread its configuration
 
-     <li>Add this line inside the config block of your host:
-
-     <pre class="verbatim">     
-     option configfile "/tftpboot/cfgs/FOOBAR.lst";
-</pre>
-
-     <li>Force the dhcp server to reread its configuration with
-
-     <pre class="verbatim">     
-     kill -HUP $(pidof dhcpd)
+     <pre class="verbatim">      $ kill -HUP $pid_of_dhcpd
 </pre>
 
 </ul>
 
-<p><strong>Person in charge</strong>: Maik Hentsche
+<h4 class="subsection">2.1.3 Configure TFTP on central MCP machine</h4>
 
-<h4 class="subsection">2.1.3 Add host to the hardware database</h4>
-
-<p>If not already listed at <a href="http://bancroft.amd.com/hardwaredb/">http://bancroft.amd.com/hardwaredb/</a>
-contact Jan Krocker.
-
-<p><strong>Person in charge</strong>: Jan Krocker
-
-<h4 class="subsection">2.1.4 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</h4>
-
-<p>The steps until here are generally enough to put &lsquo;<samp><span class="samp">preconditions</span></samp>&rsquo;
-for this host into the Artemis database and thus use the host for
-tests.
-
-<p>Anyway, you can additionally register the host in &lsquo;<samp><span class="samp">temare</span></samp>&rsquo;.
-
-<p><em>temare</em> is the <dfn>Test Matrix Replacement</dfn> program that
-schedules tests according to our test plan. If you want tests
-scheduled for the new machine then follow these steps:
+<p>The MCP server is also acting as a TFTP server, so it has to be
+configured as such:
 
      <ul>
-<li>Login as root on bancroft
+<li>Install a TFTP server
+
+     <pre class="verbatim">      $ sudo apt-get install inetutils-inetd
+      $ sudo apt-get install atftpd
+      $ sudo chmod 777 /var/lib/tftpboot/
+      $ sudo ln -s /var/lib/tftpboot /tftpboot
+</pre>
+
+     <li>Create symlinks to point TFTP dir into ARTEMIS working dir
+
+     <p>The TFTP daemon only serves files from &lsquo;<samp><span class="samp">/tftpboot</span></samp>&rsquo;, as seen above
+in the DHCP config. To supply files from the Artemis working dir make
+the &lsquo;<samp><span class="samp">/tftpboot</span></samp>&rsquo; a symlink to the Artemis working dir.
+
+     <pre class="verbatim">      $ ln -s /data/artemis/live/configs/tftpboot /tftpboot
+</pre>
+
+     <p>When Artemis creates tftp files it works with absolute path
+names. Because the TFTP daemon interprets all absolute pathnames
+relative to its root dir we supply a &lsquo;<samp><span class="samp">tftpboot</span></samp>&rsquo; symlink inside
+the tftp root (which is also our Artemis working dir), so we can use
+the same absolute path name in both contexts (Artemis and TFTP):
+
+     <pre class="verbatim">      $ ln -s /data/artemis/live/configs/tftpboot \
+              /data/artemis/live/configs/tftpboot/tftpboot
+</pre>
+
+</ul>
+
+<h4 class="subsection">2.1.4 Make the hosts known in the TestrunDB</h4>
+
+<pre class="verbatim"> $ artemis-testrun newhost --name=sarahconnor --active=1
+ $ artemis-testrun newhost --name=johnconnor  --active=1
+</pre>
+
+<p>This makes the hosts generally available (active) for scheduling
+testruns by machine name. For scheduling hosts by more detailed
+machine features (cpu, memory, family, etc.)  you need to add
+according key/value pairs in the &lsquo;<samp><span class="samp">HostFeature</span></samp>&rsquo; table.
+
+<h4 class="subsection">2.1.5 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</h4>
+
+<p>&lsquo;<samp><span class="samp">Temare</span></samp>&rsquo; is an utility that generates preconditions according to
+a test matrix of host/guest virtualization scenarios (but not yet
+shipped publicly).
+
+<p>For generating preconditions for a host, you can register the host in
+&lsquo;<samp><span class="samp">temare</span></samp>&rsquo;.
+
+<p>If you want tests scheduled for the new machine then follow these
+steps:
+
+     <ul>
+<li>Login as root on MCP server
 
      <li>Set the <code>PYTHONPATH</code> to include the <em>temare</em> src directory
 
-     <pre class="verbatim">     
-     export PYTHONPATH=$PYTHONPATH:/home/artemis/temare/src
+     <pre class="verbatim">     export PYTHONPATH=$PYTHONPATH:/opt/artemis/python/temare/src
 </pre>
 
      <li>Add the host to temare hostlist
 
-     <pre class="verbatim">     
-     /home/artemis/temare/temare hostadd $hostname $memory $cores $bitness
+     <pre class="verbatim">      $ /opt/artemis/python/temare/temare hostadd $hostname \
+                                                  $memory \
+                                                  $cores \
+                                                  $bitness
 </pre>
 
-     <li>Add the host to <code>/home/artemis/temare/xentest.pl</code>
-
 </ul>
-
-<p><strong>Person in charge</strong>: Maik Hentsche, Frank Arnold
 
 <p><a name="index-Index-entry-for-First-Chapter-1"></a>
 
 <div class="node">
-<p><hr>
 <a name="Test-Protocol"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Test-Suite-Wrappers">Test Suite Wrappers</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Technical-Infrastructure">Technical Infrastructure</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
@@ -407,138 +577,170 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">3 Test Protocol</h2>
 
+<p>In order to write test suites you need to understand the output
+protocol, which is &lsquo;<samp><span class="samp">TAP</span></samp>&rsquo;, the &lsquo;<samp><span class="samp">Test Anything Protocol</span></samp>&rsquo;.
+
+<p>The protocol is trivially to produce, you can do it with simple Shell
+&lsquo;<samp><span class="samp">echo</span></samp>&rsquo;s or you can use TAP emitting toolchains, like practically
+all &lsquo;<samp><span class="samp">Test::*</span></samp>&rsquo; modules from the Perl world.
+
+<p>This chapter explains the protocol and the Artemis specific
+extensions, which are usually headers that can be transported inside
+TAP comments.
+
 <h3 class="section">3.1 Test Anything Protocol (TAP)</h3>
 
 <h3 class="section">3.2 Tutorial</h3>
 
 <h4 class="subsection">3.2.1 Just plan and success</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
- 1..3
+<pre class="verbatim"> 1..3
  ok
  ok
  not ok
 </pre>
 
+<p><strong>Remarks:</strong>
+     <ul>
+<li>3 single tests planned
+<li>the two first went good
+<li>the last went wrong
+</ul>
+
 <h4 class="subsection">3.2.2 Succession numbers</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1
-ok 2
-not ok 3
+<pre class="verbatim"> 1..3
+ ok 1
+ ok 2
+ not ok 3
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
-<li>Missing lines can be detected. 
+<li>Missing test lines (eg. due to internal bummers) can be detected. 
+</ul>
+
+<p><strong>Example with missing test:</strong>
+
+<pre class="verbatim"> 1..3
+ ok 1
+ not ok 3
+</pre>
+
+<p><strong>Remarks:</strong>
+     <ul>
+<li>Parsing will later say &ldquo; test 2 expected but got 3&rdquo;
 </ul>
 
 <h4 class="subsection">3.2.3 Test descriptions</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
 <li>Readability. 
 </ul>
 
 <h4 class="subsection">3.2.4 Mark tests as TODO</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line # TODO
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line # TODO
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
 <li>mark not yet working tests as "TODO"
 <li>allows test-first development
-<li>"ok" TODOs can be recognized
+<li>"ok" TODOs are recognized later
  ("unexpectedly succeeded")
+<li>We also use it to ignore known issues with still being able to find
+them later. 
 </ul>
 
 <h4 class="subsection">3.2.5 Comment TODO tests with reason</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line # TODO just specced
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line # TODO just specced
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
 <li>comment the TODO reason
 </ul>
 
 <h4 class="subsection">3.2.6 Mark tests as SKIP (with reason)</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-ok 3 - last line # SKIP missing prerequisites
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ ok 3 - last line # SKIP missing prerequisites
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
-<li>mark tests when not really run (note the \u201cok\u201d)
+<li>mark tests when not really run (note it's set to &ldquo;ok&rdquo; anyway)
 <li>keeps succession numbers in sync
 </ul>
 
 <h4 class="subsection">3.2.7 Diagnostics</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line # TODO just specced
-# Failed test 'last line'
-# at t/data_dpath.t line 410.
-# got: 'foo'
-# expected: 'bar'
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line # TODO just specced
+ # Failed test 'last line'
+ # at t/data_dpath.t line 410.
+ # got: 'foo'
+ # expected: 'bar'
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
-<li>Details
+<li>Unstructured details
 </ul>
 
 <h4 class="subsection">3.2.8 YAML Diagnostics</h4>
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-1..3
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line # TODO just specced
-  ---
-  message: Failed test 'last line' at t/data_dpath.t line 410.
-  severity: fail
-  data:
-    got: 'foo'
-    expect: 'bar'
-  ...
+<pre class="verbatim"> 1..3
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line # TODO just specced
+   ---
+   message: Failed test 'last line' at t/data_dpath.t line 410.
+   severity: fail
+   data:
+     got: 'foo'
+     expect: 'bar'
+   ...
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
+<li>Structured details
 <li>allows parsable diagnostics
 <li>we use that to track values inside TAP
 <li>have a leading test line with number+description
@@ -548,31 +750,35 @@ not ok 3 - last line # TODO just specced
 </ul>
      </ul>
 
-<h4 class="subsection">3.2.9 Headers for ARTEMIS</h4>
+<h4 class="subsection">3.2.9 Meta information headers for reports</h4>
 
-<p>Example:
+<p>TAP allows comment lines, starting with &lsquo;<samp><span class="samp">#</span></samp>&rsquo;. We allow meta
+information transported inside those comment lines when declared with
+Artemis specific headers.
 
-<pre class="verbatim">
-1..3
-# Artemis-Suite-Name: Foo-Bar
-# Artemis-Suite-Version: 2.010013
-ok 1 - input file opened
-ok 2 - file content
-not ok 3 - last line # TODO just specced
-@end example
+<p><strong>Example:</strong>
 
-@itemize
-@item we use diagnostics lines (``hot comments'')
-@item semantics only to our TAP applications
-@end itemize
+<pre class="verbatim"> 1..3
+ # Artemis-Suite-Name: Foo-Bar
+ # Artemis-Suite-Version: 2.010013
+ ok 1 - input file opened
+ ok 2 - file content
+ not ok 3 - last line # TODO just specced
+</pre>
 
-These are the headers that apply to the whole report:
+<p><strong>Remarks:</strong>
+     <ul>
+<li>we use diagnostics lines (&ldquo;hot comments&rdquo;)
+<li>semantics only to our TAP applications
+</ul>
 
-@verbatim
- # Artemis-suite-name:                 -- suite name
+<p>These are the headers that apply to the whole report:
+
+<pre class="verbatim"> # Artemis-suite-name:                 -- suite name
  # Artemis-suite-version:              -- suite version
  # Artemis-machine-name:               -- machine/host name
  # Artemis-machine-description:        -- more details to machine
+ # Artemis-reportername:               -- user name of the reporter
  # Artemis-starttime-test-program:     -- start time for complete test
                                           (including guests)
  # Artemis-endtime-test-program:       -- end time for complete test
@@ -589,35 +795,53 @@ These are the headers that apply to the whole report:
 
 </pre>
 
-<h4 class="subsection">3.2.10 Sections for ARTEMIS</h4>
+<p>There are more headers that apply to single sections of a report.
 
-<p>Example:
+<h4 class="subsection">3.2.10 Report sections</h4>
 
-<pre class="verbatim">
-1..2
-# Artemis-section: arithmetics
-ok 1 add
-ok 2 multiply
-1..1
-# Artemis-section: string handling
-ok 1 concat
-1..3
-# Artemis-section: benchmarks
-ok 1
-ok 2
-ok 3
+<p>Standard TAP contains of exactly one block with one plan (eg., 1..5)
+and some TAP lines. In Artemis you can concatenate several such blocks
+at once. They are interpreted like different files, and are named
+<em>sections</em> in Artemis jargon.
+
+<p>The delimiter between such sections is the plan line. This requires
+the plan to come first for each section. See chapters &ldquo;Explicit
+section markers with lazy plans&rdquo; and &ldquo;TAP archives&rdquo; below for
+explicitely providing other TAP section delimiters.
+
+<p>Please remember: <strong>Concatenating several sections into one big
+block of TAP is an ARTEMIS extension. To interact with other TAP
+toolchains you should try to use &ldquo;TAP archives&rdquo; when submitting
+sections into ARTEMIS.</strong>
+
+<p><strong>Example:</strong>
+
+<pre class="verbatim"> 1..2
+ # Artemis-section: arithmetics
+ ok 1 add
+ ok 2 multiply
+ 1..1
+ # Artemis-section: string handling
+ ok 1 concat
+ 1..3
+ # Artemis-section: benchmarks
+ ok 1
+ ok 2
+ ok 3
 </pre>
 
+<p><strong>Remarks:</strong>
      <ul>
 <li>we recognize &ldquo;sections&rdquo;, each with its own plan
 <li>allows structuring of results,
 <li>better readability later in web interface
 </ul>
 
+<h4 class="subsection">3.2.11 Meta information headers for report sections</h4>
+
 <p>These are the headers that apply to single sections:
 
 <pre class="verbatim">
-
  # Artemis-explicit-section-start:   -- explicitely start a section now
                                         instead of autorecognition
  # Artemis-ram:                      -- memory
@@ -626,12 +850,16 @@ ok 3
  # Artemis-osname:                   -- OS information
  # Artemis-bios:                     -- BIOS information
  # Artemis-flags:                    -- flags, usually linux kernel
- # Artemis-changeset:                -- exact changeset of the currently tested software or kernel
- # Artemis-description:              -- more description of the currently tested software or kernel, 
+ # Artemis-changeset:                -- exact changeset of the currently 
+                                        tested software or kernel
+ # Artemis-description:              -- more description of the currently
+                                        tested software or kernel, 
                                         e.g., if changeset is not enough
  # Artemis-uptime:                   -- uptime, maybe the test run time
  # Artemis-language-description:     -- for Software tests, 
                                         like "Perl 5.10", "Python 2.5"
+ # Artemis-reportcomment:            -- Freestyle comment
+
  # Artemis-xen-version:              -- Xen version
  # Artemis-xen-changeset:            -- particular Xen changeset
  # Artemis-xen-dom0-kernel:          -- the kernel version of the dom0
@@ -640,6 +868,7 @@ ok 3
  # Artemis-xen-guest-test:           -- the started test program
  # Artemis-xen-guest-start:          -- start time of test
  # Artemis-xen-guest-flags:          -- flags used for starting the guest
+
  # Artemis-kvm-module-version:       -- version of KVM kernel module
  # Artemis-kvm-userspace-version:    -- version of KVM userland tools
  # Artemis-kvm-kernel:               -- version of kernel
@@ -648,12 +877,99 @@ ok 3
  # Artemis-kvm-guest-test:           -- the started test program
  # Artemis-kvm-guest-start:          -- start time of test
  # Artemis-kvm-guest-flags:          -- flags used for starting the guest
- # Artemis-flags:                    -- Flags that were used to boot the OS
- # Artemis-reportcomment:            -- Freestyle comment
+
+ # Artemis-simnow-version:           -- version of simnow
+ # Artemis-simnow-svn-version:       -- svn commit id of simnow
+ # Artemis-simnow-svn-repository:    -- used svn repository
+ # Artemis-simnow-device-interface-version: -- internal simnow device 
+                                               interface version
+ # Artemis-simnow-bsd-file:          -- used BSD file (machine model)
+ # Artemis-simnow-image-file:        -- used OS image botted in simnow
+                                        (usually similar to
+                                        Artemis-osname or
+                                        Artemis-xen-base-os-description or
+                                        Artemis-kvm-base-os-description)
 
 </pre>
 
-<h4 class="subsection">3.2.11 Explicit section markers with lazy plans</h4>
+<h4 class="subsection">3.2.12 Meta information structure summary</h4>
+
+<p>There are groups of reports (e.g. for virtualization scenarios),
+optionally identified by a testrun ID or by an arbitrary ID. Every
+report has an ID and a set of meta information. A report consists of
+sections, which can each have section specific set of meta
+information.
+
+<p>The resulting meta information hierarchy looks like this.
+
+     <ul>
+<li>Reportgroup
+
+     <pre class="verbatim">     - testrun reportgroup ID
+     - arbitrary reportgroup ID
+</pre>
+
+          <ul>
+<li>Report
+
+          <pre class="verbatim">          - report ID
+          - Artemis-suite-name
+          - Artemis-suite-version
+          - Artemis-machine-name
+          - Artemis-machine-description
+          - Artemis-reportername
+          - Artemis-starttime-test-program
+          - Artemis-endtime-test-program
+          - Artemis-reportgroup-testrun
+          - Artemis-reportgroup-arbitrary
+     </pre>
+
+               <ul>
+<li>Section
+
+               <pre class="verbatim">               - Artemis-explicit-section-start
+               - Artemis-ram
+               - Artemis-cpuinfo
+               - Artemis-uname
+               - Artemis-osname
+               - Artemis-bios
+               - Artemis-flags
+               - Artemis-changeset
+               - Artemis-description
+               - Artemis-uptime
+               - Artemis-language-description
+               - Artemis-reportcomment
+               - Artemis-xen-version
+               - Artemis-xen-changeset
+               - Artemis-xen-dom0-kernel
+               - Artemis-xen-base-os-description
+               - Artemis-xen-guest-description
+               - Artemis-xen-guest-test
+               - Artemis-xen-guest-start
+               - Artemis-xen-guest-flags
+               - Artemis-kvm-module-version
+               - Artemis-kvm-userspace-version
+               - Artemis-kvm-kernel
+               - Artemis-kvm-base-os-description
+               - Artemis-kvm-guest-description
+               - Artemis-kvm-guest-test
+               - Artemis-kvm-guest-start
+               - Artemis-kvm-guest-flags
+               - Artemis-simnow-version
+               - Artemis-simnow-svn-version
+               - Artemis-simnow-svn-repository
+               - Artemis-simnow-device-interface-version
+               - Artemis-simnow-bsd-file
+               - Artemis-simnow-image-file
+          </pre>
+
+          </ul>
+
+     </ul>
+
+</ul>
+
+<h4 class="subsection">3.2.13 Explicit section markers with lazy plans</h4>
 
 <p>In TAP it is allowed to print the plan (1..n) after the test lines (a
 &ldquo;lazy plan&rdquo;).  In our ARTEMIS environment with concatenated sections
@@ -672,28 +988,48 @@ but it is designed anyway to allow any garbage after the value that
 can help you visually structure your reports because explicit sections
 with &ldquo;lazy plans&rdquo; make a report hard to read.
 
-<p>Example:
+<p><strong>Example:</strong>
 
-<pre class="verbatim">
-# Artemis-explicit-section-start: 1 ------ arithmetics -------
-# Artemis-section: arithmetics
-ok 1 add
-ok 2 multiply
-1..2
-# Artemis-explicit-section-start: 1 ------ string handling -------
-# Artemis-section: string handling
-ok 1 concat
-1..1
-# Artemis-explicit-section-start: 1 ------ benchmarks -------
-# Artemis-section: benchmarks
-ok 1
-ok 2
-ok 3
-1..3
+<pre class="verbatim"> # Artemis-explicit-section-start: 1 ------ arithmetics -------
+ # Artemis-section: arithmetics
+ ok 1 add
+ ok 2 multiply
+ 1..2
+ # Artemis-explicit-section-start: 1 ------ string handling -------
+ # Artemis-section: string handling
+ ok 1 concat
+ 1..1
+ # Artemis-explicit-section-start: 1 ------ benchmarks -------
+ # Artemis-section: benchmarks
+ ok 1
+ ok 2
+ ok 3
+ 1..3
 </pre>
 
-<h4 class="subsection">3.2.12 Developing with TAP</h4>
+<p>Please note again: <strong>The sectioning in general and this
+auxiliary header for marking sections is an ARTEMIS extension, not
+standard TAP. An alternative way better than fiddling with this
+sectioning is to produce TAP archives and submit them instead. See
+chapter &ldquo;TAP Archives&rdquo;.</strong>
 
+<h4 class="subsection">3.2.14 Developing with TAP</h4>
+
+<p>TAP consuming is provided via the <code>Test::Harness</code>
+aka. <code>TAP::Parser</code> Perl toolchain. The frontend utility to
+execute TAP emitting tests and evaluate statistics is <code>prove</code>.
+
+<pre class="verbatim"> $ prove t/*.t
+ t/00-load.........ok
+ t/boilerplate.....ok
+ t/pod-coverage....ok
+ All tests successful.
+ Files=4, Tests=6, 0 wallclock secs
+ ( 0.05 usr 0.00 sys + 0.28 cusr 0.05 csys = 0.38 CPU)
+ Result: PASS
+</pre>
+
+<p><strong>Remarks:</strong>
      <ul>
 <li>TAP::Parser
           <ul>
@@ -704,29 +1040,22 @@ ok 3
 </ul>
      </ul>
 
-<pre class="verbatim">
-$ prove t/*.t
-t/00-load.........ok
-t/boilerplate.....ok
-t/pod-coverage....ok
-All tests successful.
-Files=4, Tests=6, 0 wallclock secs
-( 0.05 usr 0.00 sys + 0.28 cusr 0.05 csys = 0.38 CPU)
-Result: PASS
-</pre>
+<p>It helps to not rely on ARTEMIS extensions (like report sections) when
+using the <code>prove</code> command.
 
-<h4 class="subsection">3.2.13 TAP tips</h4>
+<h4 class="subsection">3.2.15 TAP tips</h4>
 
      <ul>
-<li>Easy to produce but using it <strong>usefully</strong> can be a challenge
-<li>think &ldquo;ARTEMIS&rdquo; &ndash; l'Art `emis &ndash; &ldquo;The art to emit&rdquo;
-<li>use invariable test descriptions
-<li>put meta information in diagnostics lines, not test descriptions
-<li>use the description after <code># TODO/SKIP</code>
-<li>cheat visible (or: don't cheat invisible)
-<li>really use <code># TODO/SKIP</code>
-<li>This keeps TAP evaluation consistent
+<li>TAP is easy to produce but using it <strong>usefully</strong> can be a challenge. 
+<li>Think &ldquo;ARTEMIS&rdquo; &ndash; l'Art `emis &ndash; &ldquo;The art to emit&rdquo;. 
+<li>Use <strong>invariable</strong> test descriptions. 
+<li>Put meta information in diagnostics lines, <strong>not</strong> into test descriptions. 
+<li>Use the description after <code># TODO/SKIP</code>. 
+<li>Cheat visible (or: don't cheat invisible). 
+<li>Really use <code># TODO/SKIP</code>. 
 </ul>
+
+<p>These tips keep later TAP evaluation consistent.
 
 <h3 class="section">3.3 Particular use-cases</h3>
 
@@ -744,8 +1073,7 @@ by that id.
 
 <p>So simply each suite should output
 
-<pre class="verbatim">
-# Artemis-reportgroup-testrun: 1234
+<pre class="verbatim"> # Artemis-reportgroup-testrun: 1234
 </pre>
 
 <p>with 1234 being a testrun ID that is available via the environment
@@ -762,14 +1090,12 @@ inside all guests with the following header:
      <ul>
 <li>get the value:
 
-     <pre class="verbatim">     
-     ARTEMIS_REPORT_GROUP=`date|md5sum|awk '{print $1}'`
+     <pre class="verbatim">      ARTEMIS_REPORT_GROUP=`date|md5sum|awk '{print $1}'`
 </pre>
 
      <li>use the value:
 
-     <pre class="verbatim">     
-     # Artemis-reportgroup-arbitrary: $ARTEMIS_REPORT_GROUP
+     <pre class="verbatim">      # Artemis-reportgroup-arbitrary: $ARTEMIS_REPORT_GROUP
 </pre>
 
 </ul>
@@ -780,11 +1106,51 @@ before starting them. That's not the problem of the test suite
 wrappers, they should only evaluate the environment variable
 <code>ARTEMIS_REPORT_GROUP</code>.
 
-<p><strong>Person in charge</strong>: Frank Becker
+<h3 class="section">3.4 TAP Archives</h3>
+
+<p>Some TAP emitting toolchains allow the generation of .tar.gz files
+containing TAP, so called <em>TAP archives</em>. E.g., via &lsquo;<samp><span class="samp">prove</span></samp>&rsquo;:
+
+<pre class="verbatim"> $ prove -a /tmp/myresults.tgz t/
+</pre>
+
+<p>You can later submit such TAP archive files to the Artemis reports
+receiver tha same way as you report raw TAP.
+
+<h3 class="section">3.5 Reporting TAP to the reports receiver</h3>
+
+<p>The Artemis reports receiver is a daemon that listens on a port and
+slurps in everything between the open and close of a connection to
+it. Therefore you can use &lsquo;<samp><span class="samp">netcat</span></samp>&rsquo; to report TAP.
+
+<p>Remember that using &lsquo;<samp><span class="samp">netcat</span></samp>&rsquo; in turn can be a mess, the are
+several flavours with different options which are also changing their
+behaviour over time. So to be sure, you better do your own socket
+communication with Perl or Python: open socket, print to socket, close
+socket, done. We just keep with &lsquo;<samp><span class="samp">netcat</span></samp>&rsquo; for illustrating the
+examples.
+
+<h4 class="subsection">3.5.1 Submitting raw TAP</h4>
+
+<p>Simply submit all TAP directly into the socket of the reports
+receiver:
+
+<pre class="verbatim"> $ ./my_tap_emitting_test_suite | netcat artemis_server 7357
+</pre>
+
+<h4 class="subsection">3.5.2 Submitting TAP Archives</h4>
+
+<p>You submit the content of a .tar.gz file in the same way you submit
+raw TAP, via the same API. The receiver recognizes the .tar.gz
+contenttype by itself.
+
+<pre class="verbatim"> $ prove -a /tmp/myresults.tgz t/
+ $ cat /tmp/myresults.tgz | netcat artemis_server 7357
+</pre>
 
 <div class="node">
-<p><hr>
 <a name="Test-Suite-Wrappers"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Preconditions">Preconditions</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Test-Protocol">Test Protocol</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
@@ -798,7 +1164,7 @@ suites. These wrappers are part of our overall test infrastructure.
 
 <p>It's basically about the middle part in the following picture:
 
-<p>[[image:artemis_architecture_overview.png | 800px]]
+<div class="block-image"><img src="artemis_architecture_overview.png" alt="artemis_architecture_overview.png"></div>
 
 <p>We have wrappers for existing test and benchmark suites.
 
@@ -811,8 +1177,7 @@ for common problems.
 
 <p>If the environment variables
 
-<pre class="verbatim">
-ARTEMIS_REPORT_SERVER
+<pre class="verbatim">ARTEMIS_REPORT_SERVER
 ARTEMIS_REPORT_PORT
 </pre>
 
@@ -870,6 +1235,12 @@ environment.
 
 </dl>
 
+<h4 class="subsection">4.1.6 Many more</h4>
+
+<p>This list is a bit deprecated. We have many more test suite wrappers
+and directed functional test suites in the mean time but not yet
+published.
+
 <h3 class="section">4.2 Environment variables</h3>
 
 <p>The ARTEMIS automation layer provides some environment variables that
@@ -904,12 +1275,10 @@ not a guest.
 <em>Artemis</em> headers. Important use-case is "report groups", see next
 chapter.
 
-<p><strong>Person in charge</strong>: Frank Becker
-
 <div class="node">
-<p><hr>
 <a name="Preconditions"></a>
-Next:&nbsp;<a rel="next" accesskey="n" href="#Commandline">Commandline</a>,
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Command-line-interface">Command line interface</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Test-Suite-Wrappers">Test Suite Wrappers</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
@@ -940,11 +1309,13 @@ top.
 
      <li>Create a testrun in the database, referring to the precondition
 
-     <li>Wait until the tesrun is executed and results are reported
+     <li>Wait until the testrun is executed and results are reported
 
 </ul>
 
-<h3 class="section">5.2 Precondition repository</h3>
+<h3 class="section">5.2 Layers of preconditions</h3>
+
+<p>There are &ldquo;normal preconditions&rdquo; and &ldquo;macro preconditions&rdquo;.
 
 <h4 class="subsection">5.2.1 Normal preconditions</h4>
 
@@ -960,29 +1331,51 @@ multiple precondition as long as they are formated as valid YAML.
 testruns but that's not needed for archiving purposes, only for
 creation purposes.
 
+<p>Please note: <strong>Normal preconditions are usually not what you
+want.</strong> It's the low level mechanism. Its advantage is in reusing the
+preconditions by referring to IDs and creating trees of
+preconditions. This reuse is usually too complex. <strong>What you
+typically want are Macro Preconditions</strong>.
+
 <h4 class="subsection">5.2.2 Macro preconditions</h4>
 
-<p>Though, there is another mechanism on top of normal preconditions:
-<dfn>Macro Preconditions</dfn>. These allow to bundle several preconditions
-into a common use-case and mark placeholders in them, see See <a href="#Macro-Preconditions">Macro Preconditions</a>.
+<p>There is another mechanism on top of normal preconditions: <dfn>Macro
+Preconditions</dfn>. These allow to bundle <strong>multiple</strong> preconditions
+at once into a common use-case.
 
-<p>These <em>macro preconditions</em> should be archived, as they are only
-template files which are rendered into final preconditions. Only the
-final preconditions are stored in the database.
+<p>A <em>macro precondition</em> is evaluated when the testrun is added via
+the cmdline utils (or the web app, both use the same underlying
+layer). The result are &ldquo;normal preconditions&rdquo; which are inserted
+into the DB everytime together with the testrun, so there is no reuse
+of preconditions and preconditions are always a list, no tree. Anyhow,
+they are much easier to handle.
+
+<p><em>Macro preconditions</em> are template files which should be archived
+in the precondition repository, as only the finally resulting
+preconditions are stored in the database.
+
+<h3 class="section">5.3 Precondition repository</h3>
 
 <p>Macro preconditions can be stored in
 
-<pre class="verbatim">
-/data/bancroft/artemis/live/repository/macropreconditions/
+<pre class="verbatim">/data/artemis/live/repository/macropreconditions/
 </pre>
 
-<h4 class="subsection">5.2.3 Precondition types</h4>
+<h3 class="section">5.4 Overview: Precondition Types</h3>
 
-<p>Some preconditions types can contain other more simple precondition
-types. To distinguish them we call them <em>Highlevel preconditions</em>
-and <em>Action preconditions</em>, accordingly.
+<p>There are two variants of preconditions: <em>Action preconditions</em>
+and <em>Highlevel preconditions</em>. Action preconditions describe
+single actions, like &ldquo;copy a file&rdquo; or &ldquo;execute a
+program&rdquo;. Highlevel preconditions can contain other (action)
+preconditions and are used for instance for virtualization install
+scenarios where hosts and guests are described.
 
-<h5 class="subsubsection">5.2.3.1 Action preconditions</h5>
+<p><strong>Please note the wording</strong>: A precondition is the particular
+YAML block with all the details (think of an object instance). Such a
+block is of a &ldquo;precondition type&rdquo; which defines its allowed
+structure (think of a class).
+
+<h4 class="subsection">5.4.1 Overview: Action precondition types</h4>
 
 <p>The following <dfn>action</dfn> precondition types are allowed:
 
@@ -1020,7 +1413,7 @@ Requests a reboot test and states how often to reboot.
 
 </dl>
 
-<h5 class="subsubsection">5.2.3.2 Highlevel preconditions</h5>
+<h4 class="subsection">5.4.2 Overview: Highlevel precondition types</h4>
 
 <p>Currently only the following <dfn>high level</dfn> precondition type is
 allowed:
@@ -1039,130 +1432,121 @@ a defined root image in the high level precondition is always
 installed first. All other preconditions are installed in the order
 defined by its tree structure (depth-first).
 
-<h4 class="subsection">5.2.4 Precondition description</h4>
+<h3 class="section">5.5 Details: Precondition Types</h3>
 
 <p>We describe preconditions in YAML files (<a href="http://www.yaml.org/">http://www.yaml.org/</a>).
 
 <p>All preconditions have at least a key
 
-<pre class="verbatim">
-precondition_type: TYPE
+<pre class="verbatim">precondition_type: TYPE
 </pre>
 
 <p>and optionally
 
-<pre class="verbatim">
-name: VERBOSE DESCRIPTION
+<pre class="verbatim">name: VERBOSE DESCRIPTION
 shortname: SHORT DESCRIPTION
 </pre>
 
 <p>then the remaining keys depend on the TYPE.
 
-<h5 class="subsubsection">5.2.4.1 installer_stop</h5>
+<h4 class="subsection">5.5.1 installer_stop</h4>
 
-     <ul>
-<li>stop run after system installer
+<p>stop run after system installer
 
-     <pre class="verbatim">     
-     ---
-     precondition_type: installer_stop
+<pre class="verbatim">---
+precondition_type: installer_stop
 </pre>
 
-<h5 class="subsubsection">5.2.4.2 grub</h5>
+<h4 class="subsection">5.5.2 grub</h4>
 
-     <li>overwrite automatically generated grub config
+<p>overwrite automatically generated grub config
 
-          <ul>
+<pre class="verbatim">---
+precondition_type: grub
+config: |
+  title Linux
+    root $grubroot
+    kernel /boot/vmlinuz root=$root"
+</pre>
+
+     <ul>
 <li>Note: multiple lines in the grub file have to be given as one line separated by C&lt;\n&gt; in YAML
 
-          <li>the variables $grubroot and $root are substituted with grub and /dev/* notation of the root partition respectively
+     <li>the variables $grubroot and $root are substituted with grub and /dev/* notation of the root partition respectively
 
-          <li>$root substitution uses the notation of the installer kernel. This may cause issues when the installer detects /dev/sd? and the kernel under test detects /dev/hd? or vice versa
+     <li>$root substitution uses the notation of the installer kernel. This may cause issues when the installer detects /dev/sd? and the kernel under test detects /dev/hd? or vice versa
 
-          <li>since grub always expects parentheses around the device, they are part of the substitution string for $grubroot
+     <li>since grub always expects parentheses around the device, they are part of the substitution string for $grubroot
 
-          <li>note the syntax, to get multiline strings in YAML you need to start them with | and a newline
-
-          <pre class="verbatim">          
-          ---
-          precondition_type: grub
-          config: |
-            title Linux
-              root $grubroot
-              kernel /boot/vmlinuz root=$root"
-     </pre>
-
-     </ul>
+     <li>note the syntax, to get multiline strings in YAML you need to start them with | and a newline
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.3 package</h5>
+<h4 class="subsection">5.5.3 package</h4>
+
+<pre class="verbatim">---
+precondition_type: package
+filename: /data/artemis/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
+</pre>
 
      <ul>
 <li>path names can be absolut or relative to
- /data/bancroft/artemis/development/repository/packages/
+ /data/artemis/development/repository/packages/
 
      <li>supported packages types are rpm, deb, tar, tar.gz and tar.bz2
 
      <li>package type is detected automatically
 
-     <li>absolute path: usually /data/bancroft/...
+     <li>absolute path: usually /data/artemis/...
 
-     <li>relative path: relative to /data/bancroft/artemis/(live|development)/
-
-     <pre class="verbatim">     
-     ---
-     filename: /data/bancroft/artemis/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
-     precondition_type: package
-</pre>
+     <li>relative path: relative to /data/artemis/(live|development)/
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.4 copyfile</h5>
+<h4 class="subsection">5.5.4 copyfile</h4>
+
+<p>a file that just needs to be scp or copied:
+
+<pre class="verbatim">---
+precondition_type: copyfile
+protocol: nfs
+source: osko:/export/image_files/official_testing/README
+dest: /usr/local/share/artemis/
+</pre>
 
      <ul>
-<li>a file that just needs to be scp or copied:
-
-          <ul>
 <li>supported protocols are &ldquo;scp&rdquo;, &ldquo;nfs&rdquo; and &ldquo;local&rdquo;
 
-          <li>the part before the first colon in the unique name is used as server name
+     <li>the part before the first colon in the unique name is used as server name
 
-          <li>the server name part is ignored for local
+     <li>the server name part is ignored for local
 
-          <li>if dest ends in a slash, the file is copied with its basename preserved into the denoted directory
+     <li>if dest ends in a slash, the file is copied with its basename preserved into the denoted directory
 
-          <li>whether the &ldquo;dest&rdquo; is interpreted as a directory or a file is decided by the underlying &ldquo;scp&rdquo; or &ldquo;cp&rdquo; semantics, i.e., it depends on whether a directory already exists.
-
-          <pre class="verbatim">          
-          ---
-          precondition_type: copyfile
-          protocol: nfs
-          source: osko:/export/image_files/official_testing/README
-          dest: /usr/local/share/artemis/perl510
-     </pre>
-
-     </ul>
+     <li>whether the &ldquo;dest&rdquo; is interpreted as a directory or a file is decided by the underlying &ldquo;scp&rdquo; or &ldquo;cp&rdquo; semantics, i.e., it depends on whether a directory already exists.
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.5 fstab</h5>
+<h4 class="subsection">5.5.5 fstab</h4>
 
-     <ul>
-<li>a line to add to /etc/fstab, e.g., to enable mounts once the system boots
+<p>a line to add to /etc/fstab, e.g., to enable mounts once the system boots
 
-     <pre class="verbatim">     
-     ---
-     precondition_type: fstab
-     line: "165.204.85.14:/vol/osrc_vol0 /home nfs auto,defaults 0 0" 
+<pre class="verbatim">---
+precondition_type: fstab
+line: "165.204.85.14:/vol/osrc_vol0 /home nfs auto,defaults 0 0"
 </pre>
 
-</ul>
-
-<h5 class="subsubsection">5.2.4.6 image</h5>
+<h4 class="subsection">5.5.6 image</h4>
 
 <p>usually the root image that is unpacked to a partition
 (this is in contrast to a guest file that's just there)
+
+<pre class="verbatim">---
+precondition_type: image
+mount: /
+partition: testing
+image: /data/artemis/live/repository/images/rhel-5.2-rc2-32bit.tgz
+</pre>
 
      <ul>
 <li>partition and mount are required, all other options are optional
@@ -1177,49 +1561,38 @@ shortname: SHORT DESCRIPTION
      <li>partitions are formated ext3 (only when image is given)
 and mounted to mount afterwards
 
-          <ul>
-<li>this is why image exists at all, copyfile does not provide this
+     <p>(this is why image exists at all, copyfile does not provide this)
 
-          <li>absolute &ldquo;image&rdquo;: absolute
+     <li>&ldquo;image&rdquo;: absolute or relative path (relative to /data/artemis/live/repository/images/)
 
-          <li>relative &ldquo;image&rdquo;: relative to /data/bancroft/artemis/{live|development}/repository/images
-If not given, then it re-uses the partition without formatting/unpacking it.
+     <p>If not given, then it re-uses the partition without formatting/unpacking it.
 
-          <li>partition: Can be /dev/xxx or LABEL or UUID.
-
-          <pre class="verbatim">          
-          ---
-          precondition_type: image
-          mount: /
-          partition: testing
-          image: /data/bancroft/artemis/{live|development}/repository/images/rhel-5.2-rc2-32bit.{iso,.tar.gz,.tgz,.tar,.tar.bz2} (OPTIONAL)
-     </pre>
-
-     </ul>
+     <li>partition: Can be /dev/XXX or LABEL or UUID.
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.7 repository</h5>
+<h4 class="subsection">5.5.7 repository</h4>
+
+<pre class="verbatim">---
+precondition_type: repository
+type: git
+url: git://git.kernel.org/pub/scm/linux/kernel/git/avi/kvm.git
+target: kvm
+revision: c192a1e274b71daea4e6dd327d8a33e8539ed937
+</pre>
 
      <ul>
 <li>git and hg are supported
 
      <li>type and url are mandatory, target and revision are optional
 
-     <li>target denotes the directory where the source is placed in, the leading slash can be left out (i.e. paths can be given relative to root directory &rdquo;'/&rdquo;')
-
-     <pre class="verbatim">     
-     ---
-     precondition_type: repository
-     type: git
-     url: git://git.kernel.org/pub/scm/linux/kernel/git/avi/kvm.git
-     target: kvm
-     revision: c192a1e274b71daea4e6dd327d8a33e8539ed937
-</pre>
+     <li>target denotes the directory where the source is placed in,
+the leading slash can be left out (i.e., paths can be given relative
+to root directory &lsquo;<samp><span class="samp">/</span></samp>&rsquo;).
 
 </ul>
 
-<h5 class="subsubsection">5.2.4.8 type: prc</h5>
+<h4 class="subsection">5.5.8 type: prc</h4>
 
 <p>Is typically contained implicitely with the abstract precondition
 <em>virt</em>. But can also be defined explicitely, e.g., for kernel
@@ -1227,6 +1600,17 @@ tests.
 
 <p>Creates config for PRC. This config controls what is to be run and
 started when the machine boots.
+
+<pre class="verbatim">precondition_type: prc
+config:
+     runtime: 30
+     test_program: /bin/uname_tap.sh
+     timeout_after_testprogram: 90
+     guests:
+      - svm:  /xen/images/..../foo.svm
+      - svm:  /xen/images/..../bar.svm
+      - exec: /xen/images/..../start_a_kvm_guest.sh
+</pre>
 
      <ul>
 <li>guest number
@@ -1254,26 +1638,13 @@ killed (SIGINT, SIGKILL).
 guest which defines how a guest is started. Can be a SVM file for Xen
 or an executable for KVM.
 
-     <pre class="verbatim">     
-     precondition_type: prc
-     config:
-          runtime: 30
-          test_program: /bin/uname_tap.sh
-          timeout_after_testprogram: 90
-          guests:
-           - svm:  /xen/images/..../foo.svm
-           - svm:  /xen/images/..../bar.svm
-           - exec: /xen/images/..../start_a_kvm_guest.sh
-</pre>
-
-<h5 class="subsubsection">5.2.4.9 type: exec</h5>
+<h4 class="subsection">5.5.9 type: exec</h4>
 
      <p>Defines which program to run at the installation phase.
 
-     <pre class="verbatim">     
-     precondition_type: exec
+     <pre class="verbatim">     precondition_type: exec
      filename: /bin/some_script.sh
-     options: 
+     options:
        - -v
        - --foo
        - --bar="hot stuff"
@@ -1282,7 +1653,21 @@ or an executable for KVM.
      <p>The quotes in this example are actually wrong but left in so you learn
 the following lesson:
 
-<h5 class="subsubsection">5.2.4.10 quote subtleties</h5>
+<h4 class="subsection">5.5.10 type: hint</h4>
+
+     <p>Such a precondition provides hints where normal behaviour needs to be
+changd. It contains any hash keys needed for the special handling. The
+special handling itself is done in the MCP and needs to be prepared
+for what you specify here.
+
+     <p>We currently use it to handle SimNow testing.
+
+     <pre class="verbatim">     precondition_type: hint
+     simnow: 1
+     script: family10_sles10_xen.simnow
+</pre>
+
+<h4 class="subsection">5.5.11 quote subtleties</h4>
 
      <p>Please note some subtlety about quotes.
 
@@ -1291,19 +1676,17 @@ the following lesson:
 
           <p>So this
 
-          <pre class="verbatim">          
-          precondition_type: exec
+          <pre class="verbatim">          precondition_type: exec
           filename: /bin/some_script.sh
-          options: 
+          options:
             - --foo
      </pre>
 
           <p>and this
 
-          <pre class="verbatim">          
-          precondition_type: exec
+          <pre class="verbatim">          precondition_type: exec
           filename: /bin/some_script.sh
-          options: 
+          options:
             - "--foo"
      </pre>
 
@@ -1311,10 +1694,9 @@ the following lesson:
 quotes at the beginning and end of a YAML line are used by YAML. When
 you use quotes at other places like in
 
-          <pre class="verbatim">          
-          precondition_type: exec
+          <pre class="verbatim">          precondition_type: exec
           filename: /bin/some_script.sh
-          options: 
+          options:
             - --bar="hot stuff"
      </pre>
 
@@ -1336,10 +1718,9 @@ usually <strong>not</strong> what you want.
 
           <p>This is good enough:
 
-          <pre class="verbatim">          
-          precondition_type: exec
+          <pre class="verbatim">          precondition_type: exec
           filename: /bin/some_script.sh
-          options: 
+          options:
             - -v
             - --foo
             - --bar=hot stuff
@@ -1347,41 +1728,38 @@ usually <strong>not</strong> what you want.
 
      </ul>
 
-<h5 class="subsubsection">5.2.4.11 type: reboot</h5>
+<h4 class="subsection">5.5.12 type: reboot</h4>
 
      <p>Requests a reboot test and states how often to reboot.
 
      <p><strong>Note:</strong> Reboot count of 1 actually means boot two times since
 the first boot is always counted as number 0.
 
-     <pre class="verbatim">     
-     precondition_type: reboot
+     <pre class="verbatim">     precondition_type: reboot
      count: 2
 </pre>
 
-<h5 class="subsubsection">5.2.4.12 type: autoinstall</h5>
+<h4 class="subsection">5.5.13 type: autoinstall</h4>
 
      <p>Install a system using autoinstall scripts. The filename denotes the
 grub config to be used. It is mandatory and can be given as absolut
-path or relative to /data/bancroft/.../repository/install_grub/. The
+path or relative to /data/artemis/.../repository/install_grub/. The
 optional timeout is measured in second. If its absent a default value
 is used.
 
-     <pre class="verbatim">     
-     precondition_type: autoinstall
+     <pre class="verbatim">     precondition_type: autoinstall
      filename: suse/SLES10SP3_x86_64.lst
      timeout: 1800
 </pre>
 
-<h5 class="subsubsection">5.2.4.13 type: testprogram</h5>
+<h4 class="subsection">5.5.14 type: testprogram</h4>
 
      <p>Define which test program to run. This way of defining a test program
 should be prefered to using the <strong>PRC</strong> type precondition. Only the
 <strong>testprogram</strong> precondition guarantees parsing that sets all
 internal Artemis variables correctly.
 
-     <pre class="verbatim">     
-     precondition_type: testprogram
+     <pre class="verbatim">     precondition_type: testprogram
      runtime: 30
      program: /bin/uname_tap.sh
      timeout: 90
@@ -1389,40 +1767,24 @@ internal Artemis variables correctly.
      - --verbose
 </pre>
 
-<h5 class="subsubsection">5.2.4.14 type: virt</h5>
+<h4 class="subsection">5.5.15 type: virt</h4>
 
      <p>A virtualization environment.
 
-          <ul>
-<li>guest root always needs to name the file to mount since its not easy or even impossible to get this name for some ways to install
-the root image (like tar.gz packages or subdir)
-
-          <li>guest root and guest config are installed inside the host, guest preconditions are installed inside the guest image
-
-          <li>guests can be started with xm create $xenconf, evaluation of $kvmconf or executing the $execconf script, thus only one of these three must be provided
-
-     </ul>
-
-     <li>&rdquo;'Note&rdquo;': virt instead of virtualisation is used to reduce confusion for users whether British English (virtualisation) or American English (virtualization) is expected
-
-     <li>key &ldquo;arch&rdquo;
- arch: linux64 | linux32             (needed for for artemis toolchain)
-
-     <pre class="verbatim">     
-     name: automatically generated Xen test
+     <pre class="verbatim">     name: automatically generated Xen test
      precondition_type: virt
      host:
        preconditions:
-       - filename: /data/bancroft/artemis/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
+       - filename: /data/artemis/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
          precondition_type: package
-       - filename: /data/bancroft/artemis/live/repository/packages/artemisutils/sles10/xen_installer_suse.tar.gz
+       - filename: /data/artemis/live/repository/packages/artemisutils/sles10/xen_installer_suse.tar.gz
          precondition_type: package
        - filename: /bin/xen_installer_suse.pl
          precondition_type: exec
        root:
          precondition_type: image
          partition: testing
-         image: /data/bancroft/artemis/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
+         image: /data/artemis/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
          mount: /
          arch: linux64
        testprogram:
@@ -1432,7 +1794,7 @@ the root image (like tar.gz packages or subdir)
      - config:
          precondition_type: copyfile
          protocol: nfs
-         name: bancroft:/data/bancroft/artemis/live/repository/configs/xen/001-sandschaki-1237993266.svm
+         name: artemis:/data/artemis/live/repository/configs/xen/001-sandschaki-1237993266.svm
          dest: /xen/images/
          svm: /xen/images/001-sandschaki-1237993266.svm
        root:
@@ -1448,15 +1810,35 @@ the root image (like tar.gz packages or subdir)
          timeout_after_testprogram: 10800
 </pre>
 
+          <ul>
+<li>guest root always needs to name the file to mount since
+its not easy or even impossible to get this name for some ways to install
+the root image (like tar.gz packages or subdir)
+
+          <li>guest root and guest config are installed inside the host,
+guest preconditions are installed inside the guest image
+
+          <li>guests can be started with xm create $xenconf, evaluation of
+$kvmconf or executing the $execconf script, thus only one of these
+three must be provided
+
+     </ul>
+
+     <li>&rdquo;'Note&rdquo;': virt instead of virtualisation is used to reduce
+confusion for users whether British English (virtualisation) or
+American English (virtualization) is expected
+
+     <li>key &ldquo;arch&rdquo;
+ arch: linux64 | linux32             (needed for for artemis toolchain)
+
 </ul>
 
-<h5 class="subsubsection">5.2.4.15 General precondition keys &ldquo;mountfile&rdquo;</h5>
+<h4 class="subsection">5.5.16 General precondition keys &ldquo;mountfile&rdquo;</h4>
 
 <p>These 2 options are possible in each precondition. With that you can
 execute the precondition inside guest images:
 
-<pre class="verbatim">
-mountfile: ...
+<pre class="verbatim">mountfile: ...
 mountpartition: ...
 mounttype: @TODO{is this the same as mountfile, mountpartition?}
 </pre>
@@ -1465,25 +1847,35 @@ mounttype: @TODO{is this the same as mountfile, mountpartition?}
 - 2. only mountpartition: then mount that partition
 - 3. image file with partitions: mount the imagefile and from that only the given partition
 
-<p><strong>Person in charge</strong>: Maik Hentsche
+<ul class="menu">
+<li><a accesskey="1" href="#Macro-Preconditions">Macro Preconditions</a>
+</ul>
 
-<p><a name="Macro-Preconditions"></a>
+<div class="node">
+<a name="Macro-Preconditions"></a>
+<p><hr>
+Up:&nbsp;<a rel="up" accesskey="u" href="#Preconditions">Preconditions</a>
 
-<h3 class="section">5.3 Macro Preconditions</h3>
+</div>
+
+<h3 class="section">5.6 Macro Preconditions</h3>
 
 <p>This section describes macro precondition files as they are stored in
-<code>/data/bancroft/artemis/live/repository/macropreconditions/</code>.
+<code>/data/artemis/live/repository/macropreconditions/</code>.
 
 <p>A macro precondition denotes a file containing one or multiple
 preconditions and additional TemplateToolkit code.
 
-<p>In most cases preconditions for similar tests will only differ in one
-or very few keys. Thus precondition files could easily be reused by
-only changing these few keys. This is made easier with using macro
-preconditions. The macro precondition file should contain all
-preconditions to be reused. All variable keys should be substituted by
-appropriate TemplateToolkit variables. When creating the new testrun
-actual values for these TemplateToolkit variables have to provided.
+<p>In most cases &ldquo;normal preconditions&rdquo; for similar tests will only
+differ in one or very few keys. Thus precondition files could easily
+be reused by only changing these few keys. This is made easier with
+using &ldquo;macro preconditions&rdquo;.
+
+<p>The macro precondition file should contain all &ldquo;normal
+preconditions&rdquo; to be reused. All variable keys should be substituted
+by appropriate TemplateToolkit variables. When creating the new
+testrun actual values for these TemplateToolkit variables have to
+provided.
 
 <p>Macro preconditions are <strong>not</strong> stored in the database. They are
 only a tool to ease the creation of preconditions. Only the
@@ -1494,23 +1886,19 @@ fields can be named after a comment field in the first lines of the
 file after the keys <code>artemis-mandatory-fields</code> and
 <code>artemis-optional-fields</code> respectively as in the following example:
 
-<pre class="verbatim">
-# artemis-mandatory-fields: id
+<pre class="verbatim"># artemis-mandatory-fields: id
 # artemis-optional-fields: kernel
 </pre>
 
-<p>None of these <code># artemis-*</code> headers are required. But they help
-on frontend (like the Web GUI), therefor if they are missing then some
-functionality in frontends may also be missing.
+<p>These <code># artemis-*</code> headers are also used in web frontend to
+render forms out of it and submit testruns from there.
 
-<p>The values for the placeholders can be filled via
+<p>The values for the placeholders can be filled via such a command line:
 
-<pre class="verbatim">
-artemis-testrun new [all usual options] \
-    --macroprecond=FILENAME \
-     -DPLACEHOLDER1=VALUE1 \
-     -DPLACEHOLDER2=VALUE2 \
-     -DPLACEHOLDER3=VALUE3
+<pre class="verbatim"> $ artemis-testrun new [all usual options] \
+      --macroprecond=FILENAME \
+       -Did=value1 \
+       -Dkernel=2.6.37
 </pre>
 
 <p>The FILENAME is a complete filename with absolute path.
@@ -1519,17 +1907,28 @@ artemis-testrun new [all usual options] \
 substitution. The following example could be used to generate a
 default value for the precondition key id.
 
-<pre class="verbatim">
-[% id = BLOCK %][% IF id %][% id %][%ELSE%]2009-06-29-perfmon[% END %][% END %]
+<pre class="verbatim">[% id = BLOCK %][% IF id %][% id %][%ELSE%]2009-06-29-perfmon[% END %][% END %]
 </pre>
 
-<h4 class="subsection">5.3.1 A real live example: kernel boot test</h4>
+<ul class="menu">
+<li><a accesskey="1" href="#A-real-live-example-_002d-kernel-boot-test">A real live example - kernel boot test</a>
+</ul>
+
+<div class="node">
+<a name="A-real-live-example---kernel-boot-test"></a>
+<a name="A-real-live-example-_002d-kernel-boot-test"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Macro-Preconditions">Macro Preconditions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Macro-Preconditions">Macro Preconditions</a>
+
+</div>
+
+<h4 class="subsection">5.6.1 A real live example - kernel boot test</h4>
 
      <ul>
 <li>Macroprecondition
 
-     <pre class="verbatim">     
-     # artemis-mandatory-fields: kernel_version
+     <pre class="verbatim">     # artemis-mandatory-fields: kernel_version
      # artemis-optional-fields: kernelpkg
      ---
      arch: linux64
@@ -1539,16 +1938,20 @@ default value for the precondition key id.
      precondition_type: image
      ---
      precondition_type: copyfile
-     name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
+     name: /data/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
      dest: /bin/
      protocol: local
      ---
      precondition_type: copyfile
-     name: /data/bancroft/artemis/live/repository/packages/artemisutils/kernel/gen_initrd.sh
+     name: /data/artemis/live/repository/packages/artemisutils/kernel/gen_initrd.sh
      dest: /bin/
      protocol: local
      ---
-     [% kernelpkg = BLOCK %][% IF kernelpkg %][% kernelpkg %][%ELSE%]kernel/linux-[% kernel_version %].tar.gz[% END %][% END %]
+     [% kernelpkg = BLOCK %]\
+     [% IF kernelpkg %]\
+     [% kernelpkg %]\
+     [%ELSE%]kernel/linux-[% kernel_version %].tar.gz[% END %]\
+     [% END %]
      precondition_type: package
      filename: [% kernelpkg %]
      ---
@@ -1569,8 +1972,7 @@ default value for the precondition key id.
      <p>The test script <code>uname_tap.sh</code> to which the macro precondition
 refers is just a shell script that examines uname output:
 
-     <pre class="verbatim">     
-     #! /bin/sh
+     <pre class="verbatim">     #! /bin/sh
      echo "1..2"
      echo "# Artemis-Suite-Name: Kernel-Boot"
      echo "# Artemis-Suite-Version: 1.00"
@@ -1588,31 +1990,29 @@ refers is just a shell script that examines uname output:
      <p>Once you wrote the macro precondition and the test script all you need
 is this command line:
 
-     <pre class="verbatim">     
-     artemis-testrun new \
+     <pre class="verbatim">     artemis-testrun new \
        --hostname=dickstone \
-       --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+       --macroprecond \
+         /data/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
         -Dkernelpkg=perfmon-682-x86_64.tar.gz \
         -Dkernel_version=2.6.28-rc3
 </pre>
 
      <p>or with some more information (owner, topic):
 
-     <pre class="verbatim">     
-     artemis-testrun new \
+     <pre class="verbatim">     artemis-testrun new \
        --owner=mhentsc3 \
        --topic=Kernel \
        --hostname=dickstone \
-       --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+       --macroprecond \
+         /data/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
         -Dkernelpkg=perfmon-682-x86_64.tar.gz \
         -Dkernel_version=2.6.28-rc3
 </pre>
 
 </ul>
 
-<p><strong>Person in charge</strong>: Steffen Schwigon
-
-<h3 class="section">5.4 Producers</h3>
+<h3 class="section">5.7 Precondition Producers</h3>
 
 <p>Sometimes, parameters for preconditions shall be defined when the
 testrun, this precondition is assigned to, is choosen for
@@ -1623,43 +2023,42 @@ are reinserted into the database automatically as soon as the
 scheduler chooses them for execution. In this case dynamic
 precondition assignment allows these rerun tests to differ
 slightly. Preconditions with dynamically assigned parameters are
-called lazy precondition (similar to the lazy evaluation technique).
+called <dfn>Lazy Precondition</dfn>.
 
-<p>Dynamic precondition assignment is implemented using Precondition
-Producers. A producer is a modul that is called by the scheduler for
+<p>Dynamic precondition assignment is implemented using <dfn>Precondition
+Producers</dfn>. A producer is a modul that is called by the scheduler for
 handling of lazy preconditions. To use a lazy preconditio the user has
-to assign a precondition of type &ldquo;producer&rdquo; to the testrun. This
+to assign a precondition of type &lsquo;<samp><span class="samp">producer</span></samp>&rsquo; to the testrun. This
 precondition has to contain the basename of an existing producer
 module and may contain additional parameters. The producer will
-substitute the &ldquo;producer&rdquo; precondition with a normal precondition
+substitute the &lsquo;<samp><span class="samp">producer</span></samp>&rsquo; precondition with a normal precondition
 that has values assigned to all parameters.
 
-<h4 class="subsection">5.4.1 Lazy precondition</h4>
+<h4 class="subsection">5.7.1 Lazy precondition</h4>
 
 <p>Lets assume for example that you want to include the newest kernel
 package into your test. This can be achieved with the existing
-&ldquo;Kernel&rdquo; producer. Instead of a precondition of type &ldquo;package&rdquo;
+&ldquo;Kernel&rdquo; producer. Instead of a precondition of type &lsquo;<samp><span class="samp">package</span></samp>&rsquo;
 with a certain filename you should assign the following precondition
 to your testrun.
 
-<pre class="verbatim">
-precontition_type: producer
-producer: Kernel 
+<pre class="verbatim">precontition_type: producer
+producer: Kernel
 </pre>
 
 <p>This precondition will be substituted with a package precondition that
 has the latest Sysint kernel build set as filename.
 
-<h4 class="subsection">5.4.2 Producer API</h4>
+<h4 class="subsection">5.7.2 Producer API</h4>
 
 <p>Producer are modules loaded into the scheduler. Thus they need to be
 written in Perl and reside inside the
-<code>Artemis::MCP::Scheduler::PreconditionProducer</code> namespace. A producer
-has to implement a method &ldquo;produce&rdquo;. This function gets a job object
-as first parameter and a hash containing all additional options from
-the precondition as second parameter. It suggested that each producer
-inherits from
-<code>Artemis::MCP::Scheduler::PreconditionProducer</code>. Producers hall
+<code>Artemis::MCP::Scheduler::PreconditionProducer::</code> namespace. A
+producer has to implement a method &lsquo;<samp><span class="samp">produce</span></samp>&rsquo;. This function gets
+a job object as first parameter and a hash containing all additional
+options from the precondition as second parameter. It suggested that
+each producer inherits from
+<code>Artemis::MCP::Scheduler::PreconditionProducer</code>. Producers shall
 return a hash that has the produced preconditions as YAML text
 assigned to the hash key <code>precondition_yaml</code>. An optional key
 <code>topic</code> allows the producer to set the topic for the test. If the
@@ -1667,9 +2066,87 @@ hash key <code>error</code> is set, the associated error string is reported
 and the testrun is cancled. In this case the other hash keys are not
 evaluated.
 
+<h4 class="subsection">5.7.3 Existing producers</h4>
+
+<p>Currently the following producers exist:
+
+     <ul>
+<li>DummyProducer.pm
+
+     <p>Dummy producer for testing.
+
+     <li>Kernel.pm
+
+     <p>Produces preconditions for kernel tests.
+
+     <li>NewestPackage.pm
+
+     <p>Produces a package precondition that installs the newest package from
+a given directory.
+
+     <li>SimnowKernel.pm
+
+     <p>Produces preconditions for simnow kernel tests.
+
+     <li>Temare.pm
+
+     <p>Wraps the existing temare producer utility.
+
+</ul>
+
+<h4 class="subsection">5.7.4 Example: &ldquo;Kernel&rdquo; precondition producer</h4>
+
+<p>The kernel producer returns a package precondition that contains the
+latest kernel package from the kernel package path. Furthermore, it
+returns an exec precondition that triggers the creation of an initrd
+file for the kernel.
+
+<p>Valid options:
+     <ul>
+<li>arch
+
+     <p>May be x86_64 or i686. The latest kernel package from the associated
+path are used.
+
+     <li>version
+
+     <p>Only use kernel packages that contain the given version string
+
+     <li>stable
+
+     <p>Use stable kernels when true
+
+</ul>
+
+<h5 class="subsubsection">5.7.4.1 Lazy precondition</h5>
+
+<p>The lazy precondition, pointing to the &ldquo;Kernel&rdquo; precondition
+producer:
+
+<pre class="verbatim">precondition_type: produce
+producer: Kernel
+arch: i686
+version: 2.6.32
+stable: 1
+</pre>
+
+<h5 class="subsubsection">5.7.4.2 Resulting preconditions</h5>
+
+<p>The resulting preconditions may look like this:
+
+<pre class="verbatim">---
+filename: kernel/stable/i686/kernel-2.6.32-rc1.tar.gz
+precondition_type: package
+---
+filename: /bin/gen_initrd.sh
+options:
+  - 2.6.32-rc1
+precondition_type: exec
+</pre>
+
 <div class="node">
+<a name="Command-line-interface"></a>
 <p><hr>
-<a name="Commandline"></a>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Web-User-Interface">Web User Interface</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Preconditions">Preconditions</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
@@ -1677,6 +2154,20 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 </div>
 
 <h2 class="chapter">6 Command line interface</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="#SYNOPSIS">SYNOPSIS</a>
+<li><a accesskey="2" href="#Scheduling">Scheduling</a>
+</ul>
+
+<div class="node">
+<a name="SYNOPSIS"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Scheduling">Scheduling</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Command-line-interface">Command line interface</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Command-line-interface">Command line interface</a>
+
+</div>
 
 <h3 class="section">6.1 SYNOPSIS</h3>
 
@@ -1691,15 +2182,38 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 </ul>
 
-<h3 class="section">6.2 Scheduling: hosts, queues, jobs</h3>
+<div class="node">
+<a name="Scheduling"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#SYNOPSIS">SYNOPSIS</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Command-line-interface">Command line interface</a>
 
-<h4 class="subsection">6.2.1 Create new queue, new host, bind both together</h4>
+</div>
+
+<h3 class="section">6.2 Scheduling</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#Create-new-queue-and-new-host-and-bind-both-together">Create new queue and new host and bind both together</a>
+<li><a accesskey="2" href="#Change-queue-priority">Change queue priority</a>
+<li><a accesskey="3" href="#requested-features">requested features</a>
+<li><a accesskey="4" href="#Cancel-current-testrun-on-host">Cancel current testrun on host</a>
+</ul>
+
+<div class="node">
+<a name="Create-new-queue-and-new-host-and-bind-both-together"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Change-queue-priority">Change queue priority</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Scheduling">Scheduling</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Scheduling">Scheduling</a>
+
+</div>
+
+<h4 class="subsection">6.2.1 Create new queue and new host and bind both together</h4>
 
      <ul>
 <li>Show existing queues with priorities
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun listqueue -v
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun listqueue -v
              10 |              AdHoc |  1000
              11 |      kernel_reboot |   100
               4 | xen-3.3-testing-32 |   100
@@ -1712,15 +2226,15 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
      <li>Create new queue <em>oprofile</em>
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun newqueue --name=oprofile --priority=200
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun newqueue --name=oprofile \
+                                                  --priority=200
      12
 </pre>
 
      <li>Create new host <em>bullock</em> and bind it to queue <em>oprofile</em>
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun newhost --name=bullock --queue=oprofile
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun newhost --name=bullock \
+                                                 --queue=oprofile
      10
 </pre>
 
@@ -1728,8 +2242,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
      <p>Note that the new host <em>bullock</em> is initially deactivated.
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun listhost -v
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun listhost -v
               8 |  amarok | deactivated |   free
               1 |  athene |      active | in use
               9 |   azael | deactivated |   free
@@ -1747,8 +2260,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
      <p>Note that this command is ID based (bullock has id 10) because you
 can rename hosts.
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun updatehost --id=10 --active
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun updatehost --id=10 --active
      10 | bullock | active | free | oprofile
 </pre>
 
@@ -1756,8 +2268,7 @@ can rename hosts.
 
      <p>Host <em>bullock</em> is now activated.
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun listhost -v
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun listhost -v
               8 |  amarok | deactivated |   free
               1 |  athene |      active | in use
               9 |   azael | deactivated |   free
@@ -1774,13 +2285,21 @@ can rename hosts.
 
 <p>Done.
 
+<div class="node">
+<a name="Change-queue-priority"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#requested-features">requested features</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Create-new-queue-and-new-host-and-bind-both-together">Create new queue and new host and bind both together</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Scheduling">Scheduling</a>
+
+</div>
+
 <h4 class="subsection">6.2.2 Change queue priority</h4>
 
      <ul>
 <li>List existing queues
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun listqueue -v
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun listqueue -v
              10 |              AdHoc |  1000
              11 |      kernel_reboot |   100
              12 |           oprofile |   200 | bullock
@@ -1794,15 +2313,14 @@ can rename hosts.
 
      <li>Update queue
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun updatequeue --name=oprofile --priority=1000
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun updatequeue --name=oprofile \
+                                                     --priority=1000
      12
 </pre>
 
      <li>Again, list existing queues
 
-     <pre class="verbatim">     
-     artemis@bancroft:~> artemis-testrun listqueue -v
+     <pre class="verbatim">     artemis@bancroft:~> artemis-testrun listqueue -v
              10 |              AdHoc |  1000
              11 |      kernel_reboot |   100
              12 |           oprofile |  1000 | bullock
@@ -1818,13 +2336,72 @@ can rename hosts.
 
 </ul>
 
-<p><strong>Person in charge</strong>: Maik Hentsche
+<div class="node">
+<a name="requested-features"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Cancel-current-testrun-on-host">Cancel current testrun on host</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Change-queue-priority">Change queue priority</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Scheduling">Scheduling</a>
+
+</div>
+
+<h4 class="subsection">6.2.3 requested features</h4>
+
+<p>Hosts for testruns can be choosen based on requested
+features. Supported features are:
+
+     <ul>
+<li>hostname
+
+     <li>mem
+
+     <li>vendor
+
+     <li>family
+
+     <li>model
+
+     <li>stepping
+
+     <li>revision
+
+     <li>socket
+
+     <li>cores
+
+     <li>clock
+
+     <li>l2cache
+
+     <li>l3cache
+
+</ul>
 
 <div class="node">
+<a name="Cancel-current-testrun-on-host"></a>
 <p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#requested-features">requested features</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Scheduling">Scheduling</a>
+
+</div>
+
+<h4 class="subsection">6.2.4 Cancel current testrun on host</h4>
+
+<p>Freeing a host need the config for the currently running
+testrun. Thus, the command is only tested on bancroft and may not work
+on other machines.
+
+<pre class="verbatim">
+artemis@bancroft:~> artemis-testrun freehost \
+--name=bullock --desc='I need this host right now'
+
+</pre>
+
+<div class="node">
 <a name="Web-User-Interface"></a>
+<p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Reports-API">Reports API</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="#Commandline">Commandline</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Command-line-interface">Command line interface</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 </div>
@@ -1841,7 +2418,7 @@ allows to zoom into details of single reports.
 
 <p>To evaluate reported test results in a more programmatic way, have a
 look into the <em>DPath Query Language</em> that is part of the
-<a href="#Reports_003a_003aAPI">Reports::API</a>.
+<a href="#Reports-API">Reports API</a>.
 
 <h3 class="section">7.1 Usage</h3>
 
@@ -1861,8 +2438,7 @@ look into the <em>DPath Query Language</em> that is part of the
 
      <li>Below day &ldquo;Wed Oct 7, 2009&rdquo; find the line
 
-     <pre class="verbatim">     
-         20856  2009-10-07  Topic-xen-unstable  satyr  PASS testrun 9617
+     <pre class="verbatim">         20856  2009-10-07  Topic-xen-unstable  satyr  PASS testrun 9617
 </pre>
 
      <p>To find this report you probably need to go more back into the past
@@ -1871,8 +2447,7 @@ look into the <em>DPath Query Language</em> that is part of the
      <li>Note that there are other reports in this group that are greyed-out,
   i.e. all report ids of this testrun are:
 
-     <pre class="verbatim">     
-         20856    Topic-xen-unstable
+     <pre class="verbatim">         20856    Topic-xen-unstable
          20855    LMBench
          20854    CTCS
          20852    Host-Overview
@@ -1890,8 +2465,7 @@ look into the <em>DPath Query Language</em> that is part of the
 
           <li>There were 2 guest runs:
 
-          <pre class="verbatim">          
-                  LMBench      satyr:celegorm.osrc.amd.com     PASS
+          <pre class="verbatim">                  LMBench      satyr:celegorm.osrc.amd.com     PASS
                   CTCS         satyr:eriador                   FAIL
      </pre>
 
@@ -1922,8 +2496,7 @@ look into the <em>DPath Query Language</em> that is part of the
      <li>Note below the group of all the other reports, again it's the group
   of those IDs:
 
-     <pre class="verbatim">     
-         20856    Topic-xen-unstable
+     <pre class="verbatim">         20856    Topic-xen-unstable
          20855    LMBench
          20854    CTCS
          20852    Host-Overview
@@ -1940,8 +2513,7 @@ lots of meta information as &ldquo;Context&rdquo;.
 
      <p>You see:
 
-     <pre class="verbatim">     
-       Metainfo
+     <pre class="verbatim">       Metainfo
            cpuinfo: 	1x Family: 15, Model: 67, Stepping: 2
            ram: 	3950 MB
            uptime: 	0 hrs
@@ -1987,8 +2559,7 @@ lots of meta information as &ldquo;Context&rdquo;.
   arrived in, except that primary one from the MCP, then you can use the
   link at the end of the line
 
-     <pre class="verbatim">     
-         20856  2009-10-07  Topic-xen-unstable  satyr  PASS testrun 9617
+     <pre class="verbatim">         20856  2009-10-07  Topic-xen-unstable  satyr  PASS testrun 9617
                                                             ------------ 
 </pre>
 
@@ -2004,8 +2575,7 @@ specification, the &ldquo;Reports&rdquo; contain the results.)
 
      <p>You see:
 
-     <pre class="verbatim">     
-       Name                  Automatically generated Xen test
+     <pre class="verbatim">       Name                  Automatically generated Xen test
        Host
            Architecture      linux64
            Root image        …/suse_sles10_sp2_64b_smp_raw.tar.gz
@@ -2025,19 +2595,33 @@ specification, the &ldquo;Reports&rdquo; contain the results.)
 </ul>
 
 <div class="node">
-<p><hr>
 <a name="Reports-API"></a>
-Next:&nbsp;<a rel="next" accesskey="n" href="#Complete-Use_002dCases">Complete Use-Cases</a>,
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Complete-Use-Cases">Complete Use Cases</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Web-User-Interface">Web User Interface</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 </div>
 
-<p><a name="Reports_003a_003aAPI"></a>
+<h2 class="chapter">8 Reports API</h2>
 
-<h2 class="chapter">8 Reports::API</h2>
+<ul class="menu">
+<li><a accesskey="1" href="#Overview">Overview</a>
+<li><a accesskey="2" href="#Raw-API-Commands">Raw API Commands</a>
+<li><a accesskey="3" href="#Query-language-DPath">Query language DPath</a>
+<li><a accesskey="4" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>
+</ul>
 
 <!-- ====================================================================== -->
+<div class="node">
+<a name="Overview"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Raw-API-Commands">Raw API Commands</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Reports-API">Reports API</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-API">Reports API</a>
+
+</div>
+
 <h3 class="section">8.1 Overview</h3>
 
 <p>There runs yet another daemon, the so called
@@ -2060,9 +2644,16 @@ they are just positional parameters, sometimes they look like the
 start of a HERE document (i.e., they are prefixed with <code>&lt;&lt;</code> as
 you can see below).
 
-<p><strong>Person in charge</strong>: Steffen Schwigon
-
 <!-- ====================================================================== -->
+<div class="node">
+<a name="Raw-API-Commands"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Query-language-DPath">Query language DPath</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Overview">Overview</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-API">Reports API</a>
+
+</div>
+
 <h3 class="section">8.2 Raw API Commands</h3>
 
 <p>In this section the raw API is described. That's the way you can use
@@ -2075,19 +2666,60 @@ dependency that might not be available in your personal test
 environment.
 
 <!--  -->
-<h4 class="subsection">8.2.1 upload - attach a file to a report</h4>
+<ul class="menu">
+<li><a accesskey="1" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
+<li><a accesskey="2" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>
+<li><a accesskey="3" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language </a>
+</ul>
+
+<div class="node">
+<a name="upload-aka.-attach-a-file-to-a-report"></a>
+<a name="upload-aka_002e-attach-a-file-to-a-report"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Raw-API-Commands">Raw API Commands</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Raw-API-Commands">Raw API Commands</a>
+
+</div>
+
+<h4 class="subsection">8.2.1 upload aka. attach a file to a report</h4>
 
 <p>This api command lets you upload files, aka. attachments, to
 reports. These files are available later through the web
 interface. Use this to attach log files, config files or console
 output.
 
-<h5 class="subsubsection">8.2.1.1 Synopsis</h5>
+<ul class="menu">
+<li><a accesskey="1" href="#upload-_002d-Synopsis">upload - Synopsis</a>
+<li><a accesskey="2" href="#Parameters">Parameters</a>
+<li><a accesskey="3" href="#upload-Payload">upload Payload</a>
+<li><a accesskey="4" href="#upload-Example-usage">upload Example usage</a>
+</ul>
 
-<pre class="verbatim">
-#! upload REPORTID FILENAME [ CONTENTTYPE ]
+<div class="node">
+<a name="upload---Synopsis"></a>
+<a name="upload-_002d-Synopsis"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Parameters">Parameters</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.1.1 upload - Synopsis</h5>
+
+<pre class="verbatim">#! upload REPORTID FILENAME [ CONTENTTYPE ]
 payload
 </pre>
+
+<div class="node">
+<a name="Parameters"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#upload-Payload">upload Payload</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-_002d-Synopsis">upload - Synopsis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
+
+</div>
 
 <h5 class="subsubsection">8.2.1.2 Parameters</h5>
 
@@ -2108,36 +2740,161 @@ browser.
 
 </ul>
 
-<h5 class="subsubsection">8.2.1.3 Payload</h5>
+<div class="node">
+<a name="upload-Payload"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#upload-Example-usage">upload Example usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Parameters">Parameters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.1.3 upload Payload</h5>
 
 <p>The raw content of the file to upload.
 
-<h5 class="subsubsection">8.2.1.4 Example usage</h5>
+<div class="node">
+<a name="upload-Example-usage"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-Payload">upload Payload</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.1.4 upload Example usage</h5>
 
 <p>Just <code>echo</code> the first api-command line and then immediately
 <code>cat</code> the file content:
 
-<pre class="verbatim">
-$ ( echo "#! upload 552 xyz.tmp" ; cat xyz.tmp ) | netcat -w1 bascha 7358
+<pre class="verbatim">$ ( echo "#! upload 552 xyz.tmp" ; cat xyz.tmp ) | netcat -w1 bascha 7358
 </pre>
 
 <!--  -->
-<h4 class="subsection">8.2.2 mason - Render templates with embedded query language</h4>
+<div class="node">
+<a name="download---download-a-file-which-is-attached-to-a-report"></a>
+<a name="download-_002d-download-a-file-which-is-attached-to-a-report"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Raw-API-Commands">Raw API Commands</a>
+
+</div>
+
+<h4 class="subsection">8.2.2 download - download a file which is attached to a report</h4>
+
+<p>This api command lets you download files, aka. attachments, from
+reports.
+
+<ul class="menu">
+<li><a accesskey="1" href="#download-Synopsis">download Synopsis</a>
+<li><a accesskey="2" href="#download-Parameters">download Parameters</a>
+<li><a accesskey="3" href="#download-Example-usage">download Example usage</a>
+</ul>
+
+<div class="node">
+<a name="download-Synopsis"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#download-Parameters">download Parameters</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.2.1 download Synopsis</h5>
+
+<pre class="verbatim">#! upload REPORTID FILENAME
+</pre>
+
+<p>There is no other payload neccessary here, just this single line.
+
+<div class="node">
+<a name="download-Parameters"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#download-Example-usage">download Example usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#download-Synopsis">download Synopsis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.2.2 download Parameters</h5>
+
+     <ul>
+<li>REPORTID
+
+     <p>The id of the report to which the file is assigned
+
+     <li>FILENAME
+
+     <p>The name of the file as it was specified on upload
+
+</ul>
+
+<div class="node">
+<a name="download-Example-usage"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#download-Parameters">download Parameters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.2.3 download Example usage</h5>
+
+<p>Just <code>echo</code> the first api-command line and redirect the answer
+into a file.
+
+<pre class="verbatim">$ ( echo "#! download 552 xyz.tmp" ) | netcat -w1 bascha 7358 > xyz.tmp
+</pre>
+
+<!--  -->
+<div class="node">
+<a name="mason---Render-templates-with-embedded-query-language"></a>
+<a name="mason-_002d-Render-templates-with-embedded-query-language"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#download-_002d-download-a-file-which-is-attached-to-a-report">download - download a file which is attached to a report</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Raw-API-Commands">Raw API Commands</a>
+
+</div>
+
+<h4 class="subsection">8.2.3 mason - Render templates with embedded query language</h4>
 
 <p>To query report results we provide sending templates to the API in
 which you can use a query language to get report details: This
 api-command is called like the template engine so that we can provide
 other template engines as well.
 
-<h5 class="subsubsection">8.2.2.1 Synopsis</h5>
+<ul class="menu">
+<li><a accesskey="1" href="#mason-Synopsis">mason Synopsis</a>
+<li><a accesskey="2" href="#mason-Parameters">mason Parameters</a>
+<li><a accesskey="3" href="#Payload">Payload</a>
+<li><a accesskey="4" href="#Example-usage">Example usage</a>
+</ul>
 
-<pre class="verbatim">
-#! mason debug=0 &lt;&lt;ENDMARKER
+<div class="node">
+<a name="mason-Synopsis"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#mason-Parameters">mason Parameters</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.3.1 mason Synopsis</h5>
+
+<pre class="verbatim">#! mason debug=0 &lt;&lt;ENDMARKER
 payload
 ENDMARKER
 </pre>
 
-<h5 class="subsubsection">8.2.2.2 Parameters</h5>
+<div class="node">
+<a name="mason-Parameters"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Payload">Payload</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#mason-Synopsis">mason Synopsis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.3.2 mason Parameters</h5>
 
      <ul>
 <li>debug=1
@@ -2154,7 +2911,16 @@ contained in the template payload.
 
 </ul>
 
-<h5 class="subsubsection">8.2.2.3 Payload</h5>
+<div class="node">
+<a name="Payload"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Example-usage">Example usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#mason-Parameters">mason Parameters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.3.3 mason Payload</h5>
 
 <p>A mason template.
 
@@ -2163,12 +2929,19 @@ contained in the template payload.
 <code>reportdata</code> to access report data via a query language. See
 section <a href="#Query-language">Query language</a> for details about this.
 
-<h5 class="subsubsection">8.2.2.4 Example usage</h5>
+<div class="node">
+<a name="Example-usage"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Payload">Payload</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#mason-_002d-Render-templates-with-embedded-query-language">mason - Render templates with embedded query language</a>
+
+</div>
+
+<h5 class="subsubsection">8.2.3.4 Example usage</h5>
 
 <p>This is a raw Mason template:
 
-<pre class="verbatim">
- % my $world = "Mason World";
+<pre class="verbatim"> % my $world = "Mason World";
  Hello &lt;% $world %>!
  % my @res = reportdata '{ "suite.name" => "perfmon" } :: //tap/tests_planned';
  Planned perfmon tests:
@@ -2180,8 +2953,7 @@ section <a href="#Query-language">Query language</a> for details about this.
 <p>If you want to submit such a Mason template you can add the
 api-command line and the EOF marker like this:
 
-<pre class="verbatim">
-$ EOFMARKER="MASONTEMPLATE".$$
+<pre class="verbatim">$ EOFMARKER="MASONTEMPLATE".$$
 $ payload_file="perfmon_tests_planned.mas"
 $ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
     | netcat -w1 bascha 7358
@@ -2190,30 +2962,34 @@ $ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" )
 <p>The output of this is the rendered template. You can extend the line
 to save the rendered result into a file:
 
-<pre class="verbatim">
-$ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
+<pre class="verbatim">$ ( echo "#! mason &lt;&lt;$EOFMARKER" ; cat $payload_file ; echo "$EOFMARKER" ) \
     | netcat -w1 bascha 7358 > result.txt
 </pre>
 
 <p>The answer for this looks like this:
 
-<pre class="verbatim">
-Hello Mason World!
+<pre class="verbatim">Hello Mason World!
 Planned perfmon tests:
    3
    4
    17
 </pre>
 
-<p><a name="Query-language"></a>
+<p><a name="Query-language"></a><div class="node">
+<a name="Query-language-DPath"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Raw-API-Commands">Raw API Commands</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-API">Reports API</a>
+
+</div>
 
 <h3 class="section">8.3 Query language DPath</h3>
 
 <p>The query language, which is the argument to the <code>reportdata</code> as
 used embedded in the &lsquo;<samp><span class="samp">mason</span></samp>&rsquo; examples above:
 
-<pre class="verbatim">
- reportdata '{ "suite.name" => "perfmon" } :: //tap/tests_planned'
+<pre class="verbatim"> reportdata '{ "suite.name" => "perfmon" } :: //tap/tests_planned'
 </pre>
 
 <p>consists of 2 parts, divided by the &lsquo;<samp><span class="samp">::</span></samp>&rsquo;.
@@ -2221,7 +2997,23 @@ used embedded in the &lsquo;<samp><span class="samp">mason</span></samp>&rsquo; 
 <p>We call the first part in braces <em>reports filter</em> and the second
 part <em>data filter</em>.
 
-<h4 class="subsection">8.3.1 Reports Filter (SQL::Abstract)</h4>
+<ul class="menu">
+<li><a accesskey="1" href="#Reports-Filter-_0028SQL_002dAbstract_0029">Reports Filter (SQL-Abstract)</a>
+<li><a accesskey="2" href="#Data-Filter">Data Filter</a>
+<li><a accesskey="3" href="#Optimizations">Optimizations</a>
+</ul>
+
+<div class="node">
+<a name="Reports-Filter-(SQL-Abstract)"></a>
+<a name="Reports-Filter-_0028SQL_002dAbstract_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Data-Filter">Data Filter</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Query-language-DPath">Query language DPath</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Query-language-DPath">Query language DPath</a>
+
+</div>
+
+<h4 class="subsection">8.3.1 Reports Filter (SQL-Abstract)</h4>
 
 <p>The <em>reports filter</em> selects which reports to look at. The
 expression inside the braces is actually a complete
@@ -2239,24 +3031,36 @@ is turned into a data structure via <code>TAP::DOM</code>
 <p>The <em>data filter</em> works then on that data structure for each
 report.
 
+<ul class="menu">
+<li><a accesskey="1" href="#SQL_002dAbstract-expressions">SQL-Abstract expressions</a>
+<li><a accesskey="2" href="#The-data-structure">The data structure</a>
+</ul>
+
+<div class="node">
+<a name="SQL-Abstract-expressions"></a>
+<a name="SQL_002dAbstract-expressions"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#The-data-structure">The data structure</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Reports-Filter-_0028SQL_002dAbstract_0029">Reports Filter (SQL-Abstract)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-Filter-_0028SQL_002dAbstract_0029">Reports Filter (SQL-Abstract)</a>
+
+</div>
+
 <h5 class="subsubsection">8.3.1.1 SQL::Abstract expressions</h5>
 
 <p>The filter expressions are best described by example:
 
      <ul>
 <li>Select a report by ID
-<pre class="verbatim">     
-     { 'id' => 1234 }
+<pre class="verbatim">     { 'id' => 1234 }
 </pre>
 
      <li>Select a report by suite name
-<pre class="verbatim">     
-     { 'suite_name' => 'oprofile' }
+<pre class="verbatim">     { 'suite_name' => 'oprofile' }
 </pre>
 
      <li>Select a report by machine name
-<pre class="verbatim">     
-     { 'machine_name' => 'bascha' }
+<pre class="verbatim">     { 'machine_name' => 'bascha' }
 </pre>
 
      <li>Select a report by date
@@ -2264,15 +3068,31 @@ report.
      <p>Here the value that you want to select is a structure by itself,
 consisting of the comparison operator and a time string:
 
-     <pre class="verbatim">     
-     { 'created_at' => { '&lt;', '2009-04-09 10:00' }  }
+     <pre class="verbatim">     { 'created_at' => { '&lt;', '2009-04-09 10:00' }  }
 </pre>
 
 </ul>
 
+<div class="node">
+<a name="The-data-structure"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#SQL_002dAbstract-expressions">SQL-Abstract expressions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-Filter-_0028SQL_002dAbstract_0029">Reports Filter (SQL-Abstract)</a>
+
+</div>
+
 <h5 class="subsubsection">8.3.1.2 The data structure</h5>
 
-<h4 class="subsection">8.3.2 Data Filter (Data::DPath)</h4>
+<div class="node">
+<a name="Data-Filter"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Optimizations">Optimizations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Reports-Filter-_0028SQL_002dAbstract_0029">Reports Filter (SQL-Abstract)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Query-language-DPath">Query language DPath</a>
+
+</div>
+
+<h4 class="subsection">8.3.2 Data Filter</h4>
 
 <p>The data structure that is created for each report can be evaluated
 using the <em>data filter</em> part of the query language, i.e.,
@@ -2280,7 +3100,28 @@ everything after the <code>::</code>. This part is passed through to
 <code>Data::DPath</code>
 (<a href="http://search.cpan.org/~schwigon/Data-DPath/">http://search.cpan.org/~schwigon/Data-DPath/</a>).
 
-<h5 class="subsubsection">8.3.2.1 Data::DPath expressions</h5>
+<ul class="menu">
+<li><a accesskey="1" href="#Data_002dDPath-expressions">Data-DPath expressions</a>
+</ul>
+
+<div class="node">
+<a name="Data-DPath-expressions"></a>
+<a name="Data_002dDPath-expressions"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Data-Filter">Data Filter</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Data-Filter">Data Filter</a>
+
+</div>
+
+<h5 class="subsubsection">8.3.2.1 Data-DPath expressions</h5>
+
+<div class="node">
+<a name="Optimizations"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Data-Filter">Data Filter</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Query-language-DPath">Query language DPath</a>
+
+</div>
 
 <h4 class="subsection">8.3.3 Optimizations</h4>
 
@@ -2292,35 +3133,53 @@ because they span up a big search tree.
 <code>//</code> with some <code>*</code> because that only spans up on the current
 step not every possible step, like this:
 
-<pre class="verbatim">
-  { ... } :: //section/stats-proc-interrupts-before//tap//data/TLB";
+<pre class="verbatim">  { ... } :: //section/stats-proc-interrupts-before//tap//data/TLB";
 </pre>
 
-<pre class="verbatim">
-  { ... } :: /results/*/section/stats-proc-interrupts-before/tap/lines/*/_children/*/data/TLB";
+<pre class="verbatim">  { ... } :: /results/*/section/stats-proc-interrupts-before/tap/lines/*/_children/*/data/TLB";
 </pre>
 
 <!-- ====================================================================== -->
-<p><a name="artemis_002dapi"></a>
+<p><a name="artemis_002dapi"></a><div class="node">
+<a name="Client-Utility-artemis-api"></a>
+<a name="Client-Utility-artemis_002dapi"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Query-language-DPath">Query language DPath</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reports-API">Reports API</a>
 
-<h3 class="section">8.4 Client Utility <code>artemis-api</code></h3>
+</div>
+
+<h3 class="section">8.4 Client Utility artemis-api</h3>
 
 <p>There is a command line utility <code>artemis-api</code> that helps with
 using the API without the need to talk the protocol and fiddle with
 <code>netcat</code> by yourself.
 
+<ul class="menu">
+<li><a accesskey="1" href="#help">help</a>
+<li><a accesskey="2" href="#upload">upload</a>
+<li><a accesskey="3" href="#mason">mason</a>
+</ul>
+
+<div class="node">
+<a name="help"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#upload">upload</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>
+
+</div>
+
 <h4 class="subsection">8.4.1 help</h4>
 
 <p>You can aquire a help page to each sub command:
 
-<pre class="verbatim">
-$ /home/artemis/perl510/bin/artemis-api help upload
+<pre class="verbatim">$ /opt/artemis/perl/bin/artemis-api help upload
 </pre>
 
 <p>prints
 
-<pre class="verbatim">
-artemis-api upload --reportid=s --file=s [ --contenttype=s ]
+<pre class="verbatim">artemis-api upload --reportid=s --file=s [ --contenttype=s ]
    --verbose          some more informational output
    --reportid         INT; the testrun id to change
    --file             STRING; the file to upload, use '-' for STDIN
@@ -2328,12 +3187,20 @@ artemis-api upload --reportid=s --file=s [ --contenttype=s ]
                       use 'application/octed-stream' for binaries
 </pre>
 
+<div class="node">
+<a name="upload"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#mason">mason</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#help">help</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>
+
+</div>
+
 <h4 class="subsection">8.4.2 upload</h4>
 
 <p>Use it from the Artemis path, like:
 
-<pre class="verbatim">
-$ /home/artemis/perl510/bin/artemis-api upload \
+<pre class="verbatim">$ /opt/artemis/perl/bin/artemis-api upload \
   --file /var/log/messages \
   --reportid=301
 </pre>
@@ -2341,40 +3208,45 @@ $ /home/artemis/perl510/bin/artemis-api upload \
 <p>You can also use the special filename <samp><span class="file">-</span></samp> to read from STDIN,
 e.g., if you need to pipe the output of tools like <code>dmesg</code>:
 
-<pre class="verbatim">
-$ dmesg | /home/artemis/perl510/bin/artemis-api upload \
+<pre class="verbatim">$ dmesg | /opt/artemis/perl/bin/artemis-api upload \
   --file=- \
   --filename dmesg \
   --reportid=301
 </pre>
+
+<div class="node">
+<a name="mason"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload">upload</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a>
+
+</div>
 
 <h4 class="subsection">8.4.3 mason</h4>
 
 <p>TODO
 
 <div class="node">
-<p><hr>
 <a name="Complete-Use-Cases"></a>
-<a name="Complete-Use_002dCases"></a>
-Next:&nbsp;<a rel="next" accesskey="n" href="#Artemis-Development">Artemis Development</a>,
+<p><hr>
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Reports-API">Reports API</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 </div>
 
-<h2 class="chapter">9 Complete Use-Cases</h2>
+<h2 class="chapter">9 Complete Use Cases</h2>
 
 <p>In this chapter we describe how the single features are put together
 into whole use-cases.
 
 <h3 class="section">9.1 Automatic Xen testing</h3>
 
-<p>This is a description on how to run Xen tests with <em>Artemis</em> using
+<p>This is a description on how to run Xen tests with Artemis using
 <code>SLES10</code> with one <code>RHEL5.2</code> guest (64 bit) as an example.
 
-<p>The following mainly applies to <b>manually</b> assigning Xen tests. The
-SysInt team uses <em>temare</em> to automatically create the here
-described steps.
+<p>The following mainly applies to <b>manually</b> assigning Xen tests. In
+the OSRC we use <em>temare</em> (not yet published) to automatically
+create the here described steps.
 
 <h4 class="subsection">9.1.1 Paths</h4>
 
@@ -2390,8 +3262,7 @@ described steps.
 <p>We use suse/suse_sles10_64b_smp_raw.tar.gz as Dom0 and
 
 <pre class="verbatim">
-
- osko:/export/image_files/official_testing/raw_img/redhat_rhel5u2_64b_smp_up_small_raw.img
+ osko:/export/images/testing/raw/redhat_rhel5u2_64b_smp_up_small_raw.img
 
 </pre>
 
@@ -2409,7 +3280,6 @@ partition could also be named using its UUID or partition label. Thus
 you need to add the following to the dom0 part of the Xen precondition:
 
 <pre class="verbatim">
-
   root: 
     precondition_type: image
     mount: / 
@@ -2434,11 +3304,10 @@ determined automatically, in other cases this is not possible
 (e.g. when you get it from a tar.gz package). The resulting root
 secition for this guest is:
 
-<pre class="verbatim">
- 
+<pre class="verbatim"> 
    root:
      precondition_type: copyfile
-     name: osko:/export/image_files/official_testing/raw_img/redhat_rhel5u2_64b_smp_up_small_raw.img
+     name: osko:/export/images/testing/raw/redhat_rhel5u2_64b_smp_up_small_raw.img
      protocol: nfs
      dest: /xen/images/
      mountfile: /xen/images/redhat_rhel5u2_64b_smp_up_small_raw.img
@@ -2460,8 +3329,7 @@ filename have to be given. As for guest images the file name is needed
 because it can't be determined in some cases. We use 001.svm installed
 via copyfile to /xen/images/001.svm. The resulting config section is:
 
-<pre class="verbatim">
- 
+<pre class="verbatim"> 
      config:
        precondition_type: copyfile
        name: /usr/share/artemis/packages/mhentsc3/001.svm
@@ -2501,8 +3369,7 @@ parameter is optional, leaving it out will result in Artemis waiting
 forever if your test doesn't send finish messages. The resulting
 testprogram section looks like this:
 
-<pre class="verbatim">
- 
+<pre class="verbatim"> 
    testprogram:
      precondition_type: package
      filename: artemis-testsuite-system.tar.gz
@@ -2538,8 +3405,7 @@ installed inside relative to this mount.
 <p>After all these informations are gathered, put the following YAML text
 into a file. We use /tmp/xen.yml as an example.
 
-<pre class="verbatim">
- 
+<pre class="verbatim"> 
    precondition_type: xen
    name: SLES 10 Xen with RHEL5.2 guest (64 bit)
    dom0:
@@ -2593,7 +3459,7 @@ into a file. We use /tmp/xen.yml as an example.
    guests:
      - root:
          precondition_type: copyfile
-         name: osko:/export/image_files/official_testing/raw_img/redhat_rhel5u2_64b_smp_up_small_raw.img
+         name: osko:/export/images/testing/raw/redhat_rhel5u2_64b_smp_up_small_raw.img
          protocol: nfs
          dest: /xen/images/
          mountfile: /xen/images/redhat_rhel5u2_64b_smp_up_small_raw.img
@@ -2623,13 +3489,13 @@ into a file. We use /tmp/xen.yml as an example.
 
 <p>For Xen to run correctly, the defaults grub configuration is not
 sufficient. You need to add another precondition to your test. System
-Installer will replace $root with the /dev/ notation of the root
-partition and $grubroot with the grub notation (including parenthesis)
-of the root partition. Put the resulting precondition into a file. We
-use /tmp/grub.yml as an example. This file may read like this:
+Installer will replace <code>$root</code> with the <code>/dev/*</code> notation of
+the root partition and <code>$grubroot</code> with the grub notation of the
+root partition (including parenthesis). Put the resulting precondition
+into a file. We use <code>/tmp/grub.yml</code> as an example. This file may
+read like this:
 
-<pre class="verbatim">
- 
+<pre class="verbatim"> 
   precondition_type: grub
   config: |
    serial --unit=0 --speed=115200
@@ -2649,959 +3515,52 @@ use /tmp/grub.yml as an example. This file may read like this:
 <p>To order your test run with the previously defined preconditions you
 need to stuff them into the database. Fortunatelly there are
 commandline tools to help you with this job. They can be found at
-&rdquo;'/home/artemis/perl510/bin/&rdquo;'. Production server for Artemis is
-bancroft.amd.com. Log in to this server (as root, since user login
-hasn't been thoroughly tested). Make sure that $ARTEMIS_LIVE is set to
-1 and /home/artemis/perl510/bin/ is at the beginning of your $PATH (so
-the correct perl will always be found). For each precondition you want
-to put into the database you need to define a short name. Call
-&rdquo;'/home/artemis/perl510/bin/artemis-testrun newprecondition&rdquo;' with
-the appropriate options, e.g. in our example:
+<code>/opt/artemis/perl/bin</code>. In our production environment the server
+for Artemis is <code>bancroft.amd.com</code>. Log in to this server (as use
+<code>artemis</code>). Make sure that <code>$ARTEMIS_LIVE</code> is set to 1 and
+<code>/opt/artemis/perl/bin/</code> is at the beginning of your <code>$PATH</code>
+(so the correct perl will always be found). For each precondition you
+want to put into the database you need to define a short name. Call
+<code>/opt/artemis/perl/bin/artemis-testrun newprecondition</code> with the
+appropriate options, e.g. in our example:
 
-<pre class="verbatim">
- 
-  /home/artemis/perl510/bin/artemis-testrun newprecondition --shortname=grub --condition_file=/tmp/grub.yml
-  /home/artemis/perl510/bin/artemis-testrun newprecondition --shortname=xen --condition_file=/tmp/xen.yml
+<pre class="verbatim"> 
+ $ /opt/artemis/perl/bin/artemis-testrun newprecondition \
+                                         --shortname=grub \
+                                         --condition_file=/tmp/grub.yml
+ $ /opt/artemis/perl/bin/artemis-testrun newprecondition \
+                                         --shortname=xen \
+                                         --condition_file=/tmp/xen.yml
 
 </pre>
 
-<p>C&lt;artemis-testrun&gt; will return a precondition ID in each case. You will
-need those soon so please keep them in mind. In the example the
+<p><code>artemis-testrun</code> will return a precondition ID in each case. You
+will need those soon so please keep them in mind. In the example the
 precondition id for grub is 4 and for Xen its 5.
 
 <p>You can now put your test run into the database using
-<code>/home/artemis/perl510/bin/artemis-testrun new</code>. This expects a
+<code>/opt/artemis/perl/bin/artemis-testrun new</code>. This expects a
 hostname, a test program and all preconditions. The test program is
 never evaluated and only there for historical reasons. Put in anything
-you like. root is not yet know to the database as a valid user. Thus
-you need to add <code>--owner</code> with an appropriate user. The resulting
-call looks like this:
+you like. Add <code>--owner</code> with an appropriate user if you don't
+want the default <code>artemis</code>. The resulting call looks like this:
 
 <pre class="verbatim">
-
-  /home/artemis/perl510/bin/artemis-testrun new \\
-     --hostname=bullock --precondition=4 --precondition=5 \\
-     --test_program=whatever --owner=mhentsc3
+  /opt/artemis/perl/bin/artemis-testrun new \
+                                        --hostname=bullock \
+                                        --precondition=4 \
+                                        --precondition=5 \
+                                        --test_program=whatever \
+                                        --owner=mhentsc3
  
 </pre>
 
-<p>C&lt;artemis-testrun&gt; new has more optional arguments, one of them being
-&ndash;earliest. This option defines when to start the test earliest. It
-defaults to "now". When the requested time has arrived, Artemis will
-setup the system you requested and execute your test run. Stay
-tuned. When everything went well, you'll see test output soon. For
-more information on what is going on with Artemis, see
-/var/log/artemis-debug.
-
-<p><strong>Person in charge</strong>: Maik Hentsche
-
-<div class="node">
-<p><hr>
-<a name="Artemis-Development"></a>
-Previous:&nbsp;<a rel="previous" accesskey="p" href="#Complete-Use_002dCases">Complete Use-Cases</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
-
-</div>
-
-<h2 class="chapter">10 Artemis Development</h2>
-
-<!-- ========================= -->
-<p>This chapter is dedicated not to end users but to Artemis development.
-
-<h3 class="section">10.1 Repositories</h3>
-
-<!-- ================== -->
-<p><em>Artemis</em> is developed using <em>git</em>. There is one central
-repository to participate on the development
-
-<pre class="verbatim">
- ssh://gituser@wotan/srv/gitroot/Artemis
-</pre>
-
-<p>and one mirrored public one:
-
-<pre class="verbatim">
- git://osrc.amd.com/artemis.git
-</pre>
-
-<h3 class="section">10.2 Starting/Stopping Artemis server applications</h3>
-
-<!-- =================================================== -->
-<p>This chapter assumes all services are deployed, as described in
-<a href="#Deployment">Deployment</a>.
-
-<h4 class="subsection">10.2.1 Live environment</h4>
-
-<!-- ========================= -->
-<p>The live environment is based on the host <code>bancroft</code> for all the
-server applications, like mysql db, Reports::Receiver, Reports::API,
-Web User Interface, MCP.
-
-<h5 class="subsubsection">10.2.1.1 Web User Interface</h5>
-
-<!-- ============================== -->
-<p>The application is configured inside the Apache config and therefore
-only needs Apache to be (re)started. <code>/home/artemis</code> must be
-mounted.
-
-<pre class="verbatim">
- $ ssh root@bancroft
- $ rcapache2 restart
-</pre>
-
-<h5 class="subsubsection">10.2.1.2 Reports::Receiver</h5>
-
-<pre class="verbatim">
- $ ssh root@bancroft
- $ /etc/init.d/artemis_reports_receiver_daemon restart
-</pre>
-
-<h5 class="subsubsection">10.2.1.3 Reports::API</h5>
-
-<pre class="verbatim">
- $ ssh root@bancroft
- $ /etc/init.d/artemis_reports_api_daemon restart
-</pre>
-
-<h4 class="subsection">10.2.2 Development environment</h4>
-
-<!-- ================================ -->
-<p>The development environment is somewhat distributed.
-
-<p>On host <code>bascha</code> there are mysql db, Reports::Receiver,
-Reports::API, Web User Interface.
-
-<p>The MCP is usually running on host <code>siegfried</code>, with a test
-target machine <code>bullock</code>.
-
-<h5 class="subsubsection">10.2.2.1 Preparing an MCP host</h5>
-
-<pre class="verbatim">
-
- $ sudo apt-get install inetutils-inetd
- $ sudo apt-get install atftpd
- $ sudo chmod 777 /var/lib/tftpboot/
- $ sudo ln -s /var/lib/tftpboot /tftpboot
- $ # in /etc/group add group ``artemis'' with same ID as NFS group ``artemis'': 55435
- $ # add local user to this ``artemis'' group
- $ # needed to access /data/bancroft/artemis
-
-</pre>
-
-<h5 class="subsubsection">10.2.2.2 Web User Interface</h5>
-
-<p>The application is running with its own webserver on <code>bascha</code>:
-
-<pre class="verbatim">
- $ ssh ss5@bascha
-
- # kill running process
- $ kill `ps auxwww|grep artemis_reports_web_server | grep -v grep | awk '{print $2}' | sort | head -1`
-
- # restart
- $ sudo /etc/init.d/artemis_reports_web
-</pre>
-
-<h5 class="subsubsection">10.2.2.3 Reports::Receiver</h5>
-
-<pre class="verbatim">
- $ ssh ss5@bascha
- $ sudo /etc/init.d/artemis_reports_receiver_daemon restart
-</pre>
-
-<h5 class="subsubsection">10.2.2.4 Reports::API</h5>
-
-<pre class="verbatim">
- $ ssh ss5@bascha
- $ sudo /etc/init.d/artemis_reports_api_daemon restart
-</pre>
-
-<h4 class="subsection">10.2.3 Logfiles</h4>
-
-<!-- ================= -->
-<p>The applications write logfiles on these places:
-
-     <ul>
-<li>MCP (automation master control program)
-
-     <pre class="verbatim">     
-      /var/log/artemis-debug
-</pre>
-
-     <li>Reports::Receiver
-
-     <pre class="verbatim">     
-      /var/log/artemis_reports_receiver_daemon_stdout.log
-      /var/log/artemis_reports_receiver_daemon_stderr.log
-</pre>
-
-     <li>Reports::API
-
-     <pre class="verbatim">     
-      /var/log/artemis_reports_api_daemon_stdout.log
-      /var/log/artemis_reports_api_daemon_stderr.log
-</pre>
-
-</ul>
-
-<p><a name="Deployment"></a>
-
-<h3 class="section">10.3 Deployment</h3>
-
-<!-- ================ -->
-<p>This chapter is a collection of instructions how to build the
-Artemis toolchain.
-
-<p>The whole deployment process should be supported by a common build
-system, however that is not yet completed but done via several
-self-written build steps.
-
-<h4 class="subsection">10.3.1 Create and upload Python packages</h4>
-
-<!-- ========================================== -->
-<p>This is usually done by a developer on some working state that is
-worth to be installed in the development or live environment.
-
-     <ul>
-<li>Go to the development subdirectory of the package (lmbench wrapper in this example)
-
-     <pre class="verbatim">     
-      cd Artemis/src/TestSuite-LmBench-Python
-</pre>
-
-     <li>Call make to generate the package used for live or development
-
-     <pre class="verbatim">     
-      $ make devel
-</pre>
-
-     <p>or
-
-     <pre class="verbatim">     
-      $ make live
-</pre>
-
-</ul>
-
-<h4 class="subsection">10.3.2 Create and upload Perl packages</h4>
-
-<!-- ======================================== -->
-<p>For <code>Artemis::MCP</code>, <code>Artemis::PRC</code>,
-<code>Artemis::Installer</code>, <code>Artemis::Schema</code> and
-<code>Artemis::Config</code> the deployment also works via <code>make
-devel/live</code>:
-
-     <ul>
-<li><pre class="verbatim">     
-      $ make devel
-</pre>
-
-     <p>or
-
-     <pre class="verbatim">     
-      $ make live
-</pre>
-
-</ul>
-
-<p>For the other Perl libraries of the Reports framework follow these
-steps:
-
-     <ul>
-<li>Go to the subdirectory of the package (Reports API in this example)
-
-     <pre class="verbatim">     
-      $ cd Artemis/src/Artemis-Reports-API
-</pre>
-
-     <li>Call the Perl build steps to generate a distribution
-
-          <ul>
-<li>If <code>Module::Install</code> driven:
-
-          <pre class="verbatim">          
-           $ perl Makefile.PL
-           $ make
-           $ make test
-           $ make dist
-     </pre>
-
-          <li>If <code>Module::Build</code> driven:
-
-          <pre class="verbatim">          
-           $ perl Build.PL
-           $ ./Build
-           $ ./Build test
-           $ ./Build dist
-     </pre>
-
-     </ul>
-
-     <p>Version numbers are not incremented automatically (as it can be done
-with the Python wrappers). The VERSION upgrade needs to be done
-manually before publicly uploading a new version.
-
-     <li>Upload the package
-
-     <pre class="verbatim">     
-      $ ./scripts/dist_upload_wotan.sh
-</pre>
-
-</ul>
-
-<h4 class="subsection">10.3.3 Generate complete Artemis toolchain in opt-artemis package</h4>
-
-<!-- =================================================================== -->
-<p>The previous chapters described how to build packages based on an
-already prepared build environment.
-
-<p>If you need to start from scratch the following section applies.
-
-<p>Following are the steps to create a <code>opt-artemis.tar.gz</code> package
-in a mounted and chrooted image. It compiles Perl and Python, installs
-them under <code>/opt/artemis</code> and installs the Artemis libraries. For
-the Perl part it also installs all CPAN dependencies from a local
-mirror.
-
-<p>The resulting <code>/opt/artemis</code> subdir can be used to continuously
-upgrade the Artemis libs as described in the preceding sections.
-
-     <ul>
-<li>Login as User &lsquo;<samp><span class="samp">ss5</span></samp>&rsquo;
-
-     <pre class="verbatim">     
-      $ ssh ss5@bascha
-</pre>
-
-     <li>Copy base raw image to <code>/tmp</code>
-
-     <p><strong>64bit:</strong>
-<pre class="verbatim">     
-      $ cp .../redhat_rhel4u7_64b_smp_qcow.img /tmp/
-</pre>
-
-     <p><strong>32bit:</strong>
-<pre class="verbatim">     
-      $ cp .../redhat_rhel4u7_32b_smp_qcow.img /tmp/
-</pre>
-
-     <li>These images have multiple images, mount them
-
-     <pre class="verbatim">     
-      $ sudo losetup /dev/loop1 /tmp/redhat_rhel4u7_64b_smp_raw.img
-      $ sudo kpartx -a /dev/loop1 
-      $ sudo mount /dev/mapper/loop1p2 /mnt
-</pre>
-
-     <li>Other images might have only one partition, mount them with
-
-     <pre class="verbatim">     
-      $ sudo mount -o loop /tmp/one_partion_image_raw.img /mnt
-</pre>
-
-     <li>Mount directories into the chroot
-
-     <p>In this example we need <code>~ss5</code> as source for Perl and Python
-builders and a bind mounted <code>/dev</code> to get a random seed for ssh
-(used to fetch source).
-
-     <pre class="verbatim">     
-      $ sudo mkdir -p /mnt/home/ss5
-      $ sudo mount -o bind /2home/ss5 /mnt/home/ss5
-      $ sudo mount -o bind /dev/ /mnt/dev
-      $ sudo mkdir /mnt/home/artemis
-      $ sudo mount loge:/artemis /mnt/home/artemis
-      $ sudo mount -t proc proc /mnt/proc
-</pre>
-
-     <li>Chroot into the image
-
-     <p><strong>64bit:</strong>
-
-     <pre class="verbatim">     
-      $ sudo chroot /mnt bash -l
-</pre>
-
-     <p><strong>32bit:</strong>
-
-     <pre class="verbatim">     
-      $ linux32 sudo chroot /mnt bash -l
-</pre>
-
-     <li>Install git
-
-     <p><strong>64bit:</strong>
-
-     <pre class="verbatim">     
-      $ rpm -ivh \
-        ftp://ftp.tu-chemnitz.de/pub/linux/fedora-epel/4/x86_64/git-core-1.5.3.6-2.el4.x86_64.rpm \
-        ftp://ftp.tu-chemnitz.de/pub/linux/fedora-epel/4/x86_64/perl-Git-1.5.3.6-2.el4.x86_64.rpm
-</pre>
-
-     <p><strong>32bit:</strong>
-
-     <pre class="verbatim">     
-      $ rpm -ivh \
-        ftp://ftp.tu-chemnitz.de/pub/linux/fedora-epel/4/i386/git-core-1.5.3.6-2.el4.i386.rpm \
-        ftp://ftp.tu-chemnitz.de/pub/linux/fedora-epel/4/i386/perl-Git-1.5.3.6-2.el4.i386.rpm
-</pre>
-
-     <li>Enable public key authentication for git
-
-     <pre class="verbatim">     
-      $ cp -r /home/ss5/.ssh/ /root/
-</pre>
-
-     <li>Bootstrap complete Artemis toolchain
-
-     <pre class="verbatim">     
-      $ cd /home/ss5/artemis-perl 
-      $ ./bootstrap_artemis_perl.sh
-</pre>
-
-     <li><code>bootstrap_artemis_perl.sh</code> needs the user password for sudo, type it in
-
-     <li>This creates the directory <code>/opt/artemis/</code> but without any current Artemis code
-
-     <li>Copy Perl modules into <code>/opt/artemis</code>
-
-     <pre class="verbatim">     
-      $ rsync -r /home/artemis/perl510/lib/site_perl/5.10.0/Artemis/ \
-                 /opt/artemis/lib/perl5/site_perl/5.10.0/Artemis/
-</pre>
-
-     <li>Go to <code>/home/artemis/PYTHONREPO</code>, execute <code>build_python.sh</code> there
-
-     <pre class="verbatim">     
-      $ cd /home/artemis/PYTHONREPO ./wrapper_install_opt.sh
-</pre>
-
-     <li>Pack opt file together
-
-     <pre class="verbatim">     
-      $ cd /mnt/mnt/artemis
-      $ sudo tar -czf /tmp/opt-artemis64_rh4.7.tar.gz opt
-</pre>
-
-     <li>Copy package to <code>/data/bancroft</code>
-
-     <pre class="verbatim">     
-      $ sudo cp \
-        /tmp/opt-artemis64_rh4.7.tar.gz \
-        /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis64_rh4.7.tar.gz
-</pre>
-
-</ul>
-
-<p><strong>Person in charge</strong>: Maik Hentsche, Conny Seidel, Steffen Schwigon
-
-<h4 class="subsection">10.3.4 Installation of the Web User Interface</h4>
-
-<!-- =============================================== -->
-<p>The web application itself is available via the NFS mounted
-<code>/home/artemis</code>. On the application server in the Apache
-webserver you only need to configure a Location for the path
-<code>/artemis</code>.
-
-<pre class="verbatim">
-bancroft$ cat /etc/apache2/conf.d/artemis_reports_web.conf
-
-Alias / /home/artemis/perl510/bin/artemis_reports_web_fastcgi_live.pl/
-&lt;LocationMatch /artemis[.]*>
-       Options ExecCGI
-       Order allow,deny
-       Allow from all
-       AddHandler fcgid-script .pl
-&lt;/LocationMatch>
-</pre>
-
-<p>Additionally there is a reverse proxy configured on
-<code>osrc.amd.com</code> that points to the application server:
-
-<pre class="verbatim">
-osrc$ cat /etc/apache2/conf.d/artemis_reverse_proxy.conf
-
-ProxyRequests Off
-&lt;Proxy *>
-    Order deny,allow
-    Allow from all
-&lt;/Proxy>
-ProxyPass        /artemis http://bancroft/artemis
-ProxyPassReverse /artemis http://bancroft/artemis
-ProxyPass        /hardwaredb http://bancroft/hardwaredb
-ProxyPassReverse /hardwaredb http://bancroft/hardwaredb
-
-</pre>
-
-<p><strong>Person in charge</strong>: Steffen Schwigon
-
-<h3 class="section">10.4 Upgrading a database schema</h3>
-
-<!-- ================================= -->
-<p>The database schema is maintained as description for the Object
-Relational Mapper <em>DBIx::Class</em> using some versioning and
-upgrading features.
-
-<p>Those features are accessible via the command line tool
-<code>artemis-db-deploy</code>. The basic principle is:
-
-<p>(We show it here for <code>ReportsDB</code> schema. Same applies for
-<code>TestrunDB</code>.)
-
-     <ul>
-<li>Maintain schema in <code>src/Artemis-Schema/lib/Artemis/Schema/ReportsDB/Result/*.pm</code>
-
-     <li>Upgrade schema version in <code>src/Artemis-Schema/lib/Artemis/Schema/ReportsDB.pm</code>
-
-     <li>Upgrade package version in <code>src/Artemis-Schema/lib/Artemis/Schema.pm</code>
-
-     <li>Install schema package on a development machine
-
-     <li>Create a difference/upgrade file relative to an old version
-
-     <pre class="verbatim">     
-      cd src/Artemis-Schema/
-      artemis-db-deploy makeschemadiffs \
-                        --db=ReportsDB \
-                        --fromversion=2.010021 \
-                        --upgradedir=./upgrades/
-</pre>
-
-     <p>In this example the version <code>2.010021</code> is the existing
-version. Do this for every version that you will later
-upgrade. Usually that's just the last one, but maybe you have several
-machines with different versions and want to upgrade them to this new
-version, then you need to call above line with all those old
-&ndash;fromversion's.
-
-     <p>Of course you also can upgrade them in single steps from any old
-version via all intermediate versions to the latest. This is probably
-the best solution anyway.
-
-     <li>Add the diff/upgrade files to revision control
-
-     <pre class="verbatim">     
-      git add ./upgrades/
-      git commit -m'Schema: db upgrade files'
-</pre>
-
-     <li>Copy the diff/upgrade files to the target machine
-
-     <p>For some reason, the &ndash;upgradedir option does not work on the upcoming
-<code>upgrade</code> command but only the default subdir <code>var/tmp</code>, so
-you always need to copy the upgrade files, but only discriminate
-between development machine or the live machine.
-
-     <pre class="verbatim">     
-      rsync --progress -rc ./upgrades/ /var/tmp/
-</pre>
-
-     <p>or
-
-     <pre class="verbatim">     
-      rsync --progress -rc ./upgrades/ bancroft:/var/tmp/
-</pre>
-
-     <li>Upgrade the schema.
-
-     <p>Which environment and therefore which db connection is used depends on
-the environment. On development machine I have set
-
-     <pre class="verbatim">     
-      export ARTEMIS_DEVELOPMENT=1
-</pre>
-
-     <p>Then you just call
-
-     <pre class="verbatim">     
-      artemis-db-deploy upgrade --db=ReportsDB
-</pre>
-
-</ul>
-
-<h3 class="section">10.5 Environment variables</h3>
-
-<!-- =========================== -->
-<p>There are some environment variables used in several contexts. Some of
-them are set from the automation layer to support the testsuites, some
-of them are used to discriminate between development and live context
-and some are just auxiliary variables to switch features.
-
-<p>Keep in mind that the variable needs to be visible where the actual
-component is running, which is sometimes not obvious in the
-client/server infrastructure.
-
-     <ul>
-<li>ARTEMIS_TESTRUN
-
-     <p>Set by the automation layer for the test suites which in turn should
-use it in there reports.
-
-     <li>ARTEMIS_SERVER
-
-     <p>Set by the automation layer for the test suites. Specifies the
-controlling host which initiated the testrun.
-
-     <li>ARTEMIS_REPORT_SERVER
-
-     <p>Set by the automation layer for the test suites. Specifies to which
-server the reports should be sent.
-
-     <li>ARTEMIS_REPORT_PORT
-
-     <p>Set by the automation layer for the test suites. Specifies to which
-port the reports should be sent.
-
-     <li>ARTEMIS_REPORT_API_PORT
-
-     <p>Set by the automation layer for the test suites. Specifies on which
-port the reports interface is listening, which is used, for instance,
-for uploading files.
-
-     <li>ARTEMIS_TS_RUNTIME
-
-     <p>Set by the automation layer for the test suites. Specifies the
-expected time that the testsuite should run. (Some suites, although
-only taking 1 hour, are re-run again and again for a given timespan.)
-
-     <li>ARTEMIS_NTP_SERVER
-
-     <p>Set by the automation layer for the test suites. Specifies the NTP
-server that the suite should use as reference for time shifting tests.
-
-     <li>ARTEMIS_GUEST_NUMBER
-
-     <p>Set by the automation layer for the test suites inside
-guests. Specifies which number the guest is, so the suite can report
-it and later this number helps sorting out results and context.
-
-     <li>ARTEMIS_OUTPUT_PATH
-
-     <p>Set and used by the automation layer. Specifies where the automation
-layer stores files like, e.g., console logs which are later
-uploaded. Can be used by the test suites; all files that they store
-there are automatically uploaded at the end of the testrun.
-
-     <li>ARTEMIS_DEVELOPMENT
-
-     <p>Used by Artemis::Config to switch the config space. By this the whole
-context of every module that is accessing the config in the same
-environment is switched to either &ldquo;live&rdquo; or &ldquo;development&rdquo;. If not
-set to a true value the LIVE context is used by default.
-
-     <li>ARTEMIS_REPORTS_WEB_PORT
-
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies the
-port on which it is running, usually only important for development
-mode. Else it is accessed via the usual Apache HTTP port 80.
-
-     <li>ARTEMIS_REPORTS_WEB_RELOAD
-
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies
-whether the web application restarts if it recognizes changes in its
-source files.
-
-     <li>ARTEMIS_REPORTS_WEB_LIVE
-
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies
-whether the config context either &ldquo;live&rdquo; or &ldquo;development&rdquo;.  It is
-therefore similar to <code>ARTEMIS_DEVELOPMENT</code> but the web user
-interface is disconnected from the automation layer, even in the used
-config, and therefore using its own mechanism.
-
-</ul>
-
-<h3 class="section">10.6 Files</h3>
-
-<!-- =========== -->
-<h4 class="subsection">10.6.1 Special files</h4>
-
-<!-- ====================== -->
-     <ul>
-<li>/tmp/ARTEMIS_FORCE_NEW_TAPDOM
-
-     <p>Used by the database layer. If this file exists the cached values of
-TAP evaluation are thrown away and regenerated. This might be
-neccessary when the Artemis::TAP::Harness or used sub parts like
-TAP::DOM changed.
-
-     <p>Do not forget to remove this file, because it dramtically slows down
-all database TAP-DOM access!
-
-     <li>/tmp/ARTEMIS_CACHE_CLEAR
-
-     <p>Used by the Reports API. If this file exists the used caches are
-flushed.
-
-     <p>Do not forget to remove this file, because it dramtically slows down
-all DPath queries.
-
-     <p>It is suggested to just temporarily create it, trigger the API once so
-it flushes the caches and immediately remove the file.
-
-     <li>/tmp/FileCache
-
-     <p>This is where the Reports API caches DPath requests. Delete it if you
-want to flush the cache.
-
-</ul>
-
-<h4 class="subsection">10.6.2 PID files</h4>
-
-<!-- ================== -->
-     <ul>
-<li>/tmp/artemis-reports-receiver-daemon.pid
-
-     <p>Contains the Process ID of the reports receiver daemon.
-
-     <li>/tmp/artemis-reports-api-daemon.pid
-
-     <p>Contains the Process ID of the reports api daemon.
-
-     <li>/tmp/artemis_mcp_runloopdaemon.pid
-
-     <p>Contains the Process ID of the MCP runloop daemon.
-
-</ul>
-
-<h4 class="subsection">10.6.3 Log files</h4>
-
-<!-- ================== -->
-     <ul>
-<li>/tmp/artemis_reports_web.log
-
-     <p>Contains log of the Web user interface if it runs with own http
-daemon, usually in DEVELOPMENT mode.
-
-     <li>/var/log/apache2/error_log
-
-     <p>Contains log of the Web user interface if it runs under Apache2,
-usually in LIVE mode.
-
-     <li>/tmp/artemis_mcp_stderr.log
-
-     <p>Contains STDERR of the Master Control Program (MCP).
-
-     <li>/tmp/artemis_mcp_stdout.log
-
-     <p>Contains STDOUT of the Master Control Program (MCP).
-
-     <li>/var/log/artemis_reports_api_daemon_stderr.log
-
-     <p>Contains STDERR of the reports api daemon.
-
-     <li>/var/log/artemis_reports_api_daemon_stdout.log
-
-     <p>Contains STDOUT of the reports api daemon.
-
-     <li>/var/log/artemis_reports_receiver_daemon_stderr.log
-
-     <p>Contains STDERR of the reports receiver daemon.
-
-     <li>/var/log/artemis_reports_receiver_daemon_stdout.log
-
-     <p>Contains STDOUT of the reports receiver daemon.
-
-</ul>
-
-<h3 class="section">10.7 Image preparation</h3>
-
-<!-- ======================= -->
-<p>There are several assumptions about available features inside the os
-images.
-
-     <ul>
-<li>netcat
-
-     <p>There must be a <code>netcat</code> or <code>nc</code> available.
-
-     <li>/etc/artemis
-
-     <p>The file <code>/etc/artemis</code> must be writeable.
-
-     <p>This is normally the case, but on some systems (non-writeable qcow
-images) this requires that the file is a link to a file in another
-writeable mounted image.
-
-     <li>/opt/artemis
-
-     <p>There directory <code>/opt/artemis</code> must be a writeable.
-
-     <p>This is normally the case, but on some systems (non-writeable qcow
-images) this requires that the file is a link to a file in another
-writeable mounted image.
-
-</ul>
-
-<h3 class="section">10.8 temare - use a local temare</h3>
-
-<!-- ================================= -->
-<pre class="verbatim">
-
- mkdir ~/temare
- rsync -a ~/local/projects/Artemis/src/temare/ /2home/ss5/temare/
- cd ~/temare
- vi src/vi config.py
- mkdir -p config/{xen,kvm}
- cp /data/bancroft/artemis/live/configs/temare/test-schedule.db .
- ./temare subjectlist
- ./temare subjectstate kvm 64 enable
- ./temare subjectlist
-
-</pre>
-
-<h3 class="section">10.9 Host Forensics</h3>
-
-<!-- ==================== -->
-<h4 class="subsection">10.9.1 Investigate a host</h4>
-
-<!-- =========================== -->
-     <ul>
-<li>after it was installed but something went wrong so it could not continue or
-
-     <li>after it ran a test and it waits
-
-</ul>
-
-<h4 class="subsection">10.9.2 Console</h4>
-
-<p>If ssh does not work, try to use the console.
-
-<h4 class="subsection">10.9.3 View Artemis spec</h4>
-
-<p>The spec what to run on that host is in <em>/etc/artemis</em>.
-
-<p>In the following example you can see those details:
-
-     <ul>
-<li>testrun id 12430
-
-     <li>execute /bin/artemis-testsuite-oprofile.sh
-
-     <li>report result to bancroft:7357
-
-     <li>MCP server is bancroft:37776
-
-</ul>
-
-<pre class="verbatim">
-bullock:~ # cat /etc/artemis
----
-hostname: bullock
-mcp_server: bancroft
-paths:
-  autoinstall:
-    grubfiles: /data/bancroft/artemis/live/repository/autoinstall/grubfiles/
-  base_dir: /mnt/target/
-  grubpath: /data/bancroft/artemis/live/configs/tftpboot
-  guest_mount_dir: /mnt/guests/
-  image_dir: /data/bancroft/artemis/live/repository/images/
-  localdata_path: /tftpboot/
-  nfskernel_path: /tftpboot/
-  nfsroot: 165.204.15.71:/data/bancroft/artemis/live/nfsroot/installation_base/
-  output_dir: /data/bancroft/artemis/live/output/
-  package_dir: /data/bancroft/artemis/live/repository/packages/
-  prc_nfs_mountdir: /data/bancroft/
-  temare_path: /home/artemis/temare
-  testprog_path: /data/bancroft/artemis/live/testprogram/
-port: 37776
-prc_nfs_server: bancroft
-report_api_port: 7358
-report_port: 7357
-report_server: bancroft
-test_run: 12430
-testprogram_list:
-  - program: /bin/artemis-testsuite-oprofile.sh
-    timeout: 90
-times:
-  boot_timeout: 1200
-  installer_timeout: 3600
-  poll_intervall: 10
-  reschedule_time: 3600
-  test_runtime_default: 7200
-</pre>
-
-<h4 class="subsection">10.9.4 Restart the Artemis scripts on a waiting machine</h4>
-
-<!-- ========================================================= -->
-<p>The machine just ran a test but something in the scripts needs to be
-fixed.
-
-<p>You can edit the files in <em>/opt/artemis/bin/</em> and
-<em>/opt/artemis/lib/</em> and then restart the whole testrun with:
-
-<pre class="verbatim">
-umount /data/bancroft/
-/etc/init.d/artemis
-</pre>
-
-<h3 class="section">10.10 Troubleshooting</h3>
-
-<!-- ===================== -->
-<h4 class="subsection">10.10.1 Got a packet bigger than 'max_allowed_packet' bytes</h4>
-
-<!-- ============================================================ -->
-     <ul>
-<li>Context:
-mysql, usually via a Perl DBI driver.
-
-     <li>Error message:
-
-     <pre class="verbatim">     
-     Artemis::Reports::DPath::Mason::render_template::exec(anon_comp): 
-     DBIx::Class::DynamicDefault::update(): 
-     DBI Exception: 
-     DBD::mysql::st execute failed: 
-     Got a packet bigger than 'max_allowed_packet' bytes
-      [for Statement "UPDATE report SET tapdom = ?, updated_at = ? WHERE ( id = ? )" 
-       with ParamValues: 0='$VAR1 = [
-       {
-         'section' => {
-            'artemis-meta-information' => {
-               'tap' => bless( {
-                 'parse_errors' => [],
-                    'tests_run' => 1,
-                    'version' => 13,
-                    'exit' => 0,
-                    'start_time' => '1241791634.64412',
-                    'skip_all' => undef,
-                    'lines' => [
-                       {
-                         ...', 1='2009-05-08 14:07:14', 2='6033']
-      at /home/artemis/perl510/lib/site_perl/5.10.0/
-         Artemis/Schema/ReportsDB/Result/Report.pm line 132
-     
-     Stack:
-       [/home/artemis/perl510/lib/site_perl/5.10.0/Carp/Clan.pm:213]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Exception.pm:58]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Schema.pm:1020]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage.pm:122]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:863]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1113]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:608]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1123]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Storage/DBI.pm:1206]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Row.pm:325]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/Relationship/CascadeActions.pm:30]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/DBIx/Class/DynamicDefault.pm:117]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Schema/ReportsDB/Result/Report.pm:132]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:75]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:62]
-       [/home/artemis/perl510/lib/site_perl/5.10.0/Artemis/Reports/DPath.pm:26]
-       [/virtual/artemis_reports_dpath_mason:23]
-</pre>
-
-     <li>Fix:
-
-     <p>Increase the buffer size in the mysql config, e.g., on <code>bancroft</code> in <code>/etc/my.cnf</code>:
-
-     <pre class="verbatim">     
-     [mysqld]
-     ...
-     max_allowed_packet = 128M
-     ...
-</pre>
-
-</ul>
+<p>Please note: There is a more central approach to describe all needed
+preconditions at once, see <a href="#Macro-Preconditions">Macro Preconditions</a> and <a href="#A-real-live-example-_002d-kernel-boot-test">A real live example - kernel boot test</a>.
+
+<p>When the requested testrun is scheduledArtemis will setup the system
+you requested and execute your defined testrun. When everything went
+well, you'll see test output soon after. For more information on what
+is going on with Artemis, see <code>/var/log/artemis-debug</code>.
 
 </div><!-- class="artemismanual"-->

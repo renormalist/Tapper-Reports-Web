@@ -12,7 +12,6 @@
 				<li><a href="/artemis/testruns/days/2">Testruns</a></li>
 				<li><a href="/artemis/reports/days/2">Reports</a></li>
 				<li><a href="/artemis/metareports/" class="active">Metareports</a></li>
-				<li><a href="/artemis/hardware/">Hardware</a></li>
 				<li><a href="/artemis/manual/">Manual</a></li>
 			</ul>
 		</div>
