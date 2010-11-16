@@ -26,68 +26,68 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <ul>
 <li><a name="toc_Synopsis" href="#Synopsis">1 Synopsis</a>
 <ul>
-<li><a href="#Synopsis">1.1 ARTEMIS infrastructure</a>
-<li><a href="#Synopsis">1.2 Vocabulary</a>
+<li><a href="#ARTEMIS-infrastructure">1.1 ARTEMIS infrastructure</a>
+<li><a href="#Vocabulary">1.2 Vocabulary</a>
 <ul>
-<li><a href="#Synopsis">1.2.1 Master Control Program (MCP)</a>
-<li><a href="#Synopsis">1.2.2 Program Run Control (PRC)</a>
-<li><a href="#Synopsis">1.2.3 Reports Receiver</a>
-<li><a href="#Synopsis">1.2.4 Reports API</a>
-<li><a href="#Synopsis">1.2.5 Web User Interface</a>
-<li><a href="#Synopsis">1.2.6 Reports DB</a>
-<li><a href="#Synopsis">1.2.7 Testrun DB</a>
-<li><a href="#Synopsis">1.2.8 Testrun</a>
-<li><a href="#Synopsis">1.2.9 Preconditions</a>
-<li><a href="#Synopsis">1.2.10 Report</a>
-<li><a href="#Synopsis">1.2.11 Test Anything Protocol (TAP)</a>
-<li><a href="#Synopsis">1.2.12 TAP archives</a>
+<li><a href="#Vocabulary-_002d-Master-Control-Program-_0028MCP_0029">1.2.1 Master Control Program (MCP)</a>
+<li><a href="#Vocabulary-_002d-Program-Run-Control-_0028PRC_0029">1.2.2 Program Run Control (PRC)</a>
+<li><a href="#Vocabulary-_002d-Reports-Receiver">1.2.3 Reports Receiver</a>
+<li><a href="#Vocabulary-_002d-Reports-API">1.2.4 Reports API</a>
+<li><a href="#Vocabulary-_002d-Web-User-Interface">1.2.5 Web User Interface</a>
+<li><a href="#Vocabulary-_002d-Reports-DB">1.2.6 Reports DB</a>
+<li><a href="#Vocabulary-_002d-Testrun-DB">1.2.7 Testrun DB</a>
+<li><a href="#Vocabulary-_002d-Testrun">1.2.8 Testrun</a>
+<li><a href="#Vocabulary-_002d-Preconditions">1.2.9 Preconditions</a>
+<li><a href="#Vocabulary-_002d-Report">1.2.10 Report</a>
+<li><a href="#Vocabulary-_002d-Test-Anything-Protocol-_0028TAP_0029">1.2.11 Test Anything Protocol (TAP)</a>
+<li><a href="#Vocabulary-_002d-TAP-archive">1.2.12 TAP archives</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Technical-Infrastructure" href="#Technical-Infrastructure">2 Technical Infrastructure</a>
 <ul>
-<li><a href="#Technical-Infrastructure">2.1 Adding a new host into automation</a>
+<li><a href="#Adding-a-new-host-into-automation">2.1 Adding a new host into automation</a>
 <ul>
-<li><a href="#Technical-Infrastructure">2.1.1 Make machine remote hard resetable</a>
-<li><a href="#Technical-Infrastructure">2.1.2 Make machine PXE boot aware</a>
-<li><a href="#Technical-Infrastructure">2.1.3 Configure TFTP on central MCP machine</a>
-<li><a href="#Technical-Infrastructure">2.1.4 Make the hosts known in the TestrunDB</a>
-<li><a href="#Technical-Infrastructure">2.1.5 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</a>
+<li><a href="#Make-machine-remote-hard-resetable">2.1.1 Make machine remote hard resetable</a>
+<li><a href="#Make-machine-PXE-boot-aware">2.1.2 Make machine PXE boot aware</a>
+<li><a href="#Configure-TFTP-on-central-MCP-machine">2.1.3 Configure TFTP on central MCP machine</a>
+<li><a href="#Make-the-hosts-known-in-the-TestrunDB">2.1.4 Make the hosts known in the TestrunDB</a>
+<li><a href="#Optionally-enable-temare-to-generate-tests-for-this-host">2.1.5 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Test-Protocol" href="#Test-Protocol">3 Test Protocol</a>
 <ul>
-<li><a href="#Test-Protocol">3.1 Test Anything Protocol (TAP)</a>
-<li><a href="#Test-Protocol">3.2 Tutorial</a>
+<li><a href="#Test-Anything-Protocol-_0028TAP_0029">3.1 Test Anything Protocol (TAP)</a>
+<li><a href="#Tutorial">3.2 Tutorial</a>
 <ul>
-<li><a href="#Test-Protocol">3.2.1 Just plan and success</a>
-<li><a href="#Test-Protocol">3.2.2 Succession numbers</a>
-<li><a href="#Test-Protocol">3.2.3 Test descriptions</a>
-<li><a href="#Test-Protocol">3.2.4 Mark tests as TODO</a>
-<li><a href="#Test-Protocol">3.2.5 Comment TODO tests with reason</a>
-<li><a href="#Test-Protocol">3.2.6 Mark tests as SKIP (with reason)</a>
-<li><a href="#Test-Protocol">3.2.7 Diagnostics</a>
-<li><a href="#Test-Protocol">3.2.8 YAML Diagnostics</a>
-<li><a href="#Test-Protocol">3.2.9 Meta information headers for reports</a>
-<li><a href="#Test-Protocol">3.2.10 Report sections</a>
-<li><a href="#Test-Protocol">3.2.11 Meta information headers for report sections</a>
-<li><a href="#Test-Protocol">3.2.12 Meta information structure summary</a>
-<li><a href="#Test-Protocol">3.2.13 Explicit section markers with lazy plans</a>
-<li><a href="#Test-Protocol">3.2.14 Developing with TAP</a>
-<li><a href="#Test-Protocol">3.2.15 TAP tips</a>
+<li><a href="#Just-plan-and-success">3.2.1 Just plan and success</a>
+<li><a href="#Succession-numbers">3.2.2 Succession numbers</a>
+<li><a href="#Test-descriptions">3.2.3 Test descriptions</a>
+<li><a href="#Mark-tests-as-TODO">3.2.4 Mark tests as TODO</a>
+<li><a href="#Comment-TODO-tests-with-reason">3.2.5 Comment TODO tests with reason</a>
+<li><a href="#Mark-tests-as-SKIP-_0028with-reason_0029">3.2.6 Mark tests as SKIP (with reason)</a>
+<li><a href="#Diagnostics">3.2.7 Diagnostics</a>
+<li><a href="#YAML-Diagnostics">3.2.8 YAML Diagnostics</a>
+<li><a href="#Meta-information-headers-for-reports">3.2.9 Meta information headers for reports</a>
+<li><a href="#Report-sections">3.2.10 Report sections</a>
+<li><a href="#Meta-information-headers-for-report-sections">3.2.11 Meta information headers for report sections</a>
+<li><a href="#Meta-information-structure-summary">3.2.12 Meta information structure summary</a>
+<li><a href="#Explicit-section-markers-with-lazy-plans">3.2.13 Explicit section markers with lazy plans</a>
+<li><a href="#Developing-with-TAP">3.2.14 Developing with TAP</a>
+<li><a href="#TAP-tips">3.2.15 TAP tips</a>
 </li></ul>
-<li><a href="#Test-Protocol">3.3 Particular use-cases</a>
+<li><a href="#Particular-use_002dcases">3.3 Particular use-cases</a>
 <ul>
-<li><a href="#Test-Protocol">3.3.1 Report Groups</a>
+<li><a href="#Report-Groups">3.3.1 Report Groups</a>
 <ul>
-<li><a href="#Test-Protocol">3.3.1.1 Report grouping by same testrun</a>
-<li><a href="#Test-Protocol">3.3.1.2 Report grouping by arbitrary idenitifier</a>
+<li><a href="#Report-grouping-by-same-testrun">3.3.1.1 Report grouping by same testrun</a>
+<li><a href="#Report-grouping-by-arbitrary-idenitifier">3.3.1.2 Report grouping by arbitrary idenitifier</a>
 </li></ul>
 </li></ul>
-<li><a href="#Test-Protocol">3.4 TAP Archives</a>
-<li><a href="#Test-Protocol">3.5 Reporting TAP to the reports receiver</a>
+<li><a href="#TAP-Archives">3.4 TAP Archives</a>
+<li><a href="#Reporting-TAP-to-the-reports-receiver">3.5 Reporting TAP to the reports receiver</a>
 <ul>
-<li><a href="#Test-Protocol">3.5.1 Submitting raw TAP</a>
-<li><a href="#Test-Protocol">3.5.2 Submitting TAP Archives</a>
+<li><a href="#Submitting-raw-TAP">3.5.1 Submitting raw TAP</a>
+<li><a href="#Submitting-TAP-Archives">3.5.2 Submitting TAP Archives</a>
 </li></ul>
 </li></ul>
 <li><a name="toc_Test-Suite-Wrappers" href="#Test-Suite-Wrappers">4 Test Suite Wrappers</a>
@@ -154,7 +154,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 </li></ul>
 <li><a name="toc_Command-line-interface" href="#Command-line-interface">6 Command line interface</a>
 <ul>
-<li><a href="#SYNOPSIS">6.1 SYNOPSIS</a>
+<li><a href="#Commandline-Synopsis">6.1 Commandline Synopsis</a>
 <li><a href="#Scheduling">6.2 Scheduling</a>
 <ul>
 <li><a href="#Create-new-queue-and-new-host-and-bind-both-together">6.2.1 Create new queue and new host and bind both together</a>
@@ -180,7 +180,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <ul>
 <li><a href="#upload-aka_002e-attach-a-file-to-a-report">8.2.1 upload aka. attach a file to a report</a>
 <ul>
-<li><a href="#upload-_002d-Synopsis">8.2.1.1 upload - Synopsis</a>
+<li><a href="#upload-Synopsis">8.2.1.1 upload Synopsis</a>
 <li><a href="#Parameters">8.2.1.2 Parameters</a>
 <li><a href="#upload-Payload">8.2.1.3 upload Payload</a>
 <li><a href="#upload-Example-usage">8.2.1.4 upload Example usage</a>
@@ -250,6 +250,20 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">1 Synopsis</h2>
 
+<ul class="menu">
+<li><a accesskey="1" href="#ARTEMIS-infrastructure">ARTEMIS infrastructure</a>
+<li><a accesskey="2" href="#Vocabulary">Vocabulary</a>
+</ul>
+
+<div class="node">
+<a name="ARTEMIS-infrastructure"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary">Vocabulary</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Synopsis">Synopsis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Synopsis">Synopsis</a>
+
+</div>
+
 <h3 class="section">1.1 ARTEMIS infrastructure</h3>
 
 <p>ARTEMIS is an infrastructure.
@@ -303,7 +317,40 @@ latter. It can set up virtualized environments.
 
 </ul>
 
+<div class="node">
+<a name="Vocabulary"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ARTEMIS-infrastructure">ARTEMIS infrastructure</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Synopsis">Synopsis</a>
+
+</div>
+
 <h3 class="section">1.2 Vocabulary</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#Vocabulary-_002d-Master-Control-Program-_0028MCP_0029">Vocabulary - Master Control Program (MCP)</a>
+<li><a accesskey="2" href="#Vocabulary-_002d-Program-Run-Control-_0028PRC_0029">Vocabulary - Program Run Control (PRC)</a>
+<li><a accesskey="3" href="#Vocabulary-_002d-Reports-Receiver">Vocabulary - Reports Receiver</a>
+<li><a accesskey="4" href="#Vocabulary-_002d-Reports-API">Vocabulary - Reports API</a>
+<li><a accesskey="5" href="#Vocabulary-_002d-Web-User-Interface">Vocabulary - Web User Interface</a>
+<li><a accesskey="6" href="#Vocabulary-_002d-Reports-DB">Vocabulary - Reports DB</a>
+<li><a accesskey="7" href="#Vocabulary-_002d-Testrun-DB">Vocabulary - Testrun DB</a>
+<li><a accesskey="8" href="#Vocabulary-_002d-Testrun">Vocabulary - Testrun</a>
+<li><a accesskey="9" href="#Vocabulary-_002d-Preconditions">Vocabulary - Preconditions</a>
+<li><a href="#Vocabulary-_002d-Report">Vocabulary - Report</a>
+<li><a href="#Vocabulary-_002d-Test-Anything-Protocol-_0028TAP_0029">Vocabulary - Test Anything Protocol (TAP)</a>
+<li><a href="#Vocabulary-_002d-TAP-archive">Vocabulary - TAP archive</a>
+</ul>
+
+<div class="node">
+<a name="Vocabulary---Master-Control-Program-(MCP)"></a>
+<a name="Vocabulary-_002d-Master-Control-Program-_0028MCP_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Program-Run-Control-_0028PRC_0029">Vocabulary - Program Run Control (PRC)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary">Vocabulary</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.1 Master Control Program (MCP)</h4>
 
@@ -314,6 +361,16 @@ booting, runs the daemons of the reports framework (reports receiver,
 remote api) and the web application, including the mysql databases,
 and also serves the file repository via NFS.
 
+<div class="node">
+<a name="Vocabulary---Program-Run-Control-(PRC)"></a>
+<a name="Vocabulary-_002d-Program-Run-Control-_0028PRC_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Reports-Receiver">Vocabulary - Reports Receiver</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Master-Control-Program-_0028MCP_0029">Vocabulary - Master Control Program (MCP)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.2 Program Run Control (PRC)</h4>
 
 <p>When machines run automated tests, these test program runs are
@@ -321,11 +378,31 @@ controlled by a <strong>Program Run Control</strong>, aka. <strong>PRC</strong>.
 virtualization scenarios, each host and guest has its own PRC,
 numbered PRC0 (for the host), PRC1 (1st guest), PRC2 (2nd guest), etc.
 
+<div class="node">
+<a name="Vocabulary---Reports-Receiver"></a>
+<a name="Vocabulary-_002d-Reports-Receiver"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Reports-API">Vocabulary - Reports API</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Program-Run-Control-_0028PRC_0029">Vocabulary - Program Run Control (PRC)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.3 Reports Receiver</h4>
 
 <p>The <strong>Reports Receiver</strong> means the daemons that accept
 reports. We often run them on the same machine as the MCP and the Web
 framework, but that's not neccessary.
+
+<div class="node">
+<a name="Vocabulary---Reports-API"></a>
+<a name="Vocabulary-_002d-Reports-API"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Web-User-Interface">Vocabulary - Web User Interface</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Reports-Receiver">Vocabulary - Reports Receiver</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.4 Reports API</h4>
 
@@ -334,6 +411,16 @@ the daemon for all more complex interfaces, like uploading files,
 downloading files, querying the reports. Similar to reports API we
 often run them on the same machine as the MCP and the Web application,
 but that's not neccessary.
+
+<div class="node">
+<a name="Vocabulary---Web-User-Interface"></a>
+<a name="Vocabulary-_002d-Web-User-Interface"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Reports-DB">Vocabulary - Reports DB</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Reports-API">Vocabulary - Reports API</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.5 Web User Interface</h4>
 
@@ -344,15 +431,45 @@ etc.. The only common thing for all those central applications (MCP,
 reports receiver, reports api, web application) is the config to use
 the same databases.
 
+<div class="node">
+<a name="Vocabulary---Reports-DB"></a>
+<a name="Vocabulary-_002d-Reports-DB"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Testrun-DB">Vocabulary - Testrun DB</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Web-User-Interface">Vocabulary - Web User Interface</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.6 Reports DB</h4>
 
 <p>The <strong>Reports DB</strong> contains all data that are reported. It's the
 base for the reports receiver, the reports API, the web application.
 
+<div class="node">
+<a name="Vocabulary---Testrun-DB"></a>
+<a name="Vocabulary-_002d-Testrun-DB"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Testrun">Vocabulary - Testrun</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Reports-DB">Vocabulary - Reports DB</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.7 Testrun DB</h4>
 
 <p>The <strong>Testrun DB</strong> is the DB for the automation layer. It
 contains hosts, testrun specifications and scheduling information.
+
+<div class="node">
+<a name="Vocabulary---Testrun"></a>
+<a name="Vocabulary-_002d-Testrun"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Preconditions">Vocabulary - Preconditions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Testrun-DB">Vocabulary - Testrun DB</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.8 Testrun</h4>
 
@@ -361,10 +478,30 @@ host machine and run a workload on it. It consists of
 &ldquo;preconditions&rdquo; and scheduling information (host name, wanted host
 features, scheduling queue).
 
+<div class="node">
+<a name="Vocabulary---Preconditions"></a>
+<a name="Vocabulary-_002d-Preconditions"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Report">Vocabulary - Report</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Testrun">Vocabulary - Testrun</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.9 Preconditions</h4>
 
 <p><strong>Preconditions</strong> are specifications that describe how to set up
 a host. They are the essential part of a testrun.
+
+<div class="node">
+<a name="Vocabulary---Report"></a>
+<a name="Vocabulary-_002d-Report"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-Test-Anything-Protocol-_0028TAP_0029">Vocabulary - Test Anything Protocol (TAP)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Preconditions">Vocabulary - Preconditions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.10 Report</h4>
 
@@ -373,10 +510,29 @@ of how it was produced (automatically, by a tes suite, manually via
 echo and netcat). Its only requirement is to be formatted in TAP (the
 Test Anything Protocol), or as TAP archive.
 
+<div class="node">
+<a name="Vocabulary---Test-Anything-Protocol-(TAP)"></a>
+<a name="Vocabulary-_002d-Test-Anything-Protocol-_0028TAP_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Vocabulary-_002d-TAP-archive">Vocabulary - TAP archive</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Report">Vocabulary - Report</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
+
 <h4 class="subsection">1.2.11 Test Anything Protocol (TAP)</h4>
 
 <p>The <strong>Test Anything Protocol</strong> aka. <strong>TAP</strong> is the syntax to
 describe test results.
+
+<div class="node">
+<a name="Vocabulary---TAP-archive"></a>
+<a name="Vocabulary-_002d-TAP-archive"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Vocabulary-_002d-Test-Anything-Protocol-_0028TAP_0029">Vocabulary - Test Anything Protocol (TAP)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Vocabulary">Vocabulary</a>
+
+</div>
 
 <h4 class="subsection">1.2.12 TAP archives</h4>
 
@@ -399,10 +555,38 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 instructions how to install the infrastructure from scratch up to a
 first example test run.
 
+<ul class="menu">
+<li><a accesskey="1" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+</ul>
+
+<div class="node">
+<a name="Adding-a-new-host-into-automation"></a>
+<p><hr>
+Up:&nbsp;<a rel="up" accesskey="u" href="#Technical-Infrastructure">Technical Infrastructure</a>
+
+</div>
+
 <h3 class="section">2.1 Adding a new host into automation</h3>
 
 <p>This chapter describes what you need to do in order to get a new
 machine into the Artemis test scheduling rotation.
+
+<ul class="menu">
+<li><a accesskey="1" href="#Make-machine-remote-hard-resetable">Make machine remote hard resetable</a>
+<li><a accesskey="2" href="#Make-machine-PXE-boot-aware">Make machine PXE boot aware</a>
+<li><a accesskey="3" href="#Configure-TFTP-on-central-MCP-machine">Configure TFTP on central MCP machine</a>
+<li><a accesskey="4" href="#Make-the-hosts-known-in-the-TestrunDB">Make the hosts known in the TestrunDB</a>
+<li><a accesskey="5" href="#Optionally-enable-temare-to-generate-tests-for-this-host">Optionally enable temare to generate tests for this host</a>
+</ul>
+
+<div class="node">
+<a name="Make-machine-remote-hard-resetable"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Make-machine-PXE-boot-aware">Make machine PXE boot aware</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+
+</div>
 
 <h4 class="subsection">2.1.1 Make machine remote hard resetable</h4>
 
@@ -436,6 +620,15 @@ and password of the multi-socket outlet.
 <code>FooBar</code> in a Perl module
 <code>Artemis::MCP::Net::Reset::FooBar</code>. Look into the code of
 <code>Artemis::MCP::Net::Reset::PM211MIP</code> to get inspiration.
+
+<div class="node">
+<a name="Make-machine-PXE-boot-aware"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Configure-TFTP-on-central-MCP-machine">Configure TFTP on central MCP machine</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Make-machine-remote-hard-resetable">Make machine remote hard resetable</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+
+</div>
 
 <h4 class="subsection">2.1.2 Make machine PXE boot aware</h4>
 
@@ -488,6 +681,15 @@ lead to the same files &lsquo;<samp><span class="samp">/tftpboot/sarahconnor.lst
 
 </ul>
 
+<div class="node">
+<a name="Configure-TFTP-on-central-MCP-machine"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Make-the-hosts-known-in-the-TestrunDB">Make the hosts known in the TestrunDB</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Make-machine-PXE-boot-aware">Make machine PXE boot aware</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+
+</div>
+
 <h4 class="subsection">2.1.3 Configure TFTP on central MCP machine</h4>
 
 <p>The MCP server is also acting as a TFTP server, so it has to be
@@ -523,6 +725,15 @@ the same absolute path name in both contexts (Artemis and TFTP):
 
 </ul>
 
+<div class="node">
+<a name="Make-the-hosts-known-in-the-TestrunDB"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Optionally-enable-temare-to-generate-tests-for-this-host">Optionally enable temare to generate tests for this host</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Configure-TFTP-on-central-MCP-machine">Configure TFTP on central MCP machine</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+
+</div>
+
 <h4 class="subsection">2.1.4 Make the hosts known in the TestrunDB</h4>
 
 <pre class="verbatim"> $ artemis-testrun newhost --name=sarahconnor --active=1
@@ -533,6 +744,14 @@ the same absolute path name in both contexts (Artemis and TFTP):
 testruns by machine name. For scheduling hosts by more detailed
 machine features (cpu, memory, family, etc.)  you need to add
 according key/value pairs in the &lsquo;<samp><span class="samp">HostFeature</span></samp>&rsquo; table.
+
+<div class="node">
+<a name="Optionally-enable-temare-to-generate-tests-for-this-host"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Make-the-hosts-known-in-the-TestrunDB">Make the hosts known in the TestrunDB</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Adding-a-new-host-into-automation">Adding a new host into automation</a>
+
+</div>
 
 <h4 class="subsection">2.1.5 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</h4>
 
@@ -588,9 +807,62 @@ all &lsquo;<samp><span class="samp">Test::*</span></samp>&rsquo; modules from th
 extensions, which are usually headers that can be transported inside
 TAP comments.
 
+<ul class="menu">
+<li><a accesskey="1" href="#Test-Anything-Protocol-_0028TAP_0029">Test Anything Protocol (TAP)</a>
+<li><a accesskey="2" href="#Tutorial">Tutorial</a>
+<li><a accesskey="3" href="#Particular-use_002dcases">Particular use-cases</a>
+<li><a accesskey="4" href="#TAP-Archives">TAP Archives</a>
+<li><a accesskey="5" href="#Reporting-TAP-to-the-reports-receiver">Reporting TAP to the reports receiver</a>
+</ul>
+
+<div class="node">
+<a name="Test-Anything-Protocol-(TAP)"></a>
+<a name="Test-Anything-Protocol-_0028TAP_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Tutorial">Tutorial</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Test-Protocol">Test Protocol</a>
+
+</div>
+
 <h3 class="section">3.1 Test Anything Protocol (TAP)</h3>
 
+<div class="node">
+<a name="Tutorial"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Particular-use_002dcases">Particular use-cases</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Test-Anything-Protocol-_0028TAP_0029">Test Anything Protocol (TAP)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Test-Protocol">Test Protocol</a>
+
+</div>
+
 <h3 class="section">3.2 Tutorial</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#Just-plan-and-success">Just plan and success</a>
+<li><a accesskey="2" href="#Succession-numbers">Succession numbers</a>
+<li><a accesskey="3" href="#Test-descriptions">Test descriptions</a>
+<li><a accesskey="4" href="#Mark-tests-as-TODO">Mark tests as TODO</a>
+<li><a accesskey="5" href="#Comment-TODO-tests-with-reason">Comment TODO tests with reason</a>
+<li><a accesskey="6" href="#Mark-tests-as-SKIP-_0028with-reason_0029">Mark tests as SKIP (with reason)</a>
+<li><a accesskey="7" href="#Diagnostics">Diagnostics</a>
+<li><a accesskey="8" href="#YAML-Diagnostics">YAML Diagnostics</a>
+<li><a accesskey="9" href="#Meta-information-headers-for-reports">Meta information headers for reports</a>
+<li><a href="#Report-sections">Report sections</a>
+<li><a href="#Meta-information-headers-for-report-sections">Meta information headers for report sections</a>
+<li><a href="#Meta-information-structure-summary">Meta information structure summary</a>
+<li><a href="#Explicit-section-markers-with-lazy-plans">Explicit section markers with lazy plans</a>
+<li><a href="#Developing-with-TAP">Developing with TAP</a>
+<li><a href="#TAP-tips">TAP tips</a>
+</ul>
+
+<div class="node">
+<a name="Just-plan-and-success"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Succession-numbers">Succession numbers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Tutorial">Tutorial</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.1 Just plan and success</h4>
 
@@ -608,6 +880,15 @@ TAP comments.
 <li>the two first went good
 <li>the last went wrong
 </ul>
+
+<div class="node">
+<a name="Succession-numbers"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Test-descriptions">Test descriptions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Just-plan-and-success">Just plan and success</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.2 Succession numbers</h4>
 
@@ -636,6 +917,15 @@ TAP comments.
 <li>Parsing will later say &ldquo; test 2 expected but got 3&rdquo;
 </ul>
 
+<div class="node">
+<a name="Test-descriptions"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Mark-tests-as-TODO">Mark tests as TODO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Succession-numbers">Succession numbers</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.3 Test descriptions</h4>
 
 <p><strong>Example:</strong>
@@ -650,6 +940,15 @@ TAP comments.
      <ul>
 <li>Readability. 
 </ul>
+
+<div class="node">
+<a name="Mark-tests-as-TODO"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Comment-TODO-tests-with-reason">Comment TODO tests with reason</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Test-descriptions">Test descriptions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.4 Mark tests as TODO</h4>
 
@@ -671,6 +970,15 @@ TAP comments.
 them later. 
 </ul>
 
+<div class="node">
+<a name="Comment-TODO-tests-with-reason"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Mark-tests-as-SKIP-_0028with-reason_0029">Mark tests as SKIP (with reason)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Mark-tests-as-TODO">Mark tests as TODO</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.5 Comment TODO tests with reason</h4>
 
 <p><strong>Example:</strong>
@@ -685,6 +993,16 @@ them later.
      <ul>
 <li>comment the TODO reason
 </ul>
+
+<div class="node">
+<a name="Mark-tests-as-SKIP-(with-reason)"></a>
+<a name="Mark-tests-as-SKIP-_0028with-reason_0029"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Diagnostics">Diagnostics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Comment-TODO-tests-with-reason">Comment TODO tests with reason</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.6 Mark tests as SKIP (with reason)</h4>
 
@@ -701,6 +1019,15 @@ them later.
 <li>mark tests when not really run (note it's set to &ldquo;ok&rdquo; anyway)
 <li>keeps succession numbers in sync
 </ul>
+
+<div class="node">
+<a name="Diagnostics"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#YAML-Diagnostics">YAML Diagnostics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Mark-tests-as-SKIP-_0028with-reason_0029">Mark tests as SKIP (with reason)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.7 Diagnostics</h4>
 
@@ -720,6 +1047,15 @@ them later.
      <ul>
 <li>Unstructured details
 </ul>
+
+<div class="node">
+<a name="YAML-Diagnostics"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Meta-information-headers-for-reports">Meta information headers for reports</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Diagnostics">Diagnostics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.8 YAML Diagnostics</h4>
 
@@ -749,6 +1085,15 @@ them later.
 <li>e.g., benchmark results
 </ul>
      </ul>
+
+<div class="node">
+<a name="Meta-information-headers-for-reports"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Report-sections">Report sections</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#YAML-Diagnostics">YAML Diagnostics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.9 Meta information headers for reports</h4>
 
@@ -797,6 +1142,15 @@ Artemis specific headers.
 
 <p>There are more headers that apply to single sections of a report.
 
+<div class="node">
+<a name="Report-sections"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Meta-information-headers-for-report-sections">Meta information headers for report sections</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Meta-information-headers-for-reports">Meta information headers for reports</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.10 Report sections</h4>
 
 <p>Standard TAP contains of exactly one block with one plan (eg., 1..5)
@@ -836,6 +1190,15 @@ sections into ARTEMIS.</strong>
 <li>allows structuring of results,
 <li>better readability later in web interface
 </ul>
+
+<div class="node">
+<a name="Meta-information-headers-for-report-sections"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Meta-information-structure-summary">Meta information structure summary</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Report-sections">Report sections</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.11 Meta information headers for report sections</h4>
 
@@ -891,6 +1254,15 @@ sections into ARTEMIS.</strong>
                                         Artemis-kvm-base-os-description)
 
 </pre>
+
+<div class="node">
+<a name="Meta-information-structure-summary"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Explicit-section-markers-with-lazy-plans">Explicit section markers with lazy plans</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Meta-information-headers-for-report-sections">Meta information headers for report sections</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
 
 <h4 class="subsection">3.2.12 Meta information structure summary</h4>
 
@@ -969,6 +1341,15 @@ information.
 
 </ul>
 
+<div class="node">
+<a name="Explicit-section-markers-with-lazy-plans"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Developing-with-TAP">Developing with TAP</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Meta-information-structure-summary">Meta information structure summary</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.13 Explicit section markers with lazy plans</h4>
 
 <p>In TAP it is allowed to print the plan (1..n) after the test lines (a
@@ -1013,6 +1394,15 @@ standard TAP. An alternative way better than fiddling with this
 sectioning is to produce TAP archives and submit them instead. See
 chapter &ldquo;TAP Archives&rdquo;.</strong>
 
+<div class="node">
+<a name="Developing-with-TAP"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#TAP-tips">TAP tips</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Explicit-section-markers-with-lazy-plans">Explicit section markers with lazy plans</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.14 Developing with TAP</h4>
 
 <p>TAP consuming is provided via the <code>Test::Harness</code>
@@ -1043,6 +1433,14 @@ execute TAP emitting tests and evaluate statistics is <code>prove</code>.
 <p>It helps to not rely on ARTEMIS extensions (like report sections) when
 using the <code>prove</code> command.
 
+<div class="node">
+<a name="TAP-tips"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Developing-with-TAP">Developing with TAP</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Tutorial">Tutorial</a>
+
+</div>
+
 <h4 class="subsection">3.2.15 TAP tips</h4>
 
      <ul>
@@ -1057,9 +1455,45 @@ using the <code>prove</code> command.
 
 <p>These tips keep later TAP evaluation consistent.
 
+<div class="node">
+<a name="Particular-use-cases"></a>
+<a name="Particular-use_002dcases"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#TAP-Archives">TAP Archives</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Tutorial">Tutorial</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Test-Protocol">Test Protocol</a>
+
+</div>
+
 <h3 class="section">3.3 Particular use-cases</h3>
 
+<ul class="menu">
+<li><a accesskey="1" href="#Report-Groups">Report Groups</a>
+</ul>
+
+<div class="node">
+<a name="Report-Groups"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Particular-use_002dcases">Particular use-cases</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Particular-use_002dcases">Particular use-cases</a>
+
+</div>
+
 <h4 class="subsection">3.3.1 Report Groups</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="#Report-grouping-by-same-testrun">Report grouping by same testrun</a>
+<li><a accesskey="2" href="#Report-grouping-by-arbitrary-idenitifier">Report grouping by arbitrary idenitifier</a>
+</ul>
+
+<div class="node">
+<a name="Report-grouping-by-same-testrun"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Report-grouping-by-arbitrary-idenitifier">Report grouping by arbitrary idenitifier</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Report-Groups">Report Groups</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Report-Groups">Report Groups</a>
+
+</div>
 
 <h5 class="subsubsection">3.3.1.1 Report grouping by same testrun</h5>
 
@@ -1079,6 +1513,14 @@ by that id.
 <p>with 1234 being a testrun ID that is available via the environment
 variable <code>$ARTEMIS_TESTRUN</code>. This variable is provided by the
 automation layer.
+
+<div class="node">
+<a name="Report-grouping-by-arbitrary-idenitifier"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Report-grouping-by-same-testrun">Report grouping by same testrun</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Report-Groups">Report Groups</a>
+
+</div>
 
 <h5 class="subsubsection">3.3.1.2 Report grouping by arbitrary idenitifier</h5>
 
@@ -1106,6 +1548,15 @@ before starting them. That's not the problem of the test suite
 wrappers, they should only evaluate the environment variable
 <code>ARTEMIS_REPORT_GROUP</code>.
 
+<div class="node">
+<a name="TAP-Archives"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Reporting-TAP-to-the-reports-receiver">Reporting TAP to the reports receiver</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Particular-use_002dcases">Particular use-cases</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Test-Protocol">Test Protocol</a>
+
+</div>
+
 <h3 class="section">3.4 TAP Archives</h3>
 
 <p>Some TAP emitting toolchains allow the generation of .tar.gz files
@@ -1116,6 +1567,14 @@ containing TAP, so called <em>TAP archives</em>. E.g., via &lsquo;<samp><span cl
 
 <p>You can later submit such TAP archive files to the Artemis reports
 receiver tha same way as you report raw TAP.
+
+<div class="node">
+<a name="Reporting-TAP-to-the-reports-receiver"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#TAP-Archives">TAP Archives</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Test-Protocol">Test Protocol</a>
+
+</div>
 
 <h3 class="section">3.5 Reporting TAP to the reports receiver</h3>
 
@@ -1130,6 +1589,20 @@ communication with Perl or Python: open socket, print to socket, close
 socket, done. We just keep with &lsquo;<samp><span class="samp">netcat</span></samp>&rsquo; for illustrating the
 examples.
 
+<ul class="menu">
+<li><a accesskey="1" href="#Submitting-raw-TAP">Submitting raw TAP</a>
+<li><a accesskey="2" href="#Submitting-TAP-Archives">Submitting TAP Archives</a>
+</ul>
+
+<div class="node">
+<a name="Submitting-raw-TAP"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Submitting-TAP-Archives">Submitting TAP Archives</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Reporting-TAP-to-the-reports-receiver">Reporting TAP to the reports receiver</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reporting-TAP-to-the-reports-receiver">Reporting TAP to the reports receiver</a>
+
+</div>
+
 <h4 class="subsection">3.5.1 Submitting raw TAP</h4>
 
 <p>Simply submit all TAP directly into the socket of the reports
@@ -1137,6 +1610,14 @@ receiver:
 
 <pre class="verbatim"> $ ./my_tap_emitting_test_suite | netcat artemis_server 7357
 </pre>
+
+<div class="node">
+<a name="Submitting-TAP-Archives"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Submitting-raw-TAP">Submitting raw TAP</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Reporting-TAP-to-the-reports-receiver">Reporting TAP to the reports receiver</a>
+
+</div>
 
 <h4 class="subsection">3.5.2 Submitting TAP Archives</h4>
 
@@ -2156,12 +2637,12 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <h2 class="chapter">6 Command line interface</h2>
 
 <ul class="menu">
-<li><a accesskey="1" href="#SYNOPSIS">SYNOPSIS</a>
+<li><a accesskey="1" href="#Commandline-Synopsis">Commandline Synopsis</a>
 <li><a accesskey="2" href="#Scheduling">Scheduling</a>
 </ul>
 
 <div class="node">
-<a name="SYNOPSIS"></a>
+<a name="Commandline-Synopsis"></a>
 <p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Scheduling">Scheduling</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#Command-line-interface">Command line interface</a>,
@@ -2169,7 +2650,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Command-line-interface">Command line i
 
 </div>
 
-<h3 class="section">6.1 SYNOPSIS</h3>
+<h3 class="section">6.1 Commandline Synopsis</h3>
 
      <ul>
 <li>Get host usage/scheduling overview
@@ -2185,7 +2666,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Command-line-interface">Command line i
 <div class="node">
 <a name="Scheduling"></a>
 <p><hr>
-Previous:&nbsp;<a rel="previous" accesskey="p" href="#SYNOPSIS">SYNOPSIS</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Commandline-Synopsis">Commandline Synopsis</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#Command-line-interface">Command line interface</a>
 
 </div>
@@ -2690,15 +3171,14 @@ interface. Use this to attach log files, config files or console
 output.
 
 <ul class="menu">
-<li><a accesskey="1" href="#upload-_002d-Synopsis">upload - Synopsis</a>
+<li><a accesskey="1" href="#upload-Synopsis">upload Synopsis</a>
 <li><a accesskey="2" href="#Parameters">Parameters</a>
 <li><a accesskey="3" href="#upload-Payload">upload Payload</a>
 <li><a accesskey="4" href="#upload-Example-usage">upload Example usage</a>
 </ul>
 
 <div class="node">
-<a name="upload---Synopsis"></a>
-<a name="upload-_002d-Synopsis"></a>
+<a name="upload-Synopsis"></a>
 <p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#Parameters">Parameters</a>,
 Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>,
@@ -2706,7 +3186,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-rep
 
 </div>
 
-<h5 class="subsubsection">8.2.1.1 upload - Synopsis</h5>
+<h5 class="subsubsection">8.2.1.1 upload Synopsis</h5>
 
 <pre class="verbatim">#! upload REPORTID FILENAME [ CONTENTTYPE ]
 payload
@@ -2716,7 +3196,7 @@ payload
 <a name="Parameters"></a>
 <p><hr>
 Next:&nbsp;<a rel="next" accesskey="n" href="#upload-Payload">upload Payload</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-_002d-Synopsis">upload - Synopsis</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#upload-Synopsis">upload Synopsis</a>,
 Up:&nbsp;<a rel="up" accesskey="u" href="#upload-aka_002e-attach-a-file-to-a-report">upload aka. attach a file to a report</a>
 
 </div>
