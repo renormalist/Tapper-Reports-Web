@@ -498,8 +498,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                                 @testhosts = ( $testrun_data->{requested_hosts} );
                         }
                 } else {
-                        use Data::Dumper;
-                        @testhosts = map { say STDERR Dumper $_; $_->[0] } @{get_hostnames()};
+                        @testhosts = map { $_->[0] } @{get_hostnames()};
                 }
                 
                 $all_testruns = [];
