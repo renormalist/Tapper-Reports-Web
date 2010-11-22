@@ -48,6 +48,6 @@ diag($mech->content) unless $mech->content() =~ /Use case details/;
 
 $mech->forms(0);
 $mech->submit_form(button => 'submit' );
-# $mech->content_like(qr/Testrun \d+.+<\/a> created on host \w+ with precondition IDs/, 'Testrun created');
+$mech->content_like(qr|Testrun \d+.+</a>\s* created on host <strong>\w+</strong>\s* with precondition IDs|s, 'Testrun created');
 
 done_testing();
