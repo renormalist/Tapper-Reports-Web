@@ -80,3 +80,21 @@
     testrun_id: 1
     precondition_id: 2
     succession: 2
+
+# -------------------- hosts --------------------
+
+- schema: Host
+  name: iring
+  data:
+    id: 5
+    name: iring
+    free: 1
+    active: 1
+
+- schema: Host
+  name: kobold
+  data:
+    id: 101
+    name: kobold
+    free: 1
+    active: 1
