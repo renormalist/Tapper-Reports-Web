@@ -13,7 +13,7 @@ build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
 
 #requires 'HTML::FromANSI';
-requires 'Artemis::Cmd'          => '2.010018';
+requires 'Artemis::Cmd'          => '2.010035';
 requires 'Artemis::Config'       => '2.010074';
 requires 'Artemis::Schema'       => '2.010067';
 requires 'Artemis::TAP::Harness' => '2.010030';
