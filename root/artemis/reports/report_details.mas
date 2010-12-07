@@ -9,7 +9,13 @@
 % if (defined $value) {
 <tr>
         <th><% $name %>:</th>
-        <td><% $value %></td>
+        <td>
+%       if ($name =~ /url$/) {
+            <% $value %>
+%       } else {
+            <a href="<% $value %>"><% $value %></a>
+%       }
+        </td>
 </tr>
 % }
 </%method>
@@ -28,13 +34,18 @@
 %                             simnow-svn-repository
 %                             simnow-bsd-file
 %                             simnow-image-file
-%                             flags
+%                             ticket-url wiki-url planning-id
 %                            /;
-
+%
 % my $reportgrouptestrun = $report->reportgrouptestrun;
+% my @reportlist = ($report);
 % if ($reportgrouptestrun) {
-   <h4>Test Execution Context</h4>
-%  foreach my $r ( $reportgrouptestrun->groupreports->all) {
+%     @reportlist = $reportgrouptestrun->groupreports->all;
+% }
+
+<h4>Test Execution Context</h4>
+
+% foreach my $r ( @reportlist) {
 %   my $sections = $r->reportsections;
 
 %   if ($r->some_meta_available) {
@@ -53,7 +64,6 @@
 %     } # while $sections->next
       </table>
 %   } # if $r->some_meta_available
-%  }
 % }
 
 %# Local Variables:
