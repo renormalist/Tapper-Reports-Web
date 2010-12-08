@@ -35,6 +35,7 @@
 %                             simnow-bsd-file
 %                             simnow-image-file
 %                             ticket-url wiki-url planning-id
+%                             tags
 %                            /;
 %
 % my $reportgrouptestrun = $report->reportgrouptestrun;
