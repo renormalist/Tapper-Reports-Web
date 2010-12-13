@@ -1,5 +1,6 @@
 <%args>
         $report
+        @failures => []
 </%args>
 <%method meta_row>
   <%args>
@@ -56,6 +57,20 @@
 %  }
 % }
 
+% if (@failures) {
+<h4>Issue Summary</h4>
+%     foreach my $failure (@failures) {
+%#       $failure->{description} =~ s/^- //;
+%#      <h5>&nbsp;&nbsp;&nbsp;&nbsp;not ok <% $failure->{number} %> <b><% $failure->{description} %></b></h5>
+      <table class="reportsectionmeta">
+        <tr>
+          <th>not ok <% $failure->{number} %></th>
+          <th>&nbsp;</th>
+          <td><a><% $failure->{description} %></a></hd>
+        </tr>
+      </table>
+%     } # foreach
+% } # if
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:

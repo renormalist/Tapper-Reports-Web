@@ -1,5 +1,6 @@
 <%args>
     $report
+    $failures => []
     $overview
     %reportlist_rga => {}
     %reportlist_rgt => {}
@@ -40,7 +41,7 @@
 
     <!-- ************************************************************ -->
 
-        <& /artemis/reports/report_details.mas, report => $report &>
+        <& /artemis/reports/report_details.mas, report => $report, failures => $failures &>
 
     <!-- ************************************************************ -->
 
