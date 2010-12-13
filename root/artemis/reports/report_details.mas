@@ -10,7 +10,13 @@
 % if (defined $value) {
 <tr>
         <th><% $name %>:</th>
-        <td><% $value %></td>
+        <td>
+%       if ($name =~ /url$/) {
+            <a href="<% $value %>"><% $value %></a>
+%       } else {
+            <% $value %>
+%       }
+        </td>
 </tr>
 % }
 </%method>
