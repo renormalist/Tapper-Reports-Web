@@ -11,6 +11,7 @@ use parent 'Artemis::Reports::Web::Controller::Base';
 use YAML;
 
 use Data::Dumper;
+use Data::DPath 'dpath';
 
 sub auto :Private
 {
@@ -146,11 +147,35 @@ sub generate_metareport_link
         return %metareport;
 }
 
+# get array of not_ok sub tests
+
+sub get_report_failures
+{
+        my ($self, $report) = @_;
+
+        my $tapdom = $report->get_cached_tapdom;
+
+        print STDERR Dumper($tapdom);
+        print STDERR Dumper($report->tap->tap);
+
+        my $points = $tapdom ~~ dpath '//tap//lines//is_test/..';    # bug in DPath, no test on is_test==0 yet
+        my @failures =
+          grep { $_->{is_ok} == 0 }
+            map { $_ }
+              @$points;
+
+        print STDERR Dumper(\@failures);
+
+        # the keys are typical TAP::DOM keys, as_string, description, etc.
+        return \@failures;
+}
+
 sub index :Path :Args(1)
 {
         my ( $self, $c, $report_id ) = @_;
 
         my $report         : Stash;
+        my $failures       : Stash = [];
         my $reportlist_rga : Stash = {};
         my $reportlist_rgt : Stash = {};
         my %metareport     : Stash;
@@ -208,6 +233,7 @@ sub index :Path :Args(1)
         my $report_data = {suite => $report->suite ? $report->suite->name : 'unknownsuite' ,
                            group_suite => $tmp};
 
+        $failures = $self->get_report_failures($report);
         %metareport = $self->generate_metareport_link($report_data);
 }
 
