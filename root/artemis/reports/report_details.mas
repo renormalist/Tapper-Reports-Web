@@ -12,9 +12,9 @@
         <th><% $name %>:</th>
         <td>
 %       if ($name =~ /url$/) {
-            <% $value %>
-%       } else {
             <a href="<% $value %>"><% $value %></a>
+%       } else {
+            <% $value %>
 %       }
         </td>
 </tr>
