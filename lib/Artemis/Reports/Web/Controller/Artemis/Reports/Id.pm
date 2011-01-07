@@ -153,21 +153,7 @@ sub get_report_failures
 {
         my ($self, $report) = @_;
 
-        my $tapdom = $report->get_cached_tapdom;
-
-        print STDERR Dumper($tapdom);
-        print STDERR Dumper($report->tap->tap);
-
-        my $points = $tapdom ~~ dpath '//tap//lines//is_test/..';    # bug in DPath, no test on is_test==0 yet
-        my @failures =
-          grep { $_->{is_ok} == 0 }
-            map { $_ }
-              @$points;
-
-        print STDERR Dumper(\@failures);
-
-        # the keys are typical TAP::DOM keys, as_string, description, etc.
-        return \@failures;
+        return $report->get_cached_tapdom ~~ dpath '//tap//lines//is_ok[value eq 0]/..';
 }
 
 sub index :Path :Args(1)

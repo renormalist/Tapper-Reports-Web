@@ -31,7 +31,7 @@
 % $m->call_next;
 
 <div id="footer" class="fluid">
-	Copyright &copy; 2008-2010 AMD <a href="http://amd64.org">Operating System Research Center</a>.
+	Copyright &copy; 2008-2011 AMD <a href="http://amd64.org">Operating System Research Center</a>.
 </div>
 
 </body>

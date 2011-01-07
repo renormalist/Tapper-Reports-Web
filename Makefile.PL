@@ -40,6 +40,8 @@ requires 'FindBin';
 requires 'File::Find';
 requires 'File::Find::Rule';
 requires 'Getopt::Long';
+requires 'Data::DPath' => "0.42";
+requires 'TAP::Parser';
 requires 'Hash::Merge';
 requires 'HTML::FormFu';
 requires 'parent';
