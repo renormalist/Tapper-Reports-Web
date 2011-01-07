@@ -26,4 +26,6 @@ my $failures   = Artemis::Reports::Web::Controller::Artemis::Reports::Id::get_re
 
 diag Dumper($failures);
 
+is($failures->[0]{description}, "- fink", "found failing test");
+
 done_testing;

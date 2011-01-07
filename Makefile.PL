@@ -33,7 +33,7 @@ requires 'DateTime::Format::Natural';
 requires 'DateTime::Format::DateParse';
 requires 'TAP::Formatter::HTML'  => '0.04';
 requires 'Getopt::Long';
-requires 'Data::DPath';
+requires 'Data::DPath' => "0.42";
 requires 'TAP::Parser';
 requires 'Hash::Merge';
 requires 'Test::More';
