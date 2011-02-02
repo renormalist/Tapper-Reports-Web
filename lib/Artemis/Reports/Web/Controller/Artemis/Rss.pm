@@ -1,8 +1,8 @@
-package Artemis::Reports::Web::Controller::Artemis::Rss;
+package Tapper::Reports::Web::Controller::Tapper::Rss;
 
 use XML::Feed;
 use DateTime;
-use Artemis::Reports::Web::Util::Filter;
+use Tapper::Reports::Web::Util::Filter;
 
 use parent 'Catalyst::Controller';
 
@@ -11,7 +11,7 @@ use common::sense;
 
 =head2 index
 
-Controller for RSS feeds of results reported to Artemis Reports
+Controller for RSS feeds of results reported to Tapper Reports
 Framework. The function expectes an unrestricted number of arguments
 that are interpreted as filters. Thus, the arguments need to be in pairs
 of $filter_type/$filter_value. Since index is a catalyst function the
@@ -25,13 +25,13 @@ sub index :Path :Args()
 {
         my ($self,$c, @args) = @_;
 
-        my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
+        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
 
 
         my $feed = XML::Feed->new('RSS');
         $feed->title( ' RSS Feed' );
         $feed->link( $c->req->base ); # link to the site.
-        $feed->description('Artemis Reports');
+        $feed->description('Tapper Reports');
 
         my $feed_entry;
         my $title;
@@ -86,7 +86,7 @@ sub index :Path :Args()
                 $title      .= " @ ";
                 $title      .= $report->machine_name || 'unknown machine';
                 $feed_entry->title( $title );
-                $feed_entry->link( $c->req->base->as_string.'/artemis/reports/id/'.$report->id );
+                $feed_entry->link( $c->req->base->as_string.'/tapper/reports/id/'.$report->id );
                 $feed_entry->issued( $report->created_at );
                 $feed->add_entry($feed_entry);
         }
@@ -100,7 +100,7 @@ __END__
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Hardware - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
 
 =head1 DESCRIPTION
 

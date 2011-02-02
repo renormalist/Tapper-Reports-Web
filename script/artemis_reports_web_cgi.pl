@@ -6,15 +6,15 @@ use strict;
 use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Artemis::Reports::Web;
+use Tapper::Reports::Web;
 
-Artemis::Reports::Web->run;
+Tapper::Reports::Web->run;
 
 1;
 
 =head1 NAME
 
-artemis_reports_web_cgi.pl - Catalyst CGI
+tapper_reports_web_cgi.pl - Catalyst CGI
 
 =head1 SYNOPSIS
 

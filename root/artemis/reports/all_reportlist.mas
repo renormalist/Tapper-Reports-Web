@@ -23,7 +23,7 @@
 
 %#        <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
         <h4>All reports</h4>
-<& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
+<& /tapper/reports/reportlist.mas, reportlist => $reportlist &>
 
 
 %# Local Variables:

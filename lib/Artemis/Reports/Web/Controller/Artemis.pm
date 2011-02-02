@@ -1,9 +1,9 @@
-package Artemis::Reports::Web::Controller::Artemis;
+package Tapper::Reports::Web::Controller::Tapper;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 sub index :Path :Args(0)
 {
@@ -15,9 +15,9 @@ sub index :Path :Args(0)
         my $body = <<EOF;
 <html>
 <head>
-<meta http-equiv="refresh" content="0; URL=/artemis/start">
-<meta name="description" content="Artemis"
-<title>Artemis</title>
+<meta http-equiv="refresh" content="0; URL=/tapper/start">
+<meta name="description" content="Tapper"
+<title>Tapper</title>
 </head>
 EOF
         $c->response->body($body);

@@ -1,9 +1,9 @@
-package Artemis::Reports::Web::Controller::Artemis::Preconditions::Id;
+package Tapper::Reports::Web::Controller::Tapper::Preconditions::Id;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 sub index :Path :Args(1)
 {
@@ -22,7 +22,7 @@ sub index :Path :Args(1)
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Preconditions - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Preconditions - Catalyst Controller
 
 =head1 DESCRIPTION
 

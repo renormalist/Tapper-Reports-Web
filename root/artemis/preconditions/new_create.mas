@@ -12,4 +12,4 @@ $preconditions => undef
 <% $form|n %>
 </fieldset>
 % }
-<p><a href="/artemis/preconditions/">Return to Precondition list</a></p>
+<p><a href="/tapper/preconditions/">Return to Precondition list</a></p>

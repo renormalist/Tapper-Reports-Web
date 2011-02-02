@@ -1,13 +1,13 @@
-package Artemis::Reports::Web::Controller::Artemis::Testruns::Id;
+package Tapper::Reports::Web::Controller::Tapper::Testruns::Id;
 
 use 5.010;
 
 use strict;
 use warnings;
-use Artemis::Model 'model';
-use Artemis::Reports::Web::Util::Report;
+use Tapper::Model 'model';
+use Tapper::Reports::Web::Util::Report;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 
 sub index :Path :Args(1)
@@ -33,7 +33,7 @@ sub index :Path :Args(1)
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
         $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host->name : "unknown";
 
-        $overview = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
+        $overview = $c->forward('/tapper/testruns/get_testrun_overview', [ $testrun ]);
 
         my $rgt_reports = $c->model('ReportsDB')->resultset('Report')->search
           (
@@ -46,7 +46,7 @@ sub index :Path :Args(1)
               '+as'     => [ 'rgt_id',                        'rgt_primary',                      'suite_name', 'suite_type', 'suite_description' ],
            }
           );
-        my $util_report = Artemis::Reports::Web::Util::Report->new();
+        my $util_report = Tapper::Reports::Web::Util::Report->new();
 
         $reportlist_rgt = $util_report->prepare_simple_reportlist($c,  $rgt_reports);
         $report = $c->model('ReportsDB')->resultset('Report')->search

@@ -7,8 +7,8 @@ $force
 % if (not $force){
 <H3>Do you really want to delete Testrun <% $id %>?</h3>
 <ul class="additional_table">
-  <li><a href="/artemis/testruns/delete/<% $id %>/force/">Really delete Testrun <% $id %></a></li>
-  <li><a href="/artemis/testruns/id/<% $id %>">Go back to overview of Testrun <% $id %></a></li>
+  <li><a href="/tapper/testruns/delete/<% $id %>/force/">Really delete Testrun <% $id %></a></li>
+  <li><a href="/tapper/testruns/id/<% $id %>">Go back to overview of Testrun <% $id %></a></li>
 </ul>
 % } else {
 

@@ -2,9 +2,9 @@ use strict;
 use warnings;
 use Test::More tests => 3;
 
-BEGIN { use_ok 'Catalyst::Test', 'Artemis::Reports::Web' }
-BEGIN { use_ok 'Artemis::Reports::Web::Controller::Artemis' }
+BEGIN { use_ok 'Catalyst::Test', 'Tapper::Reports::Web' }
+BEGIN { use_ok 'Tapper::Reports::Web::Controller::Tapper' }
 
-ok( request('/artemis')->is_success, 'Request should succeed' );
+ok( request('/tapper')->is_success, 'Request should succeed' );
 
 

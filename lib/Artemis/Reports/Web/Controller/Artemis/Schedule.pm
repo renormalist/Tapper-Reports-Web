@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Controller::Artemis::Schedule;
+package Tapper::Reports::Web::Controller::Tapper::Schedule;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use parent 'Catalyst::Controller';
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Schedule - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Schedule - Catalyst Controller
 
 =head1 DESCRIPTION
 
@@ -24,7 +24,7 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    my $body = qx(artemis-testrun listqueue -v);
+    my $body = qx(tapper-testrun listqueue -v);
     
     $c->response->body("<pre>
 $body

@@ -2,8 +2,8 @@
 # expected.  you have been warned
 use inc::Module::Install;
 
-name     'Artemis-Reports-Web';
-all_from 'lib/Artemis/Reports/Web.pm';
+name     'Tapper-Reports-Web';
+all_from 'lib/Tapper/Reports/Web.pm';
 author   'OSRC SysInt Team <osrc-sysint@elbe.amd.com>';
 license  'freebsd';
 
@@ -13,11 +13,11 @@ build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
 
 #requires 'HTML::FromANSI';
-requires 'Artemis::Cmd'          => '2.010035';
-requires 'Artemis::Config'       => '2.010074';
-requires 'Artemis::Schema'       => '2.010067';
-requires 'Artemis::TAP::Harness' => '2.010030';
-requires 'Artemis::Test';
+requires 'Tapper::Cmd'          => '2.010035';
+requires 'Tapper::Config'       => '2.010074';
+requires 'Tapper::Schema'       => '2.010067';
+requires 'Tapper::TAP::Harness' => '2.010030';
+requires 'Tapper::Test';
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';

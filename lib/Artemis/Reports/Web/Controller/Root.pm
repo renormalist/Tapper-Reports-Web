@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Controller::Root;
+package Tapper::Reports::Web::Controller::Root;
 
 use strict;
 use warnings;
@@ -19,9 +19,9 @@ sub index :Path :Args(0)
         my $body = <<EOF;
 <html>
 <head>
-<meta http-equiv="refresh" content="0; URL=/artemis">
-<meta name="description" content="Artemis"
-<title>Artemis</title>
+<meta http-equiv="refresh" content="0; URL=/tapper">
+<meta name="description" content="Tapper"
+<title>Tapper</title>
 </head>
 EOF
         $c->response->body($body);
@@ -43,7 +43,7 @@ __END__
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Root - Root Controller for Artemis::Reports::Web
+Tapper::Reports::Web::Controller::Root - Root Controller for Tapper::Reports::Web
 
 =head1 DESCRIPTION
 

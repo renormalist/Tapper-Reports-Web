@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Util::Filter;
+package Tapper::Reports::Web::Util::Filter;
 
 use DateTime;
 use Data::Dumper;

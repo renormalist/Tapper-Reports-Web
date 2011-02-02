@@ -1,11 +1,11 @@
-package Artemis::Reports::Web::Controller::Artemis::Testruns::Date;
+package Tapper::Reports::Web::Controller::Tapper::Testruns::Date;
 
 use 5.010;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 #
 
@@ -13,7 +13,7 @@ sub auto :Private
 {
         my ( $self, $c ) = @_;
 
-        $c->forward('/artemis/testruns/prepare_navi');
+        $c->forward('/tapper/testruns/prepare_navi');
 }
 
 sub index :Path :Args(1)
@@ -28,7 +28,7 @@ sub index :Path :Args(1)
                                         #report_id, rgt.testrun_id, rgts.success_ratio from reportgrouptestrun rgt, reportgrouptestrunstats rgts where rgt.testrun_id=rgts.testrun_id group by rgt.testrun_id;
                                         "me.id" => { '>=', 22530 }
                                        };
-        $c->forward('/artemis/testruns/prepare_this_weeks_reportlists');
+        $c->forward('/tapper/testruns/prepare_this_weeks_reportlists');
 }
 
 

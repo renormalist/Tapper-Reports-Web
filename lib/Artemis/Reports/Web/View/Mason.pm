@@ -1,9 +1,9 @@
-package Artemis::Reports::Web::View::Mason;
+package Tapper::Reports::Web::View::Mason;
 
 use strict;
 use warnings;
 
-use Artemis::Reports::Web;
+use Tapper::Reports::Web;
 
 use base 'Catalyst::View::Mason';
 
@@ -12,7 +12,7 @@ __PACKAGE__->config( template_extension => '.mas' );
 __PACKAGE__->config( use_match          => 0      );
 __PACKAGE__->config( dynamic_comp_root  => 1      );
 __PACKAGE__->config( comp_root          => [
-                                            [ artemisroot => Artemis::Reports::Web->config->{root}.'' ],
+                                            [ tapperroot => Tapper::Reports::Web->config->{root}.'' ],
                                            ]
                    );
 __PACKAGE__->config( default_escape_flags => [ 'h' ]);
@@ -33,7 +33,7 @@ sub my_url_filter
 
 =head1 NAME
 
-Artemis::Reports::Web::View::Mason - Mason View Component
+Tapper::Reports::Web::View::Mason - Mason View Component
 
 =head1 SYNOPSIS
 

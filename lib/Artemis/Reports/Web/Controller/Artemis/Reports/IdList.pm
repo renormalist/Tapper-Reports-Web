@@ -1,11 +1,11 @@
-package Artemis::Reports::Web::Controller::Artemis::Reports::IdList;
+package Tapper::Reports::Web::Controller::Tapper::Reports::IdList;
 
 use 5.010;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 #
 
@@ -37,7 +37,7 @@ sub prepare_idlist : Private
                 '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
              }
             );
-        my $util_report = Artemis::Reports::Web::Util::Report->new();
+        my $util_report = Tapper::Reports::Web::Util::Report->new();
         $reportlist = $util_report->prepare_simple_reportlist($c,  $reports);
 }
 
@@ -50,7 +50,7 @@ sub index :Path :Args(1)
         print STDERR "idlist = <$idlist>\n";
         my @ids = split (qr/, */, $idlist);
 
-        $c->forward('/artemis/reports/idlist/prepare_idlist', [ \@ids ]);
+        $c->forward('/tapper/reports/idlist/prepare_idlist', [ \@ids ]);
 }
 
 1;

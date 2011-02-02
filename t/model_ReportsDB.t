@@ -2,5 +2,5 @@ use strict;
 use warnings;
 use Test::More tests => 1;
 
-BEGIN { use_ok 'Artemis::Reports::Web::Model::ReportsDB' }
+BEGIN { use_ok 'Tapper::Reports::Web::Model::ReportsDB' }
 

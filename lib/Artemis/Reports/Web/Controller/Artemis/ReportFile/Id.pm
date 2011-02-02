@@ -1,6 +1,6 @@
-package Artemis::Reports::Web::Controller::Artemis::ReportFile::Id;
+package Tapper::Reports::Web::Controller::Tapper::ReportFile::Id;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 use Directory::Scratch;
 
 use common::sense;

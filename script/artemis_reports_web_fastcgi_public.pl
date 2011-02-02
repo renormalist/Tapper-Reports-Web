@@ -1,10 +1,10 @@
-#! /opt/artemis/perl/perls/current/bin/perl
+#! /opt/tapper/perl/perls/current/bin/perl
 
 # Explicitely only for the live environment on bancroft
 
 BEGIN {
         $ENV{CATALYST_ENGINE}          ||= 'FastCGI';
-        $ENV{ARTEMIS_REPORTS_WEB_LIVE} ||= '1';
+        $ENV{TAPPER_REPORTS_WEB_LIVE} ||= '1';
         $ENV{CATALYST_DEBUG}             = 0 unless defined $ENV{CATALYST_DEBUG};
 }
 
@@ -14,7 +14,7 @@ use Getopt::Long;
 use Pod::Usage;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Artemis::Reports::Web;
+use Tapper::Reports::Web;
 
 my $help = 0;
 my ( $listen, $nproc, $pidfile, $manager, $detach, $keep_stderr );
@@ -31,7 +31,7 @@ GetOptions(
 
 pod2usage(1) if $help;
 
-Artemis::Reports::Web->run( 
+Tapper::Reports::Web->run( 
     $listen, 
     {   nproc   => $nproc,
         pidfile => $pidfile, 
@@ -45,11 +45,11 @@ Artemis::Reports::Web->run(
 
 =head1 NAME
 
-artemis_reports_web_fastcgi_live.pl - Catalyst FastCGI
+tapper_reports_web_fastcgi_live.pl - Catalyst FastCGI
 
 =head1 SYNOPSIS
 
-artemis_reports_web_fastcgi_live.pl [options]
+tapper_reports_web_fastcgi_live.pl [options]
  
  Options:
    -? -help      display this help and exits
@@ -71,7 +71,7 @@ artemis_reports_web_fastcgi_live.pl [options]
 
 =head1 DESCRIPTION
 
-Run a Artemis Reports Web application as fastcgi.
+Run a Tapper Reports Web application as fastcgi.
 
 =head1 AUTHOR
 

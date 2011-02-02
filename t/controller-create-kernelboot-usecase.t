@@ -3,25 +3,25 @@ use warnings;
 use Test::More;
 use Test::WWW::Mechanize::Catalyst;
 use Data::Dumper;
-use Artemis::Schema::TestTools;
+use Tapper::Schema::TestTools;
 use Test::Fixture::DBIC::Schema;
 
 
-BEGIN { use_ok 'Catalyst::Test', 'Artemis::Reports::Web' }
-BEGIN { use_ok 'Artemis::Reports::Web::Controller::Artemis' }
+BEGIN { use_ok 'Catalyst::Test', 'Tapper::Reports::Web' }
+BEGIN { use_ok 'Tapper::Reports::Web::Controller::Tapper' }
 
 # -----------------------------------------------------------------------------------------------------------------
 construct_fixture( schema  => testrundb_schema, fixture => 't/fixtures/testrundb/testruns.yml' );
 # -----------------------------------------------------------------------------------------------------------------
 
 
-my $mech = Test::WWW::Mechanize::Catalyst->new(catalyst_app => 'Artemis::Reports::Web');
-$mech->get_ok('/artemis/start');
-$mech->page_links_ok('/artemis/start', 'All links on start page deliver HTTP/ok');
+my $mech = Test::WWW::Mechanize::Catalyst->new(catalyst_app => 'Tapper::Reports::Web');
+$mech->get_ok('/tapper/start');
+$mech->page_links_ok('/tapper/start', 'All links on start page deliver HTTP/ok');
 
 $mech->follow_link_ok({text => 'Create a new testrun'}, "Click on 'Create new testrun'");
 
-$mech->get_ok('/artemis/testruns/create','Create form exists');
+$mech->get_ok('/tapper/testruns/create','Create form exists');
 
 $mech->forms(0);
 is(scalar($mech->find_all_inputs(name => 'use_case')), 1, 'First form on create_testrun is selection of use cases');

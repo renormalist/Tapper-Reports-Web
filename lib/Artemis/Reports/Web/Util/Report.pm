@@ -1,7 +1,7 @@
-package Artemis::Reports::Web::Util::Report;
+package Tapper::Reports::Web::Util::Report;
 
 use Moose;
-use Artemis::Model 'model';
+use Tapper::Model 'model';
 
 use common::sense;
 

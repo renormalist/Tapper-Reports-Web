@@ -1,4 +1,4 @@
-package Artemis::Reports::Web;
+package Tapper::Reports::Web;
 
 use strict;
 use warnings;
@@ -30,7 +30,7 @@ sub finalize_config
         $c->NEXT::ACTUAL::finalize_config;
         my $env =
             $ENV{HARNESS_ACTIVE}                 ? 'test'
-                : $ENV{ARTEMIS_REPORTS_WEB_LIVE} ? 'live'
+                : $ENV{TAPPER_REPORTS_WEB_LIVE} ? 'live'
                     : 'development';
         Hash::Merge::set_behavior('RIGHT_PRECEDENT');
         $c->config(
@@ -45,11 +45,11 @@ sub finalize_config
 
 sub debug
 {
-        return $ENV{ARTEMIS_REPORTS_WEB_LIVE} || $ENV{HARNESS_ACTIVE} ? 0 : 1;
+        return $ENV{TAPPER_REPORTS_WEB_LIVE} || $ENV{HARNESS_ACTIVE} ? 0 : 1;
 }
 
 # I am sick of getting relocated/rebase on our local path!
-# Cut away a trailing 'artemis/' from base and prepend it to path.
+# Cut away a trailing 'tapper/' from base and prepend it to path.
 # All conditionally only when this annoying environment is there.
 sub prepare_path
 {
@@ -58,16 +58,16 @@ sub prepare_path
         $c->NEXT::prepare_path(@_);
 
         my $base        =  $c->req->{base}."";
-        $base           =~ s,artemis/$,, if $base;
+        $base           =~ s,tapper/$,, if $base;
         $c->req->{base} =  bless( do{\(my $o = $base)}, 'URI::http' );
-        $c->req->path('artemis/'.$c->req->path) unless ( $c->req->path =~ m,^artemis/?,);
+        $c->req->path('tapper/'.$c->req->path) unless ( $c->req->path =~ m,^tapper/?,);
 }
 
 
 # Configure the application.
-__PACKAGE__->config( name => 'Artemis::Reports::Web' );
+__PACKAGE__->config( name => 'Tapper::Reports::Web' );
 __PACKAGE__->config->{static}->{dirs} = [
-                                         'artemis/static',
+                                         'tapper/static',
                                         ];
 
 # Start the application
@@ -80,11 +80,11 @@ __PACKAGE__->setup(qw/-Debug
 
 =head1 NAME
 
-Artemis::Reports::Web - Catalyst based application
+Tapper::Reports::Web - Catalyst based application
 
 =head1 SYNOPSIS
 
-    script/artemis_reports_web_server.pl
+    script/tapper_reports_web_server.pl
 
 =head1 DESCRIPTION
 
@@ -92,7 +92,7 @@ Artemis::Reports::Web - Catalyst based application
 
 =head1 SEE ALSO
 
-L<Artemis::Reports::Web::Controller::Root>, L<Catalyst>
+L<Tapper::Reports::Web::Controller::Root>, L<Catalyst>
 
 =head1 AUTHOR
 

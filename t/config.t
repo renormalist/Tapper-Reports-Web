@@ -6,9 +6,9 @@ use warnings;
 use lib '.';
 
 use Test::More;
-use Artemis::Schema::TestTools;
+use Tapper::Schema::TestTools;
 use Test::Fixture::DBIC::Schema;
-use Artemis::Reports::Web;
+use Tapper::Reports::Web;
 
 plan tests => 1;
 
@@ -16,4 +16,4 @@ plan tests => 1;
 construct_fixture( schema  => reportsdb_schema, fixture => 't/fixtures/reportsdb/report.yml' );
 # -----------------------------------------------------------------------------------------------------------------
 
-is(Artemis::Reports::Web->config->{dummy_value}, "test", "Dummy value in Web::config");
+is(Tapper::Reports::Web->config->{dummy_value}, "test", "Dummy value in Web::config");

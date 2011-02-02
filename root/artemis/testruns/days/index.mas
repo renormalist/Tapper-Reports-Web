@@ -14,9 +14,9 @@
   column <i>Machine</i> show all reports on this machine.
 
   If you look for more finegrained results not limited to the
-  automation system try <a href="/artemis/reports/days/2">Reports</a>.
+  automation system try <a href="/tapper/reports/days/2">Reports</a>.
 
-<& /artemis/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
+<& /tapper/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8

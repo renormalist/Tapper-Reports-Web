@@ -8,7 +8,7 @@ use Getopt::Long;
 use Pod::Usage;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Artemis::Reports::Web;
+use Tapper::Reports::Web;
 
 my $help = 0;
 my ( $listen, $nproc, $pidfile, $manager, $detach, $keep_stderr );
@@ -25,7 +25,7 @@ GetOptions(
 
 pod2usage(1) if $help;
 
-Artemis::Reports::Web->run(
+Tapper::Reports::Web->run(
     $listen,
     {   nproc   => $nproc,
         pidfile => $pidfile,
@@ -39,11 +39,11 @@ Artemis::Reports::Web->run(
 
 =head1 NAME
 
-artemis_reports_web_fastcgi.pl - Catalyst FastCGI
+tapper_reports_web_fastcgi.pl - Catalyst FastCGI
 
 =head1 SYNOPSIS
 
-artemis_reports_web_fastcgi.pl [options]
+tapper_reports_web_fastcgi.pl [options]
 
  Options:
    -? -help      display this help and exits

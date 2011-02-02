@@ -1,5 +1,5 @@
 ---
-name: Artemis::Reports::Web
+name: Tapper::Reports::Web
 
 # override special configs for live mode here
 live:

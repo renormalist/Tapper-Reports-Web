@@ -1,7 +1,7 @@
-# artemis-description: Build a kernel from git and test it
-# artemis-mandatory-fields: giturl
-# artemis-optional-fields: gitchangeset
-# artemis-config-file: kernel_reboot.yml
+# tapper-description: Build a kernel from git and test it
+# tapper-mandatory-fields: giturl
+# tapper-optional-fields: gitchangeset
+# tapper-config-file: kernel_reboot.yml
 ### Usecase: "Build a kernel from git and test it by rebooting"
 ###
 ### Mandatory fields:
@@ -44,67 +44,67 @@ changeset: HEAD
 ---
 [% IF (Tests.CTCS) or (Tests == 'CTCS') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_ctcs
+program: /opt/tapper/bin/py_ctcs
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.LMBench) or (Tests == 'LMBench') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_lmbench
+program: /opt/tapper/bin/py_lmbench
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.LTP) or (Tests == 'LTP') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_ltp
+program: /opt/tapper/bin/py_ltp
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.Kernbench) or (Tests == 'Kernbench') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_kernbench
+program: /opt/tapper/bin/py_kernbench
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.Aim) or (Tests == 'Aim') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_aim
+program: /opt/tapper/bin/py_aim
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.HTS) or (Tests == 'HTS') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_hts
+program: /opt/tapper/bin/py_hts
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.LLC) or (Tests == 'LLC') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_llc
+program: /opt/tapper/bin/py_llc
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.Parselog) or (Tests == 'Parselog') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_parselog
+program: /opt/tapper/bin/py_parselog
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.ReAim) or (Tests == 'ReAim') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_reaim
+program: /opt/tapper/bin/py_reaim
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.RHv7) or (Tests == 'RHv7') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_rhv7
+program: /opt/tapper/bin/py_rhv7
 timeout: 10800
 ---
 [% END %]
 [% IF (Tests.Phoronix) or (Tests == 'Phoronix') %]
 precondition_type: testprogram
-program: /opt/artemis/bin/py_phoronix
+program: /opt/tapper/bin/py_phoronix
 timeout: 10800
 ---
 [% END %]

@@ -21,9 +21,9 @@
 %       my $day        = $day_infos->{day};
 %       my $reportlist = $day_infos;
 %       # my $rgt = $day_infos->{rgt};
-        <h4><a href="/artemis/reports/date/<% $day->ymd('-') %>">
+        <h4><a href="/tapper/reports/date/<% $day->ymd('-') %>">
         <% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></a></h4>
-<& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
+<& /tapper/reports/reportlist.mas, reportlist => $reportlist &>
 % }
 
 

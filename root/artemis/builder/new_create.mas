@@ -13,5 +13,5 @@ $msg
 <fieldset>
 <% $form|n %>
 </fieldset>
-<p><a href="/artemis/start/">Cancel</a></p>
+<p><a href="/tapper/start/">Cancel</a></p>
 % }

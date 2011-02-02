@@ -1,13 +1,13 @@
-package Artemis::Reports::Web::Controller::Artemis::Reports;
+package Tapper::Reports::Web::Controller::Tapper::Reports;
 
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 use DateTime::Format::Natural;
 use Data::Dumper;
 
-use Artemis::Reports::Web::Util::Filter;
-use Artemis::Reports::Web::Util::Report;
+use Tapper::Reports::Web::Util::Filter;
+use Tapper::Reports::Web::Util::Report;
 use common::sense;
 ## no critic (RequireUseStrict)
 
@@ -15,7 +15,7 @@ sub auto :Private
 {
         my ( $self, $c ) = @_;
 
-        $c->forward('/artemis/reports/prepare_navi');
+        $c->forward('/tapper/reports/prepare_navi');
 }
 
 sub index :Path :Args()
@@ -25,12 +25,12 @@ sub index :Path :Args()
 
         exit 0 if $args[0] eq 'exit';
 
-        my $filter = Artemis::Reports::Web::Util::Filter->new(context => $c);
+        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args);
 
         if ($filter_condition->{error}) {
                 $error_msg = join("; ", @{$filter_condition->{error}});
-                $c->res->redirect("/artemis/reports/days/2");
+                $c->res->redirect("/tapper/reports/days/2");
 
         }
 
@@ -38,7 +38,7 @@ sub index :Path :Args()
           $filter->requested_day || DateTime::Format::Natural->new->parse_datetime("today at midnight");
 
         $filter->{early}->{-or} = [{rga_primary => 1}, {rgt_primary => 1}];
-        $c->forward('/artemis/reports/prepare_this_weeks_reportlists', [ $filter_condition ]);
+        $c->forward('/tapper/reports/prepare_this_weeks_reportlists', [ $filter_condition ]);
 
 }
 
@@ -86,7 +86,7 @@ sub prepare_this_weeks_reportlists : Private
         }
 
 
-        my $util_report = Artemis::Reports::Web::Util::Report->new();
+        my $util_report = Tapper::Reports::Web::Util::Report->new();
 
         my @day    = ( $requested_day );
         push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
@@ -147,68 +147,68 @@ sub prepare_navi : Private
         $navi = [
                  {
                   title  => "reports by date",
-                  href   => "/artemis/overview/date",
+                  href   => "/tapper/overview/date",
                   subnavi => [
                               {
                                title  => "today",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 1),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 1),
                               },
                               {
                                title  => "2 days",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 2),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 2),
                               },
                               {
                                title  => "1 week",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 7),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 7),
                               },
                               {
                                title  => "2 weeks",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 14),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 14),
                               },
                               {
                                title  => "3 weeks",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 21),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 21),
                               },
                               {
                                title  => "1 month",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 31),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 31),
                               },
                               {
                                title  => "2 months",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 62),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 62),
                               },
                               {
                                title  => "4 months",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 124),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 124),
                               },
                               {
                                title  => "6 months",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 182),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 182),
                               },
                               {
                                title  => "12 months",
-                               href   => "/artemis/reports/".$self->prepare_filter_path($c, 365),
+                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 365),
                               },
 
                              ],
                  },
                  {
                   title  => "reports by suite",
-                  href   => "/artemis/overview/suite",
+                  href   => "/tapper/overview/suite",
                  },
                  {
                   title  => "reports by host",
-                  href   => "/artemis/overview/host",
+                  href   => "/tapper/overview/host",
                  },
                  {
                   title  => "This list as RSS",
-                  href   => "/artemis/rss/".$self->prepare_filter_path($c),
-                  image  => "/artemis/static/images/rss.png",
+                  href   => "/tapper/rss/".$self->prepare_filter_path($c),
+                  image  => "/tapper/static/images/rss.png",
                  }
 
                  # {
                  #  title  => "reports by people",
-                 #  href   => "/artemis/reports/people/",
+                 #  href   => "/tapper/reports/people/",
                  #  active => 0,
                  # },
                 ];

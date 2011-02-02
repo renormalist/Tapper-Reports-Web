@@ -32,17 +32,17 @@ pod2usage(1) if ( $help || !$ARGV[0] );
 
 my $helper = Catalyst::Helper->new( { '.newfiles' => !$force, mech => $mech } );
 
-pod2usage(1) unless $helper->mk_component( 'Artemis::Reports::Web', @ARGV );
+pod2usage(1) unless $helper->mk_component( 'Tapper::Reports::Web', @ARGV );
 
 1;
 
 =head1 NAME
 
-artemis_reports_web_create.pl - Create a new Catalyst Component
+tapper_reports_web_create.pl - Create a new Catalyst Component
 
 =head1 SYNOPSIS
 
-artemis_reports_web_create.pl [options] model|view|controller name [helper] [options]
+tapper_reports_web_create.pl [options] model|view|controller name [helper] [options]
 
  Options:
    -force        don't create a .new file where a file to be created exists
@@ -50,15 +50,15 @@ artemis_reports_web_create.pl [options] model|view|controller name [helper] [opt
    -help         display this help and exits
 
  Examples:
-   artemis_reports_web_create.pl controller My::Controller
-   artemis_reports_web_create.pl -mechanize controller My::Controller
-   artemis_reports_web_create.pl view My::View
-   artemis_reports_web_create.pl view MyView TT
-   artemis_reports_web_create.pl view TT TT
-   artemis_reports_web_create.pl model My::Model
-   artemis_reports_web_create.pl model SomeDB DBIC::Schema MyApp::Schema create=dynamic\
+   tapper_reports_web_create.pl controller My::Controller
+   tapper_reports_web_create.pl -mechanize controller My::Controller
+   tapper_reports_web_create.pl view My::View
+   tapper_reports_web_create.pl view MyView TT
+   tapper_reports_web_create.pl view TT TT
+   tapper_reports_web_create.pl model My::Model
+   tapper_reports_web_create.pl model SomeDB DBIC::Schema MyApp::Schema create=dynamic\
    dbi:SQLite:/tmp/my.db
-   artemis_reports_web_create.pl model AnotherDB DBIC::Schema MyApp::Schema create=static\
+   tapper_reports_web_create.pl model AnotherDB DBIC::Schema MyApp::Schema create=static\
    dbi:Pg:dbname=foo root 4321
 
  See also:

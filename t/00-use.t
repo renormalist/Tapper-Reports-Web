@@ -5,6 +5,6 @@ use warnings;
 use Test::More tests => 1;
 
 BEGIN {
-        use_ok( 'Artemis::Reports::Web::Controller::Artemis::Reports' );
+        use_ok( 'Tapper::Reports::Web::Controller::Tapper::Reports' );
 }
 

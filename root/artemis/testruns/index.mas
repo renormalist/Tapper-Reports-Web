@@ -14,7 +14,7 @@
   <tbody>
 % foreach my $testrun(@testruns){
     <tr>
-      <td> <a href="/artemis/testruns/id/<% $testrun->{id} %>"><% $testrun->{id} %></a> </td>
+      <td> <a href="/tapper/testruns/id/<% $testrun->{id} %>"><% $testrun->{id} %></a> </td>
 % if ($testrun->{state} eq 'Running or stopped') {
       <td><label title="Testrun was started but did not send a finish
          message. This could mean it is still running or MCP was stopped while it

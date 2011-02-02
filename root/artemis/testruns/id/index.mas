@@ -17,7 +17,7 @@ $time
 
 % if (%reportlist_rgt) {
 <h4>Testrun</h4>
-<& /artemis/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
+<& /tapper/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
 %}
 
     <!-- ************************************************************ -->
@@ -30,16 +30,16 @@ $time
 
     <!-- ************************************************************ -->
 
-    <& /artemis/testruns/testrun_overview.mas, overview => $overview &>
+    <& /tapper/testruns/testrun_overview.mas, overview => $overview &>
 
-<!-- <a href="/artemis/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> |> -->
-<!-- <a href="/artemis/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a> | -->
-<!-- <a href="/artemis/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a> | -->
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> |> -->
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a> | -->
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a> | -->
 
     <!-- ************************************************************ -->
 
     <h4>Details</h4>
-    <a href="/artemis/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in raw YAML</a>
+    <a href="/tapper/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in raw YAML</a>
 
     <!-- ************************************************************ -->
 
@@ -49,7 +49,7 @@ $time
         var where_to= confirm("Do you really want to re-start this testrun?");
         if (where_to == true) {
           alert("true");
-          window.location="/foo/artemis/testruns/<% $testrun->id %>/rerun";
+          window.location="/foo/tapper/testruns/<% $testrun->id %>/rerun";
         } else {
           alert("false");
           window.location="#";

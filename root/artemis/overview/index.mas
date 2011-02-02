@@ -7,6 +7,6 @@
 % }
 </ul>
 % } else {
-<meta http-equiv="refresh" content="0; URL=/artemis/start">
-<meta name="description" content="Artemis Reports">
+<meta http-equiv="refresh" content="0; URL=/tapper/start">
+<meta name="description" content="Tapper Reports">
 % }

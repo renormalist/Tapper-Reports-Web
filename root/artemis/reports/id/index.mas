@@ -5,11 +5,11 @@
     %reportlist_rga => {}
     %reportlist_rgt => {}
 </%args>
-<link rel="stylesheet" type="text/css" title="Red" href="/artemis/static/css/tap_formatter_html.css" />
-<script type="text/javascript" src="/artemis/static/js/tap_formatter_html_jquery-1.2.3.pack.js"></script>
-<script type="text/javascript" src="/artemis/static/js/tap_formatter_html.js"></script>
+<link rel="stylesheet" type="text/css" title="Red" href="/tapper/static/css/tap_formatter_html.css" />
+<script type="text/javascript" src="/tapper/static/js/tap_formatter_html_jquery-1.2.3.pack.js"></script>
+<script type="text/javascript" src="/tapper/static/js/tap_formatter_html.js"></script>
 
-% use Artemis::TAP::Harness;
+% use Tapper::TAP::Harness;
 
 % if ( $report ) {
 
@@ -20,7 +20,7 @@
 
     <!-- ************************************************************ -->
 
-        <& /artemis/reports/report_group_list.mas, report => $report, reportlist_rga => \%reportlist_rga, reportlist_rgt => \%reportlist_rgt &>
+        <& /tapper/reports/report_group_list.mas, report => $report, reportlist_rga => \%reportlist_rga, reportlist_rgt => \%reportlist_rgt &>
 
     <!-- ************************************************************ -->
 
@@ -41,17 +41,17 @@
 
     <!-- ************************************************************ -->
 
-        <& /artemis/reports/report_details.mas, report => $report, failures => $failures &>
+        <& /tapper/reports/report_details.mas, report => $report, failures => $failures &>
 
     <!-- ************************************************************ -->
 
-    <& /artemis/testruns/testrun_overview.mas, overview => $overview &>
+    <& /tapper/testruns/testrun_overview.mas, overview => $overview &>
 
     <!-- ************************************************************ -->
 
         <h4>Test results</h4>
 %       if ($report->tap->tap) {
-%               my $harness = new Artemis::TAP::Harness( tap => $report->tap->tap,
+%               my $harness = new Tapper::TAP::Harness( tap => $report->tap->tap,
 %                                                        tap_is_archive => $report->tap->tap_is_archive );
 %               my $html = $harness->generate_html;
                 <% $html | n %>
@@ -63,13 +63,13 @@
 
         <p>
           <ul class="additional_table">
-            <li><a href="/artemis/reports/tap/<% $report->id%>">raw TAP report</a></li>
+            <li><a href="/tapper/reports/tap/<% $report->id%>">raw TAP report</a></li>
           </ul>
         </p>
 
     <!-- ************************************************************ -->
 
-        <& /artemis/reports/report_files.mas, report => $report &>
+        <& /tapper/reports/report_files.mas, report => $report &>
 
     <!-- ************************************************************ -->
 

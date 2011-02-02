@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Controller::Base;
+package Tapper::Reports::Web::Controller::Base;
 
 use strict;
 use warnings;

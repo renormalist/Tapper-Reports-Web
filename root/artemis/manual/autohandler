@@ -3,16 +3,16 @@
 	<div id="header_inner" class="fluid">
 
 		<div id="logo">
-			<h1><span>artemis</span>2.0</h1>
+			<h1><span>tapper</span>2.0</h1>
 		</div>
 		
 		<div id="menu">
 			<ul>
-                                <li><a href="/artemis/start/">Start</a></li>
-				<li><a href="/artemis/testruns/days/2">Testruns</a></li>
-				<li><a href="/artemis/reports/days/2">Reports</a></li>
-				<li><a href="/artemis/metareports/">Metareports</a></li>
-				<li><a href="/artemis/manual/" class="active">Manual</a></li>
+                                <li><a href="/tapper/start/">Start</a></li>
+				<li><a href="/tapper/testruns/days/2">Testruns</a></li>
+				<li><a href="/tapper/reports/days/2">Reports</a></li>
+				<li><a href="/tapper/metareports/">Metareports</a></li>
+				<li><a href="/tapper/manual/" class="active">Manual</a></li>
 			</ul>
 		</div>
 		
@@ -43,7 +43,7 @@
 		
 			<div id="columnC_2columns">
 	
-<& /artemis/manual/navi.mas &>
+<& /tapper/manual/navi.mas &>
 						
 			</div>
 

@@ -14,7 +14,7 @@
   column <i>Machine</i> show all reports on this machine; on
   column <i>Grouped by / testrun</i> show overview of the testrun.
 
-<& /artemis/reports/reportlist.mas, reportlist => $reportlist &>
+<& /tapper/reports/reportlist.mas, reportlist => $reportlist &>
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8

@@ -1,11 +1,11 @@
-package Artemis::Reports::Web::Controller::Artemis::Preconditions;
+package Tapper::Reports::Web::Controller::Tapper::Preconditions;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
-use Artemis::Cmd::Precondition;
-use Artemis::Model 'model';
+use parent 'Tapper::Reports::Web::Controller::Base';
+use Tapper::Cmd::Precondition;
+use Tapper::Model 'model';
 
 sub index :Path :Args(0)
 {
@@ -44,7 +44,7 @@ sub delete : Chained('id') PathPart('delete')
 
         return if not $force;
 
-        my $cmd = Artemis::Cmd::Precondition->new();
+        my $cmd = Tapper::Cmd::Precondition->new();
         my $retval = $cmd->del($c->stash->{precondition}->id);
         if ($retval) {
                 $c->response->body(qq(Can't delete precondition: $retval));
@@ -67,7 +67,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
         my $form = $c->stash->{form};
 
         if ($form->submitted_and_valid) {
-                my $cmd  = Artemis::Cmd::Precondition->new();
+                my $cmd  = Tapper::Cmd::Precondition->new();
                 my $file = $form->param('precondition');
                 my $data = $file->slurp;
                 my @preconditions;
@@ -85,7 +85,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Preconditions - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Preconditions - Catalyst Controller
 
 =head1 DESCRIPTION
 

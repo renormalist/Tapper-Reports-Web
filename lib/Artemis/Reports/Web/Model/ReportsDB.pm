@@ -1,32 +1,32 @@
-package Artemis::Reports::Web::Model::ReportsDB;
+package Tapper::Reports::Web::Model::ReportsDB;
 
 use strict;
 use warnings;
 
-use Artemis::Reports::Web;
-use Artemis::Config;
+use Tapper::Reports::Web;
+use Tapper::Config;
 
 use base 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
-                    schema_class => 'Artemis::Schema::ReportsDB',
+                    schema_class => 'Tapper::Schema::ReportsDB',
                     connect_info => [
-                                     Artemis::Config->subconfig->{database}{ReportsDB}{dsn},
-                                     Artemis::Config->subconfig->{database}{ReportsDB}{username},
-                                     Artemis::Config->subconfig->{database}{ReportsDB}{password},
+                                     Tapper::Config->subconfig->{database}{ReportsDB}{dsn},
+                                     Tapper::Config->subconfig->{database}{ReportsDB}{username},
+                                     Tapper::Config->subconfig->{database}{ReportsDB}{password},
                                     ],
                    );
 
 =head1 NAME
 
-Artemis::Reports::Web::Model::ReportsDB - Catalyst DBIC Schema Model
+Tapper::Reports::Web::Model::ReportsDB - Catalyst DBIC Schema Model
 =head1 SYNOPSIS
 
-See L<Artemis::Reports::Web>
+See L<Tapper::Reports::Web>
 
 =head1 DESCRIPTION
 
-L<Catalyst::Model::DBIC::Schema> Model using schema L<Artemis::Schema::ReportsDB>
+L<Catalyst::Model::DBIC::Schema> Model using schema L<Tapper::Schema::ReportsDB>
 
 =head1 AUTHOR
 

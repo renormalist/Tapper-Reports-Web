@@ -27,7 +27,7 @@
 %                         if (not $just_group_member) {
                               <b>
 %                         }
-                          <a title="Click to show details" href="/artemis/reports/id/<% $report->{id} %>">r<% $report->{id} %></a>
+                          <a title="Click to show details" href="/tapper/reports/id/<% $report->{id} %>">r<% $report->{id} %></a>
 %                         if (not $just_group_member) {
                               </b>
 %                         }
@@ -36,22 +36,22 @@
                         </td>
                         <td><% $report->{created_at_ymd_hm} %></td>
                         <td><a title="Add <% $report->{suite_name} %> to filter" href="/<% $c->req->path %>/suite/<% $report->{suite_id} %>">
-                            <img src="/artemis/static/images/plus.png" size="16"></a>
-                            <a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/artemis/reports/suite/<% $report->{suite_id} %>">
+                            <img src="/tapper/static/images/plus.png" size="16"></a>
+                            <a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/tapper/reports/suite/<% $report->{suite_id} %>">
                             <% $report->{suite_name} %></a>
                         </td>
                         <td><a title="Add <% $report->{machine_name} %> to filter" href="/<% $c->req->path %>/host/<% $report->{machine_name} %>">
-                            <img src="/artemis/static/images/plus.png" size="16"></a>
-                            <a title="Click to show reports on '<% $report->{machine_name} %>' <% $report->{peeraddr} ? '(reported from ip '.$report->{peeraddr} .')' : ''%>" href="/artemis/reports/host/<% $report->{machine_name} %>">
+                            <img src="/tapper/static/images/plus.png" size="16"></a>
+                            <a title="Click to show reports on '<% $report->{machine_name} %>' <% $report->{peeraddr} ? '(reported from ip '.$report->{peeraddr} .')' : ''%>" href="/tapper/reports/host/<% $report->{machine_name} %>">
                             <% $report->{machine_name} %></a>
                         </td>
                         <td class="<% lc $successgrade %>">
                           <a title="Add <% $successgrade %> to filter" href="/<% $c->req->path %>/success/<% $successgrade %>">
-                            <img src="/artemis/static/images/plus.png" size="16"></a>
-                          <a href="/artemis/reports/success/<% $successgrade %>"><% $successgrade %></a>
+                            <img src="/tapper/static/images/plus.png" size="16"></a>
+                          <a href="/tapper/reports/success/<% $successgrade %>"><% $successgrade %></a>
                         </td>
                         <td>
-                                  <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
+                                  <a href="/tapper/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/tapper/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/tapper/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
                         </td>
                         <td>
 %                                 if (not $just_group_member) {
@@ -59,7 +59,7 @@
                                                <% $report->{rga_id} %>
 %                                        }
 %                                        if ($report->{rgt_id}) {
-                                               <a href="/artemis/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a> (<% $report->{owner} || '' %>)
+                                               <a href="/tapper/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a> (<% $report->{owner} || '' %>)
 %                                        }
 %                         }
                         </td>

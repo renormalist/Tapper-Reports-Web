@@ -6,8 +6,8 @@ $precondition
 % if (not $done){
 <H3>Do you really want to delete Precondition <% $precondition->id %>?</h3>
 <ul class="additional_table">
-  <li><a href="/artemis/preconditions/delete/<% $precondition->id %>/force/">Really delete Precondition <% $precondition->id %></a></li>
-  <li><a href="/artemis/preconditions/id/<% $precondition->id %>">Go back to overview of Precondition <% $precondition->id %></a></li>
+  <li><a href="/tapper/preconditions/delete/<% $precondition->id %>/force/">Really delete Precondition <% $precondition->id %></a></li>
+  <li><a href="/tapper/preconditions/id/<% $precondition->id %>">Go back to overview of Precondition <% $precondition->id %></a></li>
 </ul>
 % } else {
 

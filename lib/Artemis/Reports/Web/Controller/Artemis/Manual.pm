@@ -1,4 +1,4 @@
-package Artemis::Reports::Web::Controller::Artemis::Manual;
+package Tapper::Reports::Web::Controller::Tapper::Manual;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Hardware - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
 
 =head1 DESCRIPTION
 

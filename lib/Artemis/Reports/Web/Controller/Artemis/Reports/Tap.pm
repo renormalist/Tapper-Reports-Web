@@ -1,9 +1,9 @@
-package Artemis::Reports::Web::Controller::Artemis::Reports::Tap;
+package Tapper::Reports::Web::Controller::Tapper::Reports::Tap;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 sub index :Path :Args(1)
 {

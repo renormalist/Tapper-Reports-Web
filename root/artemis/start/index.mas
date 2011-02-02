@@ -1,4 +1,4 @@
-<h1><strong>ARTEMIS</strong> test infrastructure</h1>
+<h1><strong>TAPPER</strong> test infrastructure</h1>
 
 <p>
 </p>
@@ -6,16 +6,16 @@
 <h2>Test results</h2>
         <table class="overviewlist">
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/reports/days/2"><strong>Reports</strong></a></td><td>Detailed view of single test reports.</td>
+                  <td>&bull;&nbsp;<a href="/tapper/reports/days/2"><strong>Reports</strong></a></td><td>Detailed view of single test reports.</td>
                 </tr>
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/testruns/days/2">Testruns</a></td><td>Overview of automated testruns.</td>
+                  <td>&bull;&nbsp;<a href="/tapper/testruns/days/2">Testruns</a></td><td>Overview of automated testruns.</td>
                 </tr>
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/overview/suite">Test Suites</a></td><td>Overview of all test suites.</td>
+                  <td>&bull;&nbsp;<a href="/tapper/overview/suite">Test Suites</a></td><td>Overview of all test suites.</td>
                 </tr>
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/overview/host">Hosts</a></td><td>List of all hosts.</td>
+                  <td>&bull;&nbsp;<a href="/tapper/overview/host">Hosts</a></td><td>List of all hosts.</td>
                 </tr>
         </table>
 
@@ -25,13 +25,13 @@
 
         <table class="overviewlist">
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/rss/days/2">Reports</a></td><td>All reports of last 2 days</td>
+                  <td>&bull;&nbsp;<a href="/tapper/rss/days/2">Reports</a></td><td>All reports of last 2 days</td>
                 </tr>
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/rss/success/FAIL">Failed Reports</a></td><td>Reports that failed in the last 2 days</td>
+                  <td>&bull;&nbsp;<a href="/tapper/rss/success/FAIL">Failed Reports</a></td><td>Reports that failed in the last 2 days</td>
                 </tr>
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/rss/success/PASS">Successful Reports</a></td><td>Reports that succeeded in the last 2 days</td>
+                  <td>&bull;&nbsp;<a href="/tapper/rss/success/PASS">Successful Reports</a></td><td>Reports that succeeded in the last 2 days</td>
                 </tr>
         </table>
 
@@ -41,9 +41,9 @@
 <h2>Control tools</h2>
         <table class="overviewlist">
                 <tr>
-                  <td>&bull;&nbsp;<a href="/artemis/testruns/create">Create a new testrun</a></td><td></td>
+                  <td>&bull;&nbsp;<a href="/tapper/testruns/create">Create a new testrun</a></td><td></td>
                 </tr>
 % #                <tr>
-% #                  <td>&bull;&nbsp;<a href="/artemis/builder/create">Build a kernel and test it</a></td><td></td>
+% #                  <td>&bull;&nbsp;<a href="/tapper/builder/create">Build a kernel and test it</a></td><td></td>
 % #                </tr>
         </table>

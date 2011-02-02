@@ -1,32 +1,32 @@
-package Artemis::Reports::Web::Model::TestrunDB;
+package Tapper::Reports::Web::Model::TestrunDB;
 
 use strict;
 use warnings;
 
-use Artemis::Reports::Web;
-use Artemis::Config;
+use Tapper::Reports::Web;
+use Tapper::Config;
 
 use base 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
-                    schema_class => 'Artemis::Schema::TestrunDB',
+                    schema_class => 'Tapper::Schema::TestrunDB',
                     connect_info => [
-                                     Artemis::Config->subconfig->{database}{TestrunDB}{dsn},
-                                     Artemis::Config->subconfig->{database}{TestrunDB}{username},
-                                     Artemis::Config->subconfig->{database}{TestrunDB}{password},
+                                     Tapper::Config->subconfig->{database}{TestrunDB}{dsn},
+                                     Tapper::Config->subconfig->{database}{TestrunDB}{username},
+                                     Tapper::Config->subconfig->{database}{TestrunDB}{password},
                                     ],
                    );
 
 =head1 NAME
 
-Artemis::Reports::Web::Model::TestrunDB - Catalyst DBIC Schema Model
+Tapper::Reports::Web::Model::TestrunDB - Catalyst DBIC Schema Model
 =head1 SYNOPSIS
 
-See L<Artemis::Reports::Web>
+See L<Tapper::Reports::Web>
 
 =head1 DESCRIPTION
 
-L<Catalyst::Model::DBIC::Schema> Model using schema L<Artemis::Schema::TestrunDB>
+L<Catalyst::Model::DBIC::Schema> Model using schema L<Tapper::Schema::TestrunDB>
 
 =head1 AUTHOR
 

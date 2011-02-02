@@ -14,10 +14,10 @@ use DateTime::Format::DateParse;
 }
 my $stash = Stash->new();
 
-BEGIN { use_ok 'Artemis::Reports::Web::Util::Filter' }
-my $filter = Artemis::Reports::Web::Util::Filter->new(context => $stash);
+BEGIN { use_ok 'Tapper::Reports::Web::Util::Filter' }
+my $filter = Tapper::Reports::Web::Util::Filter->new(context => $stash);
 
-# /artemis/reports/date/2010-09-20/
+# /tapper/reports/date/2010-09-20/
 my $filter_condition = $filter->parse_filters(['date','2010-09-20']);
 is($filter_condition->{error}, undef, 'No error during parse');
 is(ref $filter_condition->{late}->[0]->{'created_at'}->{'>='}, 'DateTime', 'Date parsing returns a date');
@@ -29,7 +29,7 @@ is($filter_condition->{late}->[1]->{'created_at'}->{'<'}->dmy('.'), '21.09.2010'
 
 
 
-$filter = Artemis::Reports::Web::Util::Filter->new(context => $stash);
+$filter = Tapper::Reports::Web::Util::Filter->new(context => $stash);
 $filter_condition = $filter->parse_filters(['date','2010-09-20', 'days','2']);
 is_deeply($filter_condition->{error}, ["Time filter already exists, only using first one"], 'Multiple date filter detected');
 

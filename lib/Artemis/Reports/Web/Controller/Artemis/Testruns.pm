@@ -1,6 +1,6 @@
-package Artemis::Reports::Web::Controller::Artemis::Testruns;
+package Tapper::Reports::Web::Controller::Tapper::Testruns;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 use Cwd;
 use Data::DPath 'dpath';
 use DateTime::Format::DateParse;
@@ -9,9 +9,9 @@ use File::Basename;
 use File::Path;
 use Template;
 
-use Artemis::Cmd::Testrun;
-use Artemis::Config;
-use Artemis::Model 'model';
+use Tapper::Cmd::Testrun;
+use Tapper::Config;
+use Tapper::Model 'model';
 
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -29,7 +29,7 @@ filter facility.
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
-        $c->res->redirect('/artemis/testruns/days/2');
+        $c->res->redirect('/tapper/testruns/days/2');
         return;
 }
 
@@ -66,7 +66,7 @@ sub get_testrun_overview : Private
                         $retval->{name}  = $precondition->{name} || "Virtualisation Test";
                         $retval->{arch}  = $precondition->{host}->{root}{arch};
                         $retval->{image} = $precondition->{host}->{root}{image} || $precondition->{host}->{root}{name}; # can be an image or copyfile or package
-                        ($retval->{xen_package}) = grep { m!/data/bancroft/artemis/[^/]+/repository/packages/xen/builds! } @{ $precondition ~~ dpath '/host/preconditions//filename' };
+                        ($retval->{xen_package}) = grep { m!/data/bancroft/tapper/[^/]+/repository/packages/xen/builds! } @{ $precondition ~~ dpath '/host/preconditions//filename' };
                         push (@{$retval->{test}}, basename($precondition->{host}->{testprogram}{execname})) if $precondition->{host}->{testprogram}{execname};
                         foreach my $guest (@{$precondition->{guests}}) {
                                 my $guest_summary;
@@ -124,7 +124,7 @@ sub delete : Chained('id') PathPart('delete')
 
         return if not $force;
 
-        my $cmd = Artemis::Cmd::Testrun->new();
+        my $cmd = Tapper::Cmd::Testrun->new();
         my $retval = $cmd->del($c->stash->{testrun}->id);
         if ($retval) {
                 $c->response->body(qq(Can not delete testrun: $retval));
@@ -137,7 +137,7 @@ sub rerun : Chained('id') PathPart('rerun') Args(0)
 {
         my ( $self, $c ) = @_;
 
-        my $cmd = Artemis::Cmd::Testrun->new();
+        my $cmd = Tapper::Cmd::Testrun->new();
         my $retval = $cmd->rerun($c->stash->{testrun}->id);
         if (not $retval) {
                 $c->response->body(qq(Can not rerun testrun));
@@ -199,7 +199,7 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $c->session->{testrun_data} = $data;
                 $c->session->{valid} = 1;
                 $c->session->{usecase_file} = $form->input->{use_case};
-                $c->res->redirect('/artemis/testruns/fill_usecase');
+                $c->res->redirect('/tapper/testruns/fill_usecase');
 
         } else {
                 my $select = $form->get_element({type => 'Select', name => 'topic'});
@@ -212,12 +212,12 @@ sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
                 $select->options($self->get_hostnames());
 
                 my @use_cases;
-                my $path = Artemis::Config->subconfig->{paths}{use_case_path};
+                my $path = Tapper::Config->subconfig->{paths}{use_case_path};
                 foreach my $file (glob "$path/*.mpc") {
                         open my $fh, "<", $file or $c->response->body(qq(Can not open $file: $!)), return;
                         my $desc;
                         while (my $line = <$fh>) {
-                                ($desc) = $line =~/# (?:artemis[_-])?description:\s*(.+)/;
+                                ($desc) = $line =~/# (?:tapper[_-])?description:\s*(.+)/;
                                 last if $desc;
                         }
 
@@ -248,7 +248,7 @@ sub get_owner_names
         my @all_owners = model("TestrunDB")->resultset('User')->all();
         my @owners;
         foreach my $owner (sort {$a->name cmp $b->name} @all_owners) {
-                if ($owner->login eq 'artemis') {
+                if ($owner->login eq 'tapper') {
                         unshift(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
                 } else {
                         push(@owners, [$owner->login, $owner->name." (".$owner->login.")"]);
@@ -279,7 +279,7 @@ sub get_hostnames
                 # if host is bound, is must be bound to
                 #  new_testrun_queue (possibly among others)
                 if ($host->queuehosts->count()) {
-                        my $new_testrun_queue = Artemis::Config->subconfig->{new_testrun_queue};
+                        my $new_testrun_queue = Tapper::Config->subconfig->{new_testrun_queue};
                         next HOST unless 
                           grep {$_->queue->name eq $new_testrun_queue} $host->queuehosts->all;
                 }
@@ -317,9 +317,9 @@ sub parse_macro_precondition :Private
         while (my $line = <$fh>) {
                 $config->{description_text} .= "$1\n" if $line =~ /^### ?(.*)$/;
 
-                ($required)   = $line =~/# (?:artemis[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
-                ($optional)   = $line =~/# (?:artemis[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
-                ($mpc_config) = $line =~/# (?:artemis[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
+                ($required)   = $line =~/# (?:tapper[_-])?mandatory[_-]fields:\s*(.+)/ if not $required;
+                ($optional)   = $line =~/# (?:tapper[_-])?optional[_-]fields:\s*(.+)/ if not $optional;
+                ($mpc_config) = $line =~/# (?:tapper[_-])?config[_-]file:\s*(.+)/ if not $mpc_config;
         }
 
         my $delim = qr/,+\s*/;
@@ -343,7 +343,7 @@ sub parse_macro_precondition :Private
         }
 
         if ($mpc_config) {
-                my $use_case_path = Artemis::Config->subconfig->{paths}{use_case_path};
+                my $use_case_path = Tapper::Config->subconfig->{paths}{use_case_path};
                 $mpc_config = "$use_case_path/$mpc_config"
                   unless substr($mpc_config, 0, 1) eq '/';
 
@@ -390,7 +390,7 @@ sub handle_precondition
                 if (lc($element->{type}) eq 'file') {
                         my $upload = $c->req->upload($name);
                         my $destdir = sprintf("%s/uploads/%s/%s",
-                                              Artemis::Config->subconfig->{paths}{package_dir}, $config->{testrun_id}, $name);
+                                              Tapper::Config->subconfig->{paths}{package_dir}, $config->{testrun_id}, $name);
                         my $destfile = $destdir."/".$upload->basename;
                         my $error;
 
@@ -435,7 +435,7 @@ sub handle_precondition
         my $tt = new Template ();
         return $tt->error if not $tt->process(\$mpc, \%macros, \$ttapplied);
 
-        my $cmd = Artemis::Cmd::Precondition->new();
+        my $cmd = Tapper::Cmd::Precondition->new();
         my @preconditions;
         eval {  @preconditions = $cmd->add($ttapplied)};
         return $@ if $@;
@@ -462,7 +462,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         my $position   = $form->get_element({type => 'Submit'});
         my $file       = $c->session->{usecase_file};
         my %macros;
-        $c->res->redirect('/artemis/testruns/create') unless $file;
+        $c->res->redirect('/tapper/testruns/create') unless $file;
 
         my $config = $self->parse_macro_precondition($c, $file);
 
@@ -506,15 +506,15 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 for( my $i=0; $i < @testhosts; $i++) {
                         my $host = $testhosts[$i];
                         # we need a copy since we modify the hash before
-                        # giving it to Artemis::Cmd and this
+                        # giving it to Tapper::Cmd and this
                         # modification would be used when the user clicks reload
                         my %testrun_settings     = %$testrun_data;
-                        $testrun_settings{queue} = Artemis::Config->subconfig->{new_testrun_queue};
+                        $testrun_settings{queue} = Tapper::Config->subconfig->{new_testrun_queue};
 
                         $all_testruns->[$i]->{host} = $host;
                         
                         $testrun_settings{requested_hosts} = [ requested_hosts => $host ];
-                        my $cmd = Artemis::Cmd::Testrun->new();
+                        my $cmd = Tapper::Cmd::Testrun->new();
                         eval { $config->{testrun_id} = $cmd->add(\%testrun_settings)};
                         if ($@) {
                                 $all_testruns->[$i]->{ error } = @_;
@@ -619,7 +619,7 @@ sub prepare_testrunlists : Private
         my $day0_testruns = $testruns->search ( { created_at => { '>', $day[0] } } );
         push @requested_testrunlists, {
                                        day => $day[0],
-                                       %{ $c->forward('/artemis/testruns/prepare_testrunlist', [ $day0_testruns ]) }
+                                       %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $day0_testruns ]) }
                                       };
 
         # ----- last week days -----
@@ -628,7 +628,7 @@ sub prepare_testrunlists : Private
                                                                   created_at => { '<', $day[$_ - 1] } ] });
                 push @requested_testrunlists, {
                                                day => $day[$_],
-                                               %{ $c->forward('/artemis/testruns/prepare_testrunlist', [ $day_testruns ]) }
+                                               %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $day_testruns ]) }
                                               };
         }
 }
@@ -640,32 +640,32 @@ sub prepare_navi : Private
         my $navi : Stash = [
                             {
                              title  => "Testruns by date",
-                             href   => "/artemis/testruns/days/2",
+                             href   => "/tapper/testruns/days/2",
                              active => 0,
                              subnavi => [
                                          {
                                           title  => "today",
-                                          href   => "/artemis/testruns/days/1",
+                                          href   => "/tapper/testruns/days/1",
                                          },
                                          {
                                           title  => "1 week",
-                                          href   => "/artemis/testruns/days/7",
+                                          href   => "/tapper/testruns/days/7",
                                          },
                                          {
                                           title  => "2 weeks",
-                                          href   => "/artemis/testruns/days/14",
+                                          href   => "/tapper/testruns/days/14",
                                          },
                                          {
                                           title  => "3 weeks",
-                                          href   => "/artemis/testruns/days/21",
+                                          href   => "/tapper/testruns/days/21",
                                          },
                                          {
                                           title  => "1 month",
-                                          href   => "/artemis/testruns/days/30",
+                                          href   => "/tapper/testruns/days/30",
                                          },
                                          {
                                           title  => "2 months",
-                                          href   => "/artemis/testruns/days/60",
+                                          href   => "/tapper/testruns/days/60",
                                          },
                                         ],
                             },
@@ -676,7 +676,7 @@ sub prepare_navi : Private
                              subnavi => [
                                          {
                                           title  => "Create new Testrun",
-                                          href   => "/artemis/testruns/create/",
+                                          href   => "/tapper/testruns/create/",
                                          },
                                         ],
                             },
@@ -685,7 +685,7 @@ sub prepare_navi : Private
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Testruns - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
 
 =head1 DESCRIPTION
 

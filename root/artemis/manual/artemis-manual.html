@@ -1,8 +1,8 @@
 <html lang="en">
 <head>
-<title>ARTEMIS Manual</title>
+<title>TAPPER Manual</title>
 <meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="ARTEMIS Manual">
+<meta name="description" content="TAPPER Manual">
 <meta name="generator" content="makeinfo 4.11">
 <link title="Top" rel="top" href="#Top">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
@@ -20,7 +20,7 @@
 --></style>
 </head>
 <body>
-<h1 class="settitle">ARTEMIS Manual</h1>
+<h1 class="settitle">TAPPER Manual</h1>
 <div class="node">
 <p><hr>
 <a name="Top"></a>
@@ -68,12 +68,12 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Test-Protocol">3.2.6 Mark tests as SKIP (with reason)</a>
 <li><a href="#Test-Protocol">3.2.7 Diagnostics</a>
 <li><a href="#Test-Protocol">3.2.8 YAML Diagnostics</a>
-<li><a href="#Test-Protocol">3.2.9 Headers for ARTEMIS</a>
-<li><a href="#Test-Protocol">3.2.10 Sections for ARTEMIS</a>
+<li><a href="#Test-Protocol">3.2.9 Headers for TAPPER</a>
+<li><a href="#Test-Protocol">3.2.10 Sections for TAPPER</a>
 <li><a href="#Test-Protocol">3.2.11 Developing with TAP</a>
 <li><a href="#Test-Protocol">3.2.12 TAP tips</a>
 </li></ul>
-<li><a href="#Test-Protocol">3.3 Special Artemis headers inside TAP</a>
+<li><a href="#Test-Protocol">3.3 Special Tapper headers inside TAP</a>
 <li><a href="#Test-Protocol">3.4 Particular use-cases</a>
 <ul>
 <li><a href="#Test-Protocol">3.4.1 Report Groups</a>
@@ -164,7 +164,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Preconditions">7.3.2.1 Data::DPath expressions</a>
 </li></ul>
 </li></ul>
-<li><a href="#Preconditions">7.4 Client Utility <code>artemis-api</code></a>
+<li><a href="#Preconditions">7.4 Client Utility <code>tapper-api</code></a>
 <ul>
 <li><a href="#Preconditions">7.4.1 help</a>
 <li><a href="#Preconditions">7.4.2 upload</a>
@@ -188,10 +188,10 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <li><a href="#Automatic-Xen-testing">8.1.7 Order Testrun</a>
 </li></ul>
 </li></ul>
-<li><a name="toc_Deployment" href="#Deployment">9 Artemis Development</a>
+<li><a name="toc_Deployment" href="#Deployment">9 Tapper Development</a>
 <ul>
 <li><a href="#Deployment">9.1 Repositories</a>
-<li><a href="#Deployment">9.2 Starting/Stopping Artemis server applications</a>
+<li><a href="#Deployment">9.2 Starting/Stopping Tapper server applications</a>
 <ul>
 <li><a href="#Deployment">9.2.1 Live environment</a>
 <ul>
@@ -211,8 +211,8 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 <ul>
 <li><a href="#Deployment">9.3.1 Create and upload Python packages</a>
 <li><a href="#Deployment">9.3.2 Create and upload Perl packages</a>
-<li><a href="#Deployment">9.3.3 Generate complete Artemis toolchain in opt-artemis package</a>
-<li><a href="#Deployment">9.3.4 Update Python wrappers in opt-artemis package</a>
+<li><a href="#Deployment">9.3.3 Generate complete Tapper toolchain in opt-tapper package</a>
+<li><a href="#Deployment">9.3.4 Update Python wrappers in opt-tapper package</a>
 </li></ul>
 <li><a href="#Deployment">9.4 Installation of the Web User Interface</a>
 <li><a href="#Deployment">9.5 Upgrading a database schema</a>
@@ -231,7 +231,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <h2 class="chapter">1 Synopsis</h2>
 
-<p>ARTEMIS is an infrastructure that consists of 3 important layers:
+<p>TAPPER is an infrastructure that consists of 3 important layers:
 
      <ul>
 <li><strong>Report Framework</strong>
@@ -276,7 +276,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <h3 class="section">2.1 Adding a new host into automation</h3>
 
 <p>This chapter describes what you need to do in order to get a new
-machine into the Artemis test rotation.
+machine into the Tapper test rotation.
 
 <h4 class="subsection">2.1.1 Make machine remote restartable</h4>
 
@@ -327,7 +327,7 @@ contact Jan Krocker.
 <h4 class="subsection">2.1.4 Optionally: enable &lsquo;<samp><span class="samp">temare</span></samp>&rsquo; to generate tests for this host</h4>
 
 <p>The steps until here are generally enough to put &lsquo;<samp><span class="samp">preconditions</span></samp>&rsquo;
-for this host into the Artemis database and thus use the host for
+for this host into the Tapper database and thus use the host for
 tests.
 
 <p>Anyway, you can additionally register the host in &lsquo;<samp><span class="samp">temare</span></samp>&rsquo;.
@@ -341,13 +341,13 @@ scheduled for the new machine then follow these steps:
 
      <li>Set the <code>PYTHONPATH</code> to include the <em>temare</em> src directory
 
-     <pre class="example">          export PYTHONPATH=$PYTHONPATH:/home/artemis/temare/src
+     <pre class="example">          export PYTHONPATH=$PYTHONPATH:/home/tapper/temare/src
 </pre>
      <li>Add the host to temare hostlist
 
-     <pre class="example">          /home/artemis/temare/temare hostadd $hostname $memory $cores $bitness
+     <pre class="example">          /home/tapper/temare/temare hostadd $hostname $memory $cores $bitness
 </pre>
-     <li>Add the host to <code>/home/artemis/temare/xentest.pl</code>
+     <li>Add the host to <code>/home/tapper/temare/xentest.pl</code>
 
 </ul>
 
@@ -491,13 +491,13 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 </ul>
      </ul>
 
-<h4 class="subsection">3.2.9 Headers for ARTEMIS</h4>
+<h4 class="subsection">3.2.9 Headers for TAPPER</h4>
 
 <p>Example:
 
 <pre class="example">     1..3
-     <b># Artemis-Suite-Name: Foo-Bar
-     # Artemis-Suite-Version: 2.010013</b>
+     <b># Tapper-Suite-Name: Foo-Bar
+     # Tapper-Suite-Version: 2.010013</b>
      ok 1 - input file opened
      ok 2 - file content
      not ok 3 - last line # TODO just specced
@@ -509,26 +509,26 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>These are the headers that apply to the whole report:
 
-<pre class="example">      # Artemis-suite-name:                 -- suite name
-      # Artemis-suite-version:              -- suite version
-      # Artemis-machine-name:               -- machine/host name
-      # Artemis-machine-description:        -- more details to machine
-      # Artemis-starttime-test-program:     -- start time for complete test (including guests)
-      # Artemis-endtime-test-program:       -- end time for complete test (including guests)
+<pre class="example">      # Tapper-suite-name:                 -- suite name
+      # Tapper-suite-version:              -- suite version
+      # Tapper-machine-name:               -- machine/host name
+      # Tapper-machine-description:        -- more details to machine
+      # Tapper-starttime-test-program:     -- start time for complete test (including guests)
+      # Tapper-endtime-test-program:       -- end time for complete test (including guests)
 </pre>
-<h4 class="subsection">3.2.10 Sections for ARTEMIS</h4>
+<h4 class="subsection">3.2.10 Sections for TAPPER</h4>
 
 <p>Example:
 
 <pre class="example">     <b>1..2
-     # Artemis-section: arithmetics</b>
+     # Tapper-section: arithmetics</b>
      ok 1 add
      ok 2 multiply
      <b>1..1
-     # Artemis-section: string handling</b>
+     # Tapper-section: string handling</b>
      ok 1 concat
      <b>1..3
-     # Artemis-section: benchmarks</b>
+     # Tapper-section: benchmarks</b>
      ok 1
      ok 2
      ok 3
@@ -541,30 +541,30 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 <p>These are the headers that apply to single sections:
 
-<pre class="example">      # Artemis-ram:                      -- memory
-      # Artemis-cpuinfo:                  -- what CPU
-      # Artemis-uname:                    -- kernel information
-      # Artemis-osname:                   -- OS information
-      # Artemis-uptime:                   -- uptime, maybe the test run time
-      # Artemis-language-description:     -- for Software tests, like "Perl 5.10", "Python 2.5"
-      # Artemis-xen-version:              -- Xen version
-      # Artemis-xen-changeset:            -- particular Xen changeset
-      # Artemis-xen-dom0-kernel:          -- the kernel version of the dom0
-      # Artemis-xen-base-os-description:  -- more verbose OS information
-      # Artemis-xen-guest-description:    -- description of a guest
-      # Artemis-xen-guest-test:           -- the started test program
-      # Artemis-xen-guest-start:          -- start time of test
-      # Artemis-xen-guest-flags:          -- flags used for starting the guest
-      # Artemis-kvm-module-version:       -- version of KVM kernel module
-      # Artemis-kvm-userspace-version:    -- version of KVM userland tools
-      # Artemis-kvm-kernel:               -- version of kernel
-      # Artemis-kvm-base-os-description:  -- more verbose OS information
-      # Artemis-kvm-guest-description:    -- description of a guest
-      # Artemis-kvm-guest-test:           -- the started test program
-      # Artemis-kvm-guest-start:          -- start time of test
-      # Artemis-kvm-guest-flags:          -- flags used for starting the guest
-      # Artemis-flags:                    -- Flags that were used to boot the OS
-      # Artemis-reportcomment:            -- Freestyle comment
+<pre class="example">      # Tapper-ram:                      -- memory
+      # Tapper-cpuinfo:                  -- what CPU
+      # Tapper-uname:                    -- kernel information
+      # Tapper-osname:                   -- OS information
+      # Tapper-uptime:                   -- uptime, maybe the test run time
+      # Tapper-language-description:     -- for Software tests, like "Perl 5.10", "Python 2.5"
+      # Tapper-xen-version:              -- Xen version
+      # Tapper-xen-changeset:            -- particular Xen changeset
+      # Tapper-xen-dom0-kernel:          -- the kernel version of the dom0
+      # Tapper-xen-base-os-description:  -- more verbose OS information
+      # Tapper-xen-guest-description:    -- description of a guest
+      # Tapper-xen-guest-test:           -- the started test program
+      # Tapper-xen-guest-start:          -- start time of test
+      # Tapper-xen-guest-flags:          -- flags used for starting the guest
+      # Tapper-kvm-module-version:       -- version of KVM kernel module
+      # Tapper-kvm-userspace-version:    -- version of KVM userland tools
+      # Tapper-kvm-kernel:               -- version of kernel
+      # Tapper-kvm-base-os-description:  -- more verbose OS information
+      # Tapper-kvm-guest-description:    -- description of a guest
+      # Tapper-kvm-guest-test:           -- the started test program
+      # Tapper-kvm-guest-start:          -- start time of test
+      # Tapper-kvm-guest-flags:          -- flags used for starting the guest
+      # Tapper-flags:                    -- Flags that were used to boot the OS
+      # Tapper-reportcomment:            -- Freestyle comment
 </pre>
 <h4 class="subsection">3.2.11 Developing with TAP</h4>
 
@@ -591,7 +591,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
      <ul>
 <li>Easy to produce but using it <strong>usefully</strong> can be a challenge
-<li>ARTEMIS - &ldquo;The art to emit&rdquo;
+<li>TAPPER - &ldquo;The art to emit&rdquo;
 <li>use invariable test descriptions
 <li>put meta information in diagnostics lines, not test descriptions
 <li>use the description after <code># TODO/SKIP</code>
@@ -600,7 +600,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <li>This keeps TAP evaluation consistent
 </ul>
 
-<h3 class="section">3.3 Special Artemis headers inside TAP</h3>
+<h3 class="section">3.3 Special Tapper headers inside TAP</h3>
 
 <h3 class="section">3.4 Particular use-cases</h3>
 
@@ -618,27 +618,27 @@ by that id.
 
 <p>So simply each suite should output
 
-<pre class="example">     # Artemis-reportgroup-testrun: 1234
+<pre class="example">     # Tapper-reportgroup-testrun: 1234
 </pre>
 <p>with 1234 being a testrun ID that is available via the environment
-variable <code>$ARTEMIS_TESTRUN</code>. This variable is provided by the
+variable <code>$TAPPER_TESTRUN</code>. This variable is provided by the
 automation layer.
 
 <h5 class="subsubsection">3.4.1.2 Report grouping by arbitrary idenitifier</h5>
 
 <p>If the grouping id is not a testrun id, e.g., because you have set up
-a Xen environment without the ARTEMIS automation layer, then generate
+a Xen environment without the TAPPER automation layer, then generate
 one random value once in dom0 by yourself and use that same value
 inside all guests with the following header:
 
      <ul>
 <li>get the value:
 
-     <pre class="example">          ARTEMIS_REPORT_GROUP=`date|md5sum|awk 'print $1'`
+     <pre class="example">          TAPPER_REPORT_GROUP=`date|md5sum|awk 'print $1'`
 </pre>
      <li>use the value:
 
-     <pre class="example">          # Artemis-reportgroup-arbitrary: $ARTEMIS_REPORT_GROUP
+     <pre class="example">          # Tapper-reportgroup-arbitrary: $TAPPER_REPORT_GROUP
 </pre>
      </ul>
 
@@ -646,7 +646,7 @@ inside all guests with the following header:
 exercise, e.g. via preparing the init scripts in the guest images
 before starting them. That's not the problem of the test suite
 wrappers, they should only evaluate the environment variable
-<code>ARTEMIS_REPORT_GROUP</code>.
+<code>TAPPER_REPORT_GROUP</code>.
 
 <p><strong>Person in charge</strong>: Frank Becker
 
@@ -666,7 +666,7 @@ suites. These wrappers are part of our overall test infrastructure.
 
 <p>It's basically about the middle part in the following picture:
 
-<p>[[image:artemis_architecture_overview.png | 800px]]
+<p>[[image:tapper_architecture_overview.png | 800px]]
 
 <p>We have wrappers for existing test and benchmark suites.
 
@@ -679,8 +679,8 @@ for common problems.
 
 <p>If the environment variables
 
-<pre class="example">     ARTEMIS_REPORT_SERVER
-     ARTEMIS_REPORT_PORT
+<pre class="example">     TAPPER_REPORT_SERVER
+     TAPPER_REPORT_PORT
 </pre>
 <p>are set the wrappers report their results by piping their TAP output
 there, else they print to STDOUT.
@@ -690,7 +690,7 @@ there, else they print to STDOUT.
 <h4 class="subsection">4.1.1 LMbench</h4>
 
      <dl>
-<dt><b>artemis_testsuite_lmbench.sh</b><dd>
+<dt><b>tapper_testsuite_lmbench.sh</b><dd>
 A wrapper around the benchmark suite <em>LMbench</em>.
 
      <p>See also <a href="http://www.bitmover.com/lmbench/">http://www.bitmover.com/lmbench/</a>.
@@ -700,7 +700,7 @@ A wrapper around the benchmark suite <em>LMbench</em>.
 <h4 class="subsection">4.1.2 kernbench</h4>
 
      <dl>
-<dt><b>artemis_testsuite_kernbench.sh</b><dd>
+<dt><b>tapper_testsuite_kernbench.sh</b><dd>
 A wrapper around the benchmark suite <em>kernbench</em>.
 
      <p>See also <a href="http://freshmeat.net/projects/kernbench/">http://freshmeat.net/projects/kernbench/</a>.
@@ -710,7 +710,7 @@ A wrapper around the benchmark suite <em>kernbench</em>.
 <h4 class="subsection">4.1.3 CTCS</h4>
 
      <dl>
-<dt><b>artemis_testsuite_ctcs.sh</b><dd>
+<dt><b>tapper_testsuite_ctcs.sh</b><dd>
 A wrapper around the <em>Cerberus Test Control System (CTCS)</em>.
 
      <p>See also <a href="http://sourceforge.net/projects/va-ctcs/">http://sourceforge.net/projects/va-ctcs/</a>.
@@ -720,7 +720,7 @@ A wrapper around the <em>Cerberus Test Control System (CTCS)</em>.
 <h4 class="subsection">4.1.4 LTP</h4>
 
      <dl>
-<dt><b>artemis_testsuite_ltp.sh</b><dd>
+<dt><b>tapper_testsuite_ltp.sh</b><dd>
 A wrapper around the <em>Linux Test Project (LTP)</em>.
 
      <p>See also <a href="http://ltp.sourceforge.net/">http://ltp.sourceforge.net/</a>.
@@ -730,7 +730,7 @@ A wrapper around the <em>Linux Test Project (LTP)</em>.
 <h4 class="subsection">4.1.5 dom0-meta</h4>
 
      <dl>
-<dt><b>artemis_testsuite_dom0_meta.sh</b><dd>
+<dt><b>tapper_testsuite_dom0_meta.sh</b><dd>
 A suite that produces meta information about the <em>dom0</em>
 environment.
 
@@ -738,36 +738,36 @@ environment.
 
 <h3 class="section">4.2 Environment variables</h3>
 
-<p>The ARTEMIS automation layer provides some environment variables that
+<p>The TAPPER automation layer provides some environment variables that
 the wrappers can use:
 
      <dl>
-<dt><b>ARTEMIS_TESTRUN</b><dd>Currently active Testrun ID.
+<dt><b>TAPPER_TESTRUN</b><dd>Currently active Testrun ID.
 
-     <br><dt><b>ARTEMIS_SERVER</b><dd>The controlling automation Server that initiated this testrun.
+     <br><dt><b>TAPPER_SERVER</b><dd>The controlling automation Server that initiated this testrun.
 
-     <br><dt><b>ARTEMIS_REPORT_SERVER</b><dd>The target server to which the tests should report their results in
+     <br><dt><b>TAPPER_REPORT_SERVER</b><dd>The target server to which the tests should report their results in
 TAP.
 
-     <br><dt><b>ARTEMIS_REPORT_PORT</b><dd>The target port to which the tests should report their results in
-TAP. Complements <code>ARTEMIS_REPORT_SERVER</code>.
+     <br><dt><b>TAPPER_REPORT_PORT</b><dd>The target port to which the tests should report their results in
+TAP. Complements <code>TAPPER_REPORT_SERVER</code>.
 
-     <br><dt><b>ARTEMIS_REPORT_API_PORT</b><dd>The port on which the more sophisticated Remote Reports API is
+     <br><dt><b>TAPPER_REPORT_API_PORT</b><dd>The port on which the more sophisticated Remote Reports API is
 available. It's running on the same host as
-<code>ARTEMIS_REPORT_SERVER</code>.
+<code>TAPPER_REPORT_SERVER</code>.
 
-     <br><dt><b>ARTEMIS_TS_RUNTIME</b><dd>Maximum runtime after which the testprogram will not be restarted when
+     <br><dt><b>TAPPER_TS_RUNTIME</b><dd>Maximum runtime after which the testprogram will not be restarted when
 it runs in a loop. (This is a more passive variant than a timeout.)
 
-     <br><dt><b>ARTEMIS_GUEST_NUMBER</b><dd>Virtualisation guests are ordered, this is the guest number or 0 if
+     <br><dt><b>TAPPER_GUEST_NUMBER</b><dd>Virtualisation guests are ordered, this is the guest number or 0 if
 not a guest.
 
-     <br><dt><b>ARTEMIS_NTP_SERVER</b><dd>The server where to request NTP dates from.
+     <br><dt><b>TAPPER_NTP_SERVER</b><dd>The server where to request NTP dates from.
 
 </dl>
 
 <p>These variables should be used in the TAP of the suite as
-<em>Artemis</em> headers. Important use-case is "report groups", see next
+<em>Tapper</em> headers. Important use-case is "report groups", see next
 chapter.
 
 <p><strong>Person in charge</strong>: Frank Becker
@@ -838,7 +838,7 @@ final preconditions are stored in the database.
 
 <p>Macro preconditions can be stored in
 
-<pre class="example">     /data/bancroft/artemis/live/repository/macropreconditions/
+<pre class="example">     /data/bancroft/tapper/live/repository/macropreconditions/
 </pre>
 <h4 class="subsection">5.2.3 Precondition types</h4>
 
@@ -956,7 +956,7 @@ defined by its tree structure (depth-first).
 
      <ul>
 <li>path names can be absolut or relative to
- /data/bancroft/artemis/development/repository/packages/
+ /data/bancroft/tapper/development/repository/packages/
 
      <li>supported packages types are rpm, deb, tar, tar.gz and tar.bz2
 
@@ -964,10 +964,10 @@ defined by its tree structure (depth-first).
 
      <li>absolute path: usually /data/bancroft/...
 
-     <li>relative path: relative to /data/bancroft/artemis/(live|development)/
+     <li>relative path: relative to /data/bancroft/tapper/(live|development)/
 
      <pre class="example">          ---
-          filename: /data/bancroft/artemis/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
+          filename: /data/bancroft/tapper/live/repository/packages/linux/linux-2.6.27.7.tar.bz2
           precondition_type: package
 </pre>
      </ul>
@@ -992,7 +992,7 @@ defined by its tree structure (depth-first).
                precondition_type: copyfile
                protocol: nfs
                source: osko:/export/image_files/official_testing/README
-               dest: /usr/local/share/artemis/perl510
+               dest: /usr/local/share/tapper/perl510
 </pre>
           </ul>
 
@@ -1032,7 +1032,7 @@ and mounted to mount afterwards
 
           <li>absolute &ldquo;image&rdquo;: absolute
 
-          <li>relative &ldquo;image&rdquo;: relative to /data/bancroft/artemis/live|development/repository/images
+          <li>relative &ldquo;image&rdquo;: relative to /data/bancroft/tapper/live|development/repository/images
 If not given, then it re-uses the partition without formatting/unpacking it.
 
           <li>partition: Can be /dev/xxx or LABEL or UUID.
@@ -1041,7 +1041,7 @@ If not given, then it re-uses the partition without formatting/unpacking it.
                precondition_type: image
                mount: /
                partition: testing
-               image: /data/bancroft/artemis/live|development/repository/images/rhel-5.2-rc2-32bit.iso,.tar.gz,.tgz,.tar,.tar.bz2 (OPTIONAL)
+               image: /data/bancroft/tapper/live|development/repository/images/rhel-5.2-rc2-32bit.iso,.tar.gz,.tgz,.tar,.tar.bz2 (OPTIONAL)
 </pre>
           </ul>
 
@@ -1086,7 +1086,7 @@ started when the machine boots.
      <li>runtime
 
      <p>The wanted time, how long it runs, in seconds, this value will be used
-to set an environment variable <code>ARTEMIS_TS_RUNTIME</code>, which is
+to set an environment variable <code>TAPPER_TS_RUNTIME</code>, which is
 used by the test suite wrappers.
 
      <li>timeout_testprogram
@@ -1148,32 +1148,32 @@ the root image (like tar.gz packages or subdir)
      <li>&rdquo;'Note&rdquo;': virt instead of virtualisation is used to reduce confusion for users whether British English (virtualisation) or American English (virtualization) is expected
 
      <li>key &ldquo;arch&rdquo;
- arch: linux64 | linux32             (XXX which for artemis toolchain)
+ arch: linux64 | linux32             (XXX which for tapper toolchain)
 
      <pre class="example">          name: automatically generated Xen test
           precondition_type: virt
           host:
             preconditions:
-            - filename: /data/bancroft/artemis/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
+            - filename: /data/bancroft/tapper/live/repository/packages/xen/builds/x86_64/xen-3.3-testing/xen-3.3-testing.2009-03-20.18614_f54cf790ffc7.x86_64.tgz
               precondition_type: package
-            - filename: /data/bancroft/artemis/live/repository/packages/artemisutils/sles10/xen_installer_suse.tar.gz
+            - filename: /data/bancroft/tapper/live/repository/packages/tapperutils/sles10/xen_installer_suse.tar.gz
               precondition_type: package
             - filename: /bin/xen_installer_suse.pl
               precondition_type: exec
             root:
               precondition_type: image
               partition: testing
-              image: /data/bancroft/artemis/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
+              image: /data/bancroft/tapper/live/repository/images/suse/suse_sles10_64b_smp_raw.tar.gz
               mount: /
               arch: linux64
             testprogram:
-              execname: /opt/artemis/bin/artemis_testsuite_dom0_meta.sh
+              execname: /opt/tapper/bin/tapper_testsuite_dom0_meta.sh
               timeout_testprogram: 10800
           guests:
           - config:
               precondition_type: copyfile
               protocol: nfs
-              name: bancroft:/data/bancroft/artemis/live/repository/configs/xen/001-sandschaki-1237993266.svm
+              name: bancroft:/data/bancroft/tapper/live/repository/configs/xen/001-sandschaki-1237993266.svm
               dest: /xen/images/
               svm: /xen/images/001-sandschaki-1237993266.svm
             root:
@@ -1185,7 +1185,7 @@ the root image (like tar.gz packages or subdir)
               mountfile: /xen/images/001-sandschaki-1237993266.img
               mounttype: raw
             testprogram:
-              execname: /opt/artemis/bin/py_ltp
+              execname: /opt/tapper/bin/py_ltp
               timeout_after_testprogram: 10800
 </pre>
      </ul>
@@ -1211,7 +1211,7 @@ execute the precondition inside guest images:
 <h3 class="section">5.3 Macro Preconditions</h3>
 
 <p>This section describes macro precondition files as they are stored in
-<code>/data/bancroft/artemis/live/repository/macropreconditions/</code>.
+<code>/data/bancroft/tapper/live/repository/macropreconditions/</code>.
 
 <p>A macro precondition is Perl code.
 
@@ -1236,7 +1236,7 @@ need to order them like a tree would have been walked.
 
 <p>The values for the placeholders can be filled via
 
-<pre class="example">     artemis-testrun new [all usual options] \
+<pre class="example">     tapper-testrun new [all usual options] \
          --macroprecond=FILENAME \
           -DPLACEHOLDER1=VALUE1 \
           -DPLACEHOLDER2=VALUE2 \
@@ -1279,7 +1279,7 @@ it:
        preconditions:
          - precondition_type: package
            filename: [% xen_package %]
-           path: artemisutils/
+           path: tapperutils/
            scripts: ~
        ',
        'macro content 2',
@@ -1290,7 +1290,7 @@ it:
 </pre>
 <p>The appropriate testrun creation looks like this:
 
-<pre class="example">     artemis-testrun new ... \
+<pre class="example">     tapper-testrun new ... \
          --macroprecond=FILENAME \
           -Dimage_file=suse/suse_sles10_64b_smp_raw.tar.gz \
           -Dxen_package=xen-3.2_20080116_1546_16718_f4a57e0474af__64bit.tar.gz
@@ -1312,7 +1312,7 @@ it:
           ',
           '
           precondition_type: copyfile
-          name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
+          name: /data/bancroft/tapper/live/repository/testprograms/uname_tap/uname_tap.sh
           dest: /bin/
           protocol: local
           ',
@@ -1340,9 +1340,9 @@ refers is just a shell script that examines uname output:
 
      <pre class="example">          #! /bin/sh
           echo "1..2"
-          echo "# Artemis-Suite-Name: Kernel-Boot"
-          echo "# Artemis-Suite-Version: 1.00"
-          echo "# Artemis-Machine-Name: " `hostname`
+          echo "# Tapper-Suite-Name: Kernel-Boot"
+          echo "# Tapper-Suite-Version: 1.00"
+          echo "# Tapper-Machine-Name: " `hostname`
           
           if [ x`uname` != xLinux ] ; then echo -n "not " ; fi
           echo "ok - We run on Linux"
@@ -1355,18 +1355,18 @@ refers is just a shell script that examines uname output:
      <p>Once you wrote the macro precondition and the test script all you need
 is this command line:
 
-     <pre class="example">          artemis-testrun new \
+     <pre class="example">          tapper-testrun new \
             --hostname=dickstone \
-            --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+            --macroprecond=/data/bancroft/tapper/live/repository/macropreconditions/kernel/kernel_boot.mpc \
              -Dkernelpkg=perfmon-682-x86_64.tar.gz \
 </pre>
      <p>or with some more information (owner, topic):
 
-     <pre class="example">          artemis-testrun new \
+     <pre class="example">          tapper-testrun new \
             --owner=mhentsc3 \
             --topic=Kernel \
             --hostname=dickstone \
-            --macroprecond=/data/bancroft/artemis/live/repository/macropreconditions/kernel/kernel_boot.mpc \
+            --macroprecond=/data/bancroft/tapper/live/repository/macropreconditions/kernel/kernel_boot.mpc \
              -Dkernelpkg=perfmon-682-x86_64.tar.gz \
 </pre>
      </ul>
@@ -1400,7 +1400,7 @@ look into the <em>DPath Query Language</em> that is part of the
 
 <p>The main URL is
 
-<pre class="example">     <a href="http://osrc.amd.com/artemis">http://osrc.amd.com/artemis</a>
+<pre class="example">     <a href="http://osrc.amd.com/tapper">http://osrc.amd.com/tapper</a>
 </pre>
 <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
 <strong>TODO</strong>
@@ -1421,12 +1421,12 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 <h3 class="section">7.1 Overview</h3>
 
 <p>There runs yet another daemon, the so called
-<code>Artemis::Reports::API</code>, on the same host where already the
+<code>Tapper::Reports::API</code>, on the same host where already the
 <code>TAP Receiver</code> runs. This &lsquo;<samp><span class="samp">Reports API</span></samp>&rsquo; is meant for
 everything that needs more than just dropping TAP reports to a port,
 e.g., some interactive dialog or parameters.
 
-<p>This <code>Artemis::Reports::API</code> listens on Port <code>7358</code>. Its API
+<p>This <code>Tapper::Reports::API</code> listens on Port <code>7358</code>. Its API
 is modeled after classic unix script look&amp;feel with a first line
 containing a description how to interpret the rest of the lines.
 
@@ -1449,7 +1449,7 @@ you can see below).
 without any dependencies except for the minimum ability to talk to a
 port, e.g., via <code>netcat</code>.
 
-<p>See section <a href="#Client-Utility-artemis_002dapi">Client Utility artemis-api</a> for how to use a
+<p>See section <a href="#Client-Utility-tapper_002dapi">Client Utility tapper-api</a> for how to use a
 dedicated command line utility that makes talking to the reports API
 easier, but is a dependency that might not be available in your
 personal test environment.
@@ -1645,9 +1645,9 @@ everything after the <code>::</code>. This part is passed through to
 <h5 class="subsubsection">7.3.2.1 Data::DPath expressions</h5>
 
 <!-- ====================================================================== -->
-<h3 class="section">7.4 Client Utility <code>artemis-api</code></h3>
+<h3 class="section">7.4 Client Utility <code>tapper-api</code></h3>
 
-<p>There is a command line utility <code>artemis-api</code> that helps with
+<p>There is a command line utility <code>tapper-api</code> that helps with
 using the API without the need to talk the protocol and fiddle with
 <code>netcat</code> by yourself.
 
@@ -1655,11 +1655,11 @@ using the API without the need to talk the protocol and fiddle with
 
 <p>You can aquire a help page to each sub command:
 
-<pre class="example">     $ /home/artemis/perl510/bin/artemis-api help upload
+<pre class="example">     $ /home/tapper/perl510/bin/tapper-api help upload
 </pre>
 <p>prints
 
-<pre class="example">     artemis-api upload --reportid=s --file=s [ --contenttype=s ]
+<pre class="example">     tapper-api upload --reportid=s --file=s [ --contenttype=s ]
         --verbose          some more informational output
         --reportid         INT; the testrun id to change
         --file             STRING; the file to upload, use '-' for STDIN
@@ -1668,16 +1668,16 @@ using the API without the need to talk the protocol and fiddle with
 </pre>
 <h4 class="subsection">7.4.2 upload</h4>
 
-<p>Use it from the Artemis path, like:
+<p>Use it from the Tapper path, like:
 
-<pre class="example">     $ /home/artemis/perl510/bin/artemis-api upload \
+<pre class="example">     $ /home/tapper/perl510/bin/tapper-api upload \
        --file /var/log/messages \
        --reportid=301
 </pre>
 <p>You can also use the special filename <samp><span class="file">-</span></samp> to read from STDIN,
 e.g., if you need to pipe the output of tools like <code>dmesg</code>:
 
-<pre class="example">     $ dmesg | /home/artemis/perl510/bin/artemis-api upload \
+<pre class="example">     $ dmesg | /home/tapper/perl510/bin/tapper-api upload \
        --file=- \
        --filename dmesg \
        --reportid=301
@@ -1702,7 +1702,7 @@ into whole use-cases.
 
 <h3 class="section">8.1 Automatic Xen testing</h3>
 
-<p>This is a description on how to run Xen tests with <em>Artemis</em> using
+<p>This is a description on how to run Xen tests with <em>Tapper</em> using
 <code>SLES10</code> with one <code>RHEL5.2</code> guest (64 bit) as an example.
 
 <p>The following mainly applies to <b>manually</b> assigning Xen tests. The
@@ -1712,7 +1712,7 @@ described steps.
 <h4 class="subsection">8.1.1 Paths</h4>
 
      <ul>
-<li>Host <strong>bancroft</strong>: /data/bancroft/artemis/live/
+<li>Host <strong>bancroft</strong>: /data/bancroft/tapper/live/
 
      <li>Host <strong>osko</strong>: /export/image_files/official_testing/
 
@@ -1732,7 +1732,7 @@ described steps.
 
 <p>The SuSE image is of precondition type image. Thus its path is
 relative to <code>/mnt/images</code> which has
-<code>bancroft:/data/bancroft/artemis/live/repository/images/</code>
+<code>bancroft:/data/bancroft/tapper/live/repository/images/</code>
 mounted.
 
 <p>The root partition is named in the section &lsquo;<samp><span class="samp">root</span></samp>&rsquo; of the Xen
@@ -1797,7 +1797,7 @@ via copyfile to /xen/images/001.svm. The resulting config section is:
  
      config:
        precondition_type: copyfile
-       name: /usr/share/artemis/packages/mhentsc3/001.svm
+       name: /usr/share/tapper/packages/mhentsc3/001.svm
        protocol: local
        dest: /xen/images/
        filename: /xen/images/001.svm
@@ -1816,10 +1816,10 @@ details on the guest test program.
 describing how the test suite is installed. In our example we use a
 precondition type package with a relative path name. This path is
 relative to
-&rdquo;'/data/bancroft/artemis/live/repository/packages/&rdquo;'. Since
+&rdquo;'/data/bancroft/tapper/live/repository/packages/&rdquo;'. Since
 &rdquo;'bancroft:/data/bancroft/&rdquo;' is mounted to &rdquo;'/data/bancroft/&rdquo;' in
 the install system, this directory can be accessed at
-&rdquo;'bancroft:/data/bancroft/artemis/live/repository/packages/&rdquo;'.
+&rdquo;'bancroft:/data/bancroft/tapper/live/repository/packages/&rdquo;'.
 
 <p>Beside the precondition you need to define an execname which is the
 full path name of the file to be executed (remember, it can't be
@@ -1830,7 +1830,7 @@ parameters which are named in the optional array &rdquo;'parameters&rdquo;' and
 taken as is. The parameter is &rdquo;'timeout_after_testprogram&rdquo;' which
 allows you to define that your test suite shall be killed (and an
 error shall be reported) after that many seconds. Even though this
-parameter is optional, leaving it out will result in Artemis waiting
+parameter is optional, leaving it out will result in Tapper waiting
 forever if your test doesn't send finish messages. The resulting
 testprogram section looks like this:
 
@@ -1838,10 +1838,10 @@ testprogram section looks like this:
  
    testprogram:
      precondition_type: package
-     filename: artemis-testsuite-system.tar.gz
+     filename: tapper-testsuite-system.tar.gz
      path: mhentsc3/
      timeout_after_testprogram: ~
-     execname: /opt/system/bin/artemis_testsuite_system.sh 
+     execname: /opt/system/bin/tapper_testsuite_system.sh 
      parameters: 
        - --report
 
@@ -1883,10 +1883,10 @@ into a file. We use /tmp/xen.yml as an example.
        partition: /dev/sda2
      testprogram:
        precondition_type: package
-       filename: artemis-testsuite-system.tar.gz
+       filename: tapper-testsuite-system.tar.gz
        path: mhentsc3/
        timeout_after_testprogram: 3600
-       execname: /home/artemis/x86_64/bin/artemis_testsuite_ctcs.sh
+       execname: /home/tapper/x86_64/bin/tapper_testsuite_ctcs.sh
        parameters: 
          - --report
      preconditions:
@@ -1934,13 +1934,13 @@ into a file. We use /tmp/xen.yml as an example.
          #       mountpartition: /dev/sda3 # or label or uuid
        config:
          precondition_type: copyfile
-         name: /usr/share/artemis/packages/mhentsc3/001.svm
+         name: /usr/share/tapper/packages/mhentsc3/001.svm
          protocol: local
          dest: /xen/images/
          filename: /xen/images/001.svm
        testprogram:
          precondition_type: copyfile
-         name: /usr/share/artemis/packages/mhentsc3/testscript.pl
+         name: /usr/share/tapper/packages/mhentsc3/testscript.pl
          protocol: local
          dest: /bin/
          timeout_after_testprogram: 100
@@ -1982,28 +1982,28 @@ use /tmp/grub.yml as an example. This file may read like this:
 <p>To order your test run with the previously defined preconditions you
 need to stuff them into the database. Fortunatelly there are
 commandline tools to help you with this job. They can be found at
-&rdquo;'/home/artemis/perl510/bin/&rdquo;'. Production server for Artemis is
+&rdquo;'/home/tapper/perl510/bin/&rdquo;'. Production server for Tapper is
 bancroft.amd.com. Log in to this server (as root, since user login
-hasn't been thoroughly tested). Make sure that $ARTEMIS_LIVE is set to
-1 and /home/artemis/perl510/bin/ is at the beginning of your $PATH (so
+hasn't been thoroughly tested). Make sure that $TAPPER_LIVE is set to
+1 and /home/tapper/perl510/bin/ is at the beginning of your $PATH (so
 the correct perl will always be found). For each precondition you want
 to put into the database you need to define a short name. Call
-&rdquo;'/home/artemis/perl510/bin/artemis-testrun newprecondition&rdquo;' with
+&rdquo;'/home/tapper/perl510/bin/tapper-testrun newprecondition&rdquo;' with
 the appropriate options, e.g. in our example:
 
 <pre class="verbatim">
  
-  /home/artemis/perl510/bin/artemis-testrun newprecondition --shortname=grub --condition_file=/tmp/grub.yml
-  /home/artemis/perl510/bin/artemis-testrun newprecondition --shortname=xen --condition_file=/tmp/xen.yml
+  /home/tapper/perl510/bin/tapper-testrun newprecondition --shortname=grub --condition_file=/tmp/grub.yml
+  /home/tapper/perl510/bin/tapper-testrun newprecondition --shortname=xen --condition_file=/tmp/xen.yml
 
 </pre>
 
-<p>C&lt;artemis-testrun&gt; will return a precondition ID in each case. You will
+<p>C&lt;tapper-testrun&gt; will return a precondition ID in each case. You will
 need those soon so please keep them in mind. In the example the
 precondition id for grub is 4 and for Xen its 5.
 
 <p>You can now put your test run into the database using
-<code>/home/artemis/perl510/bin/artemis-testrun new</code>. This expects a
+<code>/home/tapper/perl510/bin/tapper-testrun new</code>. This expects a
 hostname, a test program and all preconditions. The test program is
 never evaluated and only there for historical reasons. Put in anything
 you like. root is not yet know to the database as a valid user. Thus
@@ -2012,19 +2012,19 @@ call looks like this:
 
 <pre class="verbatim">
 
-  /home/artemis/perl510/bin/artemis-testrun new \\
+  /home/tapper/perl510/bin/tapper-testrun new \\
      --hostname=bullock --precondition=4 --precondition=5 \\
      --test_program=whatever --owner=mhentsc3
  
 </pre>
 
-<p>C&lt;artemis-testrun&gt; new has more optional arguments, one of them being
+<p>C&lt;tapper-testrun&gt; new has more optional arguments, one of them being
 &ndash;earliest. This option defines when to start the test earliest. It
-defaults to "now". When the requested time has arrived, Artemis will
+defaults to "now". When the requested time has arrived, Tapper will
 setup the system you requested and execute your test run. Stay
 tuned. When everything went well, you'll see test output soon. For
-more information on what is going on with Artemis, see
-/var/log/artemis-debug.
+more information on what is going on with Tapper, see
+/var/log/tapper-debug.
 
 <p><strong>Person in charge</strong>: Maik Hentsche
 
@@ -2036,28 +2036,28 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
 
 </div>
 
-<h2 class="chapter">9 Artemis Development</h2>
+<h2 class="chapter">9 Tapper Development</h2>
 
 <!-- ========================= -->
-<p>This chapter is dedicated not to end users but to Artemis development.
+<p>This chapter is dedicated not to end users but to Tapper development.
 
 <h3 class="section">9.1 Repositories</h3>
 
 <!-- ================== -->
-<p><em>Artemis</em> is developed using <em>git</em>. There is one central
+<p><em>Tapper</em> is developed using <em>git</em>. There is one central
 repository to participate on the development
 
 <pre class="verbatim">
- ssh://gituser@wotan/srv/gitroot/Artemis
+ ssh://gituser@wotan/srv/gitroot/Tapper
 </pre>
 
 <p>and one mirrored public one:
 
 <pre class="verbatim">
- git://osrc.amd.com/artemis.git
+ git://osrc.amd.com/tapper.git
 </pre>
 
-<h3 class="section">9.2 Starting/Stopping Artemis server applications</h3>
+<h3 class="section">9.2 Starting/Stopping Tapper server applications</h3>
 
 <p>This chapter assumes all services are deployed, as described in
 <a href="#Deployment">Deployment</a>.
@@ -2071,7 +2071,7 @@ Web User Interface, MCP.
 <h5 class="subsubsection">9.2.1.1 Web User Interface</h5>
 
 <p>The application is configured inside the Apache config and therefore
-only needs Apache to be (re)started. <code>/home/artemis</code> must be
+only needs Apache to be (re)started. <code>/home/tapper</code> must be
 mounted.
 
 <pre class="verbatim">
@@ -2083,14 +2083,14 @@ mounted.
 
 <pre class="verbatim">
  $ ssh root@bancroft
- $ /etc/init.d/artemis_reports_receiver_daemon restart
+ $ /etc/init.d/tapper_reports_receiver_daemon restart
 </pre>
 
 <h5 class="subsubsection">9.2.1.3 Reports::API</h5>
 
 <pre class="verbatim">
  $ ssh root@bancroft
- $ /etc/init.d/artemis_reports_api_daemon restart
+ $ /etc/init.d/tapper_reports_api_daemon restart
 </pre>
 
 <h4 class="subsection">9.2.2 Development environment</h4>
@@ -2111,24 +2111,24 @@ target machine <code>bullock</code>.
  $ ssh ss5@bascha
 
  # kill running process
- $ kill `ps auxwww|grep artemis_reports_web_server | grep -v grep | awk '{print $2}' | sort | head -1`
+ $ kill `ps auxwww|grep tapper_reports_web_server | grep -v grep | awk '{print $2}' | sort | head -1`
 
  # restart
- $ sudo /etc/init.d/artemis_reports_web
+ $ sudo /etc/init.d/tapper_reports_web
 </pre>
 
 <h5 class="subsubsection">9.2.2.2 Reports::Receiver</h5>
 
 <pre class="verbatim">
  $ ssh ss5@bascha
- $ sudo /etc/init.d/artemis_reports_receiver_daemon restart
+ $ sudo /etc/init.d/tapper_reports_receiver_daemon restart
 </pre>
 
 <h5 class="subsubsection">9.2.2.3 Reports::API</h5>
 
 <pre class="verbatim">
  $ ssh ss5@bascha
- $ sudo /etc/init.d/artemis_reports_api_daemon restart
+ $ sudo /etc/init.d/tapper_reports_api_daemon restart
 </pre>
 
 <h4 class="subsection">9.2.3 Logfiles</h4>
@@ -2139,21 +2139,21 @@ target machine <code>bullock</code>.
 <li>MCP (automation master control program)
 
      <pre class="verbatim">     
-      /var/log/artemis-debug
+      /var/log/tapper-debug
 </pre>
 
      <li>Reports::Receiver
 
      <pre class="verbatim">     
-      /var/log/artemis_reports_receiver_daemon_stdout.log
-      /var/log/artemis_reports_receiver_daemon_stderr.log
+      /var/log/tapper_reports_receiver_daemon_stdout.log
+      /var/log/tapper_reports_receiver_daemon_stderr.log
 </pre>
 
      <li>Reports::API
 
      <pre class="verbatim">     
-      /var/log/artemis_reports_api_daemon_stdout.log
-      /var/log/artemis_reports_api_daemon_stderr.log
+      /var/log/tapper_reports_api_daemon_stdout.log
+      /var/log/tapper_reports_api_daemon_stderr.log
 </pre>
 
 </ul>
@@ -2161,7 +2161,7 @@ target machine <code>bullock</code>.
 <h3 class="section">9.3 Deployment</h3>
 
 <p>This chapter is a collection of instructions how to build the
-Artemis toolchain.
+Tapper toolchain.
 
 <p>The whole deployment process should be supported by a common build
 system, however that is not yet completed but done via several
@@ -2177,7 +2177,7 @@ worth to be installed in the development or live environment.
 <li>Go to the development subdirectory of the package (lmbench wrapper in this example)
 
      <pre class="verbatim">     
-      cd Artemis/src/TestSuite-LmBench-Python
+      cd Tapper/src/TestSuite-LmBench-Python
 </pre>
 
      <li>Call the python setup script to generate a distribution
@@ -2205,7 +2205,7 @@ uploading a new version. For local development this can be omitted.
 <li>Go to the subdirectory of the package (Reports API in this example)
 
      <pre class="verbatim">     
-      $ cd Artemis/src/Artemis-Reports-API
+      $ cd Tapper/src/Tapper-Reports-API
 </pre>
 
      <li>Call the Perl build steps to generate a distribution
@@ -2243,17 +2243,17 @@ manually before publicly uploading a new version.
 
 </ul>
 
-<h4 class="subsection">9.3.3 Generate complete Artemis toolchain in opt-artemis package</h4>
+<h4 class="subsection">9.3.3 Generate complete Tapper toolchain in opt-tapper package</h4>
 
 <!-- =================================================================== -->
-<p>Following are the steps to create a <code>opt-artemis.tar.gz</code> package
+<p>Following are the steps to create a <code>opt-tapper.tar.gz</code> package
 in a mounted and chrooted image. It compiles Perl and Python, installs
-them under <code>/opt/artemis</code> and installs the Artemis libraries. For
+them under <code>/opt/tapper</code> and installs the Tapper libraries. For
 the Perl part it also installs all CPAN dependencies from a local
 mirror.
 
-<p>The resulting <code>/opt/artemis</code> subdir can be used to continuously
-upgrade the Artemis libs as described in the following sections later.
+<p>The resulting <code>/opt/tapper</code> subdir can be used to continuously
+upgrade the Tapper libs as described in the following sections later.
 
      <ul>
 <li>Login as User &lsquo;<samp><span class="samp">ss5</span></samp>&rsquo;
@@ -2298,8 +2298,8 @@ builders and a bind mounted <code>/dev</code> to get a random seed for ssh
       $ sudo mkdir -p /mnt/home/ss5
       $ sudo mount -o bind /2home/ss5 /mnt/home/ss5
       $ sudo mount -o bind /dev/ /mnt/dev
-      $ sudo mkdir /mnt/home/artemis
-      $ sudo mount loge:/artemis /mnt/home/artemis
+      $ sudo mkdir /mnt/home/tapper
+      $ sudo mount loge:/tapper /mnt/home/tapper
       $ sudo mount -t proc proc /mnt/proc
 </pre>
 
@@ -2341,64 +2341,64 @@ builders and a bind mounted <code>/dev</code> to get a random seed for ssh
       $ cp -r /home/ss5/.ssh/ /root/
 </pre>
 
-     <li>Bootstrap complete Artemis toolchain
+     <li>Bootstrap complete Tapper toolchain
 
      <pre class="verbatim">     
-      $ cd /home/ss5/artemis-perl 
-      $ ./bootstrap_artemis_perl.sh
+      $ cd /home/ss5/tapper-perl 
+      $ ./bootstrap_tapper_perl.sh
 </pre>
 
-     <li><code>bootstrap_artemis_perl.sh</code> needs the user password for sudo, type it in
+     <li><code>bootstrap_tapper_perl.sh</code> needs the user password for sudo, type it in
 
-     <li>This creates the directory <code>/opt/artemis/</code> but without any current Artemis code
+     <li>This creates the directory <code>/opt/tapper/</code> but without any current Tapper code
 
-     <li>Copy Perl modules into <code>/opt/artemis</code>
+     <li>Copy Perl modules into <code>/opt/tapper</code>
 
      <pre class="verbatim">     
-      $ rsync -r /home/artemis/perl510/lib/site_perl/5.10.0/Artemis/ \
-                 /opt/artemis/lib/perl5/site_perl/5.10.0/Artemis/
+      $ rsync -r /home/tapper/perl510/lib/site_perl/5.10.0/Tapper/ \
+                 /opt/tapper/lib/perl5/site_perl/5.10.0/Tapper/
 </pre>
 
-     <li>Go to <code>/home/artemis/PYTHONREPO</code>, execute <code>build_python.sh</code> there
+     <li>Go to <code>/home/tapper/PYTHONREPO</code>, execute <code>build_python.sh</code> there
 
      <pre class="verbatim">     
-      $ cd /home/artemis/PYTHONREPO ./wrapper_install_opt.sh
+      $ cd /home/tapper/PYTHONREPO ./wrapper_install_opt.sh
 </pre>
 
      <li>Pack opt file together
 
      <pre class="verbatim">     
-      $ cd /mnt/mnt/artemis
-      $ sudo tar -czf /tmp/opt-artemis64_rh4.7.tar.gz opt
+      $ cd /mnt/mnt/tapper
+      $ sudo tar -czf /tmp/opt-tapper64_rh4.7.tar.gz opt
 </pre>
 
      <li>Copy package to <code>/data/bancroft</code>
 
      <pre class="verbatim">     
       $ sudo cp \
-        /tmp/opt-artemis64_rh4.7.tar.gz \
-        /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis64_rh4.7.tar.gz
+        /tmp/opt-tapper64_rh4.7.tar.gz \
+        /data/bancroft/tapper/live/repository/packages/tapperutils/opt-tapper64_rh4.7.tar.gz
 </pre>
 
 </ul>
 
-<h4 class="subsection">9.3.4 Update Python wrappers in opt-artemis package</h4>
+<h4 class="subsection">9.3.4 Update Python wrappers in opt-tapper package</h4>
 
 <!-- ====================================================== -->
-<p>This is usually done on an official Artemis release by the release
+<p>This is usually done on an official Tapper release by the release
 manager.
 
      <ul>
-<li>Login as user &lsquo;<samp><span class="samp">artemis</span></samp>&rsquo; on bancroft
+<li>Login as user &lsquo;<samp><span class="samp">tapper</span></samp>&rsquo; on bancroft
 
      <pre class="verbatim">     
-     ssh artemis@bancroft
+     ssh tapper@bancroft
 </pre>
 
      <li>Chroot into to mounted build image
 
      <pre class="verbatim">     
-     sudo chroot /opt/artemis/mnt64/
+     sudo chroot /opt/tapper/mnt64/
 </pre>
 
      <li>Create <code>/tmp/wrapper</code> if it doesn't exist
@@ -2415,14 +2415,14 @@ manager.
 
      <li>Copy all from Python repository
 
-     <p>Do this as user &lsquo;<samp><span class="samp">artemis</span></samp>&rsquo; because &lsquo;<samp><span class="samp">root</span></samp>&rsquo; can't read all
+     <p>Do this as user &lsquo;<samp><span class="samp">tapper</span></samp>&rsquo; because &lsquo;<samp><span class="samp">root</span></samp>&rsquo; can't read all
 packages from NFS.
 
      <pre class="verbatim">     
-     sudo -u artemis cp -rf /home/artemis/PYTHONREPO/* .
+     sudo -u tapper cp -rf /home/tapper/PYTHONREPO/* .
 </pre>
 
-     <li>Install the wrappers in <code>/opt/artemis</code>
+     <li>Install the wrappers in <code>/opt/tapper</code>
 
      <pre class="verbatim">     
      ./wrapper_install_opt.sh
@@ -2437,9 +2437,9 @@ packages from NFS.
      <li>Pack package together
 
      <pre class="verbatim">     
-     cd /opt/artemis/mnt64
+     cd /opt/tapper/mnt64
      sudo tar -czf \
-      /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis64_rh4.7.tar.gz \
+      /data/bancroft/tapper/live/repository/packages/tapperutils/opt-tapper64_rh4.7.tar.gz \
       opt/
 </pre>
 
@@ -2448,16 +2448,16 @@ packages from NFS.
      <p>Basically the same steps, but with another mounted build image.
 
      <pre class="verbatim">     
-     ssh artemis@bancroft
-     sudo chroot /opt/artemis/mnt32/
+     ssh tapper@bancroft
+     sudo chroot /opt/tapper/mnt32/
      mkdir -p /tmp/wrapper
      cd /tmp/wrapper
-     sudo -u artemis cp -rf /home/artemis/PYTHONREPO/* .
+     sudo -u tapper cp -rf /home/tapper/PYTHONREPO/* .
      ./wrapper_install_opt.sh
      exit 
-     cd /opt/artemis/mnt32
+     cd /opt/tapper/mnt32
      sudo tar -czf \
-      /data/bancroft/artemis/live/repository/packages/artemisutils/opt-artemis32_rh4.7.tar.gz \
+      /data/bancroft/tapper/live/repository/packages/tapperutils/opt-tapper32_rh4.7.tar.gz \
       opt/
 </pre>
 
@@ -2468,14 +2468,14 @@ packages from NFS.
 <h3 class="section">9.4 Installation of the Web User Interface</h3>
 
 <p>The web application itself is available via the NFS mounted
-<code>/home/artemis</code>. On the application server in the Apache
+<code>/home/tapper</code>. On the application server in the Apache
 webserver you only need to configure a Location for the path
-<code>/artemis</code>.
+<code>/tapper</code>.
 
-<pre class="example">     bancroft$ <b>cat /etc/apache2/conf.d/artemis_reports_web.conf</b>
+<pre class="example">     bancroft$ <b>cat /etc/apache2/conf.d/tapper_reports_web.conf</b>
      
-     Alias / /home/artemis/perl510/bin/artemis_reports_web_fastcgi_live.pl/
-     &lt;LocationMatch /artemis[.]*&gt;
+     Alias / /home/tapper/perl510/bin/tapper_reports_web_fastcgi_live.pl/
+     &lt;LocationMatch /tapper[.]*&gt;
             Options ExecCGI
             Order allow,deny
             Allow from all
@@ -2485,15 +2485,15 @@ webserver you only need to configure a Location for the path
 <p>Additionally there is a reverse proxy configured on
 <code>osrc.amd.com</code> that points to the application server:
 
-<pre class="example">     osrc$ <b>cat /etc/apache2/conf.d/artemis_reverse_proxy.conf</b>
+<pre class="example">     osrc$ <b>cat /etc/apache2/conf.d/tapper_reverse_proxy.conf</b>
      
      ProxyRequests Off
      &lt;Proxy *&gt;
          Order deny,allow
          Allow from all
      &lt;/Proxy&gt;
-     ProxyPass        /artemis http://bancroft/artemis
-     ProxyPassReverse /artemis http://bancroft/artemis
+     ProxyPass        /tapper http://bancroft/tapper
+     ProxyPassReverse /tapper http://bancroft/tapper
      ProxyPass        /hardwaredb http://bancroft/hardwaredb
      ProxyPassReverse /hardwaredb http://bancroft/hardwaredb
      
@@ -2507,25 +2507,25 @@ Relational Mapper <em>DBIx::Class</em> using some versioning and
 upgrading features.
 
 <p>Those features are accessible via the command line tool
-<code>artemis-db-deploy</code>. The basic principle is:
+<code>tapper-db-deploy</code>. The basic principle is:
 
 <p>(We show it here for <code>ReportsDB</code> schema. Same applies for
 <code>TestrunDB</code>.)
 
      <ul>
-<li>Maintain schema in <code>src/Artemis-Schema/lib/Artemis/Schema/ReportsDB/Result/*.pm</code>
+<li>Maintain schema in <code>src/Tapper-Schema/lib/Tapper/Schema/ReportsDB/Result/*.pm</code>
 
-     <li>Upgrade schema version in <code>src/Artemis-Schema/lib/Artemis/Schema/ReportsDB.pm</code>
+     <li>Upgrade schema version in <code>src/Tapper-Schema/lib/Tapper/Schema/ReportsDB.pm</code>
 
-     <li>Upgrade package version in <code>src/Artemis-Schema/lib/Artemis/Schema.pm</code>
+     <li>Upgrade package version in <code>src/Tapper-Schema/lib/Tapper/Schema.pm</code>
 
      <li>Install schema package on a development machine
 
      <li>Create a difference/upgrade file relative to an old version
 
      <pre class="verbatim">     
-      cd src/Artemis-Schema/
-      artemis-db-deploy makeschemadiffs \
+      cd src/Tapper-Schema/
+      tapper-db-deploy makeschemadiffs \
                         --db=ReportsDB \
                         --fromversion=2.010021 \
                         --upgradedir=./upgrades/
@@ -2572,13 +2572,13 @@ between development machine or the live machine.
 the environment. On development machine I have set
 
      <pre class="verbatim">     
-      export ARTEMIS_DEVELOPMENT=1
+      export TAPPER_DEVELOPMENT=1
 </pre>
 
      <p>Then you just call
 
      <pre class="verbatim">     
-      artemis-db-deploy upgrade --db=ReportsDB
+      tapper-db-deploy upgrade --db=ReportsDB
 </pre>
 
 </ul>
@@ -2595,87 +2595,87 @@ component is running, which is sometimes not obvious in the
 client/server infrastructure.
 
      <ul>
-<li>ARTEMIS_TESTRUN
+<li>TAPPER_TESTRUN
 
      <p>Set by the automation layer for the test suites which in turn should
 use it in there reports.
 
-     <li>ARTEMIS_SERVER
+     <li>TAPPER_SERVER
 
      <p>Set by the automation layer for the test suites. Specifies the
 controlling host which initiated the testrun.
 
-     <li>ARTEMIS_REPORT_SERVER
+     <li>TAPPER_REPORT_SERVER
 
      <p>Set by the automation layer for the test suites. Specifies to which
 server the reports should be sent.
 
-     <li>ARTEMIS_REPORT_PORT
+     <li>TAPPER_REPORT_PORT
 
      <p>Set by the automation layer for the test suites. Specifies to which
 port the reports should be sent.
 
-     <li>ARTEMIS_REPORT_API_PORT
+     <li>TAPPER_REPORT_API_PORT
 
      <p>Set by the automation layer for the test suites. Specifies on which
 port the reports interface is listening, which is used, for instance,
 for uploading files.
 
-     <li>ARTEMIS_TS_RUNTIME
+     <li>TAPPER_TS_RUNTIME
 
      <p>Set by the automation layer for the test suites. Specifies the
 expected time that the testsuite should run. (Some suites, although
 only taking 1 hour, are re-run again and again for a given timespan.)
 
-     <li>ARTEMIS_NTP_SERVER
+     <li>TAPPER_NTP_SERVER
 
      <p>Set by the automation layer for the test suites. Specifies the NTP
 server that the suite should use as reference for time shifting tests.
 
-     <li>ARTEMIS_GUEST_NUMBER
+     <li>TAPPER_GUEST_NUMBER
 
      <p>Set by the automation layer for the test suites inside
 guests. Specifies which number the guest is, so the suite can report
 it and later this number helps sorting out results and context.
 
-     <li>ARTEMIS_OUTPUT_PATH
+     <li>TAPPER_OUTPUT_PATH
 
      <p>Set and used by the automation layer. Specifies where the automation
 layer stores files like, e.g., console logs which are later
 uploaded. Can be used by the test suites; all files that they store
 there are automatically uploaded at the end of the testrun.
 
-     <li>ARTEMIS_FORCE_NEW_TAPDOM
+     <li>TAPPER_FORCE_NEW_TAPDOM
 
      <p>Used by the database layer. If true value, the cached values of TAP
 evaluation are thrown away and regenerated. This might be neccessary
-when the Artemis::TAP::Harness or used sub parts like TAP::DOM
+when the Tapper::TAP::Harness or used sub parts like TAP::DOM
 changed.
 
-     <li>ARTEMIS_DEVELOPMENT
+     <li>TAPPER_DEVELOPMENT
 
-     <p>Used by Artemis::Config to switch the config space. By this the whole
+     <p>Used by Tapper::Config to switch the config space. By this the whole
 context of every module that is accessing the config in the same
 environment is switched to either &ldquo;live&rdquo; or &ldquo;development&rdquo;. If not
 set to a true value the LIVE context is used by default.
 
-     <li>ARTEMIS_REPORTS_WEB_PORT
+     <li>TAPPER_REPORTS_WEB_PORT
 
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies the
+     <p>Used by the web user interface Tapper::Reports::Web. Specifies the
 port on which it is running, usually only important for development
 mode. Else it is accessed via the usual Apache HTTP port 80.
 
-     <li>ARTEMIS_REPORTS_WEB_RELOAD
+     <li>TAPPER_REPORTS_WEB_RELOAD
 
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies
+     <p>Used by the web user interface Tapper::Reports::Web. Specifies
 whether the web application restarts if it recognizes changes in its
 source files.
 
-     <li>ARTEMIS_REPORTS_WEB_LIVE
+     <li>TAPPER_REPORTS_WEB_LIVE
 
-     <p>Used by the web user interface Artemis::Reports::Web. Specifies
+     <p>Used by the web user interface Tapper::Reports::Web. Specifies
 whether the config context either &ldquo;live&rdquo; or &ldquo;development&rdquo;.  It is
-therefore similar to <code>ARTEMIS_DEVELOPMENT</code> but the web user
+therefore similar to <code>TAPPER_DEVELOPMENT</code> but the web user
 interface is disconnected from the automation layer, even in the used
 config, and therefore using its own mechanism.
 

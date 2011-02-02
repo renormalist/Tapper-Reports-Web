@@ -10,23 +10,23 @@
 % my $now = gmtime();
 % my $days = $c->stash->{days} || 7;
 <h3>Testruns of last <% $days %> days</h3>
-<h4><strong>*** TODO: continue in Controller::Artemis::Testruns::Date ***</strong></h4>
+<h4><strong>*** TODO: continue in Controller::Tapper::Testruns::Date ***</strong></h4>
 <p>
   This list of completed <strong>Testruns</strong> shows only the
   summaries of the automatically generated testruns,
   <strong>not</strong> reports that are submitted directly or
   manually, like the "Daily-Reports", or from some other (i.e., not
-  the Artemis built-in) automation system.
+  the Tapper built-in) automation system.
 
   Choosing a testrun will give you a list of all Reports of this
   Testrun.
 
   If you look for a more reports oriented overview, e.g., to find a
   particular one, then
-  try the <a href="/artemis/reports/days/2">Reports</a> list.
+  try the <a href="/tapper/reports/days/2">Reports</a> list.
 </p>
 
-<& /artemis/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
+<& /tapper/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
                                           list_count_all     => $list_count_all,
                                           list_count_pass    => $list_count_pass,
                                           list_count_fail    => $list_count_fail,

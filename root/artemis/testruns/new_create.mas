@@ -7,4 +7,4 @@ $form
 <strong>Choose use case</strong>
 <% $form|n %>
 </fieldset>
-<p><a href="/artemis/start/">Cancel</a></p>
+<p><a href="/tapper/start/">Cancel</a></p>

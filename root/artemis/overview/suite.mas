@@ -2,6 +2,6 @@
 % my %suites = %{$c->stash->{suites} || {} };
 <ul>
 % foreach my $suitename ( keys %suites ) {
-  <li><a href="/artemis/reports/suite/<% $suites{$suitename} %>"><% $suitename %></a></li>
+  <li><a href="/tapper/reports/suite/<% $suites{$suitename} %>"><% $suitename %></a></li>
 % }
 </ul>

@@ -1,11 +1,11 @@
-package Artemis::Reports::Web::Controller::Artemis::Metareports;
+package Tapper::Reports::Web::Controller::Tapper::Metareports;
 
 use strict;
 use warnings;
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 use File::Find::Rule;
 
-use Artemis::Config;
+use Tapper::Config;
 
 use 5.010;
 
@@ -14,7 +14,7 @@ sub index :Path :Args(0)
 {
         my ($self, $c) = @_;
 
-        my $path = Artemis::Config->subconfig->{paths}{metareport_path};
+        my $path = Tapper::Config->subconfig->{paths}{metareport_path};
         my $rule =  File::Find::Rule->new;
         $rule->directory;
         $rule->relative;
@@ -75,7 +75,7 @@ sub base : Chained PathPrefix CaptureArgs(0) {
 sub report_name : Chained('base') PathPart('') Args(3)
 {
         my ( $self, $c, $category, $subcategory, $report_name ) = @_;
-        my $path = Artemis::Config->subconfig->{paths}{metareport_path};
+        my $path = Tapper::Config->subconfig->{paths}{metareport_path};
         my $subpath = "$category/$subcategory/$report_name";
         $c->stash(path        => $path);
         $c->stash(subpath     => $subpath);
@@ -83,7 +83,7 @@ sub report_name : Chained('base') PathPart('') Args(3)
         $c->stash(category    => $category, subcategory => $subcategory);
 
         my @img_files =
-          map { my $x = $_; $x =~ s,^.+/([^/]+\.png),/artemis/static/metareports/$subpath/$1,; $x }
+          map { my $x = $_; $x =~ s,^.+/([^/]+\.png),/tapper/static/metareports/$subpath/$1,; $x }
             qx (ls -1 $path/$category/$subcategory/$report_name/*.png | tail -1);
 
         my @html_files =
@@ -98,7 +98,7 @@ sub report_name : Chained('base') PathPart('') Args(3)
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Testruns - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
 
 =head1 DESCRIPTION
 

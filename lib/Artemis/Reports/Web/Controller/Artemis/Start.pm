@@ -1,6 +1,6 @@
-package Artemis::Reports::Web::Controller::Artemis::Start;
+package Tapper::Reports::Web::Controller::Tapper::Start;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 use common::sense;
 ## no critic (RequireUseStrict)

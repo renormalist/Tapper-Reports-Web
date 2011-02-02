@@ -1,13 +1,13 @@
-package Artemis::Reports::Web::Controller::Artemis::Reports::Id;
+package Tapper::Reports::Web::Controller::Tapper::Reports::Id;
 
 use 5.010;
 use strict;
 use warnings;
 
-use Artemis::Reports::Web::Util::Report;
+use Tapper::Reports::Web::Util::Report;
 use File::Basename;
 use File::stat;
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 use YAML;
 
 use Data::Dumper;
@@ -20,62 +20,62 @@ sub auto :Private
         my $navi : Stash = [
                  {
                   title  => "reports by date",
-                  href   => "/artemis/overview/date",
+                  href   => "/tapper/overview/date",
                   subnavi => [
                               {
                                title  => "today",
-                               href   => "/artemis/reports/days/1",
+                               href   => "/tapper/reports/days/1",
                               },
                               {
                                title  => "2 days",
-                               href   => "/artemis/reports/days/2",
+                               href   => "/tapper/reports/days/2",
                               },
                               {
                                title  => "1 week",
-                               href   => "/artemis/reports/days/7",
+                               href   => "/tapper/reports/days/7",
                               },
                               {
                                title  => "2 weeks",
-                               href   => "/artemis/reports/days/14",
+                               href   => "/tapper/reports/days/14",
                               },
                               {
                                title  => "3 weeks",
-                               href   => "/artemis/reports/days/21",
+                               href   => "/tapper/reports/days/21",
                               },
                               {
                                title  => "1 month",
-                               href   => "/artemis/reports/days/31",
+                               href   => "/tapper/reports/days/31",
                               },
                               {
                                title  => "2 months",
-                               href   => "/artemis/reports/days/62",
+                               href   => "/tapper/reports/days/62",
                               },
                               {
                                title  => "4 months",
-                               href   => "/artemis/reports/days/124",
+                               href   => "/tapper/reports/days/124",
                               },
                               {
                                title  => "6 months",
-                               href   => "/artemis/reports/days/182",
+                               href   => "/tapper/reports/days/182",
                               },
                               {
                                title  => "12 months",
-                               href   => "/artemis/reports/days/365",
+                               href   => "/tapper/reports/days/365",
                               },
 
                              ],
                  },
                  {
                   title  => "reports by suite",
-                  href   => "/artemis/overview/suite",
+                  href   => "/tapper/overview/suite",
                  },
                  {
                   title  => "reports by host",
-                  href   => "/artemis/overview/host",
+                  href   => "/tapper/overview/host",
                  },
                  # {
                  #  title  => "reports by people",
-                 #  href   => "/artemis/reports/people/",
+                 #  href   => "/tapper/reports/people/",
                  #  active => 0,
                  # },
                 ];
@@ -105,7 +105,7 @@ sub generate_metareport_link
 {
         my ( $self, $report ) = @_;
         my %metareport;
-        my $path = Artemis::Config->subconfig->{paths}{config_path};
+        my $path = Tapper::Config->subconfig->{paths}{config_path};
         $path .= "/web/metareport_associate.yml";
 
         return if not -e $path;
@@ -128,17 +128,17 @@ sub generate_metareport_link
                 my $subcategory = $suite->{subcategory};
                 my $time_frame  = $suite->{time_frame};
 
-                $path  = Artemis::Config->subconfig->{paths}{metareport_path};
+                $path  = Tapper::Config->subconfig->{paths}{metareport_path};
                 my ($filename) = sort younger <$path/$category/$subcategory/teaser/*.png>;
                 if (not $filename) {
                         ($filename) = sort younger <$path/$category/$subcategory/$time_frame/*.png>;
-                        $filename = "/artemis/static/metareports/$category/$subcategory/$time_frame/".basename($filename);
+                        $filename = "/tapper/static/metareports/$category/$subcategory/$time_frame/".basename($filename);
                 } else {
-                        $filename = "/artemis/static/metareports/$category/$subcategory/teaser/".basename($filename);
+                        $filename = "/tapper/static/metareports/$category/$subcategory/teaser/".basename($filename);
                 }
                 return () if not $filename;
 
-                %metareport = (url => "/artemis/metareports/$category/$subcategory/$time_frame/",
+                %metareport = (url => "/tapper/metareports/$category/$subcategory/$time_frame/",
                                img => $filename,
                                alt => $suite->{alt},
                                headline => $suite->{headline},
@@ -173,7 +173,7 @@ sub index :Path :Args(1)
                 $c->response->body("No such report");
                 return;
         }
-        my $util_report = Artemis::Reports::Web::Util::Report->new();
+        my $util_report = Tapper::Reports::Web::Util::Report->new();
 
         if (my $rga = $report->reportgrouparbitrary) {
                 #my $rga_reports = $c->model('ReportsDB')->resultset('ReportgroupArbitrary')->search ({ arbitrary_id => $rga->arbitrary_id });
@@ -212,7 +212,7 @@ sub index :Path :Args(1)
                 eval {
                         $testrun    = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
                 };
-                $overview      = $c->forward('/artemis/testruns/get_testrun_overview', [ $testrun ]);
+                $overview      = $c->forward('/tapper/testruns/get_testrun_overview', [ $testrun ]);
         }
 
         my $tmp = [ grep {defined($_->{rgt_primary}) and $_->{rgt_primary} == 1} @{$reportlist_rgt->{all_reports}} ]->[0]->{suite_name};

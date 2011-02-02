@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Data::Dumper;
-use Artemis::Schema::TestTools;
+use Tapper::Schema::TestTools;
 use Test::Fixture::DBIC::Schema;
 
 use Test::More;
@@ -11,18 +11,18 @@ construct_fixture( schema  => reportsdb_schema, fixture => 't/fixtures/reportsdb
 # -----------------------------------------------------------------------------------------------------------------
 
 
-BEGIN { use_ok 'Catalyst::Test', 'Artemis::Reports::Web' }
-BEGIN { use_ok 'Artemis::Reports::Web::Controller::Artemis::Reports::Id' }
+BEGIN { use_ok 'Catalyst::Test', 'Tapper::Reports::Web' }
+BEGIN { use_ok 'Tapper::Reports::Web::Controller::Tapper::Reports::Id' }
 
-#ok( request('/artemis/reports/id')->is_success, 'Request should succeed' );
+#ok( request('/tapper/reports/id')->is_success, 'Request should succeed' );
 
-#my $controller = Artemis::Reports::Web::Controller::Artemis::Reports::Id->new;
+#my $controller = Tapper::Reports::Web::Controller::Tapper::Reports::Id->new;
 my $report     = reportsdb_schema->resultset('Report')->find(23);
 unlike($report->tap->tapdom, qr/\$VAR1/, "no tapdom yet");
 my $tapdom = $report->get_cached_tapdom;
 is(Scalar::Util::reftype($tapdom), "ARRAY", "got tapdom");
 
-my $failures   = Artemis::Reports::Web::Controller::Artemis::Reports::Id::get_report_failures(undef, $report);
+my $failures   = Tapper::Reports::Web::Controller::Tapper::Reports::Id::get_report_failures(undef, $report);
 
 diag Dumper($failures);
 

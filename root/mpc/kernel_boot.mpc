@@ -1,6 +1,6 @@
-# artemis-mandatory-fields: kernel_version.text
-# artemis-optional-fields: kernelpkg.file
-# artemis-description: Test a prebuilt kernel package
+# tapper-mandatory-fields: kernel_version.text
+# tapper-optional-fields: kernelpkg.file
+# tapper-description: Test a prebuilt kernel package
 ---
 arch: linux64
 image: suse/suse_sles10_64b_smp_raw.tar.gz
@@ -9,12 +9,12 @@ partition: testing
 precondition_type: image
 ---
 precondition_type: copyfile
-name: /data/bancroft/artemis/live/repository/testprograms/uname_tap/uname_tap.sh
+name: /data/bancroft/tapper/live/repository/testprograms/uname_tap/uname_tap.sh
 dest: /bin/
 protocol: local
 ---
 precondition_type: copyfile
-name: /data/bancroft/artemis/live/repository/packages/artemisutils/kernel/gen_initrd.sh
+name: /data/bancroft/tapper/live/repository/packages/tapperutils/kernel/gen_initrd.sh
 dest: /bin/
 protocol: local
 ---
