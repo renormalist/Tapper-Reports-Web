@@ -1,7 +1,0 @@
-<h2>Hosts with reports</h2>
-% my @hosts = @{$c->stash->{hosts} || [] };
-<ul>
-% foreach my $host ( @hosts ) {
-  <li><a href="/tapper/reports/host/<% $host %>"><% $host %></a></li>
-% }
-</ul>

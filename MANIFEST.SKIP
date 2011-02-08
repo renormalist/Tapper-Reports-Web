@@ -1,9 +1,0 @@
-Tapper-Reports-Web-*.*.tar.gz
-^Tapper-Reports-Web-*.*$
-^_build$
-blib
-^Build$
-^Makefile$
-^.*sqlite$
-MANIFEST.bak
-MANIFEST.old
