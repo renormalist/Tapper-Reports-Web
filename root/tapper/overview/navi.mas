@@ -1,0 +1,5 @@
+% my %nav = %{$c->stash->{nav} || {} };
+<h4><span>Overview of all</span></h4>
+% foreach my $element (keys %nav) {
+  <h4><a href="<% $nav{$element} %>"><% $element %></a></h4>
+%                       }

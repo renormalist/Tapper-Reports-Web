@@ -1,0 +1,65 @@
+<%args>
+$report
+$testrun
+$overview
+$hostname
+$time
+%reportlist_rgt => {}
+</%args>
+
+% use Data::Dumper;
+
+<h3>
+  Testrun <% $testrun->id %>
+</h3>
+
+    <!-- ************************************************************ -->
+
+% if (%reportlist_rgt) {
+<h4>Testrun</h4>
+<& /tapper/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
+%}
+
+    <!-- ************************************************************ -->
+
+
+	<ul class="post_info">
+		<li class="date"><% $time %></li>
+		<li class="meta">Host: '<% $hostname %>'</li>
+	</ul>
+
+    <!-- ************************************************************ -->
+
+    <& /tapper/testruns/testrun_overview.mas, overview => $overview &>
+
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/similar" title="Create a new precondition and use this precondition as a template.">Create similar Testrun</a> |> -->
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/change" title="Change values of this preconditions without creating a new one">Change Testrun</a> | -->
+<!-- <a href="/tapper/testruns/<% $testrun->id %>/delete" title="Information about testruns using this precondition will be wrong.">Delete Testrun</a> | -->
+
+    <!-- ************************************************************ -->
+
+    <h4>Details</h4>
+    <a href="/tapper/testruns/<% $testrun->id %>/preconditions/yaml/">Preconditions in raw YAML</a>
+
+    <!-- ************************************************************ -->
+
+  <SCRIPT language="JavaScript">
+    <!--
+      function rerun_confirm() {
+        var where_to= confirm("Do you really want to re-start this testrun?");
+        if (where_to == true) {
+          alert("true");
+          window.location="/foo/tapper/testruns/<% $testrun->id %>/rerun";
+        } else {
+          alert("false");
+          window.location="#";
+        }
+      }
+       //-->
+  </SCRIPT>
+
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
+
