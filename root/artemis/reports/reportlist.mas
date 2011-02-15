@@ -10,8 +10,8 @@
   $mark_report_id    => 0
   </%args>
 %               my $full_width   = 50;
-%               my $green_width  = int (       $report->{success_ratio}  * $full_width / 100);
-%               my $red_width    = int ((100 - $report->{success_ratio}) * $full_width / 100);
+%               my $green_width  = int (       ($report->{success_ratio}||0)  * $full_width / 100);
+%               my $red_width    = int ((100 - ($report->{success_ratio}||0)) * $full_width / 100);
 %               my $successgrade = $report->{successgrade} ? $report->{successgrade} : 'UNKNOWN';
 %               my $class_attr   = $just_group_member ? ' class="justgroupmember"' : '';
 %               if ($mark_report_id == $report->{id}) {
@@ -51,7 +51,7 @@
                           <a href="/artemis/reports/success/<% $successgrade %>"><% $successgrade %></a>
                         </td>
                         <td>
-                                  <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio}%>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
+                                  <a href="/artemis/reports/id/<% $report->{id} %>" title="<% $report->{success_ratio} || '' %>% - Click to show details"><img src="/artemis/static/images/green_bar<% $dimmed %>.png" height="16" width="<% $green_width %>"><img src="/artemis/static/images/red_bar<% $dimmed %>.png" height="16" width="<% $red_width %>"></a>
                         </td>
                         <td>
 %                                 if (not $just_group_member) {

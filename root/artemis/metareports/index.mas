@@ -27,7 +27,7 @@ $categories
 %         foreach my $report (sort keys %{$categories->{$category}->{data}->{$subcategory}->{data}}){
           <tr>
             <th><a href="/artemis/metareports/<% $category %>/<% $subcategory %>/<% $report %>/"><% $report %></a></h5></th>
-            <td><% $categories->{$category}->{data}->{$subcategory}->{data}->{$report}->{short} %></td>
+            <td><% $categories->{$category}->{data}->{$subcategory}->{data}->{$report}->{short} || '' %></td>
           </tr>
 %         }
 %     }
