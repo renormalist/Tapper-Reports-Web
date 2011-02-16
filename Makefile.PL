@@ -35,6 +35,7 @@ requires 'common::sense';
 requires 'Data::DPath';
 requires 'DateTime::Format::DateParse';
 requires 'DateTime::Format::Natural';
+requires 'DateTime::Format::W3CDTF';
 requires 'FCGI';
 requires 'FindBin';
 requires 'File::Find';

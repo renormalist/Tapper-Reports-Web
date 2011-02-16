@@ -24,8 +24,8 @@ $time
 
 
 	<ul class="post_info">
-		<li class="date"><% $time %></li>
-		<li class="meta">Host: '<% $hostname %>'</li>
+		<li class="date"><% $time || '' %></li>
+		<li class="meta">Host: '<% $hostname || '' %>'</li>
 	</ul>
 
     <!-- ************************************************************ -->
