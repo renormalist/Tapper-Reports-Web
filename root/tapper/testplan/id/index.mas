@@ -27,11 +27,11 @@
         </tr>
         <tr>
           <th>bullock</th>
-          <td><table class="reportlist"><tr><td><a href="/artemis/testrun/id/1" title="60 % - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="30"><img src="/artemis/static/images/red_bar.png" height="16" width="20"></td></tr></table></td>
+          <td><table class="reportlist"><tr><td><a href="/tapper/testrun/id/1" title="60 % - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="30"><img src="/tapper/static/images/red_bar.png" height="16" width="20"></td></tr></table></td>
         </tr>
         <tr>
           <th>dickstone</th>
-          <td><a href="/artemis/testrun/id/2" title="Waiting">Not yet executed</td>
+          <td><a href="/tapper/testrun/id/2" title="Waiting">Not yet executed</td>
         </tr>
 
         <tr>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <th>mem > 8GB</th>
-          <td><table class="reportlist"><tr><td><a href="/artemis/testrun/id/3" title="100 % - Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="50"><img src="/artemis/static/images/red_bar.png" height="16" width="0"></td></tr></table></td>
+          <td><table class="reportlist"><tr><td><a href="/tapper/testrun/id/3" title="100 % - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="50"><img src="/tapper/static/images/red_bar.png" height="16" width="0"></td></tr></table></td>
         </tr>
       </tbody>
     </table>

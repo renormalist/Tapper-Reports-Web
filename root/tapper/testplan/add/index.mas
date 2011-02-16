@@ -5,11 +5,11 @@
 <fieldset class="radiogroup">
 <span class="radiogroup vertical">
 <span>
-<input name="use_case" type="radio" value="/data/bancroft/artemis/development/configs/use_cases//kernel_build.mpc" />
+<input name="use_case" type="radio" value="/data/bancroft/tapper/development/configs/use_cases//kernel_build.mpc" />
 <label>kernel_build - Build a kernel from git and test it</label>
 </span>
 <span>
-<input name="use_case" type="radio" value="/data/bancroft/artemis/development/configs/use_cases//kernel_reboot.mpc" />
+<input name="use_case" type="radio" value="/data/bancroft/tapper/development/configs/use_cases//kernel_reboot.mpc" />
 <label>kernel_reboot - Reboot test with a prebuilt kernel package</label>
 </span>
 </span>

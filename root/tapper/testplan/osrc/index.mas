@@ -1,7 +1,7 @@
  <H4>PharaoHound SWVF Enablement Matrix</H4>
    <table class="reportlist">
      <tr>
-       <td><a href="/artemis/testplan/id/1" title="Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="40"><img src="/artemis/static/images/yellow_bar.png" height="16" width="110"><img src="/artemis/static/images/red_bar.png" height="16" width="50"></a>
+       <td><a href="/tapper/testplan/id/1" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="40"><img src="/tapper/static/images/yellow_bar.png" height="16" width="110"><img src="/tapper/static/images/red_bar.png" height="16" width="50"></a>
        </td>
      </tr>
      </table>
@@ -25,54 +25,54 @@
       </tr>
             <tr>
              <td>Core performance boost</td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/id/1" title="Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="20"><img src="/artemis/static/images/yellow_bar.png" height="16" width="10"><img src="/artemis/static/images/red_bar.png" height="16" width="20"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/id/1" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="10"><img src="/tapper/static/images/red_bar.png" height="16" width="20"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
             </tr>
             <tr>
              <td>RHEL 5.6: Effective Frequency Reporting Interface</td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><img src="/artemis/static/images/achtung.png" title="No testplan defined!"><br><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><img src="/tapper/static/images/achtung.png" title="No testplan defined!"><br><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
             </tr>
             <tr>
              <td>Effective Frequency Reporting Interface</td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/id/2" title="Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="20"><img src="/artemis/static/images/yellow_bar.png" height="16" width="10"><img src="/artemis/static/images/red_bar.png" height="16" width="20"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
-             <td><a href="/artemis/testplan/id/3" title="Click to show details"><img src="/artemis/static/images/green_bar.png" height="16" width="0"><img src="/artemis/static/images/yellow_bar.png" height="16" width="40"><img src="/artemis/static/images/red_bar.png" height="16" width="10"></a></td>
-             <td><a href="/artemis/testplan/add/" title="Add testplan"><img src="/artemis/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/id/2" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="10"><img src="/tapper/static/images/red_bar.png" height="16" width="20"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
+             <td><a href="/tapper/testplan/id/3" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="0"><img src="/tapper/static/images/yellow_bar.png" height="16" width="40"><img src="/tapper/static/images/red_bar.png" height="16" width="10"></a></td>
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
             </tr>
        </table>
 

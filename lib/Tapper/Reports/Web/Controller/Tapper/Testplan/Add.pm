@@ -1,6 +1,6 @@
-package Artemis::Reports::Web::Controller::Artemis::Testplan::Add;
+package Tapper::Reports::Web::Controller::Tapper::Testplan::Add;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -22,7 +22,7 @@ sub index :Path :Args(0)
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Testplan - Catalyst Controller for test plans
+Tapper::Reports::Web::Controller::Tapper::Testplan - Catalyst Controller for test plans
 
 =head1 DESCRIPTION
 

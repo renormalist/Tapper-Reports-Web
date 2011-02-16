@@ -1,6 +1,6 @@
-package Artemis::Reports::Web::Controller::Artemis::Testplan::OSRC;
+package Tapper::Reports::Web::Controller::Tapper::Testplan::OSRC;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -23,7 +23,7 @@ sub index :Path :Args(0)
 
 =head1 NAME
 
-Artemis::Reports::Web::Controller::Artemis::Testplan::OSRC - Show testplans for OSRC project planning
+Tapper::Reports::Web::Controller::Tapper::Testplan::OSRC - Show testplans for OSRC project planning
 
 =head1 DESCRIPTION
 
