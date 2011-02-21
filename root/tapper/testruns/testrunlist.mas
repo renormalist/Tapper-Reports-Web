@@ -30,7 +30,6 @@
 % # ----------------------------------------------------------------------
 % #
 % #
-% use Data::Dumper;
 % my @testruns = @{$testrunlist{testruns}};
 % my @ids = map { $_->{id} } @testruns;
 % if (@testruns) {
