@@ -1,17 +1,17 @@
-package Artemis::Reports::Web::Controller::Artemis::Testruns::IdList;
+package Tapper::Reports::Web::Controller::Tapper::Testruns::IdList;
 
 use 5.010;
 
 use strict;
 use warnings;
 
-use parent 'Artemis::Reports::Web::Controller::Base';
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 =head2 index
 
-Index function for /artemis/testruns/idlist/. Expects a comma separated
+Index function for /tapper/testruns/idlist/. Expects a comma separated
 list of testrun ids. The requested testruns are put into stash as has
-%testrunlist because we use the template /artemis/testruns/testrunlist.mas 
+%testrunlist because we use the template /tapper/testruns/testrunlist.mas 
 which expects this.
 
 @param string - comma separated ids
@@ -44,7 +44,7 @@ sub index :Path :Args(1)
             order_by => 'rgt_testrun_id desc' }
           );
         
-        %testrunlist = %{ $c->forward('/artemis/testruns/prepare_testrunlist', [ $testruns ]) };
+        %testrunlist = %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $testruns ]) };
 
 }
 
