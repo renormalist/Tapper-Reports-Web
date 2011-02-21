@@ -1,0 +1,20 @@
+<%args>
+  %testrunlist
+</%args>
+
+<h3>Automated testruns</h3>
+
+  This list shows automated <strong>testruns</strong>.
+
+  Links in columns <i>ID</i> show details of single report; on
+  column <i>Suite</i> show all reports of this suite; on
+  column <i>Machine</i> show all reports on this machine.
+
+  If you look for more finegrained results not limited to the
+  automation system try <a href="/artemis/reports/days/2">Reports</a>.
+
+<& /artemis/testruns/testrunlist.mas, testrunlist => \%testrunlist  &>
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
