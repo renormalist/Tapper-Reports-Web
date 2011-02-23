@@ -1,0 +1,32 @@
+    <table class="reportlist">
+        <thead>
+                <tr>
+                         <th>Description</th>
+                         <th>Path</th>
+                         <th>Creator</th>
+                         <th>Success</th>
+                         <th>Testruns<br>(success/pending/fail)</th>
+                </tr>
+        </thead>
+        <tbody>
+        
+                  <tr>
+                        <td>Brazos cpuid on RHEL-5.6</td>
+                        <td>osrc.kernel.brazos.client.cpuid.rhel56</td>
+                        <td>OSRC</td>
+                        <td>
+                                  <a href="/tapper/reports/id/196854" title="83.33% - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="20"><img src="/tapper/static/images/red_bar.png" height="16" width="10"></a>
+                        </td>
+                        <td>(2/2/1)</td>
+                </tr>
+                  <tr>
+                        <td>Maiks unimportant test</td>
+                        <td><a href="/tapper/testplan/filter/personal/">personal.</a><a href="/tapper/testplan/filter/personal.users/">users.</a><a href="/tapper/testplan/filter/personal.users.mhentsc3/">mhentsc.</a><a href="/tapper/testplan/filter/personal.users.mhentsc3.tapper/">tapper.</a>mcp</td>
+                        <td>Maik Hentsche</td>
+                        <td>
+                                  <a href="/tapper/reports/id/196854" title="83.33% - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="40"><img src="/tapper/static/images/yellow_bar.png" height="16" width="5"><img src="/tapper/static/images/red_bar.png" height="16" width="5"></a>
+                        </td>
+                        <td>(4/1/1)</td>
+                </tr>
+        </tbody>
+    </table>

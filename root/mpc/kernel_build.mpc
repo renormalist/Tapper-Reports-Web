@@ -1,0 +1,110 @@
+# tapper-description: Build a kernel from git and test it
+# tapper-mandatory-fields: giturl
+# tapper-optional-fields: gitchangeset
+# tapper-config-file: kernel_reboot.yml
+### Usecase: "Build a kernel from git and test it by rebooting"
+###
+### Mandatory fields:
+###
+###  - git-url:        a full URL that contains the test kernel sources
+###
+### Optional fields:
+###
+###  - git-changeset: a branch name or commit ID or anything that git checkout understands
+###                   (default is HEAD)
+###
+###
+###  - Tests:          Choose one or more workloads to run on this kernel;
+###                    possible values are:
+###                      - CTCS       - CTCS    test suite
+###                      - LMBench    - LMbench benchmark suite
+###                      - LTP        - Linux Test Project test suite
+###                      - Kernbench  - Kernbench benchmark suite
+###                      - Aim        - Aim benchmark suite
+###                      - ReAim      - ReAim benchmark suite
+###                      - HTS        - RedHat Hardware Test Suite
+###                      - LLC        - LLC benchmark suite
+###                      - Parselog   - Check logs for known issues
+###                      - RHv7       - Red Hat v7 hardware certification suite
+###                      - Phoronix   - Phoronix benchmark suite (using predefined test subset)
+---
+arch: linux64
+image: suse/suse_sles10_sp2_64b_smp_raw_new.tar.gz
+mount: /
+partition: sda2
+precondition_type: image
+---
+precondition_type: kernelbuild
+git_url: [% giturl %]
+[% IF gitchangeset %]
+changeset: [% gitchangeset %]
+[% ELSE %]
+changeset: HEAD
+[% END %]
+---
+[% IF (Tests.CTCS) or (Tests == 'CTCS') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_ctcs
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.LMBench) or (Tests == 'LMBench') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_lmbench
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.LTP) or (Tests == 'LTP') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_ltp
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.Kernbench) or (Tests == 'Kernbench') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_kernbench
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.Aim) or (Tests == 'Aim') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_aim
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.HTS) or (Tests == 'HTS') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_hts
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.LLC) or (Tests == 'LLC') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_llc
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.Parselog) or (Tests == 'Parselog') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_parselog
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.ReAim) or (Tests == 'ReAim') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_reaim
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.RHv7) or (Tests == 'RHv7') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_rhv7
+timeout: 10800
+---
+[% END %]
+[% IF (Tests.Phoronix) or (Tests == 'Phoronix') %]
+precondition_type: testprogram
+program: /opt/tapper/bin/py_phoronix
+timeout: 10800
+---
+[% END %]

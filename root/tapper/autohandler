@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>tapper</title>
+<meta name="keywords" content="tapper test framework tap" />
+<meta name="description" content="tapper reports" />
+<link rel="stylesheet" type="text/css" title="Red" href="/tapper/static/css/style_red.css" />
+<link rel="stylesheet" type="text/css" title="Red" href="/tapper/static/css/formfu.css" />
+<link rel="alternate stylesheet" type="text/css" title="Blue" href="/tapper/static/css/style_blue.css" />
+<link rel="alternate stylesheet" type="text/css" title="Green" href="/tapper/static/css/style_green.css" />
+<link rel="alternate stylesheet" type="text/css" title="Brown" href="/tapper/static/css/style_brown.css" />
+<link rel="alternate stylesheet" type="text/css" title="Magenta" href="/tapper/static/css/style_magenta.css" />
+
+<!-- Title tip support -->
+<script language="JavaScript"  type="text/javascript" src="/tapper/static/js/qTip.js"></script>
+<link rel="stylesheet" type="text/css" title="Red" href="/tapper/static/css/qtip.css" />
+
+
+
+<style type="text/css" media="print">
+        #secondaryContent_2columns { display: none; }
+        #primaryContent_2columns   { margin-right: 1.5em; }
+        #footer                    { display: none; }
+</style>
+
+</script>
+</head>
+<body>
+
+% $m->call_next;
+
+<div id="footer" class="fluid">
+	Copyright &copy; 2008-2011 AMD <a href="http://amd64.org">Operating System Research Center</a>.
+</div>
+
+</body>
+</html>
+<!-- Local Variables: -->
+<!-- buffer-file-coding-system: utf-8 -->
+<!-- mode: html -->
+<!-- End: -->

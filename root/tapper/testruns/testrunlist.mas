@@ -1,0 +1,56 @@
+<%args>
+    %testrunlist
+    $mark_testrun_id => 0
+</%args>
+% # ----------------------------------------------------------------------
+<%method single_testrun>
+  <%args>
+  $testrun
+  $just_group_member => 0
+  $mark_testrun_id    => 0
+  </%args>
+%               my $full_width   = 50;
+%               my $green_width  = int (       $testrun->{rgts_success_ratio}  * $full_width / 100);
+%               my $red_width    = int ((100 - $testrun->{rgts_success_ratio}) * $full_width / 100);
+                <tr>
+                        <td class="reportid">
+                              <b>
+                                <a title="Click to show details" href="/tapper/testruns/id/<% $testrun->{rgt_testrun_id} %>">tr<% $testrun->{rgt_testrun_id} %></a>
+                              </b>
+                        </td>
+                        <td><% $testrun->{created_at_ymd_hm} %></td>
+
+                        <td><a title="Click to show reports of suite '<% $testrun->{suite_name} %>'" href="/tapper/reports/suite/<% $testrun->{suite_id} %>"><% $testrun->{suite_name} %></a></td>
+                        <td><a title="Click to show reports on '<% $testrun->{machine_name} %>' <% $testrun->{peeraddr} ? '(reported from ip '.$testrun->{peeraddr} .')' : ''%>" href="/tapper/reports/machine/<% $testrun->{machine_name} %>"><% $testrun->{machine_name} %></a></td>
+                        <td><a href="/tapper/reports/id/<% $testrun->{primary_report_id} %>" title="<% $testrun->{rgts_success_ratio}%>% - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="<% $green_width %>"><img src="/tapper/static/images/red_bar.png" height="16" width="<% $red_width %>"></a></td>
+                </tr>
+</%method>
+% #
+% #
+% # ----------------------------------------------------------------------
+% #
+% #
+% my @testruns = @{$testrunlist{testruns}};
+% my @ids = map { $_->{id} } @testruns;
+% if (@testruns) {
+    <table class="reportlist">
+        <thead>
+                <tr>
+                         <th class="reportid">ID</th>
+                         <th>DateTime (GMT)</th>
+                         <th>Suite</th>
+                         <th>Machine</th>
+                         <th>Ratio</th>
+                </tr>
+        </thead>
+        <tbody>
+%   foreach my $testrun (@testruns) {
+        <& SELF:single_testrun, testrun => $testrun, mark_testrun_id => $mark_testrun_id &>
+%   }
+        </tbody>
+    </table>
+% }
+
+%# Local Variables:
+%# buffer-file-coding-system: utf-8
+%# End:
