@@ -12,6 +12,8 @@ perl_version '5.010';
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
 
+author_requires 'Module::Install::WriteAll';
+
 #requires 'HTML::FromANSI';
 requires 'Tapper::Cmd'          => '2.010035';
 requires 'Tapper::Config'       => '2.010074';
