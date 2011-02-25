@@ -1,6 +1,7 @@
-package Tapper::Reports::Web::Controller::Tapper::Testplan::OSRC;
+package Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler;
 
 use parent 'Tapper::Reports::Web::Controller::Base';
+use Tapper::Testplan::Plugins::Taskjuggler;
 
 use common::sense;
 ## no critic (RequireUseStrict)
