@@ -112,7 +112,7 @@ Catalyst Controller.
 
 =head1 AUTHOR
 
-OSRC SysInt
+AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
 
 =head1 LICENSE
 
