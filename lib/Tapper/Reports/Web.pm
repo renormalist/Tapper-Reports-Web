@@ -96,7 +96,7 @@ L<Tapper::Reports::Web::Controller::Root>, L<Catalyst>
 
 =head1 AUTHOR
 
-Copyright 2008 OSRC SysInt Team, all rights reserved.
+Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
 
 =head1 LICENSE
 
