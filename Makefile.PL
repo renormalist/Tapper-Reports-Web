@@ -1,5 +1,6 @@
-# IMPORTANT: if you delete this file your app will not work as
-# expected.  you have been warned
+use strict;
+use warnings;
+
 use inc::Module::Install;
 
 name     'Tapper-Reports-Web';
