@@ -80,7 +80,7 @@ __PACKAGE__->setup(qw/-Debug
 
 =head1 NAME
 
-Tapper::Reports::Web - Catalyst based application
+Tapper::Reports::Web - Tapper - Frontend web application based on Catalyst
 
 =head1 SYNOPSIS
 
