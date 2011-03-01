@@ -116,8 +116,7 @@ OSRC SysInt
 
 =head1 LICENSE
 
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This program is released under the following license: freebsd
 
 =cut
 
