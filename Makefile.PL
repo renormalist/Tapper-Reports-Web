@@ -14,6 +14,7 @@ build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
 
 author_requires 'Module::Install::WriteAll';
+#author_requires 'Module::Install::Catalyst';
 
 #requires 'HTML::FromANSI';
 requires 'Tapper::Cmd'           => "3.000001";
