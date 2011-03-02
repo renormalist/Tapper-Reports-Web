@@ -38,6 +38,14 @@
     notes: autoinstall
     topic_name: Software
 
+- schema: TestrunScheduling
+  name: Autoinstall_scheduling
+  data:
+    id: 1001
+    testrun_id: 1
+    host_id: 5 # iring
+    status: running
+
 
 # -------------------- preconditions
 
