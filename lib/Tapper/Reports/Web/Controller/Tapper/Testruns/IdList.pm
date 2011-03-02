@@ -4,6 +4,7 @@ use 5.010;
 
 use strict;
 use warnings;
+use Tapper::Reports::Web::Util::Testrun;
 
 use parent 'Tapper::Reports::Web::Controller::Base';
 
@@ -32,19 +33,19 @@ sub index :Path :Args(1)
         my @ids = split (qr/, */, $idlist);
         
         $filter_condition = {
-                             rgt_testrun_id  => { '-in' => [@ids] }
+                             id  => { '-in' => [@ids] }
                             };
 
 
-
-        my $testruns = $c->model('ReportsDB')->resultset('View020TestrunOverview')->search
+        my $util = Tapper::Reports::Web::Util::Testrun->new();
+        my $testruns = $c->model('TestrunDB')->resultset('Testrun')->search
           (
            $filter_condition,
            {
-            order_by => 'rgt_testrun_id desc' }
+            order_by => 'id desc' }
           );
         
-        %testrunlist = %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $testruns ]) };
+        %testrunlist = (testruns => $util->prepare_testrunlist($testruns) );
 
 }
 

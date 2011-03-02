@@ -12,6 +12,7 @@ use Template;
 use Tapper::Cmd::Testrun;
 use Tapper::Config;
 use Tapper::Model 'model';
+use Tapper::Reports::Web::Util::Testrun;
 
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -261,9 +262,9 @@ sub get_owner_names
 
 Get an array of all hostnames that can be used for a new testrun.  Note:
 The array contains array that contain the hostname twice (i.e. (['host',
-'host'], ...) because that is what the template expects. 
+'host'], ...) because that is what the template expects.
 
-@return success - ref to array of [ hostname, hostname ] 
+@return success - ref to array of [ hostname, hostname ]
 
 
 =cut
@@ -275,12 +276,12 @@ sub get_hostnames
         my @machines;
  HOST:
         foreach my $host (sort {$a->name cmp $b->name} @all_machines) {
-                
+
                 # if host is bound, is must be bound to
                 #  new_testrun_queue (possibly among others)
                 if ($host->queuehosts->count()) {
                         my $new_testrun_queue = Tapper::Config->subconfig->{new_testrun_queue};
-                        next HOST unless 
+                        next HOST unless
                           grep {$_->queue->name eq $new_testrun_queue} $host->queuehosts->all;
                 }
 
@@ -500,7 +501,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                 } else {
                         @testhosts = map { $_->[0] } @{get_hostnames()};
                 }
-                
+
                 $all_testruns = [];
         HOST:
                 for( my $i=0; $i < @testhosts; $i++) {
@@ -512,7 +513,7 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         $testrun_settings{queue} = Tapper::Config->subconfig->{new_testrun_queue};
 
                         $all_testruns->[$i]->{host} = $host;
-                        
+
                         $testrun_settings{requested_hosts} = [ requested_hosts => $host ];
                         my $cmd = Tapper::Cmd::Testrun->new();
                         eval { $config->{testrun_id} = $cmd->add(\%testrun_settings)};
@@ -529,51 +530,11 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
                         } else {
                                 $all_testruns->[$i]->{ error } = $preconditions;
                         }
-                        
+
                 }
         }
 }
 
-sub prepare_testrunlist : Private
-{
-        my ( $self, $c, $testruns ) = @_;
-
-        # Mnemonic:
-        #           rga = ReportGroup Arbitrary
-        #           rgt = ReportGroup Testrun
-
-        my @testruns;
-        my %rgt;
-        my %rga;
-        my %rgt_prims;
-        my %rga_prims;
-        foreach my $testrun ($testruns->all)
-        {
-                my %cols = $testrun->get_columns;
-                my $suite_name        = $cols{suite_name} || 'unknownsuite';
-                my $suite_id          = $cols{suite_id}   || '0';
-                my $created_at_ymd_hm = $testrun->created_at;
-                $created_at_ymd_hm    =~ s/:\d\d$//;
-
-                my $tr = {
-                          rgt_testrun_id        => $testrun->rgt_testrun_id,
-                          rgts_success_ratio    => $testrun->rgts_success_ratio,
-                          primary_report_id     => $testrun->primary_report_id,
-
-                          suite_name            => $suite_name,
-                          suite_id              => $suite_id,
-                          machine_name          => $testrun->machine_name || 'unknownmachine',
-                          created_at_ymd_hms    => $testrun->created_at, #$testrun->created_at->ymd('-')." ".$testrun->created_at->hms(':'),
-                          created_at_ymd_hm     => $created_at_ymd_hm,
-                          created_at_ymd        => $testrun->created_at, #$testrun->created_at->ymd('-'),
-                         };
-                push @testruns, $tr;
-        }
-
-        return {
-                testruns => \@testruns,
-               };
-}
 
 sub prepare_testrunlists : Private
 {
@@ -585,30 +546,18 @@ sub prepare_testrunlists : Private
         # requested time period
         my $days : Stash;
         my $lastday = $days ? $days - 1 : 6;
+        my $util = Tapper::Reports::Web::Util::Testrun->new();
 
         # ----- general -----
 
-        my $filter_condition = {
-                                # "me.id" => { '>=', 22530 }
-                               };
+        my $filter_condition;
 
-        my $testruns = $c->model('ReportsDB')->resultset('View020TestrunOverview')->search
-            (
-             $filter_condition,
-             { order_by => 'rgt_testrun_id desc' }
-            );
+        my $testruns = $c->model('TestrunDB')->resultset('Testrun')->search
+          (
+           $filter_condition,
+           { order_by => 'id desc' }
+          );
 
-
-        # TODO: change this to a while loop, currently not working. Bug? Related to group-by?
-        while (my $tr = $testruns->next) {
-                my %cols = $tr->get_columns;
-        }
-
-        # HIER WEITER:
-        # - IN-Bedingung zum Laufen bekommen, notfalls mit manuellem Array
-        # - dann in Template den Hash %groupstats aus Stash nutzen für rgts_success_ratio
-        # - dann in Template wieder (%%) zu <%%> machen
-        # - Liste überprüfen, könnte damit alles gewesen sein.
 
         my $parser = new DateTime::Format::Natural;
         my $today  = $parser->parse_datetime("today at midnight");
@@ -616,19 +565,22 @@ sub prepare_testrunlists : Private
         push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
-        my $day0_testruns = $testruns->search ( { created_at => { '>', $day[0] } } );
+        my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $day[0] }}, { starttime_testrun => { '>', $day[0] }}] });
         push @requested_testrunlists, {
                                        day => $day[0],
-                                       %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $day0_testruns ]) }
+                                       (testruns => $util->prepare_testrunlist( $day0_testruns ) ),
                                       };
-
         # ----- last week days -----
         foreach (1..$lastday) {
-                my $day_testruns = $testruns->search ({ -and => [ created_at => { '>', $day[$_]     },
-                                                                  created_at => { '<', $day[$_ - 1] } ] });
+                my $day_testruns = $testruns->search ({-or => [
+                                                               { -and => [ created_at => { '>', $day[$_]     },
+                                                                           created_at => { '<', $day[$_ - 1] } ] },
+                                                               { -and => [ starttime_testrun => { '>', $day[$_]     },
+                                                                           starttime_testrun => { '<', $day[$_ - 1] }  ] }
+                                                              ]} );
                 push @requested_testrunlists, {
                                                day => $day[$_],
-                                               %{ $c->forward('/tapper/testruns/prepare_testrunlist', [ $day_testruns ]) }
+                                               ( testruns => $util->prepare_testrunlist( $day_testruns ) ),
                                               };
         }
 }
