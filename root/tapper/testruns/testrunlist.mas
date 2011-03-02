@@ -45,7 +45,6 @@
 % #
 % #
 % my @testruns = @{$testrunlist{testruns}};
-% my @ids = map { $_->{testrun_id} } @testruns;
 % if (@testruns) {
 
     <table class="reportlist">
