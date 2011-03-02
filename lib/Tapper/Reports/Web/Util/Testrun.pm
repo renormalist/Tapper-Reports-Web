@@ -40,6 +40,8 @@ sub prepare_testrunlist
 
                 if ($testrun_report) {
                         $primary_report = $testrun_report->reportgrouptestruns->search({primaryreport => 1})->first;
+                        $primary_report = $testrun_report->reportgrouptestruns->first unless $primary_report; # link to any report if no primary
+
                         eval{ # prevent dereferencing to undefined db links
                                 if ($primary_report) {
                                         $suite_name        = $primary_report->report->suite->name;
