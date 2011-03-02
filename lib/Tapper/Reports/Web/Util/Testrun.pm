@@ -52,13 +52,20 @@ sub prepare_testrunlist
                 }
 
 
+                my ($hostname, $status);
+                if ($testrun->testrun_scheduling) {
+                        $hostname = $testrun->testrun_scheduling->host->name;
+                        $status   = $testrun->testrun_scheduling->status;
+                }
+
                 my $tr = {
                           testrun_id            => $testrun->id,
                           success_ratio         => $testrun_report ? $testrun_report->success_ratio : 0,
                           primary_report_id     => $primary_report_id,
                           suite_name            => $suite_name || $testrun->topic_name,
-                          machine_name          => $testrun->testrun_scheduling->host->name || 'unknownmachine',
-                          status                => $testrun->testrun_scheduling->status || 'unknown status',
+                          machine_name          => $hostname   || 'unknownmachine',
+                          status                => $status     || 'unknown status',
+                          started_at            => $testrun->starttime_testrun,
                           created_at            => $testrun->created_at,
                           updated_at            => $updated_at || $testrun->updated_at,
                          };
