@@ -49,11 +49,8 @@ sub prepare_testrunlist
                                         $primary_report_id = $primary_report->report->id;
                                 }
                         };
-                        say STDERR $@ if $@;
                 }
 
-                my $created_at_ymd_hm = $testrun->created_at;
-                $created_at_ymd_hm    =~ s/:\d\d$//;
 
                 my $tr = {
                           testrun_id            => $testrun->id,
