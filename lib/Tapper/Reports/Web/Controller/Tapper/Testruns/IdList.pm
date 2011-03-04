@@ -12,7 +12,7 @@ use parent 'Tapper::Reports::Web::Controller::Base';
 
 Index function for /tapper/testruns/idlist/. Expects a comma separated
 list of testrun ids. The requested testruns are put into stash as has
-%testrunlist because we use the template /tapper/testruns/testrunlist.mas 
+%testrunlist because we use the template /tapper/testruns/testrunlist.mas
 which expects this.
 
 @param string - comma separated ids
@@ -26,12 +26,12 @@ which expects this.
 sub index :Path :Args(1)
 {
         my ( $self, $c, $idlist ) = @_;
-        
+
         my %testrunlist : Stash = ();
         my $filter_condition;
-        
+
         my @ids = split (qr/, */, $idlist);
-        
+
         $filter_condition = {
                              id  => { '-in' => [@ids] }
                             };
@@ -44,7 +44,7 @@ sub index :Path :Args(1)
            {
             order_by => 'id desc' }
           );
-        
+
         %testrunlist = (testruns => $util->prepare_testrunlist($testruns) );
 
 }
