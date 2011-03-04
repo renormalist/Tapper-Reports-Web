@@ -20,7 +20,7 @@ use Class::C3::Adopt::NEXT;
 
 use parent qw/Catalyst/;
 
-our $VERSION = '2.010149';
+our $VERSION = '3.000001';
 
 # used by Catalyst::Plugin::ConfigLoader
 sub finalize_config
@@ -80,7 +80,7 @@ __PACKAGE__->setup(qw/-Debug
 
 =head1 NAME
 
-Tapper::Reports::Web - Catalyst based application
+Tapper::Reports::Web - Tapper - Frontend web application based on Catalyst
 
 =head1 SYNOPSIS
 
@@ -96,7 +96,7 @@ L<Tapper::Reports::Web::Controller::Root>, L<Catalyst>
 
 =head1 AUTHOR
 
-Copyright 2008 OSRC SysInt Team, all rights reserved.
+Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
 
 =head1 LICENSE
 

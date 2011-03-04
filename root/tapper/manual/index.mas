@@ -1164,7 +1164,7 @@ section markers with lazy plans&rdquo; and &ldquo;TAP archives&rdquo; below for
 explicitely providing other TAP section delimiters.
 
 <p>Please remember: <strong>Concatenating several sections into one big
-block of TAP is an TAPPER extension. To interact with other TAP
+block of TAP is a TAPPER extension. To interact with other TAP
 toolchains you should try to use &ldquo;TAP archives&rdquo; when submitting
 sections into TAPPER.</strong>
 

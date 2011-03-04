@@ -1,3 +1,4 @@
+^.git
 Tapper-Reports-Web-*.*.tar.gz
 ^Tapper-Reports-Web-*.*$
 ^_build$

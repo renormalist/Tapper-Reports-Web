@@ -1,10 +1,11 @@
-# IMPORTANT: if you delete this file your app will not work as
-# expected.  you have been warned
+use strict;
+use warnings;
+
 use inc::Module::Install;
 
 name     'Tapper-Reports-Web';
 all_from 'lib/Tapper/Reports/Web.pm';
-author   'OSRC SysInt Team <osrc-sysint@elbe.amd.com>';
+author   'AMD OSRC Tapper Team <tapper@amd64.org>';
 license  'freebsd';
 
 perl_version '5.010';
@@ -12,12 +13,15 @@ perl_version '5.010';
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
 
+author_requires 'Module::Install::WriteAll';
+#author_requires 'Module::Install::Catalyst';
+
 #requires 'HTML::FromANSI';
-requires 'Tapper::Cmd'          => '2.010035';
-requires 'Tapper::Config'       => '2.010074';
-requires 'Tapper::Schema'       => '2.010067';
-requires 'Tapper::TAP::Harness' => '2.010030';
-requires 'Tapper::Test';
+requires 'Tapper::Cmd'           => "3.000001";
+requires 'Tapper::Config'        => "3.000001";
+requires 'Tapper::Schema'        => "3.000001";
+requires 'Tapper::TAP::Harness'  => "3.000001";
+requires 'Tapper::Test'          => "3.000001";
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';
@@ -41,7 +45,7 @@ requires 'FindBin';
 requires 'File::Find';
 requires 'File::Find::Rule';
 requires 'Getopt::Long';
-requires 'Data::DPath' => "0.42";
+requires 'Data::DPath'           => "0.42";
 requires 'TAP::Parser';
 requires 'Hash::Merge';
 requires 'HTML::FormFu';
