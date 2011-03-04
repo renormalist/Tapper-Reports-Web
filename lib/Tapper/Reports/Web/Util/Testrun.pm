@@ -31,7 +31,6 @@ sub prepare_testrunlist
 {
         my ( $self, $testruns ) = @_;
 
-
         my @testruns;
         foreach my $testrun ($testruns->all)
         {
@@ -54,7 +53,8 @@ sub prepare_testrunlist
 
                 my ($hostname, $status);
                 if ($testrun->testrun_scheduling) {
-                        $hostname = $testrun->testrun_scheduling->host->name;
+                        $hostname = $testrun->testrun_scheduling->host ?
+                          $testrun->testrun_scheduling->host->name : 'No host assigned'; # no host assigned at scheduling
                         $status   = $testrun->testrun_scheduling->status;
                 }
 
