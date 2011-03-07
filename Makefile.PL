@@ -42,6 +42,7 @@ requires 'Data::DPath';
 requires 'DateTime::Format::DateParse';
 requires 'DateTime::Format::Natural';
 requires 'DateTime::Format::W3CDTF';
+requires 'DateTime::Format::Strptime';
 requires 'FCGI';
 requires 'FindBin';
 requires 'File::Find';
