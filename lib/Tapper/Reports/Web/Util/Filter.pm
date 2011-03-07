@@ -105,6 +105,9 @@ Parse filter arguments given by controller. The function expects an
 array ref containing the filter arguments. This is achieved by providing
 the arguments that Catalyst provide for a sub with :Args().
 
+The second argument is a list of word that are valid filters.
+
+
 The function returns a hash ref containing the following elements (not
 necessarily all every time):
 * early - hash ref  - contains the filter conditions that can be given
@@ -118,6 +121,7 @@ necessarily all every time):
 
 
 @param array ref - list of filter arguments
+@param array ref - list of allowed filters
 
 @return hash ref
 
@@ -125,7 +129,7 @@ necessarily all every time):
 
 sub parse_filters
 {
-        my ($self, $args) = @_;
+        my ($self, $args, $allowed_filters) = @_;
         my @args = ref($args) eq 'ARRAY' ? @$args : ();
         my $filter_condition = {};
         if (int(@args) % 2) {
@@ -142,6 +146,12 @@ sub parse_filters
                 while (@args) {
                         my $key   = shift @args;
                         my $value = shift @args;
+
+                        if (ref $allowed_filters eq 'ARRAY' and not grep {$_ eq $key} @$allowed_filters) {
+                                $filter_condition->{error} = "Can not filter for $key";
+                                return $filter_condition;
+                        }
+
                         given ($key){
                                 when ('days')    { $filter_condition = $self->days($filter_condition, $value) }
                                 when ('date')    { $filter_condition = $self->date($filter_condition, $value) }
