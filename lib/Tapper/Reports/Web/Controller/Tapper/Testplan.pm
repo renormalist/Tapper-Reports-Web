@@ -12,12 +12,23 @@ use Tapper::Model 'model';
 
 =cut
 
-sub index :Path :Args(0)
+sub index :Path :Args()
 {
-        my ( $self, $c ) = @_;
+        my ( $self, $c, @args ) = @_;
+        my $error_msg : Stash;
+
+        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
+        my $filter_condition = $filter->parse_filters(\@args, ['days']);
+
+        if ($filter_condition->{error}) {
+                $error_msg = join("; ", @{$filter_condition->{error}});
+                $c->res->redirect("/tapper/testplan/days/2");
+        }
+
+
         my $testplan_instances : Stash;
         $testplan_instances = [];
-        foreach my $instance (model('TestrunDB')->resultset('TestplanInstance')->all) {
+        foreach my $instance (model('TestrunDB')->resultset('TestplanInstance')->search($filter_condition->{early})->all) {
                 my $details = {
                                name => $instance->name,
                                id   => $instance->id,
