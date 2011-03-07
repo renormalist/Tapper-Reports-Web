@@ -24,10 +24,13 @@ Generate an overview of a testplan element from testrun description.
 sub parse_testrun
 {
         my ($self, $testrun) = @_;
+        my $description = $testrun->{description};
         my %testrun;
-        $testrun{image}  = $testrun ~~ dpath '/preconditions/*/mount[value eq "/"]/../image';
-        $testrun{kernel} = $testrun ~~ dpath '/preconditions/*/filename[ value =~ /linux-2.6/]';
-        $testrun{test}   = [ map { basename($_) } @{$testrun ~~ dpath '/preconditions/*/precondition_type[ value eq "testprogram"]/../program'} ];
+        $testrun{image}     = $description ~~ dpath '/preconditions/*/mount[value eq "/"]/../image';
+        $testrun{kernel}    = $description ~~ dpath '/preconditions/*/filename[ value =~ /linux-.*2.6/]';
+        $testrun{test}      = [ map { basename($_) } @{$description ~~
+                                                         dpath '/preconditions/*/precondition_type[ value eq "testprogram"]/../program'} ];
+        $testrun{shortname} = $description->{shortname};
         return \%testrun;
 }
 
@@ -51,7 +54,7 @@ sub gen_testplan_overview
         foreach my $plan (@plans) {
                 given ($plan->{type})
                 {
-                        when(['multitest', 'testrun'])  { push @testplan_elements, $self->parse_testrun($plan->{description}) }
+                        when(['multitest', 'testrun'])  { push @testplan_elements, $self->parse_testrun($plan) }
                 }
         }
         return \@testplan_elements;
