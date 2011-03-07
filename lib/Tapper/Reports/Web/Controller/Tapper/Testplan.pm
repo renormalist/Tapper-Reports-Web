@@ -4,6 +4,7 @@ use parent 'Tapper::Reports::Web::Controller::Base';
 
 use common::sense;
 ## no critic (RequireUseStrict)
+use Tapper::Model 'model';
 
 =head2 index
 
@@ -14,7 +15,26 @@ use common::sense;
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
-        return
+        my $testplan_instances : Stash;
+        $testplan_instances = [];
+        foreach my $instance (model('TestrunDB')->resultset('TestplanInstance')->all) {
+                my $details = {
+                               name => $instance->name,
+                               id   => $instance->id,
+                               path => $instance->path,
+                              };
+                $details->{count_unfinished} = int grep {$_->testrun_scheduling and
+                                                           $_->testrun_scheduling->status ne 'finished'} $instance->testruns->all;
+
+                foreach my $testrun_id (map {$_->id} $instance->testruns->all) {
+                        my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun_id})->first;
+
+                        $details->{count_fail}++ if $stats and $stats->success_ratio  < 100;
+                        $details->{count_pass}++ if $stats and $stats->success_ratio == 100;
+                }
+                push @$testplan_instances, $details;
+        }
+        return;
 }
 
 

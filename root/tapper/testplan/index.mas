@@ -1,32 +1,33 @@
+<%args>
+        $testplan_instances => []
+</%args>
     <table class="reportlist">
         <thead>
                 <tr>
-                         <th>Description</th>
+                         <th>ID</th>
+                         <th>Name</th>
                          <th>Path</th>
-                         <th>Creator</th>
                          <th>Success</th>
                          <th>Testruns<br>(success/pending/fail)</th>
                 </tr>
         </thead>
         <tbody>
-        
+% foreach my $instance (@{$testplan_instances}) {
+% my $sum              = $instance->{count_pass} + $instance->{count_fail} + $instance->{count_unfinished};
+% my $width_pass       = $sum ? $instance->{count_pass} / $sum : 0;
+% my $width_fail       = $sum ? $instance->{count_fail} / $sum : 0;
+% my $width_unfinished = $sum ? $instance->{count_unfinished} / $sum : 0;
                   <tr>
-                        <td>Brazos cpuid on RHEL-5.6</td>
-                        <td>osrc.kernel.brazos.client.cpuid.rhel56</td>
-                        <td>OSRC</td>
+                        <td><a href="/tapper/testplan/id/<% $instance->{id} %>">TP<% $instance->{id} %></a></td>
+                        <td><% $instance->{name} %></td>
+                        <td><% $instance->{path} %></td>
                         <td>
-                                  <a href="/tapper/reports/id/196854" title="83.33% - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="20"><img src="/tapper/static/images/red_bar.png" height="16" width="10"></a>
+                          <a href="/tapper/testplan/id/<% $instance->{id} %>" title="Click to show details">
+                            <img src="/tapper/static/images/green_bar.png" height="16" width="<% $width_pass * 100 %>"><img src="/tapper/static/images/yellow_bar.png" height="16" width="<% $width_unfinished * 100 %>"><img src="/tapper/static/images/red_bar.png" height="16" width="<% $width_fail * 100 %>">
+                          </a>
                         </td>
-                        <td>(2/2/1)</td>
+                        <td>(<% $instance->{count_pass} || 0 %>/<% $instance->{count_unfinished} || 0 %>/<% $instance->{count_fail} || 0 %>)</td>
                 </tr>
-                  <tr>
-                        <td>Maiks unimportant test</td>
-                        <td><a href="/tapper/testplan/filter/personal/">personal.</a><a href="/tapper/testplan/filter/personal.users/">users.</a><a href="/tapper/testplan/filter/personal.users.mhentsc3/">mhentsc.</a><a href="/tapper/testplan/filter/personal.users.mhentsc3.tapper/">tapper.</a>mcp</td>
-                        <td>Maik Hentsche</td>
-                        <td>
-                                  <a href="/tapper/reports/id/196854" title="83.33% - Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="40"><img src="/tapper/static/images/yellow_bar.png" height="16" width="5"><img src="/tapper/static/images/red_bar.png" height="16" width="5"></a>
-                        </td>
-                        <td>(4/1/1)</td>
-                </tr>
+% }
         </tbody>
     </table>
