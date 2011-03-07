@@ -18,7 +18,7 @@
 % my $width_fail       = $sum ? $instance->{count_fail} / $sum : 0;
 % my $width_unfinished = $sum ? $instance->{count_unfinished} / $sum : 0;
                   <tr>
-                        <td><a href="/tapper/testplan/id/<% $instance->{id} %>">TP<% $instance->{id} %></a></td>
+                        <td><a href="/tapper/testplan/id/<% $instance->{id} %>">tp<% $instance->{id} %></a></td>
                         <td><% $instance->{name} %></td>
                         <td><% $instance->{path} %></td>
                         <td>
