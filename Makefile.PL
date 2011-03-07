@@ -12,6 +12,7 @@ perl_version '5.010';
 
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
+build_requires 'Test::Deep';
 
 author_requires 'Module::Install::WriteAll';
 #author_requires 'Module::Install::Catalyst';
@@ -20,6 +21,7 @@ author_requires 'Module::Install::WriteAll';
 requires 'Tapper::Cmd'           => "3.000001";
 requires 'Tapper::Config'        => "3.000001";
 requires 'Tapper::Schema'        => "3.000001";
+requires 'Tapper::Model'         => "3.000001";
 requires 'Tapper::TAP::Harness'  => "3.000001";
 requires 'Tapper::Test'          => "3.000001";
 requires 'Catalyst::Action::RenderView';
@@ -57,6 +59,7 @@ requires 'Test::Fixture::DBIC::Schema';
 requires 'Test::More';
 requires 'XML::Feed';
 requires 'YAML';
+requires 'YAML::Syck';
 
 catalyst;
 
