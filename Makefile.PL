@@ -59,8 +59,8 @@ requires 'TAP::Parser';
 requires 'Test::Fixture::DBIC::Schema';
 requires 'Test::More';
 requires 'XML::Feed';
-requires 'YAML';
-requires 'YAML::Syck';
+requires 'YAML' => "0.72";
+requires 'YAML::Syck' => "1.17";
 
 catalyst;
 
