@@ -18,12 +18,12 @@ author_requires 'Module::Install::WriteAll';
 #author_requires 'Module::Install::Catalyst';
 
 #requires 'HTML::FromANSI';
-requires 'Tapper::Cmd'           => "3.000001";
-requires 'Tapper::Config'        => "3.000001";
-requires 'Tapper::Schema'        => "3.000001";
-requires 'Tapper::Model'         => "3.000001";
-requires 'Tapper::TAP::Harness'  => "3.000001";
-requires 'Tapper::Test'          => "3.000001";
+requires 'Tapper::Cmd'           => "3.000002";
+requires 'Tapper::Config'        => "3.000002";
+requires 'Tapper::Schema'        => "3.000002";
+requires 'Tapper::Model'         => "3.000002";
+requires 'Tapper::TAP::Harness'  => "3.000002";
+requires 'Tapper::Test'          => "3.000002";
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';
