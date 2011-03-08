@@ -40,7 +40,7 @@ sub index :Path :Args(1)
            {
             "reportgrouptestrun.testrun_id" => $testrun_id
            },
-           {  order_by  => 'id desc',
+           {  order_by  => 'me.id desc',
               join      => [ 'reportgrouptestrun', 'suite'],
               '+select' => [ 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport', 'suite.name', 'suite.type', 'suite.description' ],
               '+as'     => [ 'rgt_id',                        'rgt_primary',                      'suite_name', 'suite_type', 'suite_description' ],

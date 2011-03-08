@@ -555,7 +555,7 @@ sub prepare_testrunlists : Private
         my $testruns = $c->model('TestrunDB')->resultset('Testrun')->search
           (
            $filter_condition,
-           { order_by => 'id desc' }
+           { order_by => 'me.id desc' }
           );
 
 

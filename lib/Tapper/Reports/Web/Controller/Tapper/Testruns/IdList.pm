@@ -42,7 +42,7 @@ sub index :Path :Args(1)
           (
            $filter_condition,
            {
-            order_by => 'id desc' }
+            order_by => 'me.id desc' }
           );
 
         %testrunlist = (testruns => $util->prepare_testrunlist($testruns) );
