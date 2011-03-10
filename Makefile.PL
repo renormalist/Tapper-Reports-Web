@@ -67,4 +67,7 @@ catalyst;
 install_script glob('script/*.pl');
 auto_install;
 
+repository 'git://github.com/amd/Tapper-Reports-Web.git';
+bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Reports-Web';
+
 WriteAll;
