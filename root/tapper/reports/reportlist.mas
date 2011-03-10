@@ -35,9 +35,9 @@
 %#                          t<% $report->{reportgroup_testrun_id} || '' %>
                         </td>
                         <td><% $report->{created_at_ymd_hm} %></td>
-                        <td><a title="Add <% $report->{suite_name} %> to filter" href="/<% $c->req->path %>/suite/<% $report->{suite_id} %>">
+                        <td><a title="Add <% $report->{suite_name} %> to filter" href="/<% $c->req->path %>/suite/<% $report->{suite_name} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
-                            <a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/tapper/reports/suite/<% $report->{suite_id} %>">
+                            <a title="Click to show reports of suite '<% $report->{suite_name} %>'" href="/tapper/reports/suite/<% $report->{suite_name} %>">
                             <% $report->{suite_name} %></a>
                         </td>
                         <td><a title="Add <% $report->{machine_name} %> to filter" href="/<% $c->req->path %>/host/<% $report->{machine_name} %>">
