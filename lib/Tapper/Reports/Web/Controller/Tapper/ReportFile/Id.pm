@@ -48,9 +48,10 @@ sub index :Path :CaptureArgs(2)
                 } else {
                         @filecontent =  $reportfile->filecontent;
                 }
-
+                my $filecontent = join '', @filecontent;
+                $filecontent    =~ s/(\s)+/$1/;
                 $c->response->header ("Content-Disposition" => qq($disposition; filename="$filename"));
-                $c->response->body (@filecontent);
+                $c->response->body ($filecontent);
         }
 }
 
