@@ -49,7 +49,7 @@ sub index :Path :CaptureArgs(2)
                         @filecontent =  $reportfile->filecontent;
                 }
                 my $filecontent = join '', @filecontent;
-                $filecontent    =~ s/(\s)+/$1/;
+                $filecontent    =~ s/ +$//mg if $viewmode eq 'ansi2html' or $viewmode eq 'ansi2txt';
                 $c->response->header ("Content-Disposition" => qq($disposition; filename="$filename"));
                 $c->response->body ($filecontent);
         }
