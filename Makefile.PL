@@ -47,6 +47,7 @@ requires 'FCGI';
 requires 'FindBin';
 requires 'File::Find';
 requires 'File::Find::Rule';
+requires 'File::Copy::Recursive';
 requires 'Getopt::Long';
 requires 'Data::DPath'           => "0.42";
 requires 'TAP::Parser';
