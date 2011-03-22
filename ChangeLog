@@ -1,3 +1,33 @@
+2011-03-10 Steffen Schwigon <steffen.schwigon@amd.com>
+
+	* v3.0.4
+
+	* distro maintenance
+
+2011-03-08 Steffen Schwigon <steffen.schwigon@amd.com>
+
+	* v3.0.2
+
+	* Testplan support rework
+	  - Overview of all testplans
+	  - Add shortname to testplan overview
+	  - template for testplan overview
+	  - Changed link from osrc to TaskJuggler
+	  - Show testplan instances by id
+	  - link to first report if no primary report yet
+	  - filter can now reject forbidden filters
+	  - [RFK] move prepare_testrunlist to util
+	  - [TEST] added scheduling info to fixtures
+	  - [TEST] added reportsdb fixtures
+	  - [TEST] testrun util package
+
+	* Several bugfixes 
+	  - "order_by" statements
+	  - try to force YAML versions
+	  - dependencies++
+	  - Make sure testrun has a scheduling before accessing it
+	  - Make sure host exists before accessing its name
+	
 2011-03-02  Steffen Schwigon  <steffen.schwigon@amd.com>
 
 	* v3.0
