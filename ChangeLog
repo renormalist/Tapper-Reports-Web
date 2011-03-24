@@ -1,3 +1,14 @@
+2011-03-24 Steffen Schwigon <steffen.schwigon@amd.com>
+
+	* v3.0.4
+
+	* [FIX] use timeouts from existing usecase files
+	* Adapt kernelbuild use case to autotest
+	* dependencies++
+	* [FIX] do not break layout when removing surplus whitespace
+	* [FIX] make console shorter by removing multiple whitespace
+	* [FIX] filter suite by name
+
 2011-03-10 Steffen Schwigon <steffen.schwigon@amd.com>
 
 	* v3.0.4
