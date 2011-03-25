@@ -1,6 +1,12 @@
+2011-03-25 Steffen Schwigon <steffen.schwigon@amd.com>
+
+	* v3.0.6
+
+	* fix yet another forgotten dependency
+
 2011-03-24 Steffen Schwigon <steffen.schwigon@amd.com>
 
-	* v3.0.4
+	* v3.0.5
 
 	* [FIX] use timeouts from existing usecase files
 	* Adapt kernelbuild use case to autotest
