@@ -1,4 +1,4 @@
-#! /opt/tapper/perl/perls/current/bin/perl
+#! perl
 
 # Explicitely only for the live environment on bancroft
 
