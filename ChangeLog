@@ -1,11 +1,12 @@
-2011-03-30 Steffen Schwigon <steffen.schwigon@amd.com>
+2011-04-07  Steffen Schwigon  <steffen.schwigon@amd.com>
 
-	* v3.0.7
+	* v3.0.10
 
 	* rewritable shebang line
 	* showing tap now handles TAP archives
 	* update bundled manual HTML/PDF
 	* distro maintenance
+	* release version++ roundhouse kick
 
 2011-03-25 Steffen Schwigon <steffen.schwigon@amd.com>
 
