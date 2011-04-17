@@ -42,11 +42,8 @@ sub index :Path :Args()
         given ($type){
                 when ('suite') {
                         my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({},
-                                                                                          {join => 'reports',
-                                                                                           '+select' => ['reports.created_at'],
-                                                                                           columns   => [qw/name id/],
-                                                                                           distinct  => 1,
-                                                                                          });
+                                                                                          {prefetch => ['reports']}
+                                                                                         );
                         $suite_rs = $self->recently_used_suites($suite_rs, $options);
                         $overviews = { map{$_->name, '/tapper/reports/suite/'.$_->id } $suite_rs->all };
                 }
