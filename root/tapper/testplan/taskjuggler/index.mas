@@ -1,3 +1,12 @@
+<%args>
+$platforms => {}
+</%args>
+
+% foreach my $platforms(%$platforms){
+   <H4>PharaoHound SWVF Enablement Matrix</H4>
+
+
+}
  <H4>PharaoHound SWVF Enablement Matrix</H4>
    <table class="reportlist">
      <tr>
