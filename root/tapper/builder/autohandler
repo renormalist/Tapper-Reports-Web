@@ -11,6 +11,7 @@
                                 <li><a href="/tapper/start/">Start</a></li>
 				<li><a href="/tapper/testruns/days/2" class="active">Testruns</a></li>
 				<li><a href="/tapper/reports/days/2">Reports</a></li>
+                                <li><a href="/tapper/testplan/">Testplans</a></li>
 				<li><a href="/tapper/metareports/">Metareports</a></li>
 				<li><a href="/tapper/manual/">Manual</a></li>
 			</ul>
