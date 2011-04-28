@@ -138,6 +138,12 @@ tr.highlight
   background-color: #fafad2
 }
 
+tr.highlightgrey
+{
+  background-color: #eeeeee
+}
+
+
 
 /* Header */
 
@@ -259,6 +265,7 @@ padding-bottom: 0.1em;
 margin-bottom: 0.8em;
 }
 
+
 #main_inner h4
 {
 font-size: 1.2em;
@@ -279,6 +286,14 @@ font-size: 1.7em;
 padding-bottom: 1.2em;
 /* padding-top: 1.2em; */
 }
+
+#main_inner .post h3.testplan
+{
+position: relative;
+font-size: 1.7em;
+padding-bottom: 0em;
+}
+
 
 #main_inner .post ul.post_info
 {
