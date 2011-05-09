@@ -24,7 +24,7 @@ requires 'Tapper::Schema' => "3.000010";
 requires 'Tapper::Model' => "3.000010";
 requires 'Tapper::TAP::Harness' => "3.000010";
 requires 'Tapper::Test' => "3.000010";
-requires 'Tapper::Testplan' => "3.000010";
+requires 'Tapper::Testplan' => "3.000011";
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';
