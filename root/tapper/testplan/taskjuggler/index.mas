@@ -3,7 +3,6 @@
 $platforms => []
 </%args>
 
-% use Data::Dumper;
 % foreach my $platform(@$platforms){
       <h3 class="testplan"><% ucfirst($platform->{"name"}) %> Feature Test Plan</h3>
       <h5 class="testplan"><% $platform->{testplan}{all} %> tests,
@@ -34,10 +33,10 @@ $platforms => []
              <td></td>
 %                   }
 %                   when('black') {
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/achtung.png"></a></td>
+             <td><a href="/tapper/testplan/add/<% $task->{$vendor}{name} %>" title="Add testplan for task <% $task->{$vendor}{name} %>"><img src="/tapper/static/images/achtung.png"></a></td>
 %                   }
 %                   default {
-             <td><a href="/tapper/testplan/add/" title="Add testplan">
+             <td><a href="/tapper/testplan/id/<% $task->{$vendor}{id} %>" title="Show testplan <% $task->{$vendor}{id} %>">
                  <span style="color:<% $task->{$vendor}{color} %>"><% ucfirst($task->{$vendor}{color}) %></span></a></td>
 %                   }
 %             }
