@@ -1,87 +1,51 @@
+% use 5.010;
 <%args>
-$platforms => {}
+$platforms => []
 </%args>
 
-% foreach my $platforms(%$platforms){
-   <H4>PharaoHound SWVF Enablement Matrix</H4>
+% use Data::Dumper;
+% foreach my $platform(@$platforms){
+      <h3 class="testplan"><% ucfirst($platform->{"name"}) %> Feature Test Plan</h3>
+      <h5 class="testplan"><% $platform->{testplan}{all} %> tests,
+                           <span class="pass"><% $platform->{testplan}{pass} %> pass</span>,
+		           <span class="fail"><% $platform->{testplan}{fail} %> fail</span>,
+		           <span class="unknown"><% $platform->{testplan}{waiting} %> waiting</span>
+	</h5>
 
-
-}
- <H4>PharaoHound SWVF Enablement Matrix</H4>
    <table class="reportlist">
-     <tr>
-       <td><a href="/tapper/testplan/id/1" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="40"><img src="/tapper/static/images/yellow_bar.png" height="16" width="110"><img src="/tapper/static/images/red_bar.png" height="16" width="50"></a>
-       </td>
-     </tr>
-     </table>
-   <table class="reportlist" border=1>
       <tr>
              <th>Task Name</th>
-             <th>LK.36</th>
-             <th>LK.37</th>
-             <th>LK.38</th>
-             <th>LK.39</th>
-             <th>Xen4.1</th>
-             <th>Xen4.2</th>
-             <th>Xen4.3</th>
-             <th>SLES 10SP4</th>
-             <th>SLES 11SP2</th>
-             <th>RHEL 5.6</th>
-             <th>RHEL 5.7</th>
-             <th>RHEL 6.0</th>
-             <th>RHEL 6.1</th>
-             <th>RHEL 6.2</th>
+%      foreach my $vendor ( @{$platform->{vendors}} ) {
+             <th><% $vendor %></th>
+%      }
       </tr>
-            <tr>
-             <td>Core performance boost</td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/id/1" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="10"><img src="/tapper/static/images/red_bar.png" height="16" width="20"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-            </tr>
-            <tr>
-             <td>RHEL 5.6: Effective Frequency Reporting Interface</td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><img src="/tapper/static/images/achtung.png" title="No testplan defined!"><br><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-            </tr>
-            <tr>
-             <td>Effective Frequency Reporting Interface</td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/id/2" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="20"><img src="/tapper/static/images/yellow_bar.png" height="16" width="10"><img src="/tapper/static/images/red_bar.png" height="16" width="20"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-             <td><a href="/tapper/testplan/id/3" title="Click to show details"><img src="/tapper/static/images/green_bar.png" height="16" width="0"><img src="/tapper/static/images/yellow_bar.png" height="16" width="40"><img src="/tapper/static/images/red_bar.png" height="16" width="10"></a></td>
-             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/plus.png"></a></td>
-            </tr>
-       </table>
+%      my $even=0;
+%      foreach my $task ( @{$platform->{tasks}} ) {
+%           $even = $even ^ 1;
+            <tr class="<% $even ? 'highlightgrey': '' %>">
+             <td><% $task->{name} %></td>
+%          foreach my $vendor ( @{$platform->{vendors}} ) {
+%              if (not ref $task->{$vendor} eq 'HASH' ) {
+                    <td></td>
+%                  next;
+%              }
+%              given($task->{$vendor}{color}){
+%                   when('none') {
+             <td></td>
+%                   }
+%                   when('black') {
+             <td><a href="/tapper/testplan/add/" title="Add testplan"><img src="/tapper/static/images/achtung.png"></a></td>
+%                   }
+%                   default {
+             <td><a href="/tapper/testplan/add/" title="Add testplan">
+                 <span style="color:<% $task->{$vendor}{color} %>"><% ucfirst($task->{$vendor}{color}) %></span></a></td>
+%                   }
+%             }
 
+%          }
+%      }
+       </table>
+   </table>
+<br/>
+<br/>
+% }

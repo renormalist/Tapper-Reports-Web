@@ -1,21 +1,27 @@
 package Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler;
 
 use parent 'Tapper::Reports::Web::Controller::Base';
+use Tapper::Testplan::Reporter;
 use Tapper::Testplan::Plugins::Taskjuggler;
+use Tapper::Config;
+use Hash::Merge 'merge';
 
 use common::sense;
 ## no critic (RequireUseStrict)
 
 =head2 index
 
-
+Generate data for /tapper/testplan/taskjuggler/.
 
 =cut
 
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
-        return
+        my $taskjuggler = Tapper::Testplan::Plugins::Taskjuggler->new(cfg => Tapper::Config->subconfig->{testplans}{reporter}{plugin});
+        my $reporter    = Tapper::Testplan::Reporter->new();
+        my $platforms : Stash = $taskjuggler->prepare_task_data();
+        return;
 }
 
 
