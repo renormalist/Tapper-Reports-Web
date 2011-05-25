@@ -26,7 +26,6 @@ requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Session' => "0.31";
 requires 'Catalyst::Plugin::Session::State::Cookie' => "0.17";
 requires 'Catalyst::Plugin::Session::Store::File';
-requires 'Catalyst::Plugin::Session::Store::File';
 requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Runtime'     => '5.80032';
 requires 'Catalyst::Test';
