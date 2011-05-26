@@ -46,6 +46,7 @@ requires 'Getopt::Long';
 requires 'HTML::FormFu';
 requires 'Hash::Merge';
 requires 'Pod::Usage';
+requires 'Set::Intersection';
 requires 'TAP::Formatter::HTML'  => '0.04';
 requires 'TAP::Parser';
 requires 'TAP::Parser';
