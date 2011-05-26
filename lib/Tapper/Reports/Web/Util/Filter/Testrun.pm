@@ -34,6 +34,7 @@ sub BUILD{
                               {host    => \&host,
                                status  => \&status,
                                topic   => \&topic,
+                               owner   => \&owner,
                               })
                        );
 }
@@ -109,6 +110,35 @@ sub topic
         my ($self, $filter_condition, $topic) = @_;
 
         $filter_condition->{early}->{topic_name} = $topic;
+
+        return $filter_condition;
+}
+
+
+=head2 owner
+
+Add owner filters to early filters.
+
+@param hash ref - current version of filters
+@param string   - owner login
+
+@return hash ref - updated filters
+
+=cut
+
+sub owner
+{
+        my ($self, $filter_condition, $owner) = @_;
+
+        my $owner_result = model('TestrunDB')->resultset('User')->search({login => $owner})->first;
+
+        if (not $owner_result) {
+                $filter_condition->{error} = "No user with login '$owner' found";
+                return $filter_condition;
+        }
+
+
+        $filter_condition->{early}->{owner_user_id} = $owner_result->id;
 
         return $filter_condition;
 }
