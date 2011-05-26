@@ -30,19 +30,19 @@
                         <td><% $testrun->{updated_at} || $testrun->{created_at} ||  $testrun->{started_at}  %></td>
 
                         <td>
-                            <a title="Add <% $testrun->{topic_name} %> to filter" href="/<% $c->req->path %>/topic/<% $testrun->{topic_name} %>">
+                            <a title="Add <% $testrun->{topic_name} %> to filter" href="/<% $c->req->path %>topic/<% $testrun->{topic_name} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
                             <a title="Click to show testruns of topic '<% $testrun->{topic_name} %>'"
                             href="/tapper/testruns/topic/<% $testrun->{topic_name} %>"><% $testrun->{topic_name} %></a>
                         </td>
                         <td>
-                            <a title="Add <% $testrun->{machine_name} %> to filter" href="/<% $c->req->path %>/host/<% $testrun->{machine_name} %>">
+                            <a title="Add <% $testrun->{machine_name} %> to filter" href="/<% $c->req->path %>host/<% $testrun->{machine_name} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
                             <a title="Click to show testruns on '<% $testrun->{machine_name} %>'"
                             href="/tapper/testruns/host/<% $testrun->{machine_name} %>"><% $testrun->{machine_name} %></a>
                         </td>
                         <td>
-                            <a title="Add <% $testrun->{status} %> to filter" href="/<% $c->req->path %>/status/<% $testrun->{status} %>">
+                            <a title="Add <% $testrun->{status} %> to filter" href="/<% $c->req->path %>status/<% $testrun->{status} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
                             <a title="Click to show testruns on '<% $testrun->{status} %>'"
                             href="/tapper/testruns/status/<% $testrun->{status} %>"><% $testrun->{status} %></a>
@@ -53,7 +53,7 @@
 % }
                         </td>
                         <td>
-                        <a title="Add <% $testrun->{owner} %> to filter" href="/<% $c->req->path %>/owner/<% $testrun->{owner} %>">
+                        <a title="Add <% $testrun->{owner} %> to filter" href="/<% $c->req->path %>owner/<% $testrun->{owner} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
                             <a title="Click to show testruns of owner '<% $testrun->{owner} %>'" href="/tapper/testruns/owner/<% $testrun->{owner} %>">
                             <% $testrun->{owner} %></a>
