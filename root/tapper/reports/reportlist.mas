@@ -59,9 +59,17 @@
                                                <% $report->{rga_id} %>
 %                                        }
 %                                        if ($report->{rgt_id}) {
-                                               <a href="/tapper/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a> (<% $report->{owner} || '' %>)
+                                               <a href="/tapper/testruns/id/<% $report->{rgt_id} %>">testrun <% $report->{rgt_id} %></a>
 %                                        }
 %                         }
+                        </td>
+                        <td>
+% if ($report->{owner}){
+<a title="Add <% $report->{owner} %> to filter" href="/<% $c->req->path %>/owner/<% $report->{owner} %>">
+                            <img src="/tapper/static/images/plus.png" size="16"></a>
+                            <a title="Click to show reports of owner '<% $report->{owner} %>'" href="/tapper/reports/owner/<% $report->{owner} %>">
+                            <% $report->{owner} %></a>
+% }
                         </td>
                 </tr>
 </%method>
@@ -81,6 +89,7 @@
                          <th>Success</th>
                          <th>Ratio</th>
                          <th>Grouped by</th>
+                         <th>Owner</th>
                 </tr>
         </thead>
         <tbody>
