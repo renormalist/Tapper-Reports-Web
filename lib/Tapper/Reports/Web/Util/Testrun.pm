@@ -68,6 +68,7 @@ sub prepare_testrunlist
                           started_at            => $testrun->starttime_testrun,
                           created_at            => $testrun->created_at,
                           updated_at            => $updated_at || $testrun->updated_at,
+                          owner                 => $testrun->owner->login || 'unknown user' ,
                          };
                 push @testruns, $tr;
         }
