@@ -1,34 +1,22 @@
 <%args>
-@testruns
+  @requested_testrunlists
 </%args>
 
-<h3>Testruns</h3>
-<h4>Overview</h4>
-<table class="suitelist">
-  <thead>
-    <th>Testrun ID</th>
-    <th>Status of Testrun</th>
-    <th>Start time</th>
-    <th>End time</th>
-  </thead>
-  <tbody>
-% foreach my $testrun(@testruns){
-    <tr>
-      <td> <a href="/tapper/testruns/id/<% $testrun->{id} %>"><% $testrun->{id} %></a> </td>
-% if ($testrun->{state} eq 'Running or stopped') {
-      <td><label title="Testrun was started but did not send a finish
-         message. This could mean it is still running or MCP was stopped while it
-         was running and the testrun is in an unknown state."><% $testrun->{state} %></label></td>
-% } else {
-      <td> <% $testrun->{state} %> </td>
-% }
-      <td> <% $testrun->{start_time} %> </td>
-      <td> <% $testrun->{finish_time} %> </td>
-    </tr>
-% }
-  </tbody>
-</table>
-<br/>
+% my $now = gmtime();
+% my $days = $c->stash->{days} || 7;
+
+<h3>Automated testruns of last <% $days %> days</h3>
+
+  This list shows automated <strong>testruns</strong>.
+
+  Links in columns <i>ID</i> show details of single report; on
+  column <i>Suite</i> show all reports of this suite; on
+  column <i>Machine</i> show all reports on this machine.
+
+  If you look for more finegrained results not limited to the
+  automation system try <a href="/tapper/reports/days/2">Reports</a>.
+
+<& /tapper/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:

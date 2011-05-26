@@ -108,8 +108,6 @@ sub parse_filters
                                 $filter_condition->{error} = \@errors;
                                 return $filter_condition;
                         }
-                        use Data::Dumper;
-                        print STDERR Dumper $filter_condition;
                         $filter_condition = $self->dispatch->{$key}->($self, $filter_condition, $value);
                 }
         }

@@ -13,6 +13,7 @@ use Tapper::Cmd::Testrun;
 use Tapper::Config;
 use Tapper::Model 'model';
 use Tapper::Reports::Web::Util::Testrun;
+use Tapper::Reports::Web::Util::Filter::Testrun;
 
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -27,10 +28,21 @@ filter facility.
 
 =cut
 
-sub index :Path :Args(0)
+sub index :Path :Args()
 {
-        my ( $self, $c ) = @_;
-        $c->res->redirect('/tapper/testruns/days/2');
+        my ( $self, $c, @args ) = @_;
+
+        my $error_msg : Stash;
+
+        my $filter = Tapper::Reports::Web::Util::Filter::Testrun->new(context => $c);
+        my $filter_condition = $filter->parse_filters(\@args);
+
+        if ($filter_condition->{error}) {
+                $error_msg = join("; ", @{$filter_condition->{error}});
+                $c->res->redirect("/tapper/testruns/days/2");
+
+        }
+        $c->forward('/tapper/testruns/prepare_testrunlists', [ $filter_condition ]);
         return;
 }
 
@@ -538,23 +550,22 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
 sub prepare_testrunlists : Private
 {
-        my ( $self, $c ) = @_;
+        my ( $self, $c, $filter_condition ) = @_;
 
+        $filter_condition = {} unless ref $filter_condition eq 'HASH';
         my @requested_testrunlists : Stash = ();
         my %groupstats             : Stash = ();
 
         # requested time period
-        my $days : Stash;
+        my $days   : Stash = $filter_condition->{days};
+        my $date   : Stash = $filter_condition->{date};
         my $lastday = $days ? $days - 1 : 6;
-        my $util = Tapper::Reports::Web::Util::Testrun->new();
-
+        my $util    = Tapper::Reports::Web::Util::Testrun->new();
         # ----- general -----
-
-        my $filter_condition;
 
         my $testruns = $c->model('TestrunDB')->resultset('Testrun')->search
           (
-           $filter_condition,
+           $filter_condition->{early},
            { order_by => 'me.id desc' }
           );
 
