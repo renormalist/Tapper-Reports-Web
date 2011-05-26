@@ -6,7 +6,7 @@ use parent 'Tapper::Reports::Web::Controller::Base';
 use DateTime::Format::Natural;
 use Data::Dumper;
 
-use Tapper::Reports::Web::Util::Filter;
+use Tapper::Reports::Web::Util::Filter::Report;
 use Tapper::Reports::Web::Util::Report;
 use common::sense;
 ## no critic (RequireUseStrict)
@@ -25,7 +25,7 @@ sub index :Path :Args()
 
         exit 0 if $args[0] eq 'exit';
 
-        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
+        my $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args);
 
         if ($filter_condition->{error}) {
