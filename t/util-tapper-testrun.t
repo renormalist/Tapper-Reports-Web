@@ -24,7 +24,7 @@ is(ref $testruns, 'ARRAY' , 'Got a list of testrun descriptions');
 cmp_deeply($testruns->[0], superhashof({'success_ratio' => '75',
                                         'testrun_id' => 1,
                                         'machine_name' => 'iring',
-                                        'suite_name' => 'Testsuite',
+                                        'topic_name' => 'Software',
                                         'primary_report_id' => 21,}),
            'First testrun description, scalar parts');
 is($testruns->[0]->{status}, 'running', 'Status of first testrun');
