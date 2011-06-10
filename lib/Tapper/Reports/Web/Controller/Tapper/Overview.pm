@@ -41,11 +41,14 @@ sub index :Path :Args()
         my $overviews : Stash;
         given ($type){
                 when ('suite') {
-                        my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({},
-                                                                                          {prefetch => ['reports']}
-                                                                                         );
-                        $suite_rs = $self->recently_used_suites($suite_rs, $options);
-                        $overviews = { map{$_->name, '/tapper/reports/suite/'.$_->id } $suite_rs->all };
+                        my %search_options = ();
+                        %search_options = ( prefetch => ['reports'] ) unless lc($options) eq "all";
+                        my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({}, { %search_options } );
+                        $suite_rs = $self->recently_used_suites($suite_rs, $options) unless lc($options) eq "all";
+                        $overviews = {};
+                        while ( my $suite = $suite_rs->next ) {
+                                $overviews->{$suite->name} = '/tapper/reports/suite/'.$suite->id;
+                        }
                 }
                 when ('host')  {
                         my $reports = $c->model('ReportsDB')->resultset('Report')->search({},
