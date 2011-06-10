@@ -3,6 +3,10 @@
 $platforms => []
 </%args>
 
+% my %colors = ('red'    => '#FF6E0E',
+%               'yellow' => '#FFFF8E',
+%               'green'  => '#63FF8D');
+
 % foreach my $platform(@$platforms){
       <h3 class="testplan"><% ucfirst($platform->{"name"}) %> Feature Test Plan</h3>
       <h5 class="testplan"><% $platform->{testplan}{all} %> tests,
@@ -33,11 +37,10 @@ $platforms => []
              <td></td>
 %                   }
 %                   when('black') {
-             <td><a href="/tapper/testplan/add/<% $task->{$vendor}{name} %>" title="Add testplan for task <% $task->{$vendor}{name} %>"><img src="/tapper/static/images/achtung.png"></a></td>
+             <td align="center" ><a href="/tapper/testplan/add/<% $task->{$vendor}{name} %>" title="Add testplan for task <% $task->{$vendor}{name} %>"><img src="/tapper/static/images/achtung.png"></a></td>
 %                   }
 %                   default {
-             <td><a href="/tapper/testplan/id/<% $task->{$vendor}{id} %>" title="Show testplan <% $task->{$vendor}{id} %>">
-                 <span style="color:<% $task->{$vendor}{color} %>"><% ucfirst($task->{$vendor}{color}) %></span></a></td>
+             <td align="center" style="background-color:<% $colors{$task->{$vendor}{color}} %>"><a href="/tapper/testplan/id/<% $task->{$vendor}{id} %>" title="Show testplan <% $task->{$vendor}{id} %>">Show </a></td>
 %                   }
 %             }
 
