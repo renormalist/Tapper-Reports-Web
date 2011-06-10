@@ -1,4 +1,4 @@
-#! perl
+#! /usr/bin/perl
 
 # Explicitely only for the live environment on bancroft
 
