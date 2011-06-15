@@ -176,23 +176,12 @@ Adds filters for owner. Currently, owners are only determind by testruns.
 sub owner
 {
         my ($self, $filter_condition, $owner) = @_;
-        my $owner_result = model('TestrunDB')->resultset('User')->search({login => $owner})->first;
+        push @{$filter_condition->{late}},
+        { '-or' => [
+                    {rga_owner => $owner},
+                    {rgt_owner => $owner},
+                   ]};
 
-        if (not $owner_result) {
-                return $filter_condition
-        }
-
-        my $testruns_rs = model('TestrunDB')->resultset('Testrun')->search({owner_user_id => $owner_result->id});
-        my @tr_ids;
-        while (my $testrun = $testruns_rs->next) {
-                push @tr_ids, $testrun->id;
-        }
-
-        my $tr_group_rs = model('ReportsDB')->resultset('ReportgroupTestrun')->search({testrun_id => {in => \@tr_ids}});
-
-        my @report_ids = map {$_->report_id} $tr_group_rs->all;
-        @report_ids    = get_intersection(\@report_ids, $filter_condition->{early}->{"me.id"}) if $filter_condition->{early}->{"me.id"};
-        $filter_condition->{early}->{"me.id"} = {'in' => \@report_ids};
         return $filter_condition;
 }
 

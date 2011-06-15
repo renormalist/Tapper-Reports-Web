@@ -52,6 +52,7 @@ sub prepare_simple_reportlist
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
                 {
+                        $r->{owner} = $report->reportgrouparbitrary->owner;
                         push @reports, $r;
                         $rga_prims{$rga_id} = 1;
                 }
@@ -63,8 +64,7 @@ sub prepare_simple_reportlist
                 # --- testrun ---
                 if ($rgt_id and $rgt_primary)
                 {
-                        my $testrun = model('TestrunDB')->resultset('Testrun')->find($rgt_id);
-                        $r->{owner} = $testrun->owner->login if $testrun;
+                        $r->{owner} = $report->reportgrouparbitrary->owner;
                         push @reports, $r;
                         $rgt_prims{$rgt_id} = 1;
                 }

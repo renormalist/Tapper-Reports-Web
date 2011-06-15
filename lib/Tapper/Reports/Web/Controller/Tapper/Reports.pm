@@ -77,8 +77,12 @@ sub prepare_this_weeks_reportlists : Private
                                    peerhost
                                 )],
                 join      => [ 'reportgrouparbitrary',              'reportgrouptestrun', 'suite' ],
-                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport', 'suite.id', 'suite.name', 'suite.type', 'suite.description' ],
-                '+as'     => [ 'rga_id',                            'rga_primary',                        'rgt_id',                        'rgt_primary',                      'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
+                '+select' => [ 'reportgrouparbitrary.arbitrary_id', 'reportgrouparbitrary.primaryreport', 'reportgrouparbitrary.owner',
+                               'reportgrouptestrun.testrun_id', 'reportgrouptestrun.primaryreport', 'reportgrouptestrun.owner',
+                               'suite.id', 'suite.name', 'suite.type', 'suite.description' ],
+                '+as'     => [ 'rga_id', 'rga_primary', 'rga_owner',
+                               'rgt_id', 'rgt_primary', 'rgt_owner',
+                               'suite_id', 'suite_name', 'suite_type', 'suite_description' ],
              }
             );
         foreach my $filter (@{$filter_condition->{late}}) {
