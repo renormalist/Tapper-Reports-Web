@@ -64,7 +64,7 @@ sub prepare_simple_reportlist
                 # --- testrun ---
                 if ($rgt_id and $rgt_primary)
                 {
-                        $r->{owner} = $report->reportgrouparbitrary->owner;
+                        $r->{owner} = $report->reportgrouptestrun->owner;
                         push @reports, $r;
                         $rgt_prims{$rgt_id} = 1;
                 }
