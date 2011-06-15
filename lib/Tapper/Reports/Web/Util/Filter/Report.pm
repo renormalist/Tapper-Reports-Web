@@ -178,8 +178,8 @@ sub owner
         my ($self, $filter_condition, $owner) = @_;
         push @{$filter_condition->{late}},
         { '-or' => [
-                    {rga_owner => $owner},
-                    {rgt_owner => $owner},
+                    {'reportgrouparbitrary.owner' => $owner},
+                    {'reportgrouptestrun.owner' => $owner},
                    ]};
 
         return $filter_condition;
