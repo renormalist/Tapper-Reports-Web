@@ -53,7 +53,7 @@
 % }
                         </td>
                         <td>
-                        <a title="Add <% $testrun->{owner} %> to filter" href="/<% $c->req->path %>owner/<% $testrun->{owner} %>">
+                        <a title="Add <% $testrun->{owner} %> to filter" href="/<% $c->req->path %>/owner/<% $testrun->{owner} %>">
                             <img src="/tapper/static/images/plus.png" size="16"></a>
                             <a title="Click to show testruns of owner '<% $testrun->{owner} %>'" href="/tapper/testruns/owner/<% $testrun->{owner} %>">
                             <% $testrun->{owner} %></a>
