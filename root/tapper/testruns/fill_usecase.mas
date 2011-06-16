@@ -8,10 +8,12 @@ $all_testruns => undef
 %     if ($all_testruns) {
           <h3>Testruns created</h3>
           <ul>
+%         my @testrunlist;
 %         foreach my $testrun (@{$all_testruns}) {
 %             if ($testrun->{error}) {
                   <li>Can not create testrun on host <% $testrun->{host} %>: <% $testrun->{error} %></li>
 %             } else {
+%                 push @testrunlist, $testrun->{id};
                   <li>
                   <a href="/tapper/testruns/id/<% $testrun->{id} %>">Testrun <% $testrun->{id} %></a> 
                   created on host <strong><% $testrun->{host} %></strong>
@@ -22,6 +24,11 @@ $all_testruns => undef
                  </li>
 %             }
 %         }
+          </ul>
+          <ul>
+                 <li>
+                   Follow <a href="/tapper/testruns/idlist/<% join(',', @testrunlist) %>">these testruns</a>.
+                 </li>
           </ul>
 %     } else {
           <h3>Use case details</h3>
