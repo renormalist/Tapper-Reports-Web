@@ -19,6 +19,7 @@ sub index :Path :Args()
 
         my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args, ['days']);
+        $c->stash->{title} = "Testplan list";
 
         if ($filter_condition->{error}) {
                 $error_msg = join("; ", @{$filter_condition->{error}});

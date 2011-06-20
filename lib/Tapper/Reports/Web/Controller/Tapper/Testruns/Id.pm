@@ -19,6 +19,7 @@ sub index :Path :Args(1)
         my $hostname      : Stash;
         my $time          : Stash;
 
+
         my $reportlist_rgt : Stash = {};
         eval {
                 $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
@@ -27,6 +28,7 @@ sub index :Path :Args(1)
                 $c->response->body(qq(No testrun with id "$testrun_id" found in the database!));
                 return;
         }
+        $c->stash->{title} = "Testrun id $testrun_id, ". $testrun->topic_name;
 
         return unless $testrun->testrun_scheduling;
 

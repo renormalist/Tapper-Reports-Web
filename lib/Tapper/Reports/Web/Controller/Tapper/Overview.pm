@@ -49,12 +49,14 @@ sub index :Path :Args()
                         while ( my $suite = $suite_rs->next ) {
                                 $overviews->{$suite->name} = '/tapper/reports/suite/'.$suite->id;
                         }
+                        $c->stash->{title} = "Tapper report suites";
                 }
                 when ('host')  {
                         my $reports = $c->model('ReportsDB')->resultset('Report')->search({},
                                                                                           { columns => [ qw/machine_name/ ],
                                                                                             distinct => 1});
                         $overviews = { map{$_->machine_name, '/tapper/reports/host/'.$_->machine_name} $reports->all };
+                        $c->stash->{title} = "Tapper report hosts";
                 }
         }
 }

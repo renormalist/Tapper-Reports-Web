@@ -166,13 +166,18 @@ sub index :Path :Args(1)
         my $reportlist_rgt : Stash = {};
         my %metareport     : Stash;
         my $overview       : Stash = undef;
-
         $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
+
 
         if (not $report) {
                 $c->response->body("No such report");
+                $c->stash->{title} = "No such report";
                 return;
         }
+
+        my $suite_name = $report->suite->name;
+        $c->stash->{title} = "Report ID $report_id, $suite_name";
+
         my $util_report = Tapper::Reports::Web::Util::Report->new();
 
         if (my $rga = $report->reportgrouparbitrary) {
@@ -221,6 +226,7 @@ sub index :Path :Args(1)
 
         $failures = $self->get_report_failures($report);
         %metareport = $self->generate_metareport_link($report_data);
+
 }
 
 1;

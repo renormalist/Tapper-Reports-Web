@@ -594,6 +594,8 @@ sub prepare_testrunlists : Private
                                                ( testruns => $util->prepare_testrunlist( $day_testruns ) ),
                                               };
         }
+        $c->stash->{title} = "Testruns of last $days days";
+
 }
 
 sub prepare_navi : Private

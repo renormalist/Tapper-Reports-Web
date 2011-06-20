@@ -70,6 +70,7 @@ sub index :Path :Args(1)
         my ( $self, $c, $instance_id ) = @_;
         my $instance : Stash;
         my $error    : Stash;
+        $c->stash->{title} = "Testplan id $instance_id";
 
         my $inst_res = model('TestrunDB')->resultset('TestplanInstance')->find($instance_id);
         if (not $inst_res) {
@@ -88,6 +89,7 @@ sub index :Path :Args(1)
         $instance->{plan}     =~ s/\n+/\n/m;
         $instance->{path}     = $inst_res->path;
         $instance->{overview} = $self->gen_testplan_overview($instance->{plan});
+        $c->stash->{title} = "Testplan id $instance_id, ".$instance->{name};
         return;
 }
 

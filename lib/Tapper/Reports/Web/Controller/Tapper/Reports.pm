@@ -46,6 +46,7 @@ sub prepare_this_weeks_reportlists : Private
 {
         my ( $self, $c, $filter_condition ) = @_;
 
+
         my @this_weeks_reportlists : Stash = ();
         my $requested_day          : Stash;
         my $days                   : Stash = $filter_condition->{days};
@@ -128,6 +129,8 @@ sub prepare_this_weeks_reportlists : Private
                         else                                      { $list_count_unknown++ }
                 }
         }
+        $c->stash->{title} = "Reports of last $days days";
+
 }
 
 sub prepare_filter_path
