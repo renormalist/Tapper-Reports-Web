@@ -149,76 +149,135 @@ sub prepare_navi : Private
         my $navi : Stash = [];
 
         my %args = @{$c->req->arguments};
-        return [] if grep { /^date$/ } keys %args;
 
-        $navi = [
-                 {
-                  title  => "reports by date",
-                  href   => "/tapper/overview/date",
-                  subnavi => [
-                              {
-                               title  => "today",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 1),
-                              },
-                              {
-                               title  => "2 days",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 2),
-                              },
-                              {
-                               title  => "1 week",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 7),
-                              },
-                              {
-                               title  => "2 weeks",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 14),
-                              },
-                              {
-                               title  => "3 weeks",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 21),
-                              },
-                              {
-                               title  => "1 month",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 31),
-                              },
-                              {
-                               title  => "2 months",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 62),
-                              },
-                              {
-                               title  => "4 months",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 124),
-                              },
-                              {
-                               title  => "6 months",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 182),
-                              },
-                              {
-                               title  => "12 months",
-                               href   => "/tapper/reports/".$self->prepare_filter_path($c, 365),
-                              },
+        if ( grep { /^date$/ } keys %args ) {
+                 $navi = [
+                          {
+                           title  => "reports by date",
+                           href   => "/tapper/overview/date",
+                           subnavi => [
+                                       {
+                                        title  => "today",
+                                        href   => "/tapper/reports/days/1",
+                                       },
+                                       {
+                                        title  => "2 days",
+                                        href   => "/tapper/reports/days/2",
+                                       },
+                                       {
+                                        title  => "1 week",
+                                        href   => "/tapper/reports/days/7",
+                                       },
+                                       {
+                                        title  => "2 weeks",
+                                        href   => "/tapper/reports/days/14",
+                                       },
+                                       {
+                                        title  => "3 weeks",
+                                        href   => "/tapper/reports/days/21",
+                                       },
+                                       {
+                                        title  => "1 month",
+                                        href   => "/tapper/reports/days/31",
+                                       },
+                                       {
+                                        title  => "2 months",
+                                        href   => "/tapper/reports/days/62",
+                                       },
+                                       {
+                                        title  => "4 months",
+                                        href   => "/tapper/reports/days/124",
+                                       },
+                                       {
+                                        title  => "6 months",
+                                        href   => "/tapper/reports/days/182",
+                                       },
+                                       {
+                                        title  => "12 months",
+                                        href   => "/tapper/reports/days/365",
+                                       },
 
-                             ],
-                 },
-                 {
-                  title  => "reports by suite",
-                  href   => "/tapper/overview/suite",
-                 },
-                 {
-                  title  => "reports by host",
-                  href   => "/tapper/overview/host",
-                 },
-                 {
-                  title  => "This list as RSS",
-                  href   => "/tapper/rss/".$self->prepare_filter_path($c),
-                  image  => "/tapper/static/images/rss.png",
-                 }
+                                      ],
+                          },
+                          {
+                           title  => "reports by suite",
+                           href   => "/tapper/overview/suite",
+                          },
+                          {
+                           title  => "reports by host",
+                           href   => "/tapper/overview/host",
+                          },
+                         ];
+        } else {
+                $navi = [
+                         {
+                          title  => "reports by date",
+                          href   => "/tapper/overview/date",
+                          subnavi => [
+                                      {
+                                       title  => "today",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 1),
+                                      },
+                                      {
+                                       title  => "2 days",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 2),
+                                      },
+                                      {
+                                       title  => "1 week",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 7),
+                                      },
+                                      {
+                                       title  => "2 weeks",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 14),
+                                      },
+                                      {
+                                       title  => "3 weeks",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 21),
+                                      },
+                                      {
+                                       title  => "1 month",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 31),
+                                      },
+                                      {
+                                       title  => "2 months",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 62),
+                                      },
+                                      {
+                                       title  => "4 months",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 124),
+                                      },
+                                      {
+                                       title  => "6 months",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 182),
+                                      },
+                                      {
+                                       title  => "12 months",
+                                       href   => "/tapper/reports/".$self->prepare_filter_path($c, 365),
+                                      },
 
-                 # {
-                 #  title  => "reports by people",
-                 #  href   => "/tapper/reports/people/",
-                 #  active => 0,
-                 # },
-                ];
+                                     ],
+                         },
+                         {
+                          title  => "reports by suite",
+                          href   => "/tapper/overview/suite",
+                         },
+                         {
+                          title  => "reports by host",
+                          href   => "/tapper/overview/host",
+                         },
+                         {
+                          title  => "This list as RSS",
+                          href   => "/tapper/rss/".$self->prepare_filter_path($c),
+                          image  => "/tapper/static/images/rss.png",
+                         }
+
+                         # {
+                         #  title  => "reports by people",
+                         #  href   => "/tapper/reports/people/",
+                         #  active => 0,
+                         # },
+                        ];
+        }
 
 }
 
