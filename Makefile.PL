@@ -17,7 +17,9 @@ build_requires 'Test::Deep';
 author_requires 'Module::Install::WriteAll';
 #author_requires 'Module::Install::Catalyst';
 
-#requires 'HTML::FromANSI';
+recommends 'DBD::mysql';
+
+requires 'HTML::FromANSI';
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';
