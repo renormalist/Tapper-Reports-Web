@@ -34,6 +34,6 @@
             <a href="<% $metareport{url} %>"><img src="<% $metareport{img} %>" alt="<% $metareport{alt} || 'metareport' %>" width="150" height="100"></a>
             <strong><% $metareport{headline} %></strong>
         </div>
-% } else {
-        <& SELF:navi &>
 % }
+
+<& SELF:navi &>
