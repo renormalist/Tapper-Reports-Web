@@ -1,12 +1,15 @@
 package Tapper::Reports::Web::Controller::Tapper::ReportFile::Id;
 
 use parent 'Tapper::Reports::Web::Controller::Base';
-use Directory::Scratch;
+use HTML::FromANSI ();
 
 use common::sense;
 ## no critic (RequireUseStrict)
 
 #use HTML::FromANSI (); # avoid exports if using OO
+
+our $ANSI2HTML_PRE  = '<link rel="stylesheet" type="text/css" title="Red" href="/tapper/static/css/style_red.css" /><body style="background: black;">';
+our $ANSI2HTML_POST = '</body>';
 
 sub index :Path :CaptureArgs(2)
 {
@@ -38,12 +41,13 @@ sub index :Path :CaptureArgs(2)
                 if ( $viewmode eq 'ansi2txt' ) {
                         $filename    =~ s,[./],_,g if $disposition eq 'inline';
                         $filename   .=  '.txt';
-                        @filecontent =  ansi2txt($reportfile->filecontent);
+                        @filecontent =  ansi_to_txt($reportfile->filecontent);
 
                 } elsif ( $viewmode eq 'ansi2html' ) {
                         $filename    =~ s,[./],_,g if $disposition eq 'inline';
                         $filename   .=  '.html';
-                        @filecontent =  ansi2html($reportfile->filecontent);
+                        my $a2h = HTML::FromANSI->new(style => '', font_face => '');
+                        @filecontent =  $ANSI2HTML_PRE.$a2h->ansi_to_html($reportfile->filecontent).$ANSI2HTML_POST;
                         $c->response->content_type('text/html');
                 } else {
                         @filecontent =  $reportfile->filecontent;
@@ -55,41 +59,16 @@ sub index :Path :CaptureArgs(2)
         }
 }
 
-sub ansi2html {
-        my @content = @_;
-        my $ansi2txt = 'ansi2txt';
-        qx(ansi2txt /dev/null);
-        if ( $? != 256 ) {  # ansi2txt returns exit code 1 on /dev/null but exists
-                print STDERR "ansi2txt not installed";
-                return @content;
-        }
+# strip known ANSI sequences and special characters
+# usually used in console output
+sub ansi_to_txt {
+        my ($filecontent) = @_;
 
-        my $temp  = Directory::Scratch->new(TEMPLATE => 'ARW_XXXXXXXXXXXX');
-        my $dir   = $temp->mkdir("ansi2txt");
-        my $fname = "section/foo.txt";
-        $temp->touch($fname, join("", @content));
-        my $html = qx!$ansi2txt -html $temp/$fname!;
-        $html =~ s!^</b><b style="color: #000000; background: #000000;">[ \t\n]+</b>!</b>!msg;
-        $temp->cleanup;
-        return $html;
-}
-
-sub ansi2txt {
-        my @content = @_;
-        my $ansi2txt = 'ansi2txt';
-        qx(ansi2txt /dev/null);
-        if ( $? != 256 ) {  # ansi2txt returns exit code 1 on /dev/null but exists
-                print STDERR "ansi2txt not installed";
-                return @content;
-        }
-
-        my $temp  = Directory::Scratch->new(TEMPLATE => 'ARW_XXXXXXXXXXXX');
-        my $dir   = $temp->mkdir("ansi2txt");
-        my $fname = "section/foo.txt";
-        $temp->touch($fname, join("", @content));
-        my $html = qx!$ansi2txt $temp/$fname!;
-        $temp->cleanup;
-        return $html;
+        $filecontent =~ s/\e\[?.*?[\@-~](?:\?\d\d[hl])?//g;
+        $filecontent =~ s,(?:\n\r)+,\n,g;
+        $filecontent =~ s,\r(?!\n), ,g;
+        $filecontent =~ s,[]+, ,g;
+        return $filecontent;
 }
 
 sub filter
