@@ -53,8 +53,14 @@ sub prepare_testrunlist
 
                 my ($hostname, $status);
                 if ($testrun->testrun_scheduling) {
-                        $hostname = $testrun->testrun_scheduling->host ?
-                          $testrun->testrun_scheduling->host->name : 'No host assigned'; # no host assigned at scheduling
+                        if ($testrun->testrun_scheduling->host) {
+                                $hostname = $testrun->testrun_scheduling->host->name;
+                        } else {
+                                $hostname = $testrun->testrun_scheduling->status eq 'finished' ?
+                                  'Host deleted' :
+                                    'No host assigned';
+
+                        }
                         $status   = $testrun->testrun_scheduling->status;
                 }
 
