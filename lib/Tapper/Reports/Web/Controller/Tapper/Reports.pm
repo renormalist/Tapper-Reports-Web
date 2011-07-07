@@ -34,7 +34,7 @@ sub index :Path :Args()
 
         }
 
-        my $requested_day : Stash = 
+        my $requested_day : Stash =
           $filter->requested_day || DateTime::Format::Natural->new->parse_datetime("today at midnight");
 
         $filter->{early}->{-or} = [{rga_primary => 1}, {rgt_primary => 1}];
@@ -142,6 +142,28 @@ sub prepare_filter_path
 
         return join('/', %args );
 }
+
+=head2 reduced_filter_path
+
+Create a filter path out of the filters given as first argument that
+does not contain the second argument.
+
+@param hash ref - current filter settings
+@param string   - new path without that filter (should be a key in the hash)
+
+@return string  - new path
+
+=cut
+
+sub reduced_filter_path
+{
+        my ($self, $filters, $remove) = @_;
+        my %new_filters = %$filters;
+        delete $new_filters{$remove};
+        say STDERR join('/', %new_filters );
+        return join('/', %new_filters );
+}
+
 
 sub prepare_navi : Private
 {
@@ -269,15 +291,22 @@ sub prepare_navi : Private
                           title  => "This list as RSS",
                           href   => "/tapper/rss/".$self->prepare_filter_path($c),
                           image  => "/tapper/static/images/rss.png",
-                         }
-
-                         # {
-                         #  title  => "reports by people",
-                         #  href   => "/tapper/reports/people/",
-                         #  active => 0,
-                         # },
+                         },
+                         {
+                          title  => "reports by people",
+                          href   => "/tapper/reports/people/",
+                          active => 0,
+                         },
                         ];
         }
+        push @$navi, {title   => 'Active Filters',
+                      subnavi => [
+                                  map {
+                                          { title => "$_: ".$args{$_},
+                                              href => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
+                                                image  => "/tapper/static/images/minus.png",
+                                          }
+                                  } keys %args ]};
 
 }
 

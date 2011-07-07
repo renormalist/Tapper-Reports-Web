@@ -19,8 +19,13 @@
                         <ul>
 %                       foreach my $snav (@$subnavi) {
 %                               my $href = $snav->{href};
-%                               my $subhref = $href;
-                                <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
+                                <li>
+%                                if ($snav->{image}) {
+                                    <a class="navilink" href="<% $snav->{href} %>"><img src="<% $snav->{image} %>"></a>
+%                                } else {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+%                                }
+                                <a href="<% $snav->{href} %>"><% $snav->{title} %></a><br /></li>
 %                       }
                         </ul>
 %               }
