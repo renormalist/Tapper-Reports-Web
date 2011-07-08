@@ -18,6 +18,16 @@ use Tapper::Reports::Web::Util::Filter::Testrun;
 use common::sense;
 ## no critic (RequireUseStrict)
 
+
+
+sub auto :Private
+{
+        my ( $self, $c ) = @_;
+
+        $c->forward('/tapper/testruns/prepare_navi');
+}
+
+
 =head2 index
 
 Prints a list of a testruns together with their state, start time and
@@ -547,6 +557,27 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         }
 }
 
+=head2 reduced_filter_path
+
+Create a filter path out of the filters given as first argument that
+does not contain the second argument.
+
+@param hash ref - current filter settings
+@param string   - new path without that filter (should be a key in the hash)
+
+@return string  - new path
+
+=cut
+
+sub reduced_filter_path
+{
+        my ($self, $filters, $remove) = @_;
+        my %new_filters = %$filters;
+        delete $new_filters{$remove};
+        say STDERR join('/', %new_filters );
+        return join('/', %new_filters );
+}
+
 
 sub prepare_testrunlists : Private
 {
@@ -601,6 +632,7 @@ sub prepare_testrunlists : Private
 sub prepare_navi : Private
 {
         my ( $self, $c ) = @_;
+        my %args = @{$c->req->arguments};
 
         my $navi : Stash = [
                             {
@@ -646,6 +678,15 @@ sub prepare_navi : Private
                                         ],
                             },
                            ];
+        push @$navi, {title   => 'Active Filters',
+                      subnavi => [
+                                  map {
+                                          { title => "$_: ".$args{$_},
+                                              href => "/tapper/testruns/".$self->reduced_filter_path(\%args, $_),
+                                                image  => "/tapper/static/images/minus.png",
+                                          }
+                                  } keys %args ]};
+
 }
 
 =head1 NAME
