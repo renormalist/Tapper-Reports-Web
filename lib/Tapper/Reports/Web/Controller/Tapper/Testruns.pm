@@ -574,7 +574,6 @@ sub reduced_filter_path
         my ($self, $filters, $remove) = @_;
         my %new_filters = %$filters;
         delete $new_filters{$remove};
-        say STDERR join('/', %new_filters );
         return join('/', %new_filters );
 }
 
