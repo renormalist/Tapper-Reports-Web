@@ -38,8 +38,10 @@ sub index :Path :Args()
                 $details->{count_unfinished} = int grep {$_->testrun_scheduling and
                                                            $_->testrun_scheduling->status ne 'finished'} $instance->testruns->all;
 
-                foreach my $testrun_id (map {$_->id} $instance->testruns->all) {
-                        my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun_id})->first;
+	TESTRUN:
+	        while( my $testrun = $instance->testruns->next) {
+                        next TESTRUN if $testrun->testrun_scheduling->status ne 'finished';
+			my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun->id})->first;
 
                         $details->{count_fail}++ if $stats and $stats->success_ratio  < 100;
                         $details->{count_pass}++ if $stats and $stats->success_ratio == 100;
