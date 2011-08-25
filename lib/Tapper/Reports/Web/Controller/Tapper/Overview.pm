@@ -47,7 +47,7 @@ sub index :Path :Args()
                         $suite_rs = $self->recently_used_suites($suite_rs, $options) unless lc($options) eq "all";
                         $overviews = {};
                         while ( my $suite = $suite_rs->next ) {
-                                $overviews->{$suite->name} = '/tapper/reports/suite/'.$suite->id;
+                                $overviews->{$suite->name} = '/tapper/reports/suite/'.($suite->name =~ /[^\w\d_.-]/ ? $suite->id : $suite->name);
                         }
                         $c->stash->{title} = "Tapper report suites";
                 }
