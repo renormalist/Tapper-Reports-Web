@@ -34,7 +34,6 @@ sub BUILD{
                               {host    => \&host,
                                suite   => \&suite,
                                success => \&success,
-                               date    => \&date,
                                owner   => \&owner,
                               })
                        );
@@ -116,50 +115,6 @@ sub success
 
 }
 
-=head2 date
-
-Add a date to late filters. Furthermore, it sets the days value. Date
-used to filter for the number of days (now provided by function
-'days'). For backwards compatibility it checks whether the input to mean
-day rather than days and forwards accordingly.
-
-@param hash ref - current version of filters
-@param string   - date
-
-@return hash ref - updated filters
-
-=cut
-
-
-sub date
-{
-        my ($self, $filter_condition, $date) = @_;
-        return $self->days($filter_condition, $date) if $date =~m/^\d+$/; # handle old date links correctly
-
-        if (defined($self->requested_day)) {
-                push @{$filter_condition->{error}}, "Time filter already exists, only using first one";
-                return $filter_condition;
-        }
-
-        $filter_condition->{days} = 1;
-
-        my $requested_day;
-        my $one_day_later;
-        eval {
-                $requested_day = DateTime::Format::DateParse->parse_datetime( $date );
-                $one_day_later = DateTime::Format::DateParse->parse_datetime( $date )->add(days => 1);
-        };
-        if (not defined $requested_day) {
-                push @{$filter_condition->{error}}, "Can not parse date '$date'";
-                return $filter_condition;
-        }
-
-        $filter_condition->{date} = $requested_day->ymd('/');
-        $self->requested_day($requested_day);
-        push @{$filter_condition->{late}}, {created_at => {'>=' => $requested_day}};
-        push @{$filter_condition->{late}}, {created_at => {'<'  => $one_day_later}};
-        return $filter_condition;
-}
 
 
 =head2 owner
