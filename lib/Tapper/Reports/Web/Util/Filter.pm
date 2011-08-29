@@ -109,7 +109,7 @@ necessarily all every time):
                          in the initial search on reports
 * late     - array ref - list of hash refs that contain filter conditions
                          which shall be applied as $report->search{$key => $value}
-                         after the initial search returned a$report already
+                         after the initial search returned a $report already
 * function - hash ref  - functions that are to be applied as $report->$key($value);
 * error    - array ref - contains all errors that occured as strings
 * days     - int       - number of days that will be shown
