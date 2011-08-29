@@ -5,7 +5,12 @@
 % my $now = gmtime();
 % my $days = $c->stash->{days} || 7;
 
+% if ($c->stash->{date}) {
+<h3>Automated testruns of <% $c->stash->{date} %></h3>
+% } else {
+% my $days = $c->stash->{days} || 7;
 <h3>Automated testruns of last <% $days %> days</h3>
+%}
 
   This list shows automated <strong>testruns</strong>.
 

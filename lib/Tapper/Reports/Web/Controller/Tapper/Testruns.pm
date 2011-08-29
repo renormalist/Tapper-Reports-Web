@@ -52,7 +52,7 @@ sub index :Path :Args()
                 $c->res->redirect("/tapper/testruns/days/2");
 
         }
-        $c->forward('/tapper/testruns/prepare_testrunlists', [ $filter_condition ]);
+        $c->forward('/tapper/testruns/prepare_testrunlists', [ $filter_condition, $filter->requested_day ]);
         return;
 }
 
@@ -580,15 +580,17 @@ sub reduced_filter_path
 
 sub prepare_testrunlists : Private
 {
-        my ( $self, $c, $filter_condition ) = @_;
+        my ( $self, $c, $filter_condition, $requested_day ) = @_;
 
         $filter_condition = {} unless ref $filter_condition eq 'HASH';
         my @requested_testrunlists : Stash = ();
         my %groupstats             : Stash = ();
 
         # requested time period
-        my $days   : Stash = $filter_condition->{days};
-        my $date   : Stash = $filter_condition->{date};
+        my $days   : Stash  = $filter_condition->{days};
+        my $date   : Stash  = $filter_condition->{date};
+        $requested_day ||= DateTime::Format::Natural->new->parse_datetime("today at midnight");
+
         my $lastday = $days ? $days - 1 : 6;
         my $util    = Tapper::Reports::Web::Util::Testrun->new();
         # ----- general -----
@@ -598,12 +600,15 @@ sub prepare_testrunlists : Private
            $filter_condition->{early},
            { order_by => 'me.id desc' }
           );
+        foreach my $filter (@{$filter_condition->{late}}) {
+                $testruns = $testruns->search($filter);
+        }
 
 
         my $parser = new DateTime::Format::Natural;
-        my $today  = $parser->parse_datetime("today at midnight");
-        my @day    = ( $today );
-        push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
+
+        my @day    = ( $requested_day );
+        push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
 
         # ----- today -----
         my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $day[0] }}, { starttime_testrun => { '>', $day[0] }}] });

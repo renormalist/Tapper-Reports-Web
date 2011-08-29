@@ -18,10 +18,10 @@
 %       my $day        = $day_infos->{day};
 %       my $testrunlist = $day_infos;
 %       # my $rgt = $day_infos->{rgt};
-        <h4><% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></h4>
+        <h4><a href="/tapper/testruns/date/<% $day->ymd('-') %>">
+        <% $day->day_abbr %> <% $day->month_abbr %> <% $day->day %>, <% $day->year %></a></h4>
 <& /tapper/testruns/testrunlist.mas, testrunlist => $testrunlist &>
 % }
-
 
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
