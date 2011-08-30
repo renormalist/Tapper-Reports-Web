@@ -38,8 +38,10 @@ sub index :Path :Args()
                 $details->{count_unfinished} = int grep {$_->testrun_scheduling and
                                                            $_->testrun_scheduling->status ne 'finished'} $instance->testruns->all;
 
+
+                my $testruns = $instance->testruns;
 	TESTRUN:
-	        while( my $testrun = $instance->testruns->next) {
+	        while ( my $testrun = $testruns->next) {
                         next TESTRUN if $testrun->testrun_scheduling->status ne 'finished';
 			my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun->id})->first;
 
