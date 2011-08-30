@@ -1,6 +1,12 @@
 <%args>
         $testplan_instances => []
 </%args>
+% if ($c->flash->{error_msg}) {
+<pre>
+
+<strong>Error:</strong> <% $c->flash->{error_msg} %>
+</pre>
+% }
     <table class="reportlist">
         <thead>
                 <tr>

@@ -20,6 +20,12 @@
 
   If you look for more finegrained results not limited to the
   automation system try <a href="/tapper/reports/days/2">Reports</a>.
+% if ($c->flash->{error_msg}) {
+<pre>
+
+<strong>Error:</strong> <% $c->flash->{error_msg} %>
+</pre>
+% }
 
 <& /tapper/testruns/testrunlists.mas, requested_testrunlists => \@requested_testrunlists &>
 %# Local Variables:

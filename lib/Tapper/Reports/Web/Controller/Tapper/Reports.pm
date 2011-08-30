@@ -21,7 +21,7 @@ sub auto :Private
 sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
-        my $error_msg : Stash;
+        my $error_msg : Flash;
 
         exit 0 if $args[0] eq 'exit';
 

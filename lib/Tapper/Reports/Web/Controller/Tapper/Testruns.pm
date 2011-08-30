@@ -42,7 +42,7 @@ sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
 
-        my $error_msg : Stash;
+        my $error_msg : Flash;
 
         my $filter = Tapper::Reports::Web::Util::Filter::Testrun->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args);
@@ -50,7 +50,6 @@ sub index :Path :Args()
         if ($filter_condition->{error}) {
                 $error_msg = join("; ", @{$filter_condition->{error}});
                 $c->res->redirect("/tapper/testruns/days/2");
-
         }
         $c->forward('/tapper/testruns/prepare_testrunlists', [ $filter_condition, $filter->requested_day ]);
         return;

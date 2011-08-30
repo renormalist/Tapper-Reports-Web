@@ -15,7 +15,7 @@ use Tapper::Model 'model';
 sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
-        my $error_msg : Stash;
+        my $error_msg : Flash;
 
         my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args, ['days']);

@@ -6,10 +6,6 @@
         $list_count_unknown => "n"
 
 </%args>
-% my $error_msg = $c->stash->{error_msg} || '';
-% if ($error_msg) {
-<h3 title = "<% $error_msg %>">An error occured. See title for details.</h3>
-% }
 
 % my $now = gmtime();
 % if ($c->stash->{date}) {
@@ -33,6 +29,12 @@
 
   If you are interested in a less detailed overview of only the automated
   testrun results then try <a href="/tapper/testruns/days/2">Testruns</a>.
+% if ($c->flash->{error_msg}) {
+<pre>
+
+<strong>Error:</strong> <% $c->flash->{error_msg} %>
+</pre>
+% }
 
 <& /tapper/reports/week_reportlists.mas, week_reportlists   => \@this_weeks_reportlists,
                                           list_count_all     => $list_count_all,
