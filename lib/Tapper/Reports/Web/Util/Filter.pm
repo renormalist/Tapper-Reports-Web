@@ -52,7 +52,7 @@ sub date
         return $self->days($filter_condition, $date) if $date =~m/^\d+$/; # handle old date links correctly
 
         if (defined($self->requested_day)) {
-                push @{$filter_condition->{error}}, "Time filter already exists, only using first one";
+                push @{$filter_condition->{error}}, "'date' and 'days' filter can not be used together.";
                 return $filter_condition;
         }
 
@@ -81,7 +81,7 @@ sub days
         my ($self, $filter_condition, $days) = @_;
 
         if (defined($self->requested_day)) {
-                push @{$filter_condition->{error}}, "Time filter already exists, only using first one";
+                push @{$filter_condition->{error}}, "'date' and 'days' filter can not be used together.";
                 return $filter_condition;
         }
         $filter_condition->{days} = $days;
