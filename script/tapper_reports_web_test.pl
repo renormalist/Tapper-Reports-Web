@@ -1,20 +1,7 @@
-#! /usr/bin/perl
+#!/usr/bin/env perl
 
-use strict;
-use warnings;
-use Getopt::Long;
-use Pod::Usage;
-use FindBin;
-use lib "$FindBin::Bin/../lib";
-use Catalyst::Test 'Tapper::Reports::Web';
-
-my $help = 0;
-
-GetOptions( 'help|?' => \$help );
-
-pod2usage(1) if ( $help || !$ARGV[0] );
-
-print request($ARGV[0])->content . "\n";
+use Catalyst::ScriptRunner;
+Catalyst::ScriptRunner->run('Tapper::Reports::Web', 'Test');
 
 1;
 
@@ -27,7 +14,7 @@ tapper_reports_web_test.pl - Catalyst Test
 tapper_reports_web_test.pl [options] uri
 
  Options:
-   -help    display this help and exits
+   --help    display this help and exits
 
  Examples:
    tapper_reports_web_test.pl http://localhost/some_action
@@ -47,6 +34,7 @@ Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
-This program is released under the following license: freebsd
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
