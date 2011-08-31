@@ -128,35 +128,23 @@ sub parse_filters
         my ($self, $args, $allowed_filters) = @_;
         my @args = ref($args) eq 'ARRAY' ? @$args : ();
         my $filter_condition = {};
-        if (int(@args) % 2) {
-                my $error_msg = 'Wrong number of filter arguments in path. Using defaults. Found ';
-                while (@args) {
-                        $error_msg .= shift @args;
-                        $error_msg .= " => ";
-                        $error_msg .= @args ? shift @args : '(undef)';
-                        $error_msg .= "; ";
-                }
-                $filter_condition->{error} = $error_msg;
-                return {};
-        } else {
-                while (@args) {
-                        my $key   = shift @args;
-                        my $value = shift @args;
+        while (@args) {
+                my $key   = shift @args;
+                my $value = shift @args;
 
-                        if (ref $allowed_filters eq 'ARRAY' and not grep {$_ eq $key} @$allowed_filters) {
-                                $filter_condition->{error} = "Can not filter for $key";
-                                return $filter_condition;
-                        }
-
-                        if (not $self->dispatch->{$key}) {
-                                my @errors = @{$filter_condition->{error} || [] };
-                                $filter_condition = {};
-                                push @errors, "Can not parse filter $key/$value. No filters applied";
-                                $filter_condition->{error} = \@errors;
-                                return $filter_condition;
-                        }
-                        $filter_condition = $self->dispatch->{$key}->($self, $filter_condition, $value);
+                if (ref $allowed_filters eq 'ARRAY' and not grep {$_ eq $key} @$allowed_filters) {
+                        $filter_condition->{error} = "Can not filter for $key";
+                        return $filter_condition;
                 }
+
+                if (not $self->dispatch->{$key}) {
+                        my @errors = @{$filter_condition->{error} || [] };
+                        $filter_condition = {};
+                        push @errors, "Can not parse filter $key/$value. No filters applied";
+                        $filter_condition->{error} = \@errors;
+                        return $filter_condition;
+                }
+                $filter_condition = $self->dispatch->{$key}->($self, $filter_condition, $value);
         }
         return $filter_condition;
 }
