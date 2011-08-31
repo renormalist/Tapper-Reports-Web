@@ -9,6 +9,14 @@ use DateTime::Format::Natural;
 use Tapper::Reports::Web::Util::Filter::Testplan;
 use Tapper::Model 'model';
 
+sub auto :Private
+{
+        my ( $self, $c ) = @_;
+
+        $c->forward('/tapper/testplan/prepare_navi');
+}
+
+
 =head2 index
 
 
@@ -113,6 +121,110 @@ sub get_testrun_details
         return @testplan_instances;
 }
 
+sub prepare_filter_path
+{
+        my ($self, $c, $days) = @_;
+        my %args = @{$c->req->arguments};
+
+        $args{days} = $days if $days;
+
+        return join('/', %args );
+}
+
+
+=head2 reduced_filter_path
+
+Create a filter path out of the filters given as first argument that
+does not contain the second argument.
+
+@param hash ref - current filter settings
+@param string   - new path without that filter (should be a key in the hash)
+
+@return string  - new path
+
+=cut
+
+sub reduced_filter_path
+{
+        my ($self, $filters, $remove) = @_;
+        my %new_filters = %$filters;
+        delete $new_filters{$remove};
+        say STDERR join('/', %new_filters );
+        return join('/', %new_filters );
+}
+
+
+sub prepare_navi : Private
+{
+        my ( $self, $c ) = @_;
+        my $navi : Stash = [];
+
+        my %args = @{$c->req->arguments};
+
+        $navi = [
+                 {
+                  title  => "Matrix Overview",
+                  href => "/tapper/testplan/taskjuggler/",
+                 },
+                 {
+                  title  => "Testplan by date",
+                  href   => "",
+                  subnavi => [
+                              {
+                               title  => "today",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 1),
+                              },
+                              {
+                               title  => "2 days",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 2),
+                              },
+                              {
+                               title  => "1 week",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 7),
+                              },
+                              {
+                               title  => "2 weeks",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 14),
+                              },
+                              {
+                               title  => "3 weeks",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 21),
+                              },
+                              {
+                               title  => "1 month",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 31),
+                              },
+                              {
+                               title  => "2 months",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 62),
+                              },
+                              {
+                               title  => "4 months",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 124),
+                              },
+                              {
+                               title  => "6 months",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 182),
+                              },
+                              {
+                               title  => "12 months",
+                               href   => "/tapper/testplan/".$self->prepare_filter_path($c, 365),
+                              },
+
+                             ],
+                 },
+                ];
+
+        push @$navi, {title   => 'Active Filters',
+                      subnavi => [
+                                  map {
+                                          { title => "$_: ".$args{$_},
+                                              href => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
+                                                image  => "/tapper/static/images/minus.png",
+                                          }
+                                  } keys %args ]};
+
+}
 
 
 =head1 NAME
