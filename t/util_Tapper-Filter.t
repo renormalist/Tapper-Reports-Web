@@ -29,7 +29,7 @@ is($filter_condition->{late}->[0]->{'created_at'}->{'<='}->dmy('.'), '21.09.2010
 
 $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $stash);
 $filter_condition = $filter->parse_filters(['date','2010-09-20', 'days','2']);
-is_deeply($filter_condition->{error}, ["Time filter already exists, only using first one"], 'Multiple date filter detected');
+is_deeply($filter_condition->{error}, ["'date' and 'days' filter can not be used together."], 'Multiple date filter detected');
 
 
 done_testing();
