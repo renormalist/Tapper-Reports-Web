@@ -556,26 +556,6 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
         }
 }
 
-=head2 reduced_filter_path
-
-Create a filter path out of the filters given as first argument that
-does not contain the second argument.
-
-@param hash ref - current filter settings
-@param string   - new path without that filter (should be a key in the hash)
-
-@return string  - new path
-
-=cut
-
-sub reduced_filter_path
-{
-        my ($self, $filters, $remove) = @_;
-        my %new_filters = %$filters;
-        delete $new_filters{$remove};
-        return join('/', %new_filters );
-}
-
 
 sub prepare_testrunlists : Private
 {

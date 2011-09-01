@@ -133,37 +133,6 @@ sub prepare_this_weeks_reportlists : Private
 
 }
 
-sub prepare_filter_path
-{
-        my ($self, $c, $days) = @_;
-        my %args = @{$c->req->arguments};
-
-        $args{days} = $days if $days;
-
-        return join('/', %args );
-}
-
-=head2 reduced_filter_path
-
-Create a filter path out of the filters given as first argument that
-does not contain the second argument.
-
-@param hash ref - current filter settings
-@param string   - new path without that filter (should be a key in the hash)
-
-@return string  - new path
-
-=cut
-
-sub reduced_filter_path
-{
-        my ($self, $filters, $remove) = @_;
-        my %new_filters = %$filters;
-        delete $new_filters{$remove};
-        say STDERR join('/', %new_filters );
-        return join('/', %new_filters );
-}
-
 
 sub prepare_navi : Private
 {
