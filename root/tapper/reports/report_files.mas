@@ -22,13 +22,13 @@
 %     foreach my $file (@files) {
 
 	  <tr>
-            <th align="right"><a href="/tapper/reportfile/id/<% $file->{id}%>"><% $file->{filename} %></a></th>          <!--"-->
+            <th align="right"><a href="/tapper/reportfile/id/<% $file->{id}%>#reports/id/<% $report->id %>"><% $file->{filename} %></a></th>          <!--"-->
             <td align="right"><% $file->{length_filecontent} %> Bytes</td>
             <th>
 % if ($file->{contenttype} =~ /plain/) {
               view
-              <a title="Optimized for inline viewing with ansi2txt." href="/tapper/reportfile/id/<% $file->{id} %>/ansi2txt">inline</a> |
-              <a title="Optimized for inline viewing with ansi2html." href="/tapper/reportfile/id/<% $file->{id} %>/ansi2html">ansi-colored</a>
+              <a title="Optimized for inline viewing with ansi2txt." href="/tapper/reportfile/id/<% $file->{id} %>/ansi2txt#reports/id/<% $report->id %>">inline</a> |
+              <a title="Optimized for inline viewing with ansi2html." href="/tapper/reportfile/id/<% $file->{id} %>/ansi2html#reports/id/<% $report->id %>">ansi-colored</a>
 % }
             </th>
             <th><% $file->{contenttype} %></th>
