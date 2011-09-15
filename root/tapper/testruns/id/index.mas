@@ -10,13 +10,15 @@ $time
 % use Data::Dumper;
 
 <h3>
-  Testrun <% $testrun->id %>
+  Testrun
+  <strong><% $testrun->id %></strong>:
+  <strong><% $testrun->topic_name %></strong>
 </h3>
 
     <!-- ************************************************************ -->
 
 % if (%reportlist_rgt) {
-<h4>Testrun</h4>
+<h4>Reports</h4>
 <& /tapper/reports/reportlist.mas, reportlist => \%reportlist_rgt &>
 %}
 

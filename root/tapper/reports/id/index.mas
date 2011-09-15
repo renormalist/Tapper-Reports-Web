@@ -14,6 +14,7 @@
 % if ( $report ) {
 
     <h3>
+        Report
         <strong><% $report->id %></strong>:
         <strong><% $report->suite ? $report->suite->name : 'unknown suite' %></strong>
     </h3>
