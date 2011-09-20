@@ -8,7 +8,7 @@ $error
 <% $error %>
 % } else {
 <h3>
-        <strong>Testplan <% $instance->{id} %></strong>:
+        Testplan <strong><% $instance->{id} %></strong>:
         <strong><% $instance->{name} %></strong>
 </h3>
 <h3><% $instance->{path} %></h3>
