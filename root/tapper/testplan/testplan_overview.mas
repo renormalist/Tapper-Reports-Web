@@ -1,9 +1,12 @@
 <%args>
+$path
 $overview
 </%args>
+  <h5>Path: <strong><% $path %></strong></h5>
+  <br/>
 % if ($overview and ref $overview eq 'ARRAY') {
 %     foreach my $element(@{$overview}){
-  <h5>&nbsp;&nbsp;Testplan element: <% $element->{shortname} %></h5>
+  <h5>&nbsp;&nbsp;&nbsp;&nbsp;- Element: <strong><% $element->{shortname} %></strong></h5>
     <table class="reportsectionmeta">
       <tbody>
         <tr>
