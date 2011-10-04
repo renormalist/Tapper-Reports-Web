@@ -48,7 +48,15 @@ Generate an overview from evaluated testplan.
 sub gen_testplan_overview
 {
         my ($self, $yaml) = @_;
-        my @plans = Load($yaml);
+        my $error : Stash;
+        my @plans;
+        eval {
+                @plans = Load($yaml);
+        };
+        if ($@) {
+                $error = "Broken YAML in testplan: $@";
+                return [];
+        }
         my @testplan_elements;
 
         foreach my $plan (@plans) {

@@ -6,7 +6,7 @@ $error
 % if($error) {
 <h3>An error occured</h3>
 <% $error %>
-% } else {
+% }
 <h3>
         Testplan <strong><% $instance->{id} %></strong>:
         <strong><% $instance->{name} %></strong>
@@ -21,4 +21,3 @@ $error
 <pre>
 <% $instance->{plan} %>
 </pre>
-% }
