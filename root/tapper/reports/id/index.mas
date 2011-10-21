@@ -1,6 +1,6 @@
 <%args>
     $report
-    $failures => []
+    $failures => {}
     $overview
     %reportlist_rga => {}
     %reportlist_rgt => {}

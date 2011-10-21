@@ -161,13 +161,12 @@ sub index :Path :Args(1)
         my ( $self, $c, $report_id ) = @_;
 
         my $report         : Stash;
-        my $failures       : Stash = [];
+        my $failures       : Stash = {};
         my $reportlist_rga : Stash = {};
         my $reportlist_rgt : Stash = {};
         my %metareport     : Stash;
         my $overview       : Stash = undef;
         $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
-
 
         if (not $report) {
                 $c->response->body("No such report");
@@ -194,6 +193,14 @@ sub index :Path :Args(1)
                      }
                     );
                 $reportlist_rga = $util_report->prepare_simple_reportlist($c,  $rga_reports);
+
+                $rga_reports->reset;
+                while (my $r = $rga_reports->next) {
+                        if (my @report_failures = @{ $self->get_report_failures($r) }) {
+                                $failures->{$r->id}{name} = $r->suite->name;
+                                push @{$failures->{$r->id}{failures}}, @report_failures;
+                        }
+                }
         }
 
         if (my $rgt = $report->reportgrouptestrun) {
@@ -211,6 +218,14 @@ sub index :Path :Args(1)
                     );
                 $reportlist_rgt = $util_report->prepare_simple_reportlist($c,  $rgt_reports);
 
+                $rgt_reports->reset;
+                while (my $r = $rgt_reports->next) {
+                        if (my @report_failures = @{ $self->get_report_failures($r) }) {
+                                $failures->{$r->id}{name} = $r->suite->name;
+                                push @{$failures->{$r->id}{failures}}, @report_failures;
+                        }
+                }
+
                 my %cols = $rgt_reports->first->get_columns;
                 my $testrun_id = $cols{rgt_id};
                 my $testrun;
@@ -224,7 +239,10 @@ sub index :Path :Args(1)
         my $report_data = {suite => $report->suite ? $report->suite->name : 'unknownsuite' ,
                            group_suite => $tmp};
 
-        $failures = $self->get_report_failures($report);
+        unless (my @report_failures = @{$failures->{$report->id}{failures} || []}) {
+                $failures->{$report->id}{name} = $report->suite->name;
+                push @{$failures->{$report->id}{failures}}, @report_failures;
+        }
         %metareport = $self->generate_metareport_link($report_data);
 
 }

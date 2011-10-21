@@ -1,6 +1,6 @@
 <%args>
         $report
-        @failures => []
+        %failures => {}
 </%args>
 <%method meta_row>
   <%args>
@@ -68,15 +68,23 @@
 %   } # if $r->some_meta_available
 % }
 
-% if (@failures) {
+% if (keys %failures) {
 <h4>Issue Summary</h4>
+%   foreach my $key (sort keys %failures) {
+%     my $report_name = $failures{$key}{name};
+%     if (my @report_failures = @{$failures{$key}{failures}}) {
+<h5>
+  <a href="/tapper/reports/id/<% $key %>"><% $key %></a> - <% $report_name %>
+</h5>
 <ul>
-%     foreach my $failure (@failures) {
-%#       $failure->{description} =~ s/^- //;
-        <li>&nbsp;not ok <% $failure->{number} %> <% $failure->{description} %></li>
-%     } # foreach
+%       foreach my $failure (@report_failures) {
+%#         $failure->{description} =~ s/^- //;
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;not ok <% $failure->{number} %> <% $failure->{description} %></li>
+%       } # foreach failure
 </ul>
-% } # if
+%     } # if @eport_failures
+%   } # foreach keys failures
+% } # if keys failures
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:
