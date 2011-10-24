@@ -45,9 +45,42 @@
 %     @reportlist = $reportgrouptestrun->groupreports->all;
 % }
 
+% if (keys %failures) {
+<h4>Issue Summary</h4>
+    <table class="issuesummary">
+      <tbody>
+%   foreach my $key (sort keys %failures) {
+%     my $report_name = $failures{$key}{name};
+%     if (my @report_failures = @{$failures{$key}{failures}}) {
+        <tr>
+          <td><a href="/tapper/reports/id/<% $key %>">
+%         if ($key eq $report->id) {
+            <strong>
+%         }
+            <% $key %>
+%         if ($key eq $report->id) {
+            </strong>
+%         }
+          </a></td>
+          <th colspan="2"><u><% $report_name %></u></th>
+        </tr>
+%       foreach my $failure (@report_failures) {
+        <tr>
+          <td/>
+          <td/>
+          <td>not ok <% $failure->{number} %> <strong><% $failure->{description} %></strong></td>
+        </tr>
+%       } # foreach failure
+%     } # if @eport_failures
+%   } # foreach keys failures
+      </tbody>
+    </table>
+% } # if keys failures
+
+% if (grep { $_->some_meta_available } @reportlist) {
 <h4>Test Execution Context</h4>
 
-% foreach my $r ( @reportlist) {
+%  foreach my $r ( @reportlist) {
 %   my $sections = $r->reportsections;
 
 %   if ($r->some_meta_available) {
@@ -66,31 +99,9 @@
 %     } # while $sections->next
       </table>
 %   } # if $r->some_meta_available
-% }
+%  }
+% } # if grep some_meta_available
 
-% if (keys %failures) {
-<h4>Issue Summary</h4>
-%   foreach my $key (sort keys %failures) {
-%     my $report_name = $failures{$key}{name};
-%     if (my @report_failures = @{$failures{$key}{failures}}) {
-<h5>
-%   if ($key eq $report->id) {
-     <strong>
-%   }
-       <a href="/tapper/reports/id/<% $key %>"><% $key %></a> - <% $report_name %>
-%   if ($key eq $report->id) {
-     </strong>
-%   }
-</h5>
-<ul>
-%       foreach my $failure (@report_failures) {
-%#         $failure->{description} =~ s/^- //;
-          <li>&nbsp;&nbsp;&nbsp;&nbsp;not ok <% $failure->{number} %> <% $failure->{description} %></li>
-%       } # foreach failure
-</ul>
-%     } # if @eport_failures
-%   } # foreach keys failures
-% } # if keys failures
 %# Local Variables:
 %# buffer-file-coding-system: utf-8
 %# End:

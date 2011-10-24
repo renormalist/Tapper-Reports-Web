@@ -596,6 +596,35 @@ table.reportsectionmeta h5
   padding: 0.5em 0em 0em 0em;
   }
 
+/* ----- issue summary ----- */
+
+table.issuesummary
+{
+  text-align: left;
+  }
+
+table.issuesummary tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.issuesummary td
+{
+  padding: 0em 1em 0em 0em;
+  font-weight: normal;
+  }
+
+table.issuesummary th
+{
+  padding: 0em 1em 0em 0em;
+  font-weight: normal;
+  }
+
+table.issuesummary h5
+{
+  padding: 0.5em 0em 0em 0em;
+  }
+
 /* ----- report files ----- */
 
 table.reportfile
