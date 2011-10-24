@@ -74,7 +74,13 @@
 %     my $report_name = $failures{$key}{name};
 %     if (my @report_failures = @{$failures{$key}{failures}}) {
 <h5>
-  <a href="/tapper/reports/id/<% $key %>"><% $key %></a> - <% $report_name %>
+%   if ($key eq $report->id) {
+     <strong>
+%   }
+       <a href="/tapper/reports/id/<% $key %>"><% $key %></a> - <% $report_name %>
+%   if ($key eq $report->id) {
+     </strong>
+%   }
 </h5>
 <ul>
 %       foreach my $failure (@report_failures) {
