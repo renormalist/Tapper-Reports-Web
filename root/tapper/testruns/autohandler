@@ -2,10 +2,8 @@
 
 	<div id="header_inner" class="fluid">
 
-		<div id="logo">
-			<h1><span>tapper</span></h1>
-		</div>
-		
+<& /tapper/logo.mas &>
+				
 		<div id="menu">
 			<ul>
                                 <li><a href="/tapper/start/">Start</a></li>

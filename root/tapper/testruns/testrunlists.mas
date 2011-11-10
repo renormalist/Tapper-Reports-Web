@@ -1,5 +1,5 @@
 <%args>
-        @requested_testrunlists
+        @requested_testrunlists => ()
 </%args>
 
 % my $days = $c->stash->{days} || 7;

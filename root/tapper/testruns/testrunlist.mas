@@ -1,5 +1,5 @@
 <%args>
-    %testrunlist
+    %testrunlist => ()
     $mark_testrun_id => 0
 </%args>
 % use DateTime::Format::Strptime;

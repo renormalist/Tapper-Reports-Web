@@ -1,5 +1,5 @@
 <%args>
-@preconditions
+@preconditions => ()
 </%args>
 
 % use YAML::Syck;

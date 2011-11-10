@@ -50,5 +50,14 @@ sub prepare_filter_path
 }
 
 
+sub auto :Private
+{
+        my ( $self, $c ) = @_;
+
+        $c->stash->{logo}   = Tapper::Config->subconfig->{web}{logo};
+        $c->stash->{title}  = Tapper::Config->subconfig->{web}{title};
+        $c->stash->{footer} = Tapper::Config->subconfig->{web}{footer};
+}
+
 
 1;
