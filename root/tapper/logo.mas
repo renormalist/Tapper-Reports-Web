@@ -1,0 +1,8 @@
+		<div id="logo">
+% my $logo = $c->stash->{logo};
+% if ($logo) {
+                        <% $logo | n %>
+% } else {
+			<h1><span>Tapper</span></h1>
+%}
+		</div>

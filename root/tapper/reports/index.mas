@@ -1,5 +1,5 @@
 <%args>
-        @this_weeks_reportlists
+        @this_weeks_reportlists => ()
         $list_count_all     => "n"
         $list_count_pass    => "n"
         $list_count_fail    => "n"

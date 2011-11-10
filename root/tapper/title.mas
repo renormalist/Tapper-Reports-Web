@@ -1,0 +1,6 @@
+% my $title = $c->stash->{title};
+% if ($title) {
+<title><% $title | n %></title>
+% } else {
+<title>Tapper</title>
+%}

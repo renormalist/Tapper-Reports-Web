@@ -1,5 +1,5 @@
 <%args>
-$categories
+$categories => {}
 </%args>
 
 <H3>Metareports</H3>
