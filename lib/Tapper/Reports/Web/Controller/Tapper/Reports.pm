@@ -96,8 +96,10 @@ sub prepare_this_weeks_reportlists : Private
         my @day    = ( $requested_day );
         push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
 
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
+
         # ----- today -----
-        my $day0_reports = $reports->search ( { created_at => { '>', $day[0] } } );
+        my $day0_reports = $reports->search ( { created_at => { '>', $dtf->format_datetime($day[0]) } } );
         push @this_weeks_reportlists, {
                                        day => $day[0],
                                        %{ $util_report->prepare_simple_reportlist($c, $day0_reports) }
@@ -105,8 +107,8 @@ sub prepare_this_weeks_reportlists : Private
 
         # ----- last week days -----
         foreach (1..$lastday) {
-                my $day_reports = $reports->search ({ -and => [ created_at => { '>', $day[$_]     },
-                                                                created_at => { '<', $day[$_ - 1] },
+                my $day_reports = $reports->search ({ -and => [ created_at => { '>', $dtf->format_datetime($day[$_])     },
+                                                                created_at => { '<', $dtf->format_datetime($day[$_ - 1]) },
                                                               ]});
                 push @this_weeks_reportlists, {
                                                day => $day[$_],

@@ -22,7 +22,7 @@ sub auto :Private
 #
 sub recently_used_suites
 {
-        my ($self, $suite_rs, $duration) = @_;
+        my ($self, $c, $suite_rs, $duration) = @_;
         my $timeframe;
         if ($duration) {
                 return $suite_rs if lc($duration) eq 'all';
@@ -30,7 +30,8 @@ sub recently_used_suites
         } else {
                 $timeframe = DateTime->now->subtract(weeks => 12);
         }
-        $suite_rs  = $suite_rs->search({'reports.created_at' => {'>=' => $timeframe}});
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
+        $suite_rs  = $suite_rs->search({'reports.created_at' => {'>=' => $dtf->format_datetime($timeframe) }});
         return $suite_rs;
 }
 
@@ -44,7 +45,7 @@ sub index :Path :Args()
                         my %search_options = ();
                         %search_options = ( prefetch => ['reports'] ) unless lc($options) eq "all";
                         my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({}, { %search_options } );
-                        $suite_rs = $self->recently_used_suites($suite_rs, $options) unless lc($options) eq "all";
+                        $suite_rs = $self->recently_used_suites($c, $suite_rs, $options) unless lc($options) eq "all";
                         $overviews = {};
                         while ( my $suite = $suite_rs->next ) {
                                 $overviews->{$suite->name} = '/tapper/reports/suite/'.($suite->name =~ /[^\w\d_.-]/ ? $suite->id : $suite->name);

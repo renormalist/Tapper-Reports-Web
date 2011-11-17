@@ -41,12 +41,13 @@ sub index :Path :Args()
 
         my $testplan_days : Stash = [];
         my $today = DateTime::Format::Natural->new->parse_datetime("today at midnight");
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
 
         # testplans after "today at midnight"
         # handling them special makes later code more readable
         {
                 my $todays_instances = model('TestrunDB')->resultset('TestplanInstance')->search($filter_condition->{early});
-                $todays_instances = $todays_instances->search({created_at => { '>' => $today}});
+                $todays_instances = $todays_instances->search({created_at => { '>' => $dtf->format_datetime($today) }});
 
                 my @details = $self->get_testrun_details($todays_instances);
                 if (@details) {
@@ -56,14 +57,12 @@ sub index :Path :Args()
                 }
         }
 
-
-
         for my $date (1..($days-1)) {
                 my $yesterday = $today->clone->subtract( days => 1 );
 
                 my $todays_instances = model('TestrunDB')->resultset('TestplanInstance')->search($filter_condition->{early});
-                $todays_instances = $todays_instances->search({'-and' => [{created_at => { '>' => $yesterday}},
-                                                                          {created_at => {'<=' => $today}},
+                $todays_instances = $todays_instances->search({'-and' => [{created_at => { '>' => $dtf->format_datetime($yesterday) }},
+                                                                          {created_at => {'<=' => $dtf->format_datetime($today) }},
                                                                          ]});
                 my @details = $self->get_testrun_details($todays_instances);
                 if (@details) {

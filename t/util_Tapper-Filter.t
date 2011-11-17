@@ -21,11 +21,8 @@ my $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $stash);
 my $filter_condition = $filter->parse_filters(['date','2010-09-20']);
 is($filter_condition->{error}, undef, 'No error during parse');
 
-is(ref $filter_condition->{late}->[0]->{'created_at'}->{'<='}, 'DateTime', 'Date parsing returns a date');
-is($filter_condition->{late}->[0]->{'created_at'}->{'<='}->dmy('.'), '21.09.2010', 'Date parsing returns a expected date');
-                                       
-
-
+is($filter_condition->{late}->[0]->{'created_at'}->{'<='},'2010-09-21 00:00:00', 'Date parsing back and forth');
+is(DateTime::Format::DateParse->parse_datetime($filter_condition->{late}->[0]->{'created_at'}->{'<='})->dmy('.'), '21.09.2010', 'Date parsing returns a expected date');
 
 $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $stash);
 $filter_condition = $filter->parse_filters(['date','2010-09-20', 'days','2']);

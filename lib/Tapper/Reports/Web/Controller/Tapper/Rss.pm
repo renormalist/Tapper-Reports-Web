@@ -26,7 +26,7 @@ sub index :Path :Args()
         my ($self,$c, @args) = @_;
 
         my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
-
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
 
         my $feed = XML::Feed->new('RSS');
         $feed->title( ' RSS Feed' );
@@ -52,7 +52,7 @@ sub index :Path :Args()
         if (not $filter_condition->{early}{created_at}) {
                 my $now = DateTime->now();
                 $now->subtract(days => 2);
-                $filter_condition->{early}{created_at} = {'>' => $now};
+                $filter_condition->{early}{created_at} = {'>' => $dtf->format_datetime($now) };
         }
 
 

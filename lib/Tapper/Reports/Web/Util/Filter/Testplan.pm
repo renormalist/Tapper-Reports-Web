@@ -8,7 +8,7 @@ Tapper::Reports::Web::Util::Filter::Testplan - Filter utilities for testrun list
 =head1 SYNOPSIS
 
  use Tapper::Reports::Web::Util::Filter::Testplan;
- my $filter              = Tapper::Reports::Web::Util::Filter::Testplan->new();
+ my $filter              = Tapper::Reports::Web::Util::Filter::Testplan->new(context => $c);
  my $filter_args         = ['path','topic.xen.unstable','days','3'];
  my $allowed_filter_keys = ['path','days'];
  my $searchoptions       = $filter->parse_filters($filter_args, $allowed_filter_keys);

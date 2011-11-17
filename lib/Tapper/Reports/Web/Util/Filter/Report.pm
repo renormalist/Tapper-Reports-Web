@@ -8,7 +8,7 @@ Tapper::Reports::Web::Util::Filter::Report - Filter utilities for report listing
 =head1 SYNOPSIS
 
  use Tapper::Reports::Web::Util::Filter::Report;
- my $filter              = Tapper::Reports::Web::Util::Filter::Report->new();
+ my $filter              = Tapper::Reports::Web::Util::Filter::Report->new(context => $c);
  my $filter_args         = ['host','bullock','days','3'];
  my $allowed_filter_keys = ['host','days'];
  my $searchoptions       = $filter->parse_filters($filter_args, $allowed_filter_keys);

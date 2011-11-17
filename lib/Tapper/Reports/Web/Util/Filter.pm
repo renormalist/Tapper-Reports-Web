@@ -4,6 +4,7 @@ use DateTime;
 use Data::Dumper;
 use DateTime::Format::DateParse;
 use Hash::Merge::Simple 'merge';
+use Tapper::Model 'model';
 
 use Moose;
 
@@ -69,9 +70,11 @@ sub date
                 return $filter_condition;
         }
 
+        my $dtf = model("ReportsDB")->storage->datetime_parser;
+
         $filter_condition->{date} = $requested_day->ymd('/');
         $self->requested_day($requested_day);
-        push @{$filter_condition->{late}}, {created_at => {'<='  => $one_day_later}};
+        push @{$filter_condition->{late}}, {created_at => {'<='  => $dtf->format_datetime($one_day_later)}};
         return $filter_condition;
 }
 
@@ -89,8 +92,10 @@ sub days
         my $requested_day  = $parser->parse_datetime("today at midnight");
         $self->requested_day($requested_day);
 
+        my $dtf = model("ReportsDB")->storage->datetime_parser;
+
         my $yesterday = $parser->parse_datetime("today at midnight")->subtract(days => $days);
-        $filter_condition->{early}->{created_at} = {'>' => $yesterday};
+        $filter_condition->{early}->{created_at} = {'>' => $dtf->format_datetime($yesterday)};
         return $filter_condition;
 }
 

@@ -589,8 +589,10 @@ sub prepare_testrunlists : Private
         my @day    = ( $requested_day );
         push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
 
+        my $dtf = $c->model("TestrunDB")->storage->datetime_parser;
+
         # ----- today -----
-        my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $day[0] }}, { starttime_testrun => { '>', $day[0] }}] });
+        my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $dtf->format_datetime($day[0]) }}, { starttime_testrun => { '>', $dtf->format_datetime($day[0]) }}] });
         push @requested_testrunlists, {
                                        day => $day[0],
                                        (testruns => $util->prepare_testrunlist( $day0_testruns ) ),
@@ -598,10 +600,10 @@ sub prepare_testrunlists : Private
         # ----- last week days -----
         foreach (1..$lastday) {
                 my $day_testruns = $testruns->search ({-or => [
-                                                               { -and => [ created_at => { '>', $day[$_]     },
-                                                                           created_at => { '<', $day[$_ - 1] } ] },
-                                                               { -and => [ starttime_testrun => { '>', $day[$_]     },
-                                                                           starttime_testrun => { '<', $day[$_ - 1] }  ] }
+                                                               { -and => [ created_at => { '>', $dtf->format_datetime($day[$_])            },
+                                                                           created_at => { '<', $dtf->format_datetime($day[$_ - 1])        } ] },
+                                                               { -and => [ starttime_testrun => { '>', $dtf->format_datetime($day[$_])     },
+                                                                           starttime_testrun => { '<', $dtf->format_datetime($day[$_ - 1]) } ] },
                                                               ]} );
                 push @requested_testrunlists, {
                                                day => $day[$_],
