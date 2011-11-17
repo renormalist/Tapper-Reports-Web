@@ -143,7 +143,9 @@ sub prepare_navi : Private
 
         my %args = @{$c->req->arguments};
 
-        if ( grep { /^date$/ } keys %args ) {
+        if ( (grep { /^date$/ } keys %args) or                    # "/date" can not be combined usefully with generic filters
+             ($c->req->path =~ m,tapper/reports/(id|idlist|tap),) # these controller paths are special, not generic filters
+            ) {
                  $navi = [
                           {
                            title  => "reports by date",
@@ -269,15 +271,16 @@ sub prepare_navi : Private
                           active => 0,
                          },
                         ];
+                push @$navi, {title   => 'Active Filters',
+                              subnavi => [
+                                          map {
+                                               { title => "$_: ".$args{$_},
+                                                 href  => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
+                                                 image => "/tapper/static/images/minus.png",
+                                               }
+                                              } keys %args
+                                         ]};
         }
-        push @$navi, {title   => 'Active Filters',
-                      subnavi => [
-                                  map {
-                                          { title => "$_: ".$args{$_},
-                                              href => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
-                                                image  => "/tapper/static/images/minus.png",
-                                          }
-                                  } keys %args ]};
 
 }
 
