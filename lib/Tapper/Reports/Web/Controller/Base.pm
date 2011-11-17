@@ -50,7 +50,7 @@ sub prepare_filter_path
 }
 
 
-sub auto :Private
+sub begin :Private
 {
         my ( $self, $c ) = @_;
 
