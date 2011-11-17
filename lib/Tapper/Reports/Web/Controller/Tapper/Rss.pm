@@ -2,7 +2,7 @@ package Tapper::Reports::Web::Controller::Tapper::Rss;
 
 use XML::Feed;
 use DateTime;
-use Tapper::Reports::Web::Util::Filter;
+use Tapper::Reports::Web::Util::Filter::Report;
 
 use parent 'Catalyst::Controller';
 
@@ -25,20 +25,18 @@ sub index :Path :Args()
 {
         my ($self,$c, @args) = @_;
 
-        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
+        my $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $c);
         my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
 
         my $feed = XML::Feed->new('RSS');
-        $feed->title( ' RSS Feed' );
+        $feed->title( 'Tapper RSS Feed' );
         $feed->link( $c->req->base ); # link to the site.
-        $feed->description('Tapper Reports');
+        $feed->description('Tapper Reports ');
 
         my $feed_entry;
         my $title;
 
-
         my $filter_condition;
-
 
         $filter_condition = $filter->parse_filters(\@args);
         if ( defined $filter_condition->{error} ) {
@@ -64,7 +62,6 @@ sub index :Path :Args()
                                suite_id
                                created_at
                                machine_name
-                               created_at
                                success_ratio
                                successgrade
                                reviewed_successgrade
@@ -78,7 +75,7 @@ sub index :Path :Args()
 
 
         # Process the entries
-        foreach my $report ($reports->all) {
+        while (my $report = $reports->next) {
                 $feed_entry  = XML::Feed::Entry->new('RSS');
                 $title       = $report->successgrade;
                 $title      .= " ".($report->success_ratio // 0)."%";
@@ -86,7 +83,7 @@ sub index :Path :Args()
                 $title      .= " @ ";
                 $title      .= $report->machine_name || 'unknown machine';
                 $feed_entry->title( $title );
-                $feed_entry->link( $c->req->base->as_string.'/tapper/reports/id/'.$report->id );
+                $feed_entry->link( $c->req->base->as_string.'tapper/reports/id/'.$report->id );
                 $feed_entry->issued( $report->created_at );
                 $feed->add_entry($feed_entry);
         }
